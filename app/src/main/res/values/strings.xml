@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">도담도담</string>
+    <string name="title_point_list">상벌점 기준</string>
+    <string name="subtitle_point_list">2019.3.</string>
 </resources>

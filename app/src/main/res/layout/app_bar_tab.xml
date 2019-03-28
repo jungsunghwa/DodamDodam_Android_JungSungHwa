@@ -13,6 +13,17 @@
         android:layout_height="?actionBarSize"
         app:popupTheme="@style/ThemeOverlay.App.AppBar"
         app:titleTextColor="?colorPrimary"
+        app:subtitleTextColor="?colorSecondary"
         tools:title="@string/app_name" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/toolbar_tab"
+        style="@style/Widget.MaterialComponents.TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabIndicatorFullWidth="true"
+        app:tabInlineLabel="true"
+        app:tabMode="fixed" />
 
 </com.google.android.material.appbar.AppBarLayout>
