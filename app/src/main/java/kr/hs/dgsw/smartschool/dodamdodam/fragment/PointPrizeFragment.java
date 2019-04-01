@@ -7,22 +7,26 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.databinding.PointViewFragmentBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.PointPrizeAdapter;
 
 public class PointPrizeFragment extends Fragment {
 
+    private PointViewFragmentBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_point_view, container, false);
-        RecyclerView recyclerView = viewGroup.findViewById(R.id.recycler);
+        binding = DataBindingUtil.inflate(inflater, R.layout.point_view_fragment, container, false);
+        RecyclerView recyclerView = binding.recycler;
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new PointPrizeAdapter(getResources()));
-        return viewGroup;
+        return binding.getRoot();
     }
 }

@@ -6,30 +6,34 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import kr.hs.dgsw.b1nd.bottomsheet.B1ndBottomSheetDialogFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
     private BottomAppBar bottomAppBar;
 
+    MainActivityBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        bottomAppBar = findViewById(R.id.bottom_appbar);
-        ((Toolbar)findViewById(R.id.toolbar)).setTitle(getTitle());
-        findViewById(R.id.appbar_layout).setStateListAnimator(null);
-        setSupportActionBar(bottomAppBar);
-        floatingActionButton = findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(v -> startActivity(new Intent(this, PointListActivity.class)));
 
-        //startActivity(new Intent(this, PointListActivity.class));
+        binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
+
+        bottomAppBar = binding.bottomAppbar;
+        (binding.appbarLayout.toolbar).setTitle(getTitle());
+        binding.appbarLayout.getRoot().setStateListAnimator(null);
+        setSupportActionBar(bottomAppBar);
+        floatingActionButton = binding.floatingActionButton;
+        floatingActionButton.setOnClickListener(v -> startActivity(new Intent(this, PointListActivity.class)));
     }
 
     @Override

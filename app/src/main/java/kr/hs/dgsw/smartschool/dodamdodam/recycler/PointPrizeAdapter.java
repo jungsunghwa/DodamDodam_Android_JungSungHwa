@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.recycler;
 
 import android.content.res.Resources;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,20 +23,20 @@ public class PointPrizeAdapter extends RecyclerView.Adapter<PointViewHolder> {
     @NonNull
     @Override
     public PointViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PointViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_point, parent, false));
+        return new PointViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.point_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull PointViewHolder holder, int position) {
         String[] point = points[position].split("\\|");
-        holder.textIndex.setText(String.format(Locale.KOREA, "%d", position + 1));
-        holder.textContent.setText(point[0]);
-        holder.textPoint.setText(point[1]);
+        holder.binding.textIndex.setText(String.format(Locale.KOREA, "%d", position + 1));
+        holder.binding.textContent.setText(point[0]);
+        holder.binding.textPoint.setText(point[1]);
         if (point.length <= 3) {
-            holder.textNote.setVisibility(View.GONE);
+            holder.binding.textNote.setVisibility(View.GONE);
         } else {
-            holder.textNote.setVisibility(View.VISIBLE);
-            holder.textNote.setText(point[2]);
+            holder.binding.textNote.setVisibility(View.VISIBLE);
+            holder.binding.textNote.setText(point[2]);
         }
     }
 
