@@ -1,11 +1,11 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import kr.hs.dgsw.b1nd.bottomsheet.B1ndBottomSheetDialogFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     MainActivityBinding binding;
 
+    LoginViewModel loginViewModel;
+
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
