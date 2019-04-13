@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.PointViewFragmentBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.recycler.PointDemeritAdapter;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.PointDemeritAdapter;
 
 public class PointDemeritFragment extends Fragment {
 
@@ -24,7 +24,7 @@ public class PointDemeritFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.point_view_fragment, container, false);
-        RecyclerView recyclerView = binding.recycler;
+        RecyclerView recyclerView = binding.pointList;
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new PointDemeritAdapter(getResources()));
         return binding.getRoot();

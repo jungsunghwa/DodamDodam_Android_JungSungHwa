@@ -1,29 +1,26 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.network.Login;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
-
-    LoginActivityBinding binding;
+public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
     LoginViewModel loginViewModel;
 
     @Override
+    protected int layoutId() {
+        return R.layout.login_activity;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
-        binding = DataBindingUtil.setContentView(this, R.layout.login_activity);
 
         loginViewModel = new LoginViewModel(this);
 

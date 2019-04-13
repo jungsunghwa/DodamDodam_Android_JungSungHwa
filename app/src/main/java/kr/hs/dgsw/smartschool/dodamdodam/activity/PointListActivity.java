@@ -1,29 +1,29 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.PointListActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.viewpager.PointPagerAdapter;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.viewpager.PointPagerAdapter;
 
-public class PointListActivity extends AppCompatActivity {
+public class PointListActivity extends BaseActivity<PointListActivityBinding> {
 
     private ViewPager viewPager;
 
-    PointListActivityBinding binding;
+    @Override
+    protected int layoutId() {
+        return R.layout.point_list_activity;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.point_list_activity);
         viewPager = binding.viewPager;
         initToolbar();
     }

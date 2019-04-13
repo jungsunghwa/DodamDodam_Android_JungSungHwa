@@ -16,24 +16,25 @@ import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity<MainActivityBinding> {
 
     private FloatingActionButton floatingActionButton;
     private BottomAppBar bottomAppBar;
 
-    MainActivityBinding binding;
-
     LoginViewModel loginViewModel;
+
+    @Override
+    protected int layoutId() {
+        return R.layout.main_activity;
+    }
 
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
-
         bottomAppBar = binding.bottomAppbar;
-        (binding.appbarLayout.toolbar).setTitle(getTitle());
+        binding.appbarLayout.toolbar.setTitle(getTitle());
         binding.appbarLayout.getRoot().setStateListAnimator(null);
         setSupportActionBar(bottomAppBar);
         floatingActionButton = binding.floatingActionButton;

@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <application
         android:allowBackup="true"
@@ -16,7 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="p">
-        <activity android:name=".activity.LoginActivity">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/Theme.App.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,6 +32,28 @@
         <activity
             android:name=".activity.PointListActivity"
             android:label="@string/title_point_list" />
+        <activity
+            android:name=".activity.TestMainActivity"
+            android:label="TestMain"
+            android:theme="@style/Theme.App.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.BusApplyActivity"
+            android:label="@string/title_bus_apply" />
+        <activity android:name=".activity.SongApplyActivity"
+            android:label="기상송">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

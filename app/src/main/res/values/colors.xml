@@ -3,5 +3,5 @@
     <color name="colorPrimary">#ff6e61</color>
     <color name="colorPrimaryDark">#c63c37</color>
     <color name="colorSecondary">#dd2c00</color>
-    <color name="windowBackgroundColor">#fffafafa</color>
+    <color name="windowBackgroundColor">#ffffff</color>
 </resources>

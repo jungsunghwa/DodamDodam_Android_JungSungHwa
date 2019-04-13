@@ -15,7 +15,8 @@
             android:layout_height="?actionBarSize"
             app:popupTheme="@style/ThemeOverlay.App.AppBar"
             app:titleTextColor="?colorPrimary"
-            tools:title="@string/app_name" />
+            app:layout_scrollFlags="scroll"
+            tools:videoTitle="@string/app_name" />
 
     </com.google.android.material.appbar.AppBarLayout>
 </layout>
