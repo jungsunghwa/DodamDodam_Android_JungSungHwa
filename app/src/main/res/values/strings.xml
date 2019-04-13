@@ -5,6 +5,8 @@
     <string name="login">로그인</string>
     <string name="hint_email">이메일</string>
     <string name="hint_pw">비밀번호</string>
+    <string name="error_empty_id">이메일를 입력해주세요</string>
+    <string name="error_empty_pw">비밀번호를 입력해주세요</string>
     <string name="title_bus_apply">귀가 버스 신청</string>
     <string name="video_title">제목</string>
     <string name="search">검색</string>
@@ -14,4 +16,5 @@
     <string name="error_quota_desc">오늘의 검색 한도를 초과하였습니다</string>
     <string name="hint_search_song">제목 입력</string>
     <string name="hint_search_song_desc">제목을 입력하여 검색</string>
+    <string name="menu_song">기상송</string>
 </resources>
