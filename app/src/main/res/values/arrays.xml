@@ -32,10 +32,4 @@
         <item>정당한 지도에 대한 학생 본분에 어긋나는 행동이나 반항|―|선도위원회를 통해 결정</item>
         <item>기타 (기숙사 생활에 지장을 초래한 사항)|1~25|기숙사 운영위원회를 통해 결정</item>
     </string-array>
-
-    <string-array name="bus_type">
-        <item>동대구</item>
-        <item>대곡</item>
-        <item>용산</item>
-    </string-array>
 </resources>

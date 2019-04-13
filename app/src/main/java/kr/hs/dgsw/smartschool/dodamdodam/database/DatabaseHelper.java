@@ -37,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @NonNull
     public static DatabaseHelper getDatabaseHelper(Context context) {
         if (databaseHelper == null) {
-            databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+            databaseHelper = new DatabaseHelper(context);
             return databaseHelper;
         } else {
             return databaseHelper;
