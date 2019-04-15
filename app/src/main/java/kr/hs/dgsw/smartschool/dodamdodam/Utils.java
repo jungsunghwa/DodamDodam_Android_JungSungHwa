@@ -14,7 +14,7 @@ public class Utils {
 
     public static Retrofit RETROFIT =
             new Retrofit.Builder()
-                    .baseUrl(StaticResources.DEFAULT_HOST)
+                    .baseUrl(Constants.DEFAULT_HOST)
                     .addConverterFactory(GsonConverterFactory.create())
                     .callbackExecutor(Executors.newSingleThreadExecutor())
                     .build();

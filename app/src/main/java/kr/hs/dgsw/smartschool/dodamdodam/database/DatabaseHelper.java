@@ -7,7 +7,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import retrofit2.http.HEAD;
+
+import com.annimon.stream.Stream;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,18 +21,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "tchat_database.db";
+    private static final String DATABASE_NAME = "dodam_db.db";
+
     @Nullable
     private static DatabaseHelper databaseHelper = null;
-    private final DBManager dbManager = new DBManager();
+    private final DatabaseManager dbManager = new DatabaseManager();
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -57,17 +59,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + "token");
-        db.execSQL("DROP TABLE IF EXISTS " + "time");
-        db.execSQL("DROP TABLE IF EXISTS " + "place");
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_TOKEN);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_TIME);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_PLACE);
         onCreate(db);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void insert(String tableName, Object insertValue){
+    public void insert(String tableName, Object insertValue) {
         final SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues contentValues = getContentValuesByInsertValue(insertValue);
+        ContentValues contentValues;
+        contentValues = getContentValuesByInsertValue(insertValue);
+
         db.insert(tableName, null, contentValues);
     }
 
@@ -100,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public <T> T getData(String tableName, Object getData){
+    public <T> T getData(String tableName, Object getData) {
         final SQLiteDatabase db = this.getWritableDatabase();
 
         ArrayList<Map<String, Object>> maps = new ArrayList<>();
@@ -134,17 +138,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 else return (T) object;
             }
         }
-
-
         return result;
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public Map convertObjectToMap(Object obj){
+    public Map convertObjectToMap(Object obj) {
         Map map = new HashMap();
         Field[] fields = obj.getClass().getDeclaredFields();
-        for(int i= fields.length - 1; i >= 0; i--){
+        for (int i = fields.length - 1; i >= 0; i--) {
             fields[i].setAccessible(true);
             try{
                 if (fields[i].getType() == Integer.class){
@@ -165,21 +166,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public Object convertMapToObject(Map<String,Object> map,Object obj){
-        String keyAttribute = null;
+    public Object convertMapToObject(Map<String, Object> map, Object obj) {
+        String keyAttribute;
         String setMethodString = "set";
-        String methodString = null;
+        String methodString;
         Iterator itr = map.keySet().iterator();
 
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             keyAttribute = (String) itr.next();
-            methodString = setMethodString+keyAttribute.substring(0,1).toUpperCase()+keyAttribute.substring(1);
+            methodString = setMethodString + keyAttribute.substring(0, 1).toUpperCase() + keyAttribute.substring(1);
             Method[] methods = obj.getClass().getDeclaredMethods();
-            for(int i=0;i<methods.length;i++){
-                if(methodString.equals(methods[i].getName())){
-                    try{
+            for (int i = 0; i < methods.length; i++) {
+                if (methodString.equals(methods[i].getName())) {
+                    try {
                         methods[i].invoke(obj, map.get(keyAttribute));
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

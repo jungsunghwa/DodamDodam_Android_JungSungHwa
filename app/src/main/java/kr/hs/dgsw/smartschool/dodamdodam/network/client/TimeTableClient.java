@@ -35,10 +35,14 @@ public class TimeTableClient {
                         try {
                             JSONObject errorBody = new JSONObject(Objects
                                     .requireNonNull(
-                                            response.errorBody()).string());
+                                             response.errorBody()).string());
                             observer.onError(new Throwable(errorBody.getString("message")));
                         } catch (JSONException | IOException e) {
-                            e.printStackTrace();
+
+                            if (response.code() == 404){
+                                observer.onError(new Throwable("404"));
+                            }
+                            observer.onError(new Throwable(e.getMessage()));
                         }
                     }
                 }

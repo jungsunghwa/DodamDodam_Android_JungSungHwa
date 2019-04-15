@@ -14,9 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:popupTheme="@style/ThemeOverlay.App.AppBar"
-            app:titleTextColor="?colorPrimary"
             app:subtitleTextColor="?colorSecondary"
-            tools:title="@string/app_name" />
+            app:titleTextColor="?colorPrimary"
+            app:layout_scrollFlags="scroll|snap"
+            tools:videoTitle="@string/app_name" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/toolbar_tab"

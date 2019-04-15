@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_song_apply"
+        android:title="@string/menu_song"
+        android:icon="@drawable/ic_song_apply" />
+    <item
+        android:id="@+id/menu_location_apply"
+        android:title="@string/menu_location_apply"
+        android:icon="@drawable/ic_queue_music" />
+</menu>
