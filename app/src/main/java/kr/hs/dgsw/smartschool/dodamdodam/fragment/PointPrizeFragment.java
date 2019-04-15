@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.PointViewFragmentBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.recycler.PointPrizeAdapter;
+import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PointPrizeAdapter;
 
 public class PointPrizeFragment extends Fragment {
 

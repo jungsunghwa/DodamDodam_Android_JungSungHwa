@@ -3,7 +3,10 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -13,29 +16,34 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LoginClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LoginRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostLocationRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
+import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.PostLocation;
 
-public class LoginViewModel extends ViewModel {
-
-    LoginClient loginClient;
+public class LocationViewModel extends ViewModel {
+    LocationClient locationClient;
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
 
-    private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
+    private final MutableLiveData<String> isPostSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
-    public LoginViewModel(Context context) {
-        loginClient = new LoginClient();
+    public LocationViewModel(Context context) {
+        locationClient = new LocationClient();
         disposable = new CompositeDisposable();
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public LiveData<Boolean> getIsSuccess() {
-        return isSuccess;
+    public LiveData<String> getIsPostSuccess() {
+        return isPostSuccess;
     }
 
     public LiveData<String> getError() {
@@ -46,18 +54,20 @@ public class LoginViewModel extends ViewModel {
         return loading;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("CheckResult")
-    public void login(String id, String pw) {
+    public void postLocation(ArrayList<Place> timeTable) {
         loading.setValue(true);
-        disposable.add(loginClient.login(new LoginRequest(id, pw)).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
-                        new DisposableSingleObserver<Token>() {
+        disposable.add(locationClient.postLocation(new PostLocationRequest(timeTable)
+                ,databaseHelper.<Token>getData("token",new Token()).getToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(
+                        new DisposableSingleObserver<String>() {
                             @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
-                            public void onSuccess(Token token) {
-                                databaseHelper.insert("token", token);
-                                token = databaseHelper.getData("token", new Token());
-                                isSuccess.setValue(true);
+                            public void onSuccess(String successMessage) {
+                                isPostSuccess.setValue(successMessage);
                                 loading.setValue(false);
                             }
 

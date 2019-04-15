@@ -1,12 +1,9 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.response.Login;
+package kr.hs.dgsw.smartschool.dodamdodam.network.request;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import kr.hs.dgsw.b1nd.service.Utils;
-import kr.hs.dgsw.smartschool.dodamdodam.network.Request;
-
-public class LoginRequest extends Request{
+public class LoginRequest {
     private String id;
     private String pw;
     private String device;

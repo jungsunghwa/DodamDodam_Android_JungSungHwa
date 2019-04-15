@@ -1,7 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.response;
 
-import kr.hs.dgsw.smartschool.dodamdodam.network.response.Login.LoginData;
-
 public class Response<T>{
     private String message;
     private int status;

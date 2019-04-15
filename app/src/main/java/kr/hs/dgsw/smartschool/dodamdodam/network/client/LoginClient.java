@@ -1,6 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network;
-
-import com.google.gson.JsonObject;
+package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,28 +6,27 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
-import androidx.annotation.Nullable;
 import io.reactivex.Single;
-import kr.hs.dgsw.b1nd.service.service.B1ndLogin;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
-import kr.hs.dgsw.smartschool.dodamdodam.network.response.Login.LoginData;
-import kr.hs.dgsw.smartschool.dodamdodam.network.response.Login.LoginRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.LoginRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
+import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.Login;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class NetworkClient {
-    Login login;
+public class LoginClient {
+    private Login login;
 
-    public NetworkClient(){
+    public LoginClient(){
         login = Utils.RETROFIT.create(Login.class);
     }
 
-    public Single<LoginData> login(LoginRequest request) {
+    public Single<Token> login(LoginRequest request) {
         return Single.create(observer -> {
-            login.login(request).enqueue(new Callback<Response<LoginData>>() {
+            login.login(request).enqueue(new Callback<Response<Token>>() {
                 @Override
-                public void onResponse(Call<Response<LoginData>> call, retrofit2.Response<Response<LoginData>> response) {
+                public void onResponse(Call<Response<Token>> call, retrofit2.Response<Response<Token>> response) {
                     if (response.isSuccessful()){
                         observer.onSuccess(response.body().getData());
                     } else {
@@ -44,7 +41,7 @@ public class NetworkClient {
                     }
                 }
                 @Override
-                public void onFailure(Call<Response<LoginData>> call, Throwable t) {
+                public void onFailure(Call<Response<Token>> call, Throwable t) {
                     observer.onError( new Throwable("네트워크상태를 확인하세요"));
                 }
             });

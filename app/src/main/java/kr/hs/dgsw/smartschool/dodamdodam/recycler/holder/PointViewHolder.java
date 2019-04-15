@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.recycler;
+package kr.hs.dgsw.smartschool.dodamdodam.recycler.holder;
 
 import android.view.View;
 
@@ -10,7 +10,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.databinding.PointItemBinding;
 
 public class PointViewHolder extends RecyclerView.ViewHolder {
 
-    PointItemBinding binding;
+    public PointItemBinding binding;
 
     public PointViewHolder(@NonNull View itemView) {
         super(itemView);

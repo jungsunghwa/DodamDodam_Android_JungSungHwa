@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.recycler;
+package kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter;
 
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -11,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Locale;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.recycler.holder.PointViewHolder;
 
-public class PointDemeritAdapter extends RecyclerView.Adapter<PointViewHolder> {
+public class PointPrizeAdapter extends RecyclerView.Adapter<PointViewHolder> {
 
     private String[] points;
 
-    public PointDemeritAdapter(Resources resources) {
-        points = resources.getStringArray(R.array.point_demerit_list);
+    public PointPrizeAdapter(Resources resources) {
+        points = resources.getStringArray(R.array.point_prize_list);
     }
 
     @NonNull
@@ -29,10 +30,10 @@ public class PointDemeritAdapter extends RecyclerView.Adapter<PointViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull PointViewHolder holder, int position) {
         String[] point = points[position].split("\\|");
-        holder.binding.textIndex.setText(String.format(Locale.getDefault(), "%d", position + 1));
+        holder.binding.textIndex.setText(String.format(Locale.KOREA, "%d", position + 1));
         holder.binding.textContent.setText(point[0]);
         holder.binding.textPoint.setText(point[1]);
-        if (point.length < 3) {
+        if (point.length <= 3) {
             holder.binding.textNote.setVisibility(View.GONE);
         } else {
             holder.binding.textNote.setVisibility(View.VISIBLE);

@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.network.Login;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -41,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginViewModel.getIsSuccess().observe( this, isSuccess ->{
             if (isSuccess){
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LocationApplyActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,8 +1,8 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.response.Login;
+package kr.hs.dgsw.smartschool.dodamdodam.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginData {
+public class Token {
     private String token;
     @SerializedName("refresh_token")
     private String refreshToken;
