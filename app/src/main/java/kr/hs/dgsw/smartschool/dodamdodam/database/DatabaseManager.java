@@ -16,20 +16,18 @@ public class DatabaseManager {
 
     String getCreateTableTime() {
         return "CREATE TABLE "+ TABLE_TIME +" ( "
-                + "idx INTEGER UNIQUE, "
+                + "idx INTEGER, "
                 + "name STRING, "
                 + "type INTEGER, "
                 + "startTime STRING, "
-                + "endTime STRING, "
-                + "PRIMARY KEY('idx')"
+                + "endTime STRING"
                 + ")";
     }
 
     String getCreateTablePlace() {
         return "CREATE TABLE "+ TABLE_PLACE +" ( "
-                + "idx INTEGER UNIQUE, "
-                + "name STRING, "
-                + "PRIMARY KEY('idx')"
+                + "idx INTEGER, "
+                + "name STRING"
                 + ")";
     }
 }

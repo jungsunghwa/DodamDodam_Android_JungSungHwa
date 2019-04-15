@@ -8,28 +8,24 @@ import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.PlaceList;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.TimeTables;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
-import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.GetPlace;
-import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.GetTimeTable;
+import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.PlaceService;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class PlaceClient {
-    private GetPlace getPlace;
+    private PlaceService place;
 
     public PlaceClient(){
-        getPlace = Utils.RETROFIT.create(GetPlace.class);
+        place = Utils.RETROFIT.create(PlaceService.class);
     }
 
-    public Single<List<Place>> getAllPlace(Token token) {
+    public Single<List<kr.hs.dgsw.smartschool.dodamdodam.Model.Place>> getAllPlace(Token token) {
         return Single.create(observer -> {
-            getPlace.getAllPlace(token.getToken()).enqueue(new Callback<Response<PlaceList>>() {
+            place.getAllPlace(token.getToken()).enqueue(new Callback<Response<PlaceList>>() {
                 @Override
                 public void onResponse(Call<Response<PlaceList>> call, retrofit2.Response<Response<PlaceList>> response) {
                     if (response.isSuccessful()){

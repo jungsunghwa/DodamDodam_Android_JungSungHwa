@@ -3,10 +3,9 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -17,15 +16,10 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
-import kr.hs.dgsw.smartschool.dodamdodam.network.client.LoginClient;
-import kr.hs.dgsw.smartschool.dodamdodam.network.request.LoginRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostLocationRequest;
-import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
-import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.PostLocation;
 
 public class LocationViewModel extends ViewModel {
     LocationClient locationClient;
@@ -58,8 +52,10 @@ public class LocationViewModel extends ViewModel {
     @SuppressLint("CheckResult")
     public void postLocation(ArrayList<Place> timeTable) {
         loading.setValue(true);
-        disposable.add(locationClient.postLocation(new PostLocationRequest(timeTable)
-                ,databaseHelper.<Token>getData("token",new Token()).getToken())
+        PostLocationRequest request = new PostLocationRequest(timeTable);
+        Log.e("request", request.toString());
+        disposable.add(locationClient.postLocation(request
+                , databaseHelper.<Token>getData("token",new Token()).getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
@@ -79,4 +75,30 @@ public class LocationViewModel extends ViewModel {
                         }));
 
     }
+
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    @SuppressLint("CheckResult")
+//    public void getStudentLoaction() {
+//        loading.setValue(true);
+//        disposable.add(locationClient.postLocation(new PostLocationRequest(timeTable)
+//                ,databaseHelper.<Token>getData("token",new Token()).getToken())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(
+//                        new DisposableSingleObserver<String>() {
+//                            @RequiresApi(api = Build.VERSION_CODES.N)
+//                            @Override
+//                            public void onSuccess(String successMessage) {
+//                                isPostSuccess.setValue(successMessage);
+//                                loading.setValue(false);
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                loginErrorMessage.setValue(e.getMessage());
+//                                loading.setValue(false);
+//                            }
+//                        }));
+//
+//    }
 }

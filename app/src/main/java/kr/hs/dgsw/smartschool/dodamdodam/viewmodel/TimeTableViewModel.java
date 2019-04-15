@@ -65,10 +65,12 @@ public class TimeTableViewModel extends ViewModel {
                             @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onSuccess(List<Time> timeTable) {
+
                                 if (Utils.isWeekEnd)
-                                    timeTable = timeTable.stream().filter(time -> time.getType() == 1).collect(Collectors.toList());
-                                else
                                     timeTable = timeTable.stream().filter(time -> time.getType() == 2).collect(Collectors.toList());
+                                else
+                                    timeTable = timeTable.stream().filter(time -> time.getType() == 1).collect(Collectors.toList());
+
                                 databaseHelper.insert("time", timeTable);
                                 response.setValue(timeTable);
                                 loading.setValue(false);

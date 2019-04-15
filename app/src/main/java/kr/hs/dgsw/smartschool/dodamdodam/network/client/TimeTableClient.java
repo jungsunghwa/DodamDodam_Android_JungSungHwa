@@ -13,20 +13,20 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.TimeTables;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
-import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.GetTimeTable;
+import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.TimeTableService;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TimeTableClient {
-    private GetTimeTable getTimeTable;
+    private TimeTableService timeTableService;
 
     public TimeTableClient(){
-        getTimeTable = Utils.RETROFIT.create(GetTimeTable.class);
+        timeTableService = Utils.RETROFIT.create(TimeTableService.class);
     }
 
     public Single<List<Time>> getTimeTable(Token token) {
         return Single.create(observer -> {
-            getTimeTable.getTimeTable(token.getToken()).enqueue(new Callback<Response<TimeTables>>() {
+            timeTableService.getTimeTable(token.getToken()).enqueue(new Callback<Response<TimeTables>>() {
                 @Override
                 public void onResponse(Call<Response<TimeTables>> call, retrofit2.Response<Response<TimeTables>> response) {
                     if (response.isSuccessful()){

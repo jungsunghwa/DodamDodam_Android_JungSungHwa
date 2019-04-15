@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
+package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
 
 import org.json.JSONObject;
 
@@ -13,11 +13,18 @@ import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
-public interface PostLocation {
+public interface LocationService {
     @POST("location")
     public Call<Response> postLocation(
             @Header("x-access-token") String token,
             @Body PostLocationRequest request
+    );
+
+    @POST("location/{student_idx}")
+    public Call<Response> getStudentLoaction(
+            @Header("x-access-token") String token,
+            @Path(value = "student_idx", encoded = true) int studentIdx
     );
 }

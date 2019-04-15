@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
+package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LoginRequest;

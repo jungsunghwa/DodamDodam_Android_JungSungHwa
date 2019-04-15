@@ -1,14 +1,14 @@
 package kr.hs.dgsw.smartschool.dodamdodam.Model;
 
 public class Place {
-    int idx;
-    String name;
+    private Integer idx;
+    private String name;
 
-    public int getIdx() {
+    public Integer getIdx() {
         return idx;
     }
 
-    public void setIdx(int idx) {
+    public void setIdx(Integer idx) {
         this.idx = idx;
     }
 

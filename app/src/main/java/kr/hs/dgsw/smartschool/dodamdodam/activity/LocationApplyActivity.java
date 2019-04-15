@@ -73,8 +73,9 @@ public class LocationApplyActivity extends AppCompatActivity {
 
         placeAdapter.getPosition().observe(this, postion -> {
             binding.placeRecyclerView.setVisibility(View.GONE);
-            timeTable.put(timeList.get(timePosition), placeList.get(postion));
-            location.add(timePosition, placeList.get(postion));
+            this.timeTable.put(timeList.get(timePosition), placeList.get(postion));
+            this.location.remove(timePosition);
+            this.location.add(timePosition, placeList.get(postion));
             timeTableAdapter.notifyItemChanged(timePosition);
         });
 
@@ -127,6 +128,12 @@ public class LocationApplyActivity extends AppCompatActivity {
         });
 
         timeTableViewModel.getIsSuccess().observe(this, timeList -> {
+            location.clear();
+
+            int i = 0;
+            for (Time time : timeList) {
+                location.add(i++, new Place());
+            }
 
             this.timeList.clear();
             this.timeList.addAll(timeList);

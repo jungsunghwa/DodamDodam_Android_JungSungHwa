@@ -10,7 +10,6 @@ public class Time {
     String startTime;
     @SerializedName("end_time")
     String endTime;
-    String locationType;
 
     public int getIdx() {
         return idx;

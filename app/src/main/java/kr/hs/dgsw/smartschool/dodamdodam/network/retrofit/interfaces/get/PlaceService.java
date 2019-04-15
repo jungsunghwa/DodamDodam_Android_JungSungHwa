@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
+package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.PlaceList;
@@ -8,7 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 
-public interface GetPlace {
+public interface PlaceService {
     @GET("place")
     public Call<Response<PlaceList>> getAllPlace(
             @Header("x-access-token") String token
