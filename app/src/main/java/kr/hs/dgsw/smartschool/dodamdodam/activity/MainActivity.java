@@ -23,6 +23,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> {
 
         binding.appbarLayout.toolbar.setTitle(getTitle());
         binding.appbarLayout.getRoot().setStateListAnimator(null);
+
         setSupportActionBar(binding.bottomAppbar);
         binding.floatingActionButton.setOnClickListener(v -> startActivity(new Intent(this, PointListActivity.class)));
     }

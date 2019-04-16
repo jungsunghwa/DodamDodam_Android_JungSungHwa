@@ -11,6 +11,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PlaceAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
@@ -18,17 +19,19 @@ import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LocationApplyActivity extends AppCompatActivity {
+public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> {
 
     LocationApplyActivityBinding binding;
 
@@ -57,6 +60,11 @@ public class LocationApplyActivity extends AppCompatActivity {
         setContentView(R.layout.location_apply_activity);
         binding = DataBindingUtil.setContentView(this, R.layout.location_apply_activity);
 
+        binding.appbarLayout.toolbar.setTitle("랩실신청");
+        binding.appbarLayout.toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        binding.appbarLayout.toolbar.setBackground(getDrawable(R.drawable.background_gradient));
+        binding.appbarLayout.toolbar.setTitleTextColor(Color.WHITE);
+
         initViewModel();
 
         setTimeTableRecyclerView();
@@ -84,6 +92,11 @@ public class LocationApplyActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.location_apply_activity;
     }
 
     private void observableLocationViewModel() {
@@ -133,6 +146,13 @@ public class LocationApplyActivity extends AppCompatActivity {
             int i = 0;
             for (Time time : timeList) {
                 location.add(i++, new Place());
+//                RadioButton radioButton = new RadioButton(this);
+//                radioButton.setText(time.getName());
+//                radioButton.setBackground(getDrawable(R.drawable.location_check_box_background));
+//                radioButton.setButtonDrawable(null);
+//                radioButton.setTag(i,time);
+//                radioButton.setOnClickListener(\);
+//                binding.timeRadioGroup.addView(radioButton);
             }
 
             this.timeList.clear();
