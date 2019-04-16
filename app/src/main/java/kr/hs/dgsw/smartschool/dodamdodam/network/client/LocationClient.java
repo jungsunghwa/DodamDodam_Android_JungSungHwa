@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
-import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostLocationRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post.LocationService;
 import retrofit2.Call;
@@ -21,7 +21,7 @@ public class LocationClient {
         location = Utils.RETROFIT.create(LocationService.class);
     }
 
-    public Single<String> postLocation(PostLocationRequest request, String token) {
+    public Single<String> postLocation(Location request, String token) {
         return Single.create(observer -> {
             location.postLocation(token, request).enqueue(new Callback<Response>() {
                 @Override
@@ -47,13 +47,14 @@ public class LocationClient {
         });
     }
 
-    public Single<String> getStudentLoation(String token) {
+    public Single<Location> getStudentLocation(String token) {
         return Single.create(observer -> {
-            location.getStudentLoaction(token,1).enqueue(new Callback<Response>() {
+            location.getStudentLocation(token,1).enqueue(new Callback<Response<Location>>() {
                 @Override
-                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                public void onResponse(Call<Response<Location>> call, retrofit2.Response<Response<Location>> response) {
                     if (response.isSuccessful()){
-                        observer.onSuccess(response.body().getMessage());
+                        assert response.body() != null;
+                        observer.onSuccess(response.body().getData());
                     } else {
                         try {
                             JSONObject errorBody = new JSONObject(Objects
@@ -66,7 +67,7 @@ public class LocationClient {
                     }
                 }
                 @Override
-                public void onFailure(Call<Response> call, Throwable t) {
+                public void onFailure(Call<Response<Location>> call, Throwable t) {
                     observer.onError( new Throwable("네트워크상태를 확인하세요"));
                 }
             });
