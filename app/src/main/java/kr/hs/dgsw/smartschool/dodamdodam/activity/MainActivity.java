@@ -45,6 +45,9 @@ public class MainActivity extends BaseActivity<MainActivityBinding> {
             case R.id.menu_song_apply:
                 startActivity(new Intent(this, SongApplyActivity.class));
                 break;
+            case R.id.menu_location_apply:
+                startActivity(new Intent(this, LocationApplyActivity.class));
+                break;
         }
 
         return false;

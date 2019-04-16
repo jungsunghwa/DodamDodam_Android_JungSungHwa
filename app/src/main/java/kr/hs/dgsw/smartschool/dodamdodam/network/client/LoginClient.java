@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network;
+package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.B1ndService;
@@ -8,9 +8,9 @@ import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
 import kr.hs.dgsw.b1nd.service.service.B1ndLogin;
 import kr.hs.dgsw.smartschool.dodamdodam.Constants;
 
-public class NetworkClient {
+public class LoginClient {
 
-    public NetworkClient() {
+    public LoginClient() {
         B1ndService.setHostURL(Constants.DEFAULT_HOST);
     }
 
@@ -28,7 +28,7 @@ public class NetworkClient {
 
                 @Override
                 public void onFail(Throwable throwable, String message) {
-                    observer.onError(throwable);
+                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
                 }
             });
         });

@@ -13,6 +13,6 @@ public final class Constants {
     public static final String DIRECTORY_DOWNLOADS = Environment.DIRECTORY_DOWNLOADS + "/DodamDodam";
 
     public static String SOCKET_HOST = "http://192.168.0.55:3000";
-    public static String DEFAULT_HOST = "http://192.168.0.20:8000";
+    public static String DEFAULT_HOST = "http://192.168.0.42:8000";
 
 }
