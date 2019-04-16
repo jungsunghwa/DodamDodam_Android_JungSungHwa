@@ -1,16 +1,22 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.request;
+package kr.hs.dgsw.smartschool.dodamdodam.Model;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 
-public class PostLocationRequest {
+public class Location {
+    int idx;
+    @SerializedName("student_idx")
+    int studentIdx;
+
     Integer first;
     Integer second;
     Integer third;
     Integer fourth;
 
-    public PostLocationRequest(ArrayList<Place> placeList){
+    public Location(ArrayList<Place> placeList){
         if ( placeList.get(0).getIdx() != null)
             setFirst(placeList.get(0).getIdx());
         if ( placeList.get(1).getIdx() != null)
@@ -53,9 +59,25 @@ public class PostLocationRequest {
         this.fourth = fourth;
     }
 
+    public int getIdx() {
+        return idx;
+    }
+
+    public void setIdx(int idx) {
+        this.idx = idx;
+    }
+
+    public int getStudentIdx() {
+        return studentIdx;
+    }
+
+    public void setStudentIdx(int studentIdx) {
+        this.studentIdx = studentIdx;
+    }
+
     @Override
     public String toString() {
-        return "PostLocationRequest{" +
+        return "Location{" +
                 "first=" + first +
                 ", second=" + second +
                 ", third=" + third +

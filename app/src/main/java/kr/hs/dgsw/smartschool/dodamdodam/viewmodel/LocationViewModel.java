@@ -19,7 +19,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
-import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostLocationRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 
 public class LocationViewModel extends ViewModel {
     LocationClient locationClient;
@@ -27,6 +27,7 @@ public class LocationViewModel extends ViewModel {
     private DatabaseHelper databaseHelper;
 
     private final MutableLiveData<String> isPostSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Location> studentLocationValue = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
@@ -39,7 +40,9 @@ public class LocationViewModel extends ViewModel {
     public LiveData<String> getIsPostSuccess() {
         return isPostSuccess;
     }
-
+    public LiveData<Location> getStudentLocationValue() {
+        return studentLocationValue;
+    }
     public LiveData<String> getError() {
         return loginErrorMessage;
     }
@@ -52,7 +55,7 @@ public class LocationViewModel extends ViewModel {
     @SuppressLint("CheckResult")
     public void postLocation(ArrayList<Place> timeTable) {
         loading.setValue(true);
-        PostLocationRequest request = new PostLocationRequest(timeTable);
+        Location request = new Location(timeTable);
         Log.e("request", request.toString());
         disposable.add(locationClient.postLocation(request
                 , databaseHelper.<Token>getData("token",new Token()).getToken())
@@ -76,29 +79,29 @@ public class LocationViewModel extends ViewModel {
 
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    @SuppressLint("CheckResult")
-//    public void getStudentLoaction() {
-//        loading.setValue(true);
-//        disposable.add(locationClient.postLocation(new PostLocationRequest(timeTable)
-//                ,databaseHelper.<Token>getData("token",new Token()).getToken())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(
-//                        new DisposableSingleObserver<String>() {
-//                            @RequiresApi(api = Build.VERSION_CODES.N)
-//                            @Override
-//                            public void onSuccess(String successMessage) {
-//                                isPostSuccess.setValue(successMessage);
-//                                loading.setValue(false);
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                loginErrorMessage.setValue(e.getMessage());
-//                                loading.setValue(false);
-//                            }
-//                        }));
-//
-//    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("CheckResult")
+    public void getStudentLocation() {
+        loading.setValue(true);
+        disposable.add(locationClient.getStudentLocation(
+                databaseHelper.<Token>getData("token",new Token()).getToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(
+                        new DisposableSingleObserver<Location>() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
+                            @Override
+                            public void onSuccess(Location location) {
+                                studentLocationValue.setValue(location);
+                                loading.setValue(false);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                loginErrorMessage.setValue(e.getMessage());
+                                loading.setValue(false);
+                            }
+                        }));
+
+    }
 }
