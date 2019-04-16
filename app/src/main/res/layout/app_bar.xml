@@ -6,17 +6,16 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:theme="@style/ThemeOverlay.App.AppBar">
+        android:background="@android:color/transparent"
+        android:stateListAnimator="@null"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:popupTheme="@style/ThemeOverlay.App.AppBar"
-            app:titleTextColor="?colorPrimary"
-            app:layout_scrollFlags="scroll"
-            tools:videoTitle="@string/app_name" />
+            tools:title="@string/app_name" />
 
     </com.google.android.material.appbar.AppBarLayout>
 </layout>

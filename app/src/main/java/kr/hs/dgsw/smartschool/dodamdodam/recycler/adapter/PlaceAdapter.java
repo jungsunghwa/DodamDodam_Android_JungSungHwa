@@ -4,19 +4,18 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.holder.PlaceViewHolder;
-import kr.hs.dgsw.smartschool.dodamdodam.recycler.holder.TimeViewHolder;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
-    ArrayList<Place> placeList = new ArrayList<>();
+    List<Place> placeList;
 
     private final MutableLiveData<Integer> placePosition = new MutableLiveData<>();
 
@@ -24,7 +23,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
         return placePosition;
     }
 
-    public PlaceAdapter(Context context, ArrayList<Place> placeList) {
+    public PlaceAdapter(Context context, List<Place> placeList) {
         this.placeList = placeList;
     }
 
@@ -37,9 +36,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull PlaceViewHolder holder, int position) {
         holder.binding.placeNameTv.setText(placeList.get(position).getName());
-        holder.binding.placeNameTv.setOnClickListener(view -> {
-            placePosition.setValue(position);
-        });
+        holder.binding.placeNameTv.setOnClickListener(view -> placePosition.setValue(position));
     }
 
     @Override

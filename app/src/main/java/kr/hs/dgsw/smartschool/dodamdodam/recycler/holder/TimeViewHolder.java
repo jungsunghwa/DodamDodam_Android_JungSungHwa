@@ -5,7 +5,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import kr.hs.dgsw.smartschool.dodamdodam.databinding.PointItemBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.TimeTableItemBinding;
 
 public class TimeViewHolder extends RecyclerView.ViewHolder {

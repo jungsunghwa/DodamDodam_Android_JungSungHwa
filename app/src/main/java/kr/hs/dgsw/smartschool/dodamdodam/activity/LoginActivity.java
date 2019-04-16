@@ -1,13 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
-
-import android.content.Intent;
-import android.os.Bundle;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -48,9 +40,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             }
         });
 
-        loginViewModel.getError().observe(this, error -> {
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-        });
+        loginViewModel.getError().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
 
         loginViewModel.getIsSuccess().observe(this, isSuccess -> {
             if (isSuccess) {

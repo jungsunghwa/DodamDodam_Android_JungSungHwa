@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff6e61</color>
-    <color name="colorPrimaryDark">#c63c37</color>
-    <color name="colorSecondary">#dd2c00</color>
+    <color name="colorPrimary">#3096f8</color>
+    <color name="colorPrimaryDark">#254de3</color>
+    <color name="colorSecondary">#5800c5</color>
+    <color name="colorControlNormal">#076fe4</color>
     <color name="windowBackgroundColor">#ffffff</color>
 </resources>

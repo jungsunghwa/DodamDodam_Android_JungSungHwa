@@ -18,9 +18,7 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.ColorUtils;
-import androidx.databinding.DataBindingUtil;
 import androidx.palette.graphics.Palette;
 
 import java.util.Random;

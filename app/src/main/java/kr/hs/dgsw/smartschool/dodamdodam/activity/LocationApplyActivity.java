@@ -1,14 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PlaceAdapter;
@@ -17,15 +15,13 @@ import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LocationApplyActivity extends AppCompatActivity {
@@ -41,16 +37,14 @@ public class LocationApplyActivity extends AppCompatActivity {
 
 
     Map<Time, Place> timeTable = new HashMap<>();
-    ArrayList<Time> timeList = new ArrayList<>();
-    ArrayList<Place> placeList = new ArrayList<>();
-    ArrayList<Place> location = new ArrayList<>();
+    List<Time> timeList = new ArrayList<>();
+    List<Place> placeList = new ArrayList<>();
+    List<Place> location = new ArrayList<>();
 
     int timePosition;
     int palcePosition;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,17 +73,13 @@ public class LocationApplyActivity extends AppCompatActivity {
             timeTableAdapter.notifyItemChanged(timePosition);
         });
 
-        binding.locationApplyBtn.setOnClickListener(view -> {
-            locationViewModel.postLocation(location);
-        });
+        binding.locationApplyBtn.setOnClickListener(view -> locationViewModel.postLocation(location));
 
 
     }
 
     private void observableLocationViewModel() {
-        locationViewModel.getIsPostSuccess().observe(this, successMessage -> {
-                Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
-        });
+        locationViewModel.getIsPostSuccess().observe(this, successMessage -> Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show());
     }
 
     private void setPlaceRecyclerView() {
@@ -123,9 +113,7 @@ public class LocationApplyActivity extends AppCompatActivity {
     }
 
     private void observableTimeTableViewModel() {
-        timeTableViewModel.getError().observe(this, error -> {
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-        });
+        timeTableViewModel.getError().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
 
         timeTableViewModel.getIsSuccess().observe(this, timeList -> {
             location.clear();
@@ -147,8 +135,6 @@ public class LocationApplyActivity extends AppCompatActivity {
         });
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initViewModel() {
         timeTableViewModel = new TimeTableViewModel(this);
         placeViewModel = new PlaceViewModel(this);
