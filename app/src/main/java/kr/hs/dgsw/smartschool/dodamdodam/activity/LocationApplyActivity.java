@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -8,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
@@ -22,13 +22,13 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> {
@@ -53,17 +53,25 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.location_apply_activity);
         binding = DataBindingUtil.setContentView(this, R.layout.location_apply_activity);
 
+        setSupportActionBar(binding.appbarLayout.toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+
         binding.appbarLayout.toolbar.setTitle("랩실신청");
         binding.appbarLayout.toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         binding.appbarLayout.toolbar.setBackground(getDrawable(R.drawable.background_gradient));
         binding.appbarLayout.toolbar.setTitleTextColor(Color.WHITE);
+
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         initViewModel();
 
@@ -87,9 +95,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             timeTableAdapter.notifyItemChanged(timePosition);
         });
 
-        binding.locationApplyBtn.setOnClickListener(view -> {
-            locationViewModel.postLocation(location);
-        });
+        binding.locationApplyBtn.setOnClickListener(view -> locationViewModel.postLocation(location));
 
 
     }
@@ -100,9 +106,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void observableLocationViewModel() {
-        locationViewModel.getIsPostSuccess().observe(this, successMessage -> {
-                Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
-        });
+        locationViewModel.getIsPostSuccess().observe(this, successMessage -> Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show());
     }
 
     private void setPlaceRecyclerView() {
@@ -136,9 +140,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void observableTimeTableViewModel() {
-        timeTableViewModel.getError().observe(this, error -> {
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-        });
+        timeTableViewModel.getError().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
 
         timeTableViewModel.getIsSuccess().observe(this, timeList -> {
             location.clear();
@@ -166,7 +168,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             timeTableAdapter.notifyDataSetChanged();
         });
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initViewModel() {

@@ -7,22 +7,119 @@
         android:id="@+id/main_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/background_gradient"
+        android:fitsSystemWindows="true"
         tools:context=".activity.MainActivity">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottom_appbar"
+        <com.scwang.wave.MultiWaveHeader
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:layout_gravity="bottom"
-            app:fabAlignmentMode="center"
-            app:navigationIcon="@drawable/ic_menu" />
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:scaleY="-1"
+            app:mwhCloseColor="#FFF"
+            app:mwhColorAlpha=".3"
+            app:mwhGradientAngle="320"
+            app:mwhIsRunning="true"
+            app:mwhProgress=".7"
+            app:mwhStartColor="#FFF"
+            app:mwhVelocity="5"
+            app:mwhWaveHeight="45dp"
+            app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_action_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_anchor="@+id/bottom_appbar"
-            app:srcCompat="@android:drawable/ic_lock_power_off" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?actionBarSize">
+
+            <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamTextDate
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nanum_square_light"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2019-04-15 Mon" />
+
+            <TextClock
+                android:id="@+id/text_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/gotham_thin"
+                android:format12Hour="kk:mm:ss"
+                android:format24Hour="hh:mm:ss"
+                android:gravity="center_horizontal"
+                android:letterSpacing=".35"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="33sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_date"
+                tools:text="1 2 : 0 0 : 0 0" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="120dp"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_clock">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_date_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    app:backgroundTint="@android:color/white"
+                    app:fabCustomSize="38dp"
+                    app:rippleColor="?colorControlNormal"
+                    app:srcCompat="@drawable/ic_arrow_back"
+                    app:tint="?colorControlNormal" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/fab_date_today"
+                    style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:text="2019-04-16"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="?colorControlNormal"
+                    app:backgroundTint="@android:color/white"
+                    app:icon="@drawable/ic_calendar"
+                    app:iconTint="?colorControlNormal"
+                    app:rippleColor="?colorControlNormal" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_date_forward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    app:backgroundTint="@android:color/white"
+                    app:fabCustomSize="38dp"
+                    app:rippleColor="?colorControlNormal"
+                    app:srcCompat="@drawable/ic_arrow_forward"
+                    app:tint="?colorControlNormal" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
             android:id="@+id/appbar_layout"
