@@ -1,11 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -15,13 +13,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
-import kr.hs.dgsw.smartschool.dodamdodam.Utils;
+import kr.hs.dgsw.smartschool.dodamdodam.model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.PlaceClient;
-import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
 public class PlaceViewModel extends ViewModel {
     private PlaceClient placeClient;
@@ -35,7 +30,7 @@ public class PlaceViewModel extends ViewModel {
     public PlaceViewModel(Context context) {
         placeClient = new PlaceClient();
         disposable = new CompositeDisposable();
-        databaseHelper = new DatabaseHelper(context);
+        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
     }
 
     public LiveData<List<Place>> getIsSuccess() {
@@ -50,8 +45,6 @@ public class PlaceViewModel extends ViewModel {
         return loading;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @SuppressLint("CheckResult")
     public void getAllPlace() {
         loading.setValue(true);
         disposable.add(placeClient.getAllPlace(databaseHelper.getData("token", new Token()))

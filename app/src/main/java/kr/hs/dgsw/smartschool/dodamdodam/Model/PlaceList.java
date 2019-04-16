@@ -1,15 +1,15 @@
-package kr.hs.dgsw.smartschool.dodamdodam.Model;
+package kr.hs.dgsw.smartschool.dodamdodam.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PlaceList {
-    ArrayList<Place> places;
+    private List<Place> places;
 
-    public ArrayList<Place> getPlaces() {
+    public List<Place> getPlaces() {
         return places;
     }
 
-    public void setPlaces(ArrayList<Place> places) {
+    public void setPlaces(List<Place> places) {
         this.places = places;
     }
 }

@@ -15,22 +15,20 @@ public class LoginClient {
     }
 
     public Single<LoginData> login(LoginRequest request) {
-        return Single.create(observer -> {
-            new B1ndLogin().login(request, new OnLoginSuccessListener() {
-                @Override
-                public void onSuccess(int status, String message, String token, String refreshToken) {
-                    LoginData loginData = new LoginData();
-                    loginData.setToken(token);
-                    loginData.setRefreshToken(refreshToken);
+        return Single.create(observer -> new B1ndLogin().login(request, new OnLoginSuccessListener() {
+            @Override
+            public void onSuccess(int status, String message, String token, String refreshToken) {
+                LoginData loginData = new LoginData();
+                loginData.setToken(token);
+                loginData.setRefreshToken(refreshToken);
 
-                    observer.onSuccess(loginData);
-                }
+                observer.onSuccess(loginData);
+            }
 
-                @Override
-                public void onFail(Throwable throwable, String message) {
-                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-                }
-            });
-        });
+            @Override
+            public void onFail(Throwable throwable, String message) {
+                observer.onError(new Throwable("네트워크상태를 확인하세요"));
+            }
+        }));
     }
 }
