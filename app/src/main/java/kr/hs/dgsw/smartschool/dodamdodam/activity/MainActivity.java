@@ -3,12 +3,14 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import kr.hs.dgsw.b1nd.bottomsheet.B1ndBottomSheetDialogFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 
 public class MainActivity extends BaseActivity<MainActivityBinding> {
 
@@ -21,6 +23,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        binding.appbarLayout.wave.setVisibility(View.GONE);
         setSupportActionBar(binding.appbarLayout.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

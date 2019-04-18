@@ -19,8 +19,7 @@
         tools:targetApi="p">
         <activity android:name=".activity.LocationApplyActivity"/>
         <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/Theme.App.Transparent">
+            android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,8 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/Theme.App.Transparent">
+            android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,8 +39,7 @@
             android:label="@string/title_point_list" />
         <activity
             android:name=".activity.TestMainActivity"
-            android:label="TestMain"
-            android:theme="@style/Theme.App.Transparent">
+            android:label="TestMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
