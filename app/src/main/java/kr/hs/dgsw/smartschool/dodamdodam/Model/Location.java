@@ -2,9 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import java.util.List;
 
 public class Location {
     int idx;
@@ -16,7 +14,7 @@ public class Location {
     Integer third;
     Integer fourth;
 
-    public Location(ArrayList<Place> placeList){
+    public Location(List<Place> placeList){
         if ( placeList.get(0).getIdx() != null)
             setFirst(placeList.get(0).getIdx());
         if ( placeList.get(1).getIdx() != null)

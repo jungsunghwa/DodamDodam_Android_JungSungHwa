@@ -28,9 +28,9 @@ import java.net.HttpURLConnection;
 import java.util.Collections;
 import java.util.List;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.YoutubeData;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongApplyActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.model.YoutubeData;
 import kr.hs.dgsw.smartschool.dodamdodam.task.OnTaskListener;
 import kr.hs.dgsw.smartschool.dodamdodam.task.YoutubeMusicSearchTask;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.OnItemClickListener;
@@ -57,7 +57,8 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSupportActionBar(binding.appBarLayout.toolbar);
+
+        setSupportActionBar(binding.appbarLayout.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TooltipCompat.setTooltipText(binding.searchButton, getString(R.string.search));

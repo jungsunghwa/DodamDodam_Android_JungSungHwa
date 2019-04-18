@@ -18,11 +18,9 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="p">
         <activity
-            android:name=".activity.LocationApplyActivity"
-            android:theme="@style/Theme.App.Transparent"/>
+            android:name=".activity.LocationApplyActivity"/>
         <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/Theme.App.Transparent">
+            android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,26 +28,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/Theme.App.Transparent">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".activity.MainActivity">
         </activity>
         <activity
             android:name=".activity.PointListActivity"
             android:label="@string/title_point_list" />
         <activity
             android:name=".activity.TestMainActivity"
-            android:label="TestMain"
-            android:theme="@style/Theme.App.Transparent">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="TestMain">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.BusApplyActivity"

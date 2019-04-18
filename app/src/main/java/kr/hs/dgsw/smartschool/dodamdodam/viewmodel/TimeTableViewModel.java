@@ -1,18 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
-import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -39,7 +33,7 @@ public class TimeTableViewModel extends ViewModel {
     public TimeTableViewModel(Context context) {
         timeTableClient = new TimeTableClient();
         disposable = new CompositeDisposable();
-        databaseHelper = new DatabaseHelper(context);
+        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
     }
 
     public LiveData<List<Time>> getIsSuccess() {
@@ -54,8 +48,6 @@ public class TimeTableViewModel extends ViewModel {
         return loading;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @SuppressLint("CheckResult")
     public void getTimeTable() {
         loading.setValue(true);
 //        ArrayList<Time> times = databaseHelper.getData("time",new ArrayList<Time>());
@@ -68,14 +60,13 @@ public class TimeTableViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Time>>() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onSuccess(List<Time> timeTable) {
 
                                 if (Utils.isWeekEnd)
-                                    timeTable = timeTable.stream().filter(time -> time.getType() == 2).collect(Collectors.toList());
+                                    timeTable = Stream.of(timeTable).filter(time -> time.getType() == 2).collect(Collectors.toList());
                                 else
-                                    timeTable = timeTable.stream().filter(time -> time.getType() == 1).collect(Collectors.toList());
+                                    timeTable = Stream.of(timeTable).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
                                 databaseHelper.insert("time", timeTable);
                                 response.setValue(timeTable);

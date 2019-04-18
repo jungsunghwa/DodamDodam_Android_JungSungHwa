@@ -1,35 +1,31 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PlaceAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
-
-import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> {
 
@@ -49,8 +45,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     ArrayList<Place> location = new ArrayList<>();
 
     int timePosition;
-    int palcePosition;
-    int defaultCheckItem = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)

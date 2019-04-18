@@ -19,10 +19,9 @@
             app:mwhCloseColor="#FFF"
             app:mwhColorAlpha=".3"
             app:mwhGradientAngle="320"
-            app:mwhIsRunning="true"
             app:mwhProgress=".7"
             app:mwhStartColor="#FFF"
-            app:mwhVelocity="5"
+            app:mwhVelocity="2"
             app:mwhWaveHeight="45dp"
             app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 

@@ -16,10 +16,8 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginData;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
-import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LoginClient;
 
 public class LoginViewModel extends ViewModel {
@@ -49,13 +47,11 @@ public class LoginViewModel extends ViewModel {
         return loading;
     }
 
-    @SuppressLint("CheckResult")
     public void login(String id, String pw) {
         loading.setValue(true);
         disposable.add(loginClient.login(new LoginRequest(id, pw)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<LoginData>() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onSuccess(LoginData loginData) {
                                 databaseHelper.insert(DatabaseManager.TABLE_TOKEN, loginData);

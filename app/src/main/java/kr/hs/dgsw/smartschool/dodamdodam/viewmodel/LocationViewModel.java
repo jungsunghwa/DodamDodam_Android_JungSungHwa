@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -34,7 +35,7 @@ public class LocationViewModel extends ViewModel {
     public LocationViewModel(Context context) {
         locationClient = new LocationClient();
         disposable = new CompositeDisposable();
-        databaseHelper = new DatabaseHelper(context);
+        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
     }
 
     public LiveData<String> getIsPostSuccess() {
@@ -51,9 +52,7 @@ public class LocationViewModel extends ViewModel {
         return loading;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @SuppressLint("CheckResult")
-    public void postLocation(ArrayList<Place> timeTable) {
+    public void postLocation(List<Place> timeTable) {
         loading.setValue(true);
         Location request = new Location(timeTable);
         Log.e("request", request.toString());
@@ -63,7 +62,6 @@ public class LocationViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
                         new DisposableSingleObserver<String>() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onSuccess(String successMessage) {
                                 isPostSuccess.setValue(successMessage);
@@ -79,8 +77,6 @@ public class LocationViewModel extends ViewModel {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @SuppressLint("CheckResult")
     public void getStudentLocation() {
         loading.setValue(true);
         disposable.add(locationClient.getStudentLocation(
@@ -89,7 +85,6 @@ public class LocationViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
                         new DisposableSingleObserver<Location>() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onSuccess(Location location) {
                                 studentLocationValue.setValue(location);

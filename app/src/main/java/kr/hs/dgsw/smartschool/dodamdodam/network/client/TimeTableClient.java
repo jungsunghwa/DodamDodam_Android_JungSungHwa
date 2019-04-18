@@ -25,32 +25,30 @@ public class TimeTableClient {
     }
 
     public Single<List<Time>> getTimeTable(Token token) {
-        return Single.create(observer -> {
-            timeTableService.getTimeTable(token.getToken()).enqueue(new Callback<Response<TimeTables>>() {
-                @Override
-                public void onResponse(Call<Response<TimeTables>> call, retrofit2.Response<Response<TimeTables>> response) {
-                    if (response.isSuccessful()){
-                        observer.onSuccess(response.body().getData().getTimeTables());
-                    } else {
-                        try {
-                            JSONObject errorBody = new JSONObject(Objects
-                                    .requireNonNull(
-                                             response.errorBody()).string());
-                            observer.onError(new Throwable(errorBody.getString("message")));
-                        } catch (JSONException | IOException e) {
+        return Single.create(observer -> timeTableService.getTimeTable(token.getToken()).enqueue(new Callback<Response<TimeTables>>() {
+            @Override
+            public void onResponse(Call<Response<TimeTables>> call, retrofit2.Response<Response<TimeTables>> response) {
+                if (response.isSuccessful()){
+                    observer.onSuccess(response.body().getData().getTimeTables());
+                } else {
+                    try {
+                        JSONObject errorBody = new JSONObject(Objects
+                                .requireNonNull(
+                                         response.errorBody()).string());
+                        observer.onError(new Throwable(errorBody.getString("message")));
+                    } catch (JSONException | IOException e) {
 
-                            if (response.code() == 404){
-                                observer.onError(new Throwable("404"));
-                            }
-                            observer.onError(new Throwable(e.getMessage()));
+                        if (response.code() == 404){
+                            observer.onError(new Throwable("404"));
                         }
+                        observer.onError(new Throwable(e.getMessage()));
                     }
                 }
-                @Override
-                public void onFailure(Call<Response<TimeTables>> call, Throwable t) {
-                    observer.onError( new Throwable("네트워크상태를 확인하세요"));
-                }
-            });
-        });
+            }
+            @Override
+            public void onFailure(Call<Response<TimeTables>> call, Throwable t) {
+                observer.onError( new Throwable("네트워크상태를 확인하세요"));
+            }
+        }));
     }
 }
