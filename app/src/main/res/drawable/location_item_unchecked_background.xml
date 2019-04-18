@@ -4,11 +4,20 @@
 
     <item>
         <shape android:shape="rectangle">
-            <gradient android:angle="0"
-                android:startColor="#3096F8"
-                android:centerColor="#3096F8"
-                android:endColor="#5800C5"
-                android:type="linear"/>
+            <solid android:color="#23040000"/>
+            <corners android:radius="28dp" />
+        </shape>
+    </item>
+
+    <item
+        android:left="3dp"
+        android:bottom="3dp">
+
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0"
+                android:endColor="#7b2bfc"
+                android:startColor="#5196e9" />
 
             <corners android:radius="28dp"/>
 
@@ -20,7 +29,10 @@
 
         </shape>
     </item>
-    <item>
+
+    <item
+        android:left="3dp"
+        android:bottom="3dp">
         <shape android:shape="rectangle">
             <solid android:color="#ffffff"/>
             <corners android:radius="28dp"/>

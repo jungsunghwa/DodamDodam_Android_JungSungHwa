@@ -50,6 +50,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
     int timePosition;
     int palcePosition;
+    int defaultCheckItem = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -64,13 +65,10 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         ActionBar actionBar = getSupportActionBar();
 
         binding.appbarLayout.toolbar.setTitle("랩실신청");
-        binding.appbarLayout.toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        binding.appbarLayout.toolbar.setBackground(getDrawable(R.drawable.background_gradient));
-        binding.appbarLayout.toolbar.setTitleTextColor(Color.WHITE);
 
         if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
         initViewModel();
@@ -82,16 +80,29 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         observablePlaceViewModel();
         observableLocationViewModel();
 
-        timeTableAdapter.getPosition().observe(this, postion -> {
-            binding.placeRecyclerView.setVisibility(View.VISIBLE);
-            timePosition = postion;
+        timeTableAdapter.getTimePosition().observe(this, position -> {
+            if (position == null) return;
+
+            placeAdapter.notifyDataSetChanged();
+            timePosition = position;
+
+            placeAdapter.setPosition(null);
         });
 
-        placeAdapter.getPosition().observe(this, postion -> {
-            binding.placeRecyclerView.setVisibility(View.GONE);
-            this.timeTable.put(timeList.get(timePosition), placeList.get(postion));
+        placeAdapter.getPlacePosition().observe(this, position -> {
+            if (position == null) {
+                if (timeTable.isEmpty() && location.isEmpty()){
+                    return;
+                }
+                this.timeTable.put(timeList.get(timePosition), null);
+                this.location.remove(timePosition);
+                this.location.add(timePosition,null);
+                timeTableAdapter.notifyItemChanged(timePosition);
+                return;
+            }
+            this.timeTable.put(timeList.get(timePosition), placeList.get(position));
             this.location.remove(timePosition);
-            this.location.add(timePosition, placeList.get(postion));
+            this.location.add(timePosition, placeList.get(position));
             timeTableAdapter.notifyItemChanged(timePosition);
         });
 
@@ -118,7 +129,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         binding.placeRecyclerView.setLayoutManager(placeRecyclerViewLayoutManager);
     }
 
-    private void setTimeTableRecyclerView(){
+    private void setTimeTableRecyclerView() {
         timeTableAdapter = new TimeTableAdapter(this, timeTable, timeList);
 
         LinearLayoutManager timeTableRecyclerViewLayoutManager
@@ -148,13 +159,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             int i = 0;
             for (Time time : timeList) {
                 location.add(i++, new Place());
-//                RadioButton radioButton = new RadioButton(this);
-//                radioButton.setText(time.getName());
-//                radioButton.setBackground(getDrawable(R.drawable.location_check_box_background));
-//                radioButton.setButtonDrawable(null);
-//                radioButton.setTag(i,time);
-//                radioButton.setOnClickListener(\);
-//                binding.timeRadioGroup.addView(radioButton);
             }
 
             this.timeList.clear();

@@ -17,7 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="p">
-        <activity android:name=".activity.LocationApplyActivity"/>
+        <activity
+            android:name=".activity.LocationApplyActivity"
+            android:theme="@style/Theme.App.Transparent"/>
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/Theme.App.Transparent">

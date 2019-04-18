@@ -5,4 +5,5 @@
         android:state_checked="false"/>
     <item android:drawable="@drawable/location_item_checked_background"
         android:state_checked="true"/>
+
 </selector>

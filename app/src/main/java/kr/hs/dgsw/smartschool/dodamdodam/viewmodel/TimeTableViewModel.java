@@ -58,6 +58,12 @@ public class TimeTableViewModel extends ViewModel {
     @SuppressLint("CheckResult")
     public void getTimeTable() {
         loading.setValue(true);
+//        ArrayList<Time> times = databaseHelper.getData("time",new ArrayList<Time>());
+//        if (times != null){
+//            loading.setValue(false);
+//            response.setValue(times);
+//            return;
+//        }
         disposable.add(timeTableClient.getTimeTable(databaseHelper.getData("token", new Token()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(

@@ -25,7 +25,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
 
     private final MutableLiveData<Integer> timePosition = new MutableLiveData<Integer>();
 
-    public LiveData<Integer> getPosition() {
+    public LiveData<Integer> getTimePosition() {
         return timePosition;
     }
 
@@ -49,28 +49,32 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
 
         if (place != null) {
             holder.binding.placeSelectBtn.setText(place.getName());
-        }else {
+            holder.binding.placeSelectBtn.setChecked(true);
+            holder.binding.placeSelectBtn.setTextColor(Color.WHITE);
+        } else if (timePosition.getValue() == position){
+            holder.binding.placeSelectBtn.setText(time.getName() + "교시");
+        } else {
+            holder.binding.placeSelectBtn.setChecked(false);
+            holder.binding.placeSelectBtn.setTextColor(Color.BLACK);
             holder.binding.placeSelectBtn.setText(time.getName() + "교시");
         }
 
-//        holder.binding.startTimeTv.setText(time.getStartTime());
-//        holder.binding.endTimeTv.setText(time.getEndTime());
-
-        if (timePosition.getValue() != position){
-            holder.binding.placeSelectBtn.setChecked(false);
-            holder.binding.placeSelectBtn.setTextColor(Color.BLACK);
-        }else {
-            holder.binding.placeSelectBtn.setChecked(true);
-        }
-
         holder.binding.placeSelectBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked){
-                int beforePosition = timePosition.getValue();
+            if (isChecked) {
                 timePosition.setValue(position);
                 buttonView.setTextColor(Color.WHITE);
-                notifyItemChanged(beforePosition);
+                notifyDataSetChanged();
+            }else {
+                if (place != null){
+                    buttonView.setChecked(true);
+                    timePosition.setValue(position);
+                    notifyDataSetChanged();
+                    return;
+                }
+                buttonView.setTextColor(Color.BLACK);
             }
         });
+
     }
 
     @Override
