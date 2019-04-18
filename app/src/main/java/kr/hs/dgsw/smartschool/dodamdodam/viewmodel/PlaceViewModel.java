@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import java.util.List;
 
@@ -47,7 +48,9 @@ public class PlaceViewModel extends ViewModel {
 
     public void getAllPlace() {
         loading.setValue(true);
-        disposable.add(placeClient.getAllPlace(databaseHelper.getData("token", new Token()))
+        Token token = databaseHelper.getData("token", new Token());
+        Log.e("getPlace", token.getToken());
+        disposable.add(placeClient.getAllPlace(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Place>>() {

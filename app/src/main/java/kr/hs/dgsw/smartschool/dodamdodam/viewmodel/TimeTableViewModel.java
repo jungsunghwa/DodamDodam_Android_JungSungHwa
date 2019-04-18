@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -56,7 +57,9 @@ public class TimeTableViewModel extends ViewModel {
 //            response.setValue(times);
 //            return;
 //        }
-        disposable.add(timeTableClient.getTimeTable(databaseHelper.getData("token", new Token()))
+        Token token = databaseHelper.<Token>getData("token", new Token());
+        Log.e("TimeTable",token.getToken());
+        disposable.add(timeTableClient.getTimeTable(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Time>>() {
