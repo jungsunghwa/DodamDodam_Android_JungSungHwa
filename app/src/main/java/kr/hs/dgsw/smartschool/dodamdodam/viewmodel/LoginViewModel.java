@@ -47,13 +47,11 @@ public class LoginViewModel extends ViewModel {
         return loading;
     }
 
-    @SuppressLint("CheckResult")
     public void login(String id, String pw) {
         loading.setValue(true);
         disposable.add(loginClient.login(new LoginRequest(id, pw)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<LoginData>() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onSuccess(LoginData loginData) {
                                 databaseHelper.insert(DatabaseManager.TABLE_TOKEN, loginData);

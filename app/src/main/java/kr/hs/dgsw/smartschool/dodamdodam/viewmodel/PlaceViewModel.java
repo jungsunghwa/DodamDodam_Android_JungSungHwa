@@ -13,8 +13,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.PlaceClient;
 
@@ -51,7 +51,6 @@ public class PlaceViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Place>>() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onSuccess(List<Place> placeList) {
                                 databaseHelper.insert("place", placeList);

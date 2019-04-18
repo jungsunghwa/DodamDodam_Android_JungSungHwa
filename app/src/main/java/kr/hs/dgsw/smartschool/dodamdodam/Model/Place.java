@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.model;
+package kr.hs.dgsw.smartschool.dodamdodam.Model;
 
 public class Place {
     private Integer idx;

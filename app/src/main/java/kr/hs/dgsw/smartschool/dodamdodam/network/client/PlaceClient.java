@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.smartschool.dodamdodam.model.PlaceList;
-import kr.hs.dgsw.smartschool.dodamdodam.model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.PlaceList;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.PlaceService;
@@ -23,7 +23,7 @@ public class PlaceClient {
         place = Utils.RETROFIT.create(PlaceService.class);
     }
 
-    public Single<List<kr.hs.dgsw.smartschool.dodamdodam.model.Place>> getAllPlace(Token token) {
+    public Single<List<kr.hs.dgsw.smartschool.dodamdodam.Model.Place>> getAllPlace(Token token) {
         return Single.create(observer -> place.getAllPlace(token.getToken()).enqueue(new Callback<Response<PlaceList>>() {
             @Override
             public void onResponse(Call<Response<PlaceList>> call, retrofit2.Response<Response<PlaceList>> response) {

@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.model;
+package kr.hs.dgsw.smartschool.dodamdodam.Model;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.model.YoutubeData;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.YoutubeData;
 
 public class SongSearchAdapter extends RecyclerView.Adapter {
 
