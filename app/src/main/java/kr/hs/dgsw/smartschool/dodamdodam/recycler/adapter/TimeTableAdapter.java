@@ -1,8 +1,10 @@
 package kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import java.util.List;
 import java.util.Map;
@@ -11,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
-import kr.hs.dgsw.smartschool.dodamdodam.model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.holder.TimeViewHolder;
 
@@ -21,7 +23,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
     private Map<Time, Place> timeTable;
     private List<Time> timeList;
 
-    private final MutableLiveData<Integer> timePosition = new MutableLiveData<>();
+    private final MutableLiveData<Integer> timePosition = new MutableLiveData<Integer>();
 
     public LiveData<Integer> getPosition() {
         return timePosition;
@@ -30,6 +32,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
     public TimeTableAdapter(Context context, Map<Time, Place> timeTable, List<Time> timeList) {
         this.timeTable = timeTable;
         this.timeList = timeList;
+        timePosition.setValue(0);
     }
 
     @NonNull
@@ -47,13 +50,27 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
         if (place != null) {
             holder.binding.placeSelectBtn.setText(place.getName());
         }else {
-            holder.binding.placeSelectBtn.setText(time.getName());
+            holder.binding.placeSelectBtn.setText(time.getName() + "교시");
         }
 
-        holder.binding.startTimeTv.setText(time.getStartTime());
-        holder.binding.endTimeTv.setText(time.getEndTime());
+//        holder.binding.startTimeTv.setText(time.getStartTime());
+//        holder.binding.endTimeTv.setText(time.getEndTime());
 
-        holder.binding.placeSelectBtn.setOnClickListener(view -> timePosition.setValue(position));
+        if (timePosition.getValue() != position){
+            holder.binding.placeSelectBtn.setChecked(false);
+            holder.binding.placeSelectBtn.setTextColor(Color.BLACK);
+        }else {
+            holder.binding.placeSelectBtn.setChecked(true);
+        }
+
+        holder.binding.placeSelectBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                int beforePosition = timePosition.getValue();
+                timePosition.setValue(position);
+                buttonView.setTextColor(Color.WHITE);
+                notifyItemChanged(beforePosition);
+            }
+        });
     }
 
     @Override

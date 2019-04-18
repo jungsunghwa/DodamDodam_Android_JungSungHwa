@@ -1,22 +1,29 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import kr.hs.dgsw.smartschool.dodamdodam.model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PlaceAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LocationApplyActivity extends AppCompatActivity {
+public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> {
 
     LocationApplyActivityBinding binding;
 
@@ -37,19 +44,34 @@ public class LocationApplyActivity extends AppCompatActivity {
 
 
     Map<Time, Place> timeTable = new HashMap<>();
-    List<Time> timeList = new ArrayList<>();
-    List<Place> placeList = new ArrayList<>();
-    List<Place> location = new ArrayList<>();
+    ArrayList<Time> timeList = new ArrayList<>();
+    ArrayList<Place> placeList = new ArrayList<>();
+    ArrayList<Place> location = new ArrayList<>();
 
     int timePosition;
     int palcePosition;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.location_apply_activity);
         binding = DataBindingUtil.setContentView(this, R.layout.location_apply_activity);
+
+        setSupportActionBar(binding.appbarLayout.toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        binding.appbarLayout.toolbar.setTitle("랩실신청");
+        binding.appbarLayout.toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        binding.appbarLayout.toolbar.setBackground(getDrawable(R.drawable.background_gradient));
+        binding.appbarLayout.toolbar.setTitleTextColor(Color.WHITE);
+
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         initViewModel();
 
@@ -76,6 +98,11 @@ public class LocationApplyActivity extends AppCompatActivity {
         binding.locationApplyBtn.setOnClickListener(view -> locationViewModel.postLocation(location));
 
 
+    }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.location_apply_activity;
     }
 
     private void observableLocationViewModel() {
@@ -121,6 +148,13 @@ public class LocationApplyActivity extends AppCompatActivity {
             int i = 0;
             for (Time time : timeList) {
                 location.add(i++, new Place());
+//                RadioButton radioButton = new RadioButton(this);
+//                radioButton.setText(time.getName());
+//                radioButton.setBackground(getDrawable(R.drawable.location_check_box_background));
+//                radioButton.setButtonDrawable(null);
+//                radioButton.setTag(i,time);
+//                radioButton.setOnClickListener(\);
+//                binding.timeRadioGroup.addView(radioButton);
             }
 
             this.timeList.clear();
@@ -135,6 +169,7 @@ public class LocationApplyActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initViewModel() {
         timeTableViewModel = new TimeTableViewModel(this);
         placeViewModel = new PlaceViewModel(this);
