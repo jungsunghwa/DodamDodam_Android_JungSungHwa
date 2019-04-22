@@ -9,15 +9,12 @@ import android.widget.DatePicker;
 
 import androidx.appcompat.app.ActionBar;
 
-import com.google.android.material.picker.MaterialDatePickerDialog;
-
 import java.util.Calendar;
 import java.util.Date;
 
 import kr.hs.dgsw.b1nd.bottomsheet.B1ndBottomSheetDialogFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.DodamDateExtendedFloatingActionButton;
 
 public class MainActivity extends BaseActivity<MainActivityBinding> implements OnDateClickListener, DatePickerDialog.OnDateSetListener {
 
@@ -75,7 +72,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) - 1);
-        binding.fabDateToday.setCurrentDate(calendar.getTime());
+        ((OnDateClickListener) this).onDateChanged(calendar.getTime());
     }
 
     @Override
@@ -93,21 +90,29 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
-        binding.fabDateToday.setCurrentDate(calendar.getTime());
+        ((OnDateClickListener) this).onDateChanged(calendar.getTime());
     }
 
+    @Override
+    public void onDateChanged(Date date) {
+        binding.fabDateToday.setCurrentDate(date);
+        //TODO MEAL CHANGE
+    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
-        binding.fabDateToday.setCurrentDate(calendar.getTime());
-        //TODO MEAL CHANGE
+        ((OnDateClickListener) this).onDateChanged(calendar.getTime());
     }
 }
 
 interface OnDateClickListener {
     void onDateBackClick(View v);
+
     void onDateTodayClick(View v);
+
     void onDateForwardClick(View v);
+
+    void onDateChanged(Date date);
 }

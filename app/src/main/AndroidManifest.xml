@@ -25,13 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".activity.MainActivity"/>
         <activity
             android:name=".activity.LocationApplyActivity"
             android:label="랩실 신청"/>
