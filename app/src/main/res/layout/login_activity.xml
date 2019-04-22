@@ -3,22 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="@drawable/background_gradient"
         tools:context=".activity.LoginActivity">
 
-        <ImageSwitcher
-            android:id="@+id/background"
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/waveHeader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:background="@drawable/back_12" />
+            android:fitsSystemWindows="true"
+            android:scaleY="-1"
+            app:mwhCloseColor="#FFF"
+            app:mwhColorAlpha=".3"
+            app:mwhGradientAngle="320"
+            app:mwhIsRunning="false"
+            app:mwhProgress=".7"
+            app:mwhStartColor="#FFF"
+            app:mwhVelocity="2"
+            app:mwhWaveHeight="45dp"
+            app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/root_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:id="@+id/buttonSets"
@@ -31,6 +42,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPw">
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogin"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="@string/login" />
+
                 <ProgressBar
                     android:id="@+id/progress"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -40,13 +58,6 @@
                     android:indeterminate="true"
                     android:indeterminateTint="@android:color/white"
                     android:visibility="gone" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnLogin"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="@string/login" />
 
             </FrameLayout>
 
@@ -97,6 +108,6 @@
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

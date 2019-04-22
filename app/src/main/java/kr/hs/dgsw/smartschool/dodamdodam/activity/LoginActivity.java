@@ -6,10 +6,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -28,7 +24,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         loginViewModel = new LoginViewModel(this);
 
@@ -46,7 +41,9 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             if (isSuccess) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                overridePendingTransition(0, R.anim.fade_out);
                 finish();
+
             }
         });
 
@@ -98,17 +95,5 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
             loginViewModel.login(binding.textInputId.getText().toString(), binding.textInputPw.getText().toString());
         });
-        binding.background.setFactory(() -> {
-            ImageView imageView = new ImageView(this);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setLayoutParams(new ImageSwitcher.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.MATCH_PARENT));
-            return imageView;
-        });
-        binding.background.setInAnimation(AnimationUtils.loadAnimation(this,
-                android.R.anim.fade_in));
-        binding.background.setOutAnimation(AnimationUtils.loadAnimation(this,
-                android.R.anim.fade_out));
-        binding.background.setImageResource(R.drawable.back_12);
     }
 }

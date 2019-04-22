@@ -1,10 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.DatePicker;
 
 import androidx.appcompat.app.ActionBar;
@@ -27,6 +29,8 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        showWithAnimate();
+
         binding.appbarLayout.wave.setVisibility(View.GONE);
 
         ActionBar actionBar = getSupportActionBar();
@@ -39,6 +43,15 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         binding.fabDateBack.setOnClickListener(((OnDateClickListener) this)::onDateBackClick);
         binding.fabDateToday.setOnClickListener(((OnDateClickListener) this)::onDateTodayClick);
         binding.fabDateForward.setOnClickListener(((OnDateClickListener) this)::onDateForwardClick);
+    }
+
+    private void showWithAnimate() {
+        binding.rootLayout.animate().setDuration(500).alpha(1);
+        binding.waveHeader.start();
+        ValueAnimator animator = ValueAnimator.ofFloat(0f, 2f).setDuration(1000);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animator.addUpdateListener(anim -> binding.waveHeader.setVelocity((Float) anim.getAnimatedValue()));
+        animator.start();
     }
 
     @Override
