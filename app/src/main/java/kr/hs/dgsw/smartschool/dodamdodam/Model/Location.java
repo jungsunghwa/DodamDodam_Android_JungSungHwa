@@ -5,9 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Location {
-    int idx;
-    @SerializedName("student_idx")
-    int studentIdx;
 
     Integer first;
     Integer second;
@@ -55,22 +52,6 @@ public class Location {
 
     public void setFourth(Integer fourth) {
         this.fourth = fourth;
-    }
-
-    public int getIdx() {
-        return idx;
-    }
-
-    public void setIdx(int idx) {
-        this.idx = idx;
-    }
-
-    public int getStudentIdx() {
-        return studentIdx;
-    }
-
-    public void setStudentIdx(int studentIdx) {
-        this.studentIdx = studentIdx;
     }
 
     @Override

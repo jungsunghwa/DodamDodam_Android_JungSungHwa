@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -85,12 +86,12 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
         placeAdapter.getPlacePosition().observe(this, position -> {
             if (position == null) {
-                if (timeTable.isEmpty() && location.isEmpty()){
+                if (timeTable.isEmpty() && location.isEmpty()) {
                     return;
                 }
                 this.timeTable.put(timeList.get(timePosition), null);
                 this.location.remove(timePosition);
-                this.location.add(timePosition,null);
+                this.location.add(timePosition, null);
                 timeTableAdapter.notifyItemChanged(timePosition);
                 return;
             }
@@ -111,7 +112,14 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void observableLocationViewModel() {
-        locationViewModel.getIsPostSuccess().observe(this, successMessage -> Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show());
+        locationViewModel.getIsPostSuccess().observe(this, successMessage -> {
+            Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
+            startActivity(intent);
+        });
+
+        locationViewModel.getError().observe(this, errorMessage -> {
+            Toast.makeText(this, errorMessage,Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void setPlaceRecyclerView() {

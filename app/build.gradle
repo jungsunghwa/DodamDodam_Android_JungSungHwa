@@ -32,11 +32,11 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-    implementation ('com.google.api-client:google-api-client-android:1.28.0') {
+    implementation('com.google.api-client:google-api-client-android:1.28.0') {
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'com.google.guava'
     }
-    implementation ('com.google.apis:google-api-services-youtube:v3-rev20190128-1.28.0') {
+    implementation('com.google.apis:google-api-services-youtube:v3-rev20190128-1.28.0') {
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'com.google.guava'
     }

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -51,15 +52,13 @@ public class TimeTableViewModel extends ViewModel {
 
     public void getTimeTable() {
         loading.setValue(true);
-//        ArrayList<Time> times = databaseHelper.getData("time",new ArrayList<Time>());
-//        if (times != null){
-//            loading.setValue(false);
-//            response.setValue(times);
-//            return;
-//        }
-        Token token = databaseHelper.<Token>getData("token", new Token());
-        Log.e("TimeTable",token.getToken());
-        disposable.add(timeTableClient.getTimeTable(token)
+        ArrayList<Time> times = databaseHelper.getData("time", new ArrayList<Time>());
+        if (times != null){
+            loading.setValue(false);
+            response.setValue(times);
+            return;
+        }
+        disposable.add(timeTableClient.getTimeTable(databaseHelper.<Token>getData("token", new Token()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Time>>() {

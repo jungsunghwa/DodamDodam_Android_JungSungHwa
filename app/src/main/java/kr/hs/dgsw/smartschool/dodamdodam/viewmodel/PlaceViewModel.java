@@ -48,9 +48,7 @@ public class PlaceViewModel extends ViewModel {
 
     public void getAllPlace() {
         loading.setValue(true);
-        Token token = databaseHelper.getData("token", new Token());
-        Log.e("getPlace", token.getToken());
-        disposable.add(placeClient.getAllPlace(token)
+        disposable.add(placeClient.getAllPlace(databaseHelper.getData("token", new Token()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Place>>() {
