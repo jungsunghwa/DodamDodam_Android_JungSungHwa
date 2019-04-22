@@ -1,12 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.databinding.ApplySuccessActivityBinding;
-
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+
+import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.databinding.ApplySuccessActivityBinding;
 
 public class ApplySuccessActivity extends BaseActivity<ApplySuccessActivityBinding> {
 

@@ -14,7 +14,7 @@
             app:mwhCloseColor="#5800C5"
             app:mwhGradientAngle="0"
             app:mwhStartColor="#3096F8"
-            app:mwhVelocity=".5"
+            app:mwhVelocity="1.5"
             app:mwhWaveHeight="20dp"
             app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 
@@ -23,8 +23,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:stateListAnimator="@null"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-            tools:visibility="gone">
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
             <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamToolbar
                 android:id="@+id/toolbar"

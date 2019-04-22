@@ -52,7 +52,7 @@ public class TimeTableViewModel extends ViewModel {
 
     public void getTimeTable() {
         loading.setValue(true);
-        ArrayList<Time> times = databaseHelper.getData("time", new ArrayList<Time>());
+        List<Time> times = databaseHelper.getData("time", new ArrayList<Time>());
         if (times != null){
             loading.setValue(false);
             response.setValue(times);

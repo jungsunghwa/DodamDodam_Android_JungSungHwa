@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam.database;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,7 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -94,24 +93,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             });
         }
 
-//        Map<Object, Object> map = convertObjectToMap(insertValue);
-//
-//        Stream.of(map).forEach(stringObjectEntry -> {
-//            Object k = stringObjectEntry.getKey();
-//            Object v = stringObjectEntry.getValue();
-//            if (v instanceof Integer) {
-//                contentValues.put((String) k, (int) v);
-//            } else if (v instanceof String) {
-//                contentValues.put((String) k, (String) v);
-//            } else if (v instanceof Boolean) {
-//                contentValues.put((String) k, ((Boolean) v) ? 1 : 0);
-//            } else if (v instanceof Double) {
-//                contentValues.put((String) k, (Double) v);
-//            } else if (v instanceof byte[]) {
-//                contentValues.put((String) k, (byte[]) v);
-//            }
-//        });
-
         return contentValues;
     }
 
@@ -120,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final SQLiteDatabase db = this.getWritableDatabase();
 
         ArrayList<Map<String, Object>> maps = new ArrayList<>();
-        AtomicReference<T> result = new AtomicReference<T>();
+        AtomicReference<T> result = new AtomicReference<>();
         boolean isList = getData instanceof ArrayList;
 
         if (isList){
@@ -129,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }else maps.add(convertObjectToMap(getData));
 
-        @SuppressLint("Recycle") final Cursor res = db.rawQuery("SELECT * FROM "+ tableName, null);
+        final Cursor res = db.rawQuery("SELECT * FROM "+ tableName, null);
 
         while (res.moveToNext()) {
             for (Map<String, Object> map : maps) {
@@ -187,10 +168,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String keyAttribute;
         String setMethodString = "set";
         String methodString;
-        Iterator itr = map.keySet().iterator();
 
-        while (itr.hasNext()) {
-            keyAttribute = (String) itr.next();
+        for (String s : map.keySet()) {
+            keyAttribute = s;
             methodString = setMethodString + keyAttribute.substring(0, 1).toUpperCase() + keyAttribute.substring(1);
             Method[] methods = obj.getClass().getDeclaredMethods();
             for (Method method : methods) {

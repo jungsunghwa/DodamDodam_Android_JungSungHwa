@@ -1,15 +1,10 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,8 +25,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
 
 public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> {
 
-    LocationApplyActivityBinding binding;
-
     TimeTableViewModel timeTableViewModel;
     PlaceViewModel placeViewModel;
     LocationViewModel locationViewModel;
@@ -47,24 +40,22 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
     int timePosition;
 
+    @Override
+    protected int layoutId() {
+        return R.layout.location_apply_activity;
+    }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.location_apply_activity);
-        binding = DataBindingUtil.setContentView(this, R.layout.location_apply_activity);
-
-        setSupportActionBar(binding.appbarLayout.toolbar);
 
         ActionBar actionBar = getSupportActionBar();
 
-        binding.appbarLayout.toolbar.setTitle("랩실신청");
-
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        setTitle("랩실 신청");
 
         initViewModel();
 
@@ -106,11 +97,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
     }
 
-    @Override
-    protected int layoutId() {
-        return R.layout.location_apply_activity;
-    }
-
     private void observableLocationViewModel() {
         locationViewModel.getIsPostSuccess().observe(this, successMessage -> {
             Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
@@ -118,7 +104,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         });
 
         locationViewModel.getError().observe(this, errorMessage -> {
-            Toast.makeText(this, errorMessage,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -175,7 +161,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initViewModel() {
         timeTableViewModel = new TimeTableViewModel(this);
         placeViewModel = new PlaceViewModel(this);

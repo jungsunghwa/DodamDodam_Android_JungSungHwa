@@ -29,7 +29,6 @@ public class PointListActivity extends BaseActivity<PointListActivityBinding> {
     }
 
     private void initToolbar() {
-        setSupportActionBar(binding.appbarLayout.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setSubtitle(R.string.subtitle_point_list);

@@ -10,7 +10,6 @@ import androidx.appcompat.app.ActionBar;
 import kr.hs.dgsw.b1nd.bottomsheet.B1ndBottomSheetDialogFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 
 public class MainActivity extends BaseActivity<MainActivityBinding> {
 
@@ -24,7 +23,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> {
         super.onCreate(savedInstanceState);
 
         binding.appbarLayout.wave.setVisibility(View.GONE);
-        setSupportActionBar(binding.appbarLayout.toolbar);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -42,8 +41,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> {
                         .setProfileImageResource(android.R.drawable.sym_def_app_icon, getResources())
                         .setSubIconImageResource(android.R.drawable.ic_lock_power_off, getResources())
                         .setName("이름")
-                        .setEmail("이메일")
-                        .setTemper("TEMPER");
+                        .setEmail("이메일");
                 bottomSheetDialogFragment.menuInflate(R.menu.menu_main);
                 bottomSheetDialogFragment.setOnBottomSheetOptionsItemSelectedListener(this::onOptionsItemSelected);
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), "bottom");

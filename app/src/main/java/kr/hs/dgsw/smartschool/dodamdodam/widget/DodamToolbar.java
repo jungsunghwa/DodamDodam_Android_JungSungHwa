@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
@@ -39,12 +40,13 @@ public class DodamToolbar extends Toolbar {
                 field.setAccessible(true);
                 TextView textView = (TextView) field.get(this);
                 if (textView == null) return;
-                Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nanum_square_regular);
-                textView.setTypeface(typeface);
+                try {
+                    textView.setTypeface(ResourcesCompat.getFont(getContext(), R.font.nanum_square_regular));
+                } catch (Resources.NotFoundException ignore) {
+                }
                 textView.setLayoutParams(generateDefaultLayoutParams());
             }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (NoSuchFieldException | IllegalAccessException ignore) {
         }
     }
 
@@ -64,8 +66,7 @@ public class DodamToolbar extends Toolbar {
                 layoutParams.setMarginStart((int) ViewUtils.dpToPx(getContext(), 24));
                 textView.setLayoutParams(layoutParams);
             }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (NoSuchFieldException | IllegalAccessException ignore) {
         }
     }
 
