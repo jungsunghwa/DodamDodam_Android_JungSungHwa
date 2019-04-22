@@ -56,8 +56,8 @@ public class LocationViewModel extends ViewModel {
         loading.setValue(true);
         Location request = new Location(timeTable);
         Log.e("request", request.toString());
-        disposable.add(locationClient.postLocation(request
-                , databaseHelper.<Token>getData("token",new Token()).getToken())
+        disposable.add(locationClient.postLocation(request,
+                databaseHelper.<Token>getData("token",new Token()).getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(

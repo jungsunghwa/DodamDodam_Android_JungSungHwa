@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
@@ -34,9 +35,9 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
 
     Map<Time, Place> timeTable = new HashMap<>();
-    ArrayList<Time> timeList = new ArrayList<>();
-    ArrayList<Place> placeList = new ArrayList<>();
-    ArrayList<Place> location = new ArrayList<>();
+    List<Time> timeList = new ArrayList<>();
+    List<Place> placeList = new ArrayList<>();
+    List<Place> location = new ArrayList<>();
 
     int timePosition;
 
@@ -54,8 +55,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        setTitle("랩실 신청");
 
         initViewModel();
 

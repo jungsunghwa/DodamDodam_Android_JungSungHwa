@@ -24,7 +24,9 @@ public class DodamDateExtendedFloatingActionButton extends ExtendedFloatingActio
 
     private static final String TAG = "DodamDateExtendedFAB";
 
-    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+    private Date currentDate;
 
     public DodamDateExtendedFloatingActionButton(Context context) {
         this(context, null);
@@ -60,10 +62,19 @@ public class DodamDateExtendedFloatingActionButton extends ExtendedFloatingActio
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        Log.w(TAG, String.format("Ignore Text, replaced to date (%s)", date));
-        super.setText(date, type);
+        if (currentDate == null) currentDate = new Date();
+        String dateString = format.format(currentDate);
+        Log.w(TAG, String.format("Ignore Text, replaced to date ('%s')", dateString));
+        super.setText(dateString, type);
     }
 
+    public void setCurrentDate(Date date) {
+        currentDate.setTime(date.getTime());
+        String dateString = format.format(currentDate);
+        super.setText(dateString, BufferType.NORMAL);
+    }
 
+    public Date getCurrentDate() {
+        return currentDate;
+    }
 }
