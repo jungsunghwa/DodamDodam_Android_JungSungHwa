@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -20,6 +19,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
 public class TimeTableViewModel extends ViewModel {
@@ -52,25 +52,25 @@ public class TimeTableViewModel extends ViewModel {
 
     public void getTimeTable() {
         loading.setValue(true);
-        ArrayList<Time> times = databaseHelper.getData("time", new ArrayList<Time>());
-        if (times != null){
+        ArrayList<Time> timeList = (ArrayList<Time>) databaseHelper.getData("time", new DatabaseGetDataType<>(Time.class));
+        if (!timeList.isEmpty()){
             loading.setValue(false);
-            response.setValue(times);
+            response.setValue(timeList);
             return;
         }
-        disposable.add(timeTableClient.getTimeTable(databaseHelper.<Token>getData("token", new Token()))
+        disposable.add(timeTableClient.getTimeTable(databaseHelper.getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Time>>() {
                             @Override
                             public void onSuccess(List<Time> timeTable) {
+                                databaseHelper.insert("time", timeTable);
 
                                 if (Utils.isWeekEnd)
                                     timeTable = Stream.of(timeTable).filter(time -> time.getType() == 2).collect(Collectors.toList());
                                 else
                                     timeTable = Stream.of(timeTable).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
-                                databaseHelper.insert("time", timeTable);
                                 response.setValue(timeTable);
                                 loading.setValue(false);
                             }

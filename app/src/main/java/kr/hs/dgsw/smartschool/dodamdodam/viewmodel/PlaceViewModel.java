@@ -1,12 +1,10 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
-import android.os.Build;
-import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -17,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.PlaceClient;
 
 public class PlaceViewModel extends ViewModel {
@@ -48,7 +47,15 @@ public class PlaceViewModel extends ViewModel {
 
     public void getAllPlace() {
         loading.setValue(true);
-        disposable.add(placeClient.getAllPlace(databaseHelper.getData("token", new Token()))
+        ArrayList<Place> placeList =
+                (ArrayList<Place>) databaseHelper.getData("place",
+                        new DatabaseGetDataType<>(Place.class));
+        if (!placeList.isEmpty()){
+            loading.setValue(false);
+            response.setValue(placeList);
+            return;
+        }
+        disposable.add(placeClient.getAllPlace(databaseHelper.getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Place>>() {

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 
 import com.annimon.stream.Stream;
 
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -60,15 +60,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insert(String tableName, Object insertValue) {
         final SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues contentValues;
-        contentValues = getContentValuesByInsertValue(insertValue);
 
-        db.insert(tableName, null, contentValues);
+        for (ContentValues contentValues :
+                getContentValuesByInsertValue(insertValue)) {
+            db.insert(tableName, null, contentValues);
+        }
+
     }
 
     @SuppressWarnings("unchecked")
-    private ContentValues getContentValuesByInsertValue(Object insertValue) {
-        final ContentValues contentValues = new ContentValues();
+    private ArrayList<ContentValues> getContentValuesByInsertValue(Object insertValue) {
+        final ArrayList<ContentValues> contentValuesList = new ArrayList<>();
 
         ArrayList<Map<Object, Object>> maps = new ArrayList<>();
 
@@ -79,6 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else maps.add(convertObjectToMap(insertValue));
 
         for (Map<Object, Object> map : maps) {
+            ContentValues contentValues = new ContentValues();
             Stream.of(map).forEach(stringObjectEntry -> {
                 Object k = stringObjectEntry.getKey();
                 Object v = stringObjectEntry.getValue();
@@ -92,70 +95,66 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     contentValues.put((String) k, (Double) v);
                 }
             });
+            contentValuesList.add(contentValues);
         }
 
-//        Map<Object, Object> map = convertObjectToMap(insertValue);
-//
-//        Stream.of(map).forEach(stringObjectEntry -> {
-//            Object k = stringObjectEntry.getKey();
-//            Object v = stringObjectEntry.getValue();
-//            if (v instanceof Integer) {
-//                contentValues.put((String) k, (int) v);
-//            } else if (v instanceof String) {
-//                contentValues.put((String) k, (String) v);
-//            } else if (v instanceof Boolean) {
-//                contentValues.put((String) k, ((Boolean) v) ? 1 : 0);
-//            } else if (v instanceof Double) {
-//                contentValues.put((String) k, (Double) v);
-//            } else if (v instanceof byte[]) {
-//                contentValues.put((String) k, (byte[]) v);
-//            }
-//        });
+        return contentValuesList;
+    }
 
-        return contentValues;
+    public Token getToken(){
+        final SQLiteDatabase db = this.getWritableDatabase();
+
+        @SuppressLint("Recycle") final Cursor res = db.rawQuery("SELECT * FROM token limit 1", null);
+
+        Token result = new Token();
+
+        while (res.moveToNext()) {
+            result.setToken(res.getString(res.getColumnIndex("token")));
+            result.setRefreshToken(res.getString(res.getColumnIndex("refreshToken")));
+        }
+
+        res.close();
+
+        return result;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getData(String tableName, Object getData) {
+    public <T> Object getData(String tableName, DatabaseGetDataType<T> a) {
         final SQLiteDatabase db = this.getWritableDatabase();
 
+        @SuppressLint("Recycle") final Cursor res = db.rawQuery("SELECT * FROM " + tableName, null);
+
+        ArrayList<T> result = new ArrayList<>();
+
         ArrayList<Map<String, Object>> maps = new ArrayList<>();
-        AtomicReference<T> result = new AtomicReference<T>();
-        boolean isList = getData instanceof ArrayList;
-
-        if (isList){
-            for (Object obj : (ArrayList) getData){
-                maps.add(convertObjectToMap(obj));
-            }
-        }else maps.add(convertObjectToMap(getData));
-
-        @SuppressLint("Recycle") final Cursor res = db.rawQuery("SELECT * FROM "+ tableName, null);
 
         while (res.moveToNext()) {
-            for (Map<String, Object> map : maps) {
-                Stream.of(map).forEach(stringObjectEntry -> {
-                    String k = stringObjectEntry.getKey();
-                    Object v = stringObjectEntry.getValue();
-                    if (v instanceof Integer) {
-                        map.put(k, res.getInt(res.getColumnIndex(k)));
-                    } else if (v instanceof String) {
-                        map.put(k, res.getString(res.getColumnIndex(k)));
-                    } else if (v instanceof Boolean) {
-                        map.put(k, (res.getInt(res.getColumnIndex(k))) == 1);
-                    } else if (v instanceof Double) {
-                        map.put(k, res.getDouble(res.getColumnIndex(k)));
-                    } else if (v instanceof Byte[]) {
-                        map.put(k, res.getBlob(res.getColumnIndex(k)));
-                    }
-                    Object object = convertMapToObject(map, getData);
-                    if (isList) ((ArrayList) getData).add(object);
-                    else result.set((T) object);
-                });
-            }
+            Map<String, Object> map = convertObjectToMap(a.get());
+            Stream.of(map).forEach(stringObjectEntry -> {
+                String k = stringObjectEntry.getKey();
+                Object v = stringObjectEntry.getValue();
+                if (v instanceof Integer) {
+                    map.put(k, res.getInt(res.getColumnIndex(k)));
+                } else if (v instanceof String) {
+                    map.put(k, res.getString(res.getColumnIndex(k)));
+                } else if (v instanceof Boolean) {
+                    map.put(k, (res.getInt(res.getColumnIndex(k))) == 1);
+                } else if (v instanceof Double) {
+                    map.put(k, res.getDouble(res.getColumnIndex(k)));
+                } else if (v instanceof Byte[]) {
+                    map.put(k, res.getBlob(res.getColumnIndex(k)));
+                }
+            });
+            maps.add(map);
         }
+
         res.close();
-        if (isList) return (T) getData;
-        else return result.get();
+
+        for (Map map : maps) {
+            result.add((T) this.convertMapToObject(map, a.get()));
+        }
+
+        return result;
     }
 
     @SuppressWarnings("unchecked")
@@ -165,13 +164,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (int i = fields.length - 1; i >= 0; i--) {
             fields[i].setAccessible(true);
             try {
-                if (fields[i].getType() == Integer.class){
+                if (fields[i].getType() == Integer.class) {
                     map.put(fields[i].getName(), fields[i].get(obj) != null ? fields[i].get(obj) : 0);
-                } else if (fields[i].getType() ==  String.class){
+                } else if (fields[i].getType() == String.class) {
                     map.put(fields[i].getName(), fields[i].get(obj) != null ? fields[i].get(obj) : "");
-                } else if (fields[i].getType() ==  Boolean.class){
+                } else if (fields[i].getType() == Boolean.class) {
                     map.put(fields[i].getName(), fields[i].get(obj) != null ? fields[i].get(obj) : true);
-                } else if (fields[i].getType() ==  Double.class){
+                } else if (fields[i].getType() == Double.class) {
                     map.put(fields[i].getName(), fields[i].get(obj) != null ? fields[i].get(obj) : 0);
                 }
             } catch (Exception e) {
@@ -206,3 +205,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return obj;
     }
 }
+
+

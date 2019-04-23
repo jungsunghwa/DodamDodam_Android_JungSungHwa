@@ -1,14 +1,10 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -19,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 
@@ -57,7 +54,7 @@ public class LocationViewModel extends ViewModel {
         Location request = new Location(timeTable);
         Log.e("request", request.toString());
         disposable.add(locationClient.postLocation(request
-                , databaseHelper.<Token>getData("token",new Token()).getToken())
+                , databaseHelper.getToken().getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
@@ -80,7 +77,7 @@ public class LocationViewModel extends ViewModel {
     public void getStudentLocation() {
         loading.setValue(true);
         disposable.add(locationClient.getStudentLocation(
-                databaseHelper.<Token>getData("token",new Token()).getToken())
+                databaseHelper.getToken().getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
