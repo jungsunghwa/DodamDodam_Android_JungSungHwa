@@ -27,7 +27,8 @@ public class LoginClient {
 
             @Override
             public void onFail(Throwable throwable, String message) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
+                throwable.printStackTrace();
+                observer.onError(new Throwable("네트워크 상태를 확인하세요"));
             }
         }));
     }

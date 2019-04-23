@@ -58,7 +58,6 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(binding.appbarLayout.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TooltipCompat.setTooltipText(binding.searchButton, getString(R.string.search));

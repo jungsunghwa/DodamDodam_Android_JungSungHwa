@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+
 import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -186,10 +186,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String keyAttribute;
         String setMethodString = "set";
         String methodString;
-        Iterator itr = map.keySet().iterator();
 
-        while (itr.hasNext()) {
-            keyAttribute = (String) itr.next();
+        for (String s : map.keySet()) {
+            keyAttribute = s;
             methodString = setMethodString + keyAttribute.substring(0, 1).toUpperCase() + keyAttribute.substring(1);
             Method[] methods = obj.getClass().getDeclaredMethods();
             for (Method method : methods) {
