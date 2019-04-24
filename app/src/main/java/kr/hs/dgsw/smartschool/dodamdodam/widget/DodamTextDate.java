@@ -1,11 +1,16 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextClock;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import java.util.Calendar;
 import java.util.Locale;
+
+import kr.hs.dgsw.smartschool.dodamdodam.R;
 
 public class DodamTextDate extends TextClock {
     public DodamTextDate(Context context) {
@@ -14,18 +19,19 @@ public class DodamTextDate extends TextClock {
     }
 
     public DodamTextDate(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setDefaultLocale();
+        this(context, attrs, 0);
     }
 
     public DodamTextDate(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        setDefaultLocale();
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public DodamTextDate(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setDefaultLocale();
+        setTypeface(ResourcesCompat.getFont(getContext(), R.font.nanum_square_regular), Typeface.BOLD);
+        setIncludeFontPadding(false);
+        setTextAlignment(TEXT_ALIGNMENT_CENTER);
     }
 
     private void setDefaultLocale() {

@@ -8,6 +8,7 @@
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
 </resources>

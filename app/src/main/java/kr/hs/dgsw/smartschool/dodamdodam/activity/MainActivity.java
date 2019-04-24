@@ -1,9 +1,13 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -29,9 +33,9 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        showWithAnimate();
-
         binding.appbarLayout.wave.setVisibility(View.GONE);
+
+        showWithAnimate();
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -48,10 +52,15 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     private void showWithAnimate() {
         binding.rootLayout.animate().setDuration(500).alpha(1);
         binding.waveHeader.start();
-        ValueAnimator animator = ValueAnimator.ofFloat(0f, 2f).setDuration(1000);
+        ValueAnimator animator = ObjectAnimator.ofFloat(binding.waveHeader, View.ALPHA, 0, 2).setDuration(1000);
         animator.setInterpolator(new AccelerateInterpolator());
-        animator.addUpdateListener(anim -> binding.waveHeader.setVelocity((Float) anim.getAnimatedValue()));
         animator.start();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override

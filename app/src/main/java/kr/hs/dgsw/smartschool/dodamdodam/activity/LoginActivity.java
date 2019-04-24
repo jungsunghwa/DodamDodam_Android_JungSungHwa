@@ -43,7 +43,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
                 startActivity(intent);
                 overridePendingTransition(0, R.anim.fade_out);
                 finish();
-
             }
         });
 

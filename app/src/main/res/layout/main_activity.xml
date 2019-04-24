@@ -6,8 +6,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:background="@drawable/background_gradient"
+        android:fitsSystemWindows="true"
         tools:context=".activity.MainActivity">
 
         <com.scwang.wave.MultiWaveHeader
@@ -22,7 +22,7 @@
             app:mwhIsRunning="false"
             app:mwhProgress=".7"
             app:mwhStartColor="#FFF"
-            app:mwhVelocity="0"
+            app:mwhVelocity="2"
             app:mwhWaveHeight="45dp"
             app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 
@@ -39,35 +39,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/nanum_square_light"
                 android:gravity="center_horizontal"
-                android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:fontFamily="@font/nanum_square_light"
                 tools:text="2019-04-15 Mon" />
 
 
-            <TextClock
+            <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamTextClock
                 android:id="@+id/text_clock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/gotham_thin"
-                android:format12Hour="kk:mm:ss"
-                android:format24Hour="hh:mm:ss"
                 android:gravity="center_horizontal"
-                android:letterSpacing=".35"
-                android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="33sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_date"
+                tools:fontFamily="@font/gotham_thin"
                 tools:text="1 2 : 0 0 : 0 0" />
 
             <LinearLayout
