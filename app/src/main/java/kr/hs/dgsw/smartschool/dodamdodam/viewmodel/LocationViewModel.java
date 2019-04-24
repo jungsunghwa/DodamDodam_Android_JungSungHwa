@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Map;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,11 +14,13 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 
 public class LocationViewModel extends ViewModel {
     LocationClient locationClient;
@@ -49,9 +52,9 @@ public class LocationViewModel extends ViewModel {
         return loading;
     }
 
-    public void postLocation(List<Place> timeTable) {
+    public void postLocation(Map<Time, Place> timeTable) {
         loading.setValue(true);
-        Location request = new Location(timeTable);
+        LocationRequest request = new LocationRequest(timeTable);
         Log.e("request", request.toString());
         disposable.add(locationClient.postLocation(request
                 , databaseHelper.getToken().getToken())

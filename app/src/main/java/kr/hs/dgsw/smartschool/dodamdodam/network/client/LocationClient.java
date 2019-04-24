@@ -9,6 +9,7 @@ import java.util.Objects;
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post.LocationService;
 import retrofit2.Call;
@@ -21,7 +22,7 @@ public class LocationClient {
         location = Utils.RETROFIT.create(LocationService.class);
     }
 
-    public Single<String> postLocation(Location request, String token) {
+    public Single<String> postLocation(LocationRequest request, String token) {
         return Single.create(observer -> {
             location.postLocation(token, request).enqueue(new Callback<Response>() {
                 @Override

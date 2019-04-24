@@ -18,17 +18,21 @@ public class LoginClient {
         return Single.create(observer -> new B1ndLogin().login(request, new OnLoginSuccessListener() {
             @Override
             public void onSuccess(int status, String message, String token, String refreshToken) {
-                LoginData loginData = new LoginData();
-                loginData.setToken(token);
-                loginData.setRefreshToken(refreshToken);
+                if (status == 200){
+                    LoginData loginData = new LoginData();
+                    loginData.setToken(token);
+                    loginData.setRefreshToken(refreshToken);
 
-                observer.onSuccess(loginData);
+                    observer.onSuccess(loginData);
+                    return;
+                }
+                observer.onError(new Throwable(message));
             }
 
             @Override
             public void onFail(Throwable throwable, String message) {
                 throwable.printStackTrace();
-                observer.onError(new Throwable("네트워크 상태를 확인하세요"));
+                observer.onError(new Throwable(message));
             }
         }));
     }

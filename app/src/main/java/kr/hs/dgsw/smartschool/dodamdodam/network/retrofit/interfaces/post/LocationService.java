@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -12,7 +13,7 @@ public interface LocationService {
     @POST("location")
     public Call<Response> postLocation(
             @Header("x-access-token") String token,
-            @Body Location request
+            @Body LocationRequest request
     );
 
     @POST("location/{student_idx}")

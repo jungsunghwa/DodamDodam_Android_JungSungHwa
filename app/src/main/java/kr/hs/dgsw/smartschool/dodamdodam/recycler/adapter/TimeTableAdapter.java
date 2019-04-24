@@ -52,11 +52,11 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
             holder.binding.placeSelectBtn.setChecked(true);
             holder.binding.placeSelectBtn.setTextColor(Color.WHITE);
         } else if (timePosition.getValue() == position){
-            holder.binding.placeSelectBtn.setText(time.getName() + "교시");
+            holder.binding.placeSelectBtn.setText(time.getName());
         } else {
             holder.binding.placeSelectBtn.setChecked(false);
             holder.binding.placeSelectBtn.setTextColor(Color.BLACK);
-            holder.binding.placeSelectBtn.setText(time.getName() + "교시");
+            holder.binding.placeSelectBtn.setText(time.getName());
         }
 
         holder.binding.placeSelectBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {

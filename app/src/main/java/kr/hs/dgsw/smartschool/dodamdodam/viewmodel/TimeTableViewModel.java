@@ -16,7 +16,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
@@ -52,9 +51,14 @@ public class TimeTableViewModel extends ViewModel {
 
     public void getTimeTable() {
         loading.setValue(true);
-        ArrayList<Time> timeList = (ArrayList<Time>) databaseHelper.getData("time", new DatabaseGetDataType<>(Time.class));
+        List<Time> timeList = (ArrayList<Time>) databaseHelper.getData("time", new DatabaseGetDataType<>(Time.class));
         if (!timeList.isEmpty()){
             loading.setValue(false);
+            if (Utils.isWeekEnd)
+                timeList = Stream.of(timeList).filter(time -> time.getType() == 2).collect(Collectors.toList());
+            else
+                timeList = Stream.of(timeList).filter(time -> time.getType() == 1).collect(Collectors.toList());
+
             response.setValue(timeList);
             return;
         }

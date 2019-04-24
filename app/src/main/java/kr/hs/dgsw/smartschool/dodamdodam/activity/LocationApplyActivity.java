@@ -91,7 +91,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             timeTableAdapter.notifyItemChanged(timePosition);
         });
 
-        binding.locationApplyBtn.setOnClickListener(view -> locationViewModel.postLocation(location));
+        binding.locationApplyBtn.setOnClickListener(view -> locationViewModel.postLocation(timeTable));
 
 
     }

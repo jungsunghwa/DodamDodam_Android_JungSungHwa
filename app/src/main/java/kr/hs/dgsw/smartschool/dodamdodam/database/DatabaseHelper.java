@@ -164,7 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (int i = fields.length - 1; i >= 0; i--) {
             fields[i].setAccessible(true);
             try {
-                if (fields[i].getType() == Integer.class) {
+                if (fields[i].getType() == int.class || fields[i].getType() == Integer.class) {
                     map.put(fields[i].getName(), fields[i].get(obj) != null ? fields[i].get(obj) : 0);
                 } else if (fields[i].getType() == String.class) {
                     map.put(fields[i].getName(), fields[i].get(obj) != null ? fields[i].get(obj) : "");
