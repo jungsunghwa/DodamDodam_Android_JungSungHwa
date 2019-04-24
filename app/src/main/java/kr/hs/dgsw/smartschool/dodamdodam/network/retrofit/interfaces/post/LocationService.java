@@ -17,7 +17,7 @@ public interface LocationService {
     );
 
     @POST("location/{student_idx}")
-    public Call<Response<Location>> getStudentLocation(
+    public Call<Response<LocationRequest>> getStudentLocation(
             @Header("x-access-token") String token,
             @Path(value = "student_idx", encoded = true) int studentIdx
     );

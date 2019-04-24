@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -14,10 +15,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PlaceAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
@@ -91,15 +94,28 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             timeTableAdapter.notifyItemChanged(timePosition);
         });
 
-        binding.locationApplyBtn.setOnClickListener(view -> locationViewModel.postLocation(timeTable));
+        binding.locationApplyBtn.setOnClickListener(view -> {
+            locationViewModel.postLocation(timeTable);
+        });
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void observableLocationViewModel() {
         locationViewModel.getIsPostSuccess().observe(this, successMessage -> {
             Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
             startActivity(intent);
+            finish();
+        });
+
+        locationViewModel.getStudentLocationValue().observe(this, locationRequest ->{
+            
         });
 
         locationViewModel.getError().observe(this, errorMessage -> {
@@ -165,6 +181,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         placeViewModel = new PlaceViewModel(this);
         locationViewModel = new LocationViewModel(this);
 
+        locationViewModel.getStudentLocation();
         timeTableViewModel.getTimeTable();
         placeViewModel.getAllPlace();
     }

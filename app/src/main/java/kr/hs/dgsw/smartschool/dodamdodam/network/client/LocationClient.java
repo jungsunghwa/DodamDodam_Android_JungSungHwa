@@ -48,11 +48,11 @@ public class LocationClient {
         });
     }
 
-    public Single<Location> getStudentLocation(String token) {
+    public Single<LocationRequest> getStudentLocation(String token) {
         return Single.create(observer -> {
-            location.getStudentLocation(token,1).enqueue(new Callback<Response<Location>>() {
+            location.getStudentLocation(token,1).enqueue(new Callback<Response<LocationRequest>>() {
                 @Override
-                public void onResponse(Call<Response<Location>> call, retrofit2.Response<Response<Location>> response) {
+                public void onResponse(Call<Response<LocationRequest>> call, retrofit2.Response<Response<LocationRequest>> response) {
                     if (response.isSuccessful()){
                         assert response.body() != null;
                         observer.onSuccess(response.body().getData());
@@ -68,7 +68,7 @@ public class LocationClient {
                     }
                 }
                 @Override
-                public void onFailure(Call<Response<Location>> call, Throwable t) {
+                public void onFailure(Call<Response<LocationRequest>> call, Throwable t) {
                     observer.onError( new Throwable("네트워크상태를 확인하세요"));
                 }
             });

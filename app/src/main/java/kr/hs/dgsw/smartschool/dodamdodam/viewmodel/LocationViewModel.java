@@ -28,7 +28,7 @@ public class LocationViewModel extends ViewModel {
     private DatabaseHelper databaseHelper;
 
     private final MutableLiveData<String> isPostSuccess = new MutableLiveData<>();
-    private final MutableLiveData<Location> studentLocationValue = new MutableLiveData<>();
+    private final MutableLiveData<LocationRequest> studentLocationValue = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
@@ -41,7 +41,7 @@ public class LocationViewModel extends ViewModel {
     public LiveData<String> getIsPostSuccess() {
         return isPostSuccess;
     }
-    public LiveData<Location> getStudentLocationValue() {
+    public LiveData<LocationRequest> getStudentLocationValue() {
         return studentLocationValue;
     }
     public LiveData<String> getError() {
@@ -84,9 +84,9 @@ public class LocationViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
-                        new DisposableSingleObserver<Location>() {
+                        new DisposableSingleObserver<LocationRequest>() {
                             @Override
-                            public void onSuccess(Location location) {
+                            public void onSuccess(LocationRequest location) {
                                 studentLocationValue.setValue(location);
                                 loading.setValue(false);
                             }

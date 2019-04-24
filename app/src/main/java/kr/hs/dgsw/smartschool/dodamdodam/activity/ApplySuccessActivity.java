@@ -3,6 +3,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import androidx.databinding.DataBindingUtil;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -13,10 +15,15 @@ public class ApplySuccessActivity extends BaseActivity<ApplySuccessActivityBindi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.apply_success_activity);
-        binding = DataBindingUtil.setContentView(this, layoutId());
 
-        Toast.makeText(this, "신청에 성공 하셨습니다.", Toast.LENGTH_SHORT).show();
+        setTitle("랩실신청");
+
+        binding.lottie.playAnimation();
+        binding.lottie.loop(true);
+
+        binding.finishBtn.setOnClickListener(view -> {
+            finish();
+        });
     }
 
     @Override
