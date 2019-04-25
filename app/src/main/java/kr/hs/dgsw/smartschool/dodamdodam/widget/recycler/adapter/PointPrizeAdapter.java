@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler;
+package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Locale;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.PointViewHolder;
 
 public class PointPrizeAdapter extends RecyclerView.Adapter<PointViewHolder> {
 
@@ -30,7 +31,7 @@ public class PointPrizeAdapter extends RecyclerView.Adapter<PointViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull PointViewHolder holder, int position) {
         String[] point = points[position].split("\\|");
-        holder.binding.textIndex.setText(String.format(Locale.KOREA, "%d", position + 1));
+        holder.binding.textIndex.setText(String.format(Locale.getDefault(), "%d", position + 1));
         holder.binding.textContent.setText(point[0]);
         holder.binding.textPoint.setText(point[1]);
         if (point.length <= 3) {

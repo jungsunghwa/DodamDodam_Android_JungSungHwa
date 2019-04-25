@@ -1,8 +1,7 @@
-package kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter;
+package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -14,7 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.recycler.holder.PlaceViewHolder;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.PlaceViewHolder;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
     List<Place> placeList;

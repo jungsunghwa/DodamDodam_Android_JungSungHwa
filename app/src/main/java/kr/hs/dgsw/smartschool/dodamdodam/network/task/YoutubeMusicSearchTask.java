@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.task;
+package kr.hs.dgsw.smartschool.dodamdodam.network.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
