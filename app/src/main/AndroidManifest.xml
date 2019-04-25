@@ -43,7 +43,6 @@
         <activity
             android:name=".activity.TestMainActivity"
             android:label="TestMain" />
-
     </application>
 
 </manifest>

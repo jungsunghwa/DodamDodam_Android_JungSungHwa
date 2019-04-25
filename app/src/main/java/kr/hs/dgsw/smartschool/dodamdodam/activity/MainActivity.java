@@ -1,29 +1,31 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.DatePicker;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import kr.hs.dgsw.b1nd.bottomsheet.B1ndBottomSheetDialogFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
 
 public class MainActivity extends BaseActivity<MainActivityBinding> implements OnDateClickListener, DatePickerDialog.OnDateSetListener {
+
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected int layoutId() {
@@ -44,10 +46,13 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         showWithAnimate();
 
         ActionBar actionBar = getSupportActionBar();
+        drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.appbarLayout.toolbar, R.string.drawer_open, R.string.drawer_close);
+        binding.drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        binding.navView.setNavigationItemSelectedListener(this::onOptionsItemSelected);
+
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
         binding.fabDateBack.setOnClickListener(((OnDateClickListener) this)::onDateBackClick);
@@ -69,6 +74,21 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     }
 
     @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -79,14 +99,14 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                B1ndBottomSheetDialogFragment bottomSheetDialogFragment = new B1ndBottomSheetDialogFragment()
+                /*B1ndBottomSheetDialogFragment bottomSheetDialogFragment = new B1ndBottomSheetDialogFragment()
                         .setProfileImageResource(android.R.drawable.sym_def_app_icon, getResources())
                         .setSubIconImageResource(android.R.drawable.ic_lock_power_off, getResources())
                         .setName("이름")
                         .setEmail("이메일");
                 bottomSheetDialogFragment.menuInflate(R.menu.menu_main);
                 bottomSheetDialogFragment.setOnBottomSheetOptionsItemSelectedListener(this::onOptionsItemSelected);
-                bottomSheetDialogFragment.show(getSupportFragmentManager(), "bottom");
+                bottomSheetDialogFragment.show(getSupportFragmentManager(), "bottom");*/
                 break;
             case R.id.menu_song_apply:
                 startActivity(new Intent(this, SongApplyActivity.class));

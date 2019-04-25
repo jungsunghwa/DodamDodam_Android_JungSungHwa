@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextClock;
@@ -29,7 +30,11 @@ public class DodamTextDate extends TextClock {
     public DodamTextDate(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setDefaultLocale();
-        setTypeface(ResourcesCompat.getFont(getContext(), R.font.nanum_square_regular), Typeface.BOLD);
+        try {
+            setTypeface(ResourcesCompat.getFont(getContext(), R.font.nanum_square_regular), Typeface.BOLD);
+        } catch (Resources.NotFoundException e) {
+            setTypeface(getTypeface(), Typeface.BOLD);
+        }
         setIncludeFontPadding(false);
         setTextAlignment(TEXT_ALIGNMENT_CENTER);
     }
