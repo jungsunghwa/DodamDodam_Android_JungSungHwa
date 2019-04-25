@@ -54,6 +54,7 @@ public class TimeTableViewModel extends ViewModel {
         List<Time> timeList = (ArrayList<Time>) databaseHelper.getData("time", new DatabaseGetDataType<>(Time.class));
         if (!timeList.isEmpty()){
             loading.setValue(false);
+
             if (Utils.isWeekEnd)
                 timeList = Stream.of(timeList).filter(time -> time.getType() == 2).collect(Collectors.toList());
             else

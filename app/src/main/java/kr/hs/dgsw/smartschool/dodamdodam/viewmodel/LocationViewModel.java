@@ -3,9 +3,16 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 import android.content.Context;
 import android.util.Log;
 
-import java.util.List;
+import com.annimon.stream.Collector;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+import com.google.android.gms.common.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
+import androidx.appcompat.app.WindowDecorActionBar;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,13 +20,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 
 public class LocationViewModel extends ViewModel {
@@ -28,7 +36,7 @@ public class LocationViewModel extends ViewModel {
     private DatabaseHelper databaseHelper;
 
     private final MutableLiveData<String> isPostSuccess = new MutableLiveData<>();
-    private final MutableLiveData<LocationRequest> studentLocationValue = new MutableLiveData<>();
+    private final MutableLiveData<Map<Time, Place>> studentLocationValue = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
@@ -41,9 +49,11 @@ public class LocationViewModel extends ViewModel {
     public LiveData<String> getIsPostSuccess() {
         return isPostSuccess;
     }
-    public LiveData<LocationRequest> getStudentLocationValue() {
+
+    public LiveData<Map<Time, Place>> getStudentLocationValue() {
         return studentLocationValue;
     }
+
     public LiveData<String> getError() {
         return loginErrorMessage;
     }
@@ -77,17 +87,43 @@ public class LocationViewModel extends ViewModel {
 
     }
 
-    public void getStudentLocation() {
+    public void getMyLocation() {
         loading.setValue(true);
-        disposable.add(locationClient.getStudentLocation(
+        disposable.add(locationClient.getMyLocation(
                 databaseHelper.getToken().getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
                         new DisposableSingleObserver<LocationRequest>() {
                             @Override
-                            public void onSuccess(LocationRequest location) {
-                                studentLocationValue.setValue(location);
+                            public void onSuccess(LocationRequest locations) {
+                                Map<Time, Place> result = new HashMap<>();
+                                ArrayList<Time> times = (ArrayList<Time>) databaseHelper.getData("time", new DatabaseGetDataType<>(Time.class));
+                                if (Utils.isWeekEnd)
+                                    times = (ArrayList<Time>) Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
+                                else
+                                    times = (ArrayList<Time>) Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
+
+                                for (Time time : times){
+                                    result.put(time, null);
+                                }
+
+                                for (Location location : locations.getLocations()) {
+
+                                    Time time = Stream.of(times)
+                                            .filter(a -> a.getIdx() == location.getTimetableIdx())
+                                            .collect(Collectors.toList()).get(0);
+
+
+                                    Place place = (Place) databaseHelper.getData(
+                                            "place"
+                                            , "idx"
+                                            , location.getPlaceIdx() + ""
+                                            , new DatabaseGetDataType<>(Place.class)
+                                    );
+                                    result.put(time, place);
+                                }
+                                studentLocationValue.setValue(result);
                                 loading.setValue(false);
                             }
 

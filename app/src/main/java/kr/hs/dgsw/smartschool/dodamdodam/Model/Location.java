@@ -6,10 +6,24 @@ import java.util.List;
 
 public class Location {
 
-    @SerializedName("place_idx")
-    private Integer placeIdx;
+    private Integer idx;
+
+    @SerializedName("student_idx")
+    private Integer studenIdx;
+
     @SerializedName("time_table_idx")
     private Integer timetableIdx;
+
+    @SerializedName("place_idx")
+    private Integer placeIdx;
+
+    @SerializedName("is_checked")
+    private Boolean isChecked;
+
+    @SerializedName("check_teacher_idx")
+    private Integer checkTeacherIdx;
+
+    private String date;
 
     public Location(int timetableIdx, int placeIdx) {
         this.timetableIdx = timetableIdx;

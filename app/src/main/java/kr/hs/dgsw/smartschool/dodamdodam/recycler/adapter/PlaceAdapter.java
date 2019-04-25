@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.recycler.holder.PlaceViewHolder;
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
     List<Place> placeList;
     Integer beforePosition;
+    Context context;
 
     private final MutableLiveData<Integer> placePosition = new MutableLiveData<>();
 
@@ -30,8 +32,8 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
     }
 
     public PlaceAdapter(Context context, List<Place> placeList) {
+        this.context = context;
         this.placeList = placeList;
-        placePosition.setValue(0);
     }
 
     @NonNull
@@ -45,24 +47,31 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
 
         Place place = placeList.get(position);
 
+        holder.binding.placeCheckBox.setOnCheckedChangeListener(null);
+        holder.binding.placeCheckBox.setTextColor(ContextCompat.getColor(context, R.color.textColor));
+
         holder.binding.placeCheckBox.setText(place.getName());
         holder.binding.placeCheckBox.setChecked(false);
 
-        if (placePosition.getValue() == null || (beforePosition != null && beforePosition == position)) {
-            holder.binding.placeCheckBox.setChecked(false);
-            holder.binding.placeCheckBox.setTextColor(Color.BLACK);
-        } else if(placePosition.getValue() == position){
+        if (placePosition.getValue() != null && placePosition.getValue() == position){
             holder.binding.placeCheckBox.setChecked(true);
             holder.binding.placeCheckBox.setTextColor(Color.WHITE);
+        }else if(placePosition.getValue() == null ){
+            holder.binding.placeCheckBox.setChecked(false);
+            holder.binding.placeCheckBox.setTextColor(ContextCompat.getColor(context, R.color.textColor));
+        }else if (beforePosition != null && beforePosition == position) {
+            holder.binding.placeCheckBox.setChecked(false);
+            holder.binding.placeCheckBox.setTextColor(ContextCompat.getColor(context, R.color.textColor));
         }
 
         holder.binding.placeCheckBox.setOnCheckedChangeListener((view, isChecked) -> {
             if (isChecked){
                 if (placePosition.getValue() != null ) {
                     beforePosition = placePosition.getValue();
-                    placePosition.postValue(position);
+                    placePosition.setValue(position);
                     view.setTextColor(Color.WHITE);
                     notifyItemChanged(beforePosition);
+                    notifyItemChanged(position);
                 }else {
                     placePosition.setValue(position);
                     beforePosition = position;
@@ -72,7 +81,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
                 placePosition.setValue(null);
                 beforePosition = null;
 //                notifyItemChanged(beforePosition);
-                view.setTextColor(Color.BLACK);
+                view.setTextColor(ContextCompat.getColor(context, R.color.textColor));
             }
         });
     }

@@ -101,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return contentValuesList;
     }
 
-    public Token getToken(){
+    public Token getToken() {
         final SQLiteDatabase db = this.getWritableDatabase();
 
         @SuppressLint("Recycle") final Cursor res = db.rawQuery("SELECT * FROM token limit 1", null);
@@ -118,18 +118,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> Object getData(String tableName, DatabaseGetDataType<T> a) {
+    public <T> Object getData(String tableName, String where, String value, DatabaseGetDataType<T> getDataType) {
         final SQLiteDatabase db = this.getWritableDatabase();
 
-        @SuppressLint("Recycle") final Cursor res = db.rawQuery("SELECT * FROM " + tableName, null);
+        @SuppressLint("Recycle") final Cursor res =
+                db.rawQuery("SELECT * FROM " + tableName + " WHERE " + where + " = " + value, null);
 
+        T t = (T) selectData(res, getDataType);
+        return t;
+    }
+
+    public <T> Object getData(String tableName, DatabaseGetDataType<T> getDataType) {
+        final SQLiteDatabase db = this.getWritableDatabase();
+
+        @SuppressLint("Recycle") final Cursor res =
+                db.rawQuery("SELECT * FROM " + tableName, null);
+
+        T t = (T) selectData(res, getDataType);
+        return t;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public <T> Object selectData(Cursor res, DatabaseGetDataType<T> getDataType) {
         ArrayList<T> result = new ArrayList<>();
 
         ArrayList<Map<String, Object>> maps = new ArrayList<>();
 
         while (res.moveToNext()) {
-            Map<String, Object> map = convertObjectToMap(a.get());
+            Map<String, Object> map = convertObjectToMap(getDataType.get());
             Stream.of(map).forEach(stringObjectEntry -> {
                 String k = stringObjectEntry.getKey();
                 Object v = stringObjectEntry.getValue();
@@ -151,10 +168,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         res.close();
 
         for (Map map : maps) {
-            result.add((T) this.convertMapToObject(map, a.get()));
+            result.add((T) this.convertMapToObject(map, getDataType.get()));
         }
 
-        return result;
+        return result.size() == 1 ? result.get(0) : result;
     }
 
     @SuppressWarnings("unchecked")

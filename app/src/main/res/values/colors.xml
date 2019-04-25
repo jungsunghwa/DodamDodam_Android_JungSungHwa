@@ -5,4 +5,5 @@
     <color name="colorSecondary">#5800c5</color>
     <color name="colorControlNormal">#076fe4</color>
     <color name="windowBackgroundColor">#ffffff</color>
+    <color name="textColor">#4a4a4a</color>
 </resources>

@@ -2,8 +2,11 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.annimon.stream.Stream;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,13 +17,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PlaceAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
@@ -35,7 +38,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
     TimeTableAdapter timeTableAdapter;
     PlaceAdapter placeAdapter;
-
 
     Map<Time, Place> timeTable = new HashMap<>();
     List<Time> timeList = new ArrayList<>();
@@ -61,38 +63,11 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
         initViewModel();
 
-        setTimeTableRecyclerView();
-        setPlaceRecyclerView();
-
         observableTimeTableViewModel();
         observablePlaceViewModel();
         observableLocationViewModel();
 
-        timeTableAdapter.getTimePosition().observe(this, position -> {
-            if (position == null) return;
 
-            placeAdapter.notifyDataSetChanged();
-            timePosition = position;
-
-            placeAdapter.setPosition(null);
-        });
-
-        placeAdapter.getPlacePosition().observe(this, position -> {
-            if (position == null) {
-                if (timeTable.isEmpty() && location.isEmpty()) {
-                    return;
-                }
-                this.timeTable.put(timeList.get(timePosition), null);
-                this.location.remove(timePosition);
-                this.location.add(timePosition, null);
-                timeTableAdapter.notifyItemChanged(timePosition);
-                return;
-            }
-            this.timeTable.put(timeList.get(timePosition), placeList.get(position));
-            this.location.remove(timePosition);
-            this.location.add(timePosition, placeList.get(position));
-            timeTableAdapter.notifyItemChanged(timePosition);
-        });
 
         binding.locationApplyBtn.setOnClickListener(view -> {
             locationViewModel.postLocation(timeTable);
@@ -101,7 +76,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -114,8 +89,19 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             finish();
         });
 
-        locationViewModel.getStudentLocationValue().observe(this, locationRequest ->{
-            
+        locationViewModel.getStudentLocationValue().observe(this, myLocation -> {
+            int i =0;
+
+            for (Time time : timeTable.keySet()){
+                for (Time time1 : myLocation.keySet()){
+                    if (time.getIdx() == time1.getIdx()){
+                        timeTable.put(time, myLocation.get(time1));
+                    }
+                }
+            }
+
+            setPlaceRecyclerView();
+            setTimeTableRecyclerView();
         });
 
         locationViewModel.getError().observe(this, errorMessage -> {
@@ -130,6 +116,25 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
         binding.placeRecyclerView.setAdapter(placeAdapter);
         binding.placeRecyclerView.setLayoutManager(placeRecyclerViewLayoutManager);
+
+        placeAdapter.getPlacePosition().observe(this, position -> {
+            if (position == null) {
+                if (timeTable.isEmpty() && location.isEmpty()) {
+                    return;
+                }
+                this.timeTable.put(timeList.get(timePosition), null);
+                this.location.remove(timePosition);
+                this.location.add(timePosition, null);
+                timeTableAdapter.notifyItemChanged(timePosition);
+                return;
+            }
+            Time time = timeList.get(timePosition);
+            Place place = placeList.get(position);
+            this.timeTable.put(time, place);
+            this.location.remove(timePosition);
+            this.location.add(timePosition, place);
+            timeTableAdapter.notifyItemChanged(timePosition);
+        });
     }
 
     private void setTimeTableRecyclerView() {
@@ -141,6 +146,28 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         binding.timeTableRecyclerView.setAdapter(timeTableAdapter);
         binding.timeTableRecyclerView.setLayoutManager(timeTableRecyclerViewLayoutManager);
         binding.timeTableRecyclerView.setNestedScrollingEnabled(false);
+
+        timeTableAdapter.getTimePosition().observe(this, position -> {
+            if (position == null) return;
+
+            timePosition = position;
+
+            placeAdapter.notifyDataSetChanged();
+
+            Place place = timeTable.get(timeList.get(position));
+
+            if (place == null) {
+                placeAdapter.setPosition(null);
+                return;
+            }
+
+            for (int j = 0; j < placeList.size(); j++) {
+                if (placeList.get(j).getIdx().equals(place.getIdx())){
+                    placeAdapter.setPosition(j);
+                    placeAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void observablePlaceViewModel() {
@@ -149,7 +176,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             this.placeList.clear();
             this.placeList.addAll(placeList);
 
-            placeAdapter.notifyDataSetChanged();
+//            placeAdapter.notifyDataSetChanged();
         });
     }
 
@@ -172,7 +199,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
                 timeTable.put(time, null);
             }
 
-            timeTableAdapter.notifyDataSetChanged();
+//            timeTableAdapter.notifyDataSetChanged();
         });
     }
 
@@ -181,8 +208,8 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         placeViewModel = new PlaceViewModel(this);
         locationViewModel = new LocationViewModel(this);
 
-        locationViewModel.getStudentLocation();
         timeTableViewModel.getTimeTable();
         placeViewModel.getAllPlace();
+        locationViewModel.getMyLocation();
     }
 }

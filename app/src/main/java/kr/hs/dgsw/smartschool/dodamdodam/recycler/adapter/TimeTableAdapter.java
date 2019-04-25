@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
 
     private Map<Time, Place> timeTable;
     private List<Time> timeList;
+    Context context;
 
     private final MutableLiveData<Integer> timePosition = new MutableLiveData<Integer>();
 
@@ -30,6 +32,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
     }
 
     public TimeTableAdapter(Context context, Map<Time, Place> timeTable, List<Time> timeList) {
+        this.context = context;
         this.timeTable = timeTable;
         this.timeList = timeList;
         timePosition.setValue(0);
@@ -53,9 +56,11 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
             holder.binding.placeSelectBtn.setTextColor(Color.WHITE);
         } else if (timePosition.getValue() == position){
             holder.binding.placeSelectBtn.setText(time.getName());
+            holder.binding.placeSelectBtn.setChecked(true);
+            holder.binding.placeSelectBtn.setTextColor(Color.WHITE);
         } else {
             holder.binding.placeSelectBtn.setChecked(false);
-            holder.binding.placeSelectBtn.setTextColor(Color.BLACK);
+            holder.binding.placeSelectBtn.setTextColor(ContextCompat.getColor(context, R.color.textColor));
             holder.binding.placeSelectBtn.setText(time.getName());
         }
 
@@ -66,12 +71,12 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
                 notifyDataSetChanged();
             }else {
                 if (place != null){
-                    buttonView.setChecked(true);
+                    holder.binding.placeSelectBtn.setChecked(true);
                     timePosition.setValue(position);
                     notifyDataSetChanged();
                     return;
                 }
-                buttonView.setTextColor(Color.BLACK);
+                buttonView.setTextColor(ContextCompat.getColor(context, R.color.textColor));
             }
         });
 
