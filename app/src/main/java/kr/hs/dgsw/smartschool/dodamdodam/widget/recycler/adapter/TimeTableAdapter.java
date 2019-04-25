@@ -1,10 +1,9 @@
-package kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter;
+package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.recycler.holder.TimeViewHolder;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.TimeViewHolder;
 
 public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
 

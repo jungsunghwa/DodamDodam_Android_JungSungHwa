@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.recycler.holder;
+package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder;
 
 import android.view.View;
 

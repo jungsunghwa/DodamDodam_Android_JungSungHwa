@@ -24,25 +24,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.MainActivity"/>
-        <activity
-            android:name=".activity.LocationApplyActivity"
-            android:label="랩실 신청"/>
+        <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.PointListActivity"
             android:label="@string/title_point_list" />
-        <activity android:name=".activity.ApplySuccessActivity"/>
+        <activity
+            android:name=".activity.LocationApplyActivity"
+            android:label="랩실 신청" />
+        <activity
+            android:name=".activity.ApplySuccessActivity"
+            android:label="랩실 신청" />
         <activity
             android:name=".activity.BusApplyActivity"
             android:label="@string/title_bus_apply" />
         <activity
             android:name=".activity.SongApplyActivity"
-            android:label="기상송"/>
+            android:label="기상송" />
         <activity
             android:name=".activity.TestMainActivity"
-            android:label="TestMain"/>
-
+            android:label="TestMain" />
     </application>
 
 </manifest>

@@ -16,14 +16,10 @@ public class ApplySuccessActivity extends BaseActivity<ApplySuccessActivityBindi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle("랩실신청");
-
         binding.lottie.playAnimation();
         binding.lottie.loop(true);
 
-        binding.finishBtn.setOnClickListener(view -> {
-            finish();
-        });
+        binding.finishBtn.setOnClickListener(view -> finish());
     }
 
     @Override

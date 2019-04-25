@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.database;
 
-public class DatabaseManager {
+public final class DatabaseManager {
     public static final String TABLE_TOKEN = "token";
     public static final String TABLE_TIME = "time";
     public static final String TABLE_PLACE = "place";

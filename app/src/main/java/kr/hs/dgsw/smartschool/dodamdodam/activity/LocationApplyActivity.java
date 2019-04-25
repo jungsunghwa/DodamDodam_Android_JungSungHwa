@@ -19,13 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PlaceAdapter;
-import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.TimeTableAdapter;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.PlaceAdapter;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
@@ -78,8 +77,9 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+            return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     private void observableLocationViewModel() {

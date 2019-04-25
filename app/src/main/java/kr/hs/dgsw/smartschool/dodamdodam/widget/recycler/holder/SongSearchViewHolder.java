@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler;
+package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder;
 
 import android.view.View;
 
@@ -10,7 +10,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongItemBinding;
 
 public class SongSearchViewHolder extends RecyclerView.ViewHolder {
 
-    SongItemBinding binding;
+    public SongItemBinding binding;
 
     public SongSearchViewHolder(@NonNull View itemView) {
         super(itemView);

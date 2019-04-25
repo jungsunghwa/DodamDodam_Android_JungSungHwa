@@ -31,10 +31,10 @@ import java.util.List;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.YoutubeData;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongApplyActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.task.OnTaskListener;
-import kr.hs.dgsw.smartschool.dodamdodam.task.YoutubeMusicSearchTask;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.OnItemClickListener;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.SongSearchAdapter;
+import kr.hs.dgsw.smartschool.dodamdodam.network.task.OnTaskListener;
+import kr.hs.dgsw.smartschool.dodamdodam.network.task.YoutubeMusicSearchTask;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OnItemClickListener;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongSearchAdapter;
 
 public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> implements OnTaskListener<List<YoutubeData>>, OnItemClickListener<YoutubeData> {
 
