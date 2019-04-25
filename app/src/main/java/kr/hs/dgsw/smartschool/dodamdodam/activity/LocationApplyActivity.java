@@ -15,12 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.PlaceAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
@@ -101,10 +99,11 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
+            return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     private void observableLocationViewModel() {
@@ -114,8 +113,8 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             finish();
         });
 
-        locationViewModel.getStudentLocationValue().observe(this, locationRequest ->{
-            
+        locationViewModel.getStudentLocationValue().observe(this, locationRequest -> {
+
         });
 
         locationViewModel.getError().observe(this, errorMessage -> {

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -14,6 +16,7 @@ import androidx.databinding.ViewDataBinding;
 
 import java.lang.reflect.Field;
 
+import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.AppBarBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 
@@ -57,11 +60,36 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
 
             ViewUtils.marginBottomSystemWindow(rootView);
 
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        } catch (NoSuchFieldException | IllegalAccessException | NullPointerException ignore) { }
+        if (isTablet()) onCreateTablet(savedInstanceState);
+        else onCreatePhone(savedInstanceState);
+    }
+
+    protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    protected void onCreateTablet(@Nullable Bundle savedInstanceState) {
+
     }
 
     @LayoutRes
     protected abstract int layoutId();
+
+    protected final boolean isTablet() {
+        return getSystemProperty("ro.build.characteristics").equals("tablet") || getResources().getBoolean(R.bool.isTablet);
+    }
+
+    @SuppressLint("PrivateApi")
+    protected final String getSystemProperty(@NonNull String key) {
+        String value = null;
+
+        try {
+            value = (String) Class.forName("android.os.SystemProperties").getMethod("get", String.class).invoke(null, key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return value;
+    }
 }

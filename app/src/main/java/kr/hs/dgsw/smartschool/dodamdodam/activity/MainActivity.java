@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.DatePicker;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 
 import java.util.Calendar;
@@ -30,8 +31,13 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
+        super.onCreatePhone(savedInstanceState);
 
         binding.appbarLayout.wave.setVisibility(View.GONE);
 
@@ -47,6 +53,11 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         binding.fabDateBack.setOnClickListener(((OnDateClickListener) this)::onDateBackClick);
         binding.fabDateToday.setOnClickListener(((OnDateClickListener) this)::onDateTodayClick);
         binding.fabDateForward.setOnClickListener(((OnDateClickListener) this)::onDateForwardClick);
+    }
+
+    @Override
+    protected void onCreateTablet(@Nullable Bundle savedInstanceState) {
+        super.onCreateTablet(savedInstanceState);
     }
 
     private void showWithAnimate() {
