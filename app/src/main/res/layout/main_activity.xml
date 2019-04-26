@@ -116,8 +116,17 @@
                         app:tint="?colorControlNormal" />
                 </LinearLayout>
 
-                <androidx.viewpager.widget.ViewPager
+                <!--<androidx.viewpager.widget.ViewPager
                     android:id="@+id/meal_pager"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/date_select_layout" />-->
+                <include
+                    android:id="@+id/meal_items"
+                    layout="@layout/meal_items"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -141,8 +150,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true"
             android:background="@drawable/background_nav"
+            android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header"
             app:itemIconTint="?colorControlNormal"
             app:menu="@menu/menu_main" />

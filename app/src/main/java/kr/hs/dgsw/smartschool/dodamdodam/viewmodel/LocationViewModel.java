@@ -3,13 +3,15 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 import android.content.Context;
 import android.util.Log;
 
-import com.annimon.stream.Collector;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.google.android.gms.common.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.appcompat.app.WindowDecorActionBar;
@@ -23,12 +25,12 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -41,7 +43,7 @@ public class LocationViewModel extends ViewModel {
 
     private final MutableLiveData<String> isPostSuccess = new MutableLiveData<>();
     private final MutableLiveData<Map<Time, Place>> studentLocationValue = new MutableLiveData<>();
-    private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
     public LocationViewModel(Context context) {
@@ -59,7 +61,7 @@ public class LocationViewModel extends ViewModel {
     }
 
     public LiveData<String> getError() {
-        return loginErrorMessage;
+        return errorMessage;
     }
 
     public LiveData<Boolean> getLoading() {
@@ -96,7 +98,7 @@ public class LocationViewModel extends ViewModel {
 
                             @Override
                             public void onError(Throwable e) {
-                                loginErrorMessage.setValue(e.getMessage());
+                                errorMessage.setValue(e.getMessage());
                                 loading.setValue(false);
                             }
                         }));
@@ -116,13 +118,13 @@ public class LocationViewModel extends ViewModel {
                                 locationRequest = locations;
 
                                 Map<Time, Place> result = new HashMap<>();
-                                ArrayList<Time> times = (ArrayList<Time>) databaseHelper.getData("time", new DatabaseGetDataType<>(Time.class));
+                                List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
                                 if (Utils.isWeekEnd)
-                                    times = (ArrayList<Time>) Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
+                                    times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
                                 else
-                                    times = (ArrayList<Time>) Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
+                                    times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
-                                for (Time time : times){
+                                for (Time time : times) {
                                     result.put(time, null);
                                 }
 
@@ -136,10 +138,10 @@ public class LocationViewModel extends ViewModel {
                                         result.put(time, null);
                                         continue;
                                     }
-                                    Place place = (Place) databaseHelper.getData(
-                                            "place"
+                                    Place place = databaseHelper.getData(
+                                            DatabaseManager.TABLE_PLACE
                                             , "idx"
-                                            , location.getPlaceIdx() + ""
+                                            , Integer.toString(location.getPlaceIdx())
                                             , new DatabaseGetDataType<>(Place.class)
                                     );
 
@@ -151,7 +153,7 @@ public class LocationViewModel extends ViewModel {
 
                             @Override
                             public void onError(Throwable e) {
-                                loginErrorMessage.setValue(e.getMessage());
+                                errorMessage.setValue(e.getMessage());
                                 loading.setValue(false);
                             }
                         }));

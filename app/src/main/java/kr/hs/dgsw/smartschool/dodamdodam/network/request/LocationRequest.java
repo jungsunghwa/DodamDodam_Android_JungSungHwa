@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
@@ -12,7 +13,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 
 public class LocationRequest {
-    private ArrayList<Location> locations = new ArrayList<>();
+    private List<Location> locations = new ArrayList<>();
 
     public LocationRequest(Map<Time, Place> timePlaceMap) {
         locations.clear();
@@ -22,13 +23,13 @@ public class LocationRequest {
 
             if (place != null) {
                 locations.add(new Location(time.getIdx(), place.getIdx()));
-            }else {
+            } else {
                 locations.add(new Location(time.getIdx(), null));
             }
         });
     }
 
-    public ArrayList<Location> getLocations() {
+    public List<Location> getLocations() {
         return locations;
     }
 

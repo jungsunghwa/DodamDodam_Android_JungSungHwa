@@ -20,6 +20,33 @@ import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.AppBarBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 
+/**
+ * @apiNote Layout 구조
+ *
+ * ! -> ONLY FOR NEED
+ * !! -> MUST ADD
+ *
+ * <layout> <!-- !!For DataBinding -->
+ *     <SomeLayout
+ *         android:fitsSystemWindows="true"> <!-- BaseLayout --> <!-- System UI 와 Navigation Bar 와 겹쳐도 문제 없는 View 를 위한 Layout. -->
+ *         <SomeView
+ *             android:id="@+id/background"
+ *             android:fitsSystemWindows="true"/> <!-- 배경 (ex. MultiWaveHeader {@link com.scwang.wave.MultiWaveHeader}) -->
+ *         <include
+ *             android:id="@+id/app_bar_layout"
+ *             layout="@layout/app_bar"/> <!-- !AppBar -->
+ *         <SomeAnotherLayout
+ *             android:id="@+id/root_layout"
+ *             android:layout_marginTop="88dp"> <!-- !!Root Layout --> <!-- System UI 와 Navigation Bar 의 Margin 을 위해 필요. 그렇지 않으면 System UI 또는 Navigation Bar 와 View 가 겹쳐보일 것. -->
+ *
+ *             <!-- Inner View... -->
+ *         </SomeAnotherLayout>
+ *     </SomeLayout>
+ * </layout>
+ *
+ *
+ * @param <VB> ViewDataBinding 을 상속 받는 View 바인딩 클래스
+ */
 public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity {
 
     protected VB binding;
@@ -65,10 +92,16 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         else onCreatePhone(savedInstanceState);
     }
 
+    /**
+     * onCreate for Phone
+     */
     protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
 
     }
 
+    /**
+     * onCreate for Tablet
+     */
     protected void onCreateTablet(@Nullable Bundle savedInstanceState) {
 
     }
@@ -76,6 +109,11 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     @LayoutRes
     protected abstract int layoutId();
 
+    /**
+     * Checking current device is Tablet.
+     *
+     * @return Current device is Tablet (or Size like Tablet), is true. Or, result is false.
+     */
     protected final boolean isTablet() {
         return getSystemProperty("ro.build.characteristics").equals("tablet") || getResources().getBoolean(R.bool.isTablet);
     }

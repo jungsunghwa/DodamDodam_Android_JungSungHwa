@@ -15,7 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="133dp">
+            android:minHeight="90dp">
 
             <TextView
                 android:id="@+id/meal_type"
@@ -41,7 +41,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/divider"
                 app:layout_constraintStart_toEndOf="@+id/divider"
                 app:layout_constraintTop_toBottomOf="@+id/meal_type"
-                tools:text="ㆍ강황밥\nㆍ재첩국\nㆍ돈등뼈김치찜\nㆍ숙주미나리무침\nㆍ단호박꿀찜"/>
+                tools:text="ㆍ강황밥\nㆍ재첩국\nㆍ돈등뼈김치찜\nㆍ숙주미나리무침\nㆍ단호박꿀찜" />
 
             <View
                 android:id="@+id/divider"

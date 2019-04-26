@@ -14,7 +14,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 
 public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
-    LoginViewModel loginViewModel;
+    private LoginViewModel loginViewModel;
 
     @Override
     protected int layoutId() {

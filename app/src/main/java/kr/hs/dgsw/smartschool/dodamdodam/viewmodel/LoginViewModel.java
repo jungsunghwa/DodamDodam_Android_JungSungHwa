@@ -1,11 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,15 +13,14 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginData;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LoginClient;
 
 public class LoginViewModel extends ViewModel {
 
     private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
-    private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private LoginClient loginClient;
     private CompositeDisposable disposable;
@@ -41,7 +37,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public LiveData<String> getError() {
-        return loginErrorMessage;
+        return errorMessage;
     }
 
     public LiveData<Boolean> getLoading() {
@@ -63,7 +59,7 @@ public class LoginViewModel extends ViewModel {
 
                             @Override
                             public void onError(Throwable e) {
-                                loginErrorMessage.setValue(e.getMessage());
+                                errorMessage.setValue(e.getMessage());
                                 loading.setValue(false);
                             }
                         }));

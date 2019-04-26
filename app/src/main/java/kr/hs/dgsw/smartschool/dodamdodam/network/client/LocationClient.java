@@ -15,6 +15,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post.LocationService;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class LocationClient {
     private LocationService location;
@@ -30,6 +31,7 @@ public class LocationClient {
         return Single.create(observer -> {
             finalRetrofit.enqueue(new Callback<Response>() {
                 @Override
+                @EverythingIsNonNull
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                     if (response.isSuccessful()) {
                         observer.onSuccess(response.body().getMessage());
@@ -47,7 +49,7 @@ public class LocationClient {
 
                 @Override
                 public void onFailure(Call<Response> call, Throwable t) {
-                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
+                    observer.onError(new Throwable("네트워크 상태를 확인하세요"));
                 }
             });
         });
@@ -59,6 +61,7 @@ public class LocationClient {
         return Single.create(observer ->
                 location.getMyLocation(token,date).enqueue(new Callback<Response<LocationRequest>>() {
                     @Override
+                    @EverythingIsNonNull
                     public void onResponse(Call<Response<LocationRequest>> call, retrofit2.Response<Response<LocationRequest>> response) {
                         if (response.isSuccessful()) {
                             assert response.body() != null;
@@ -77,7 +80,7 @@ public class LocationClient {
 
                     @Override
                     public void onFailure(Call<Response<LocationRequest>> call, Throwable t) {
-                        observer.onError(new Throwable("네트워크상태를 확인하세요"));
+                        observer.onError(new Throwable("네트워크 상태를 확인하세요"));
 
                     }
                 }));

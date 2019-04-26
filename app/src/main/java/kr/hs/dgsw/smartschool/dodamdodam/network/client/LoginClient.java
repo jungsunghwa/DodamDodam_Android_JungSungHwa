@@ -7,6 +7,7 @@ import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginData;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
 import kr.hs.dgsw.b1nd.service.service.B1ndLogin;
 import kr.hs.dgsw.smartschool.dodamdodam.Constants;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class LoginClient {
 
@@ -17,6 +18,7 @@ public class LoginClient {
     public Single<LoginData> login(LoginRequest request) {
         return Single.create(observer -> new B1ndLogin().login(request, new OnLoginSuccessListener() {
             @Override
+            @EverythingIsNonNull
             public void onSuccess(int status, String message, String token, String refreshToken) {
                 if (status == 200){
                     LoginData loginData = new LoginData();
@@ -30,6 +32,7 @@ public class LoginClient {
             }
 
             @Override
+            @EverythingIsNonNull
             public void onFail(Throwable throwable, String message) {
                 throwable.printStackTrace();
                 observer.onError(new Throwable(message));
