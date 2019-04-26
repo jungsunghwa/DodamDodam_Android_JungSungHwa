@@ -8,6 +8,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Query;
 
 public interface LocationService {
     @POST("location")
@@ -18,6 +20,15 @@ public interface LocationService {
 
     @GET("location/search/my")
     public Call<Response<LocationRequest>> getMyLocation(
-            @Header("x-access-token") String token
+            @Header("x-access-token") String token,
+            @Query("date") String date
     );
+
+    @PUT("location")
+    public Call<Response> putLocation(
+            @Header("x-access-token") String token,
+            @Body LocationRequest request
+    );
+
+
 }

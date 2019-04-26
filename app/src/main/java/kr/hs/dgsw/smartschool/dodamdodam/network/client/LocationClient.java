@@ -4,10 +4,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -22,9 +23,12 @@ public class LocationClient {
         location = Utils.RETROFIT.create(LocationService.class);
     }
 
-    public Single<String> postLocation(LocationRequest request, String token) {
+    public Single<String> postLocation(LocationRequest request, String token, String method) {
+        Call<Response> retrofit = location.postLocation(token, request);
+        if (method.equals("PUT")) retrofit = location.putLocation(token, request);
+        Call<Response> finalRetrofit = retrofit;
         return Single.create(observer -> {
-            location.postLocation(token, request).enqueue(new Callback<Response>() {
+            finalRetrofit.enqueue(new Callback<Response>() {
                 @Override
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                     if (response.isSuccessful()) {
@@ -50,8 +54,10 @@ public class LocationClient {
     }
 
     public Single<LocationRequest> getMyLocation(String token) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date());
         return Single.create(observer ->
-                location.getMyLocation(token).enqueue(new Callback<Response<LocationRequest>>() {
+                location.getMyLocation(token,date).enqueue(new Callback<Response<LocationRequest>>() {
                     @Override
                     public void onResponse(Call<Response<LocationRequest>> call, retrofit2.Response<Response<LocationRequest>> response) {
                         if (response.isSuccessful()) {

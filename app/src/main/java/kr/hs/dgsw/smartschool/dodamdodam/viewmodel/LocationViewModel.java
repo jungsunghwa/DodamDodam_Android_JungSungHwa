@@ -16,8 +16,10 @@ import androidx.appcompat.app.WindowDecorActionBar;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
@@ -29,9 +31,11 @@ import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 
 public class LocationViewModel extends ViewModel {
-    LocationClient locationClient;
+    private LocationClient locationClient;
+    private LocationRequest locationRequest;
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
 
@@ -64,10 +68,22 @@ public class LocationViewModel extends ViewModel {
 
     public void postLocation(Map<Time, Place> timeTable) {
         loading.setValue(true);
-        LocationRequest request = new LocationRequest(timeTable);
-        Log.e("request", request.toString());
-        disposable.add(locationClient.postLocation(request
-                , databaseHelper.getToken().getToken())
+        Single<String> client;
+
+        String method = "POST";
+
+        if (locationRequest.getLocations() != null) {
+            method = "PUT";
+        }
+
+        locationRequest.setLocations(timeTable);
+
+        client = locationClient.postLocation(locationRequest
+                , databaseHelper.getToken().getToken()
+                , method);
+
+        Log.e("request", locationRequest.toString());
+        disposable.add(client
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
@@ -89,7 +105,7 @@ public class LocationViewModel extends ViewModel {
 
     public void getMyLocation() {
         loading.setValue(true);
-        disposable.add(locationClient.getMyLocation(
+        disposable.add((Disposable) locationClient.getMyLocation(
                 databaseHelper.getToken().getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,6 +113,8 @@ public class LocationViewModel extends ViewModel {
                         new DisposableSingleObserver<LocationRequest>() {
                             @Override
                             public void onSuccess(LocationRequest locations) {
+                                locationRequest = locations;
+
                                 Map<Time, Place> result = new HashMap<>();
                                 ArrayList<Time> times = (ArrayList<Time>) databaseHelper.getData("time", new DatabaseGetDataType<>(Time.class));
                                 if (Utils.isWeekEnd)
@@ -114,13 +132,17 @@ public class LocationViewModel extends ViewModel {
                                             .filter(a -> a.getIdx() == location.getTimetableIdx())
                                             .collect(Collectors.toList()).get(0);
 
-
+                                    if (location.getPlaceIdx() == null) {
+                                        result.put(time, null);
+                                        continue;
+                                    }
                                     Place place = (Place) databaseHelper.getData(
                                             "place"
                                             , "idx"
                                             , location.getPlaceIdx() + ""
                                             , new DatabaseGetDataType<>(Place.class)
                                     );
+
                                     result.put(time, place);
                                 }
                                 studentLocationValue.setValue(result);

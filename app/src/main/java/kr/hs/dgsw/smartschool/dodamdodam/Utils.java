@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam;
 
+import com.google.gson.GsonBuilder;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Executors;
@@ -14,7 +16,7 @@ public class Utils {
     public static Retrofit RETROFIT =
             new Retrofit.Builder()
                     .baseUrl(Constants.DEFAULT_HOST)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
                     .callbackExecutor(Executors.newSingleThreadExecutor())
                     .build();
 

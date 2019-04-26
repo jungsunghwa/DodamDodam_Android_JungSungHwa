@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -137,6 +138,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void setTimeTableRecyclerView() {
         timeTableAdapter = new TimeTableAdapter(this, timeTable, timeList);
 
@@ -155,6 +157,9 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             placeAdapter.notifyDataSetChanged();
 
             Place place = timeTable.get(timeList.get(position));
+
+            binding.selectPlaceTv.setText(timeList.get(position).getName()
+                    + getString(R.string.selct_place_text));
 
             if (place == null) {
                 placeAdapter.setPosition(null);
