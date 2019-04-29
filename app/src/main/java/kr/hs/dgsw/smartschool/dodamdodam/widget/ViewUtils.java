@@ -53,13 +53,6 @@ public final class ViewUtils {
             marginBottomSystemWindow(view, insets);
             return insets;
         }));
-        /*window.getDecorView().setOnApplyWindowInsetsListener((v, insets) -> {
-            marginBottomSystemWindow(view, insets);
-            //view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), view.getPaddingTop() + insets.getSystemWindowInsetBottom());
-            v.setOnApplyWindowInsetsListener(null);
-
-            return insets;
-        });*/
     }
 
     private static void marginTopSystemWindow(View view, WindowInsets insets) {

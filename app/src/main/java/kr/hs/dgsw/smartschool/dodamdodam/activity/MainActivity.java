@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -22,8 +23,13 @@ import java.util.Date;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.MainViewModel;
 
 public class MainActivity extends BaseActivity<MainActivityBinding> implements OnDateClickListener, DatePickerDialog.OnDateSetListener {
+
+    private static final String TAG = "MainActivity";
+
+    private MainViewModel viewModel;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -40,6 +46,22 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
         super.onCreatePhone(savedInstanceState);
+
+        viewModel = new MainViewModel(this);
+
+        viewModel.getMealData().observe(this, meal -> {
+            binding.mealItems.mealBreakfast.setMeal(meal.getBreakfast());
+            binding.mealItems.mealLunch.setMeal(meal.getLunch());
+            binding.mealItems.mealDinner.setMeal(meal.getDinner());
+        });
+        viewModel.getLoading().observe(this, loading -> {
+
+        });
+        viewModel.getError().observe(this, error -> {
+            Log.w(TAG, "ERROR: ", error);
+        });
+
+        viewModel.today();
 
         binding.appbarLayout.wave.setVisibility(View.GONE);
 
@@ -149,7 +171,9 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     public void onDateChanged(Date date) {
         binding.fabDateToday.setCurrentDate(date);
-        //TODO MEAL CHANGE
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        viewModel.date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override

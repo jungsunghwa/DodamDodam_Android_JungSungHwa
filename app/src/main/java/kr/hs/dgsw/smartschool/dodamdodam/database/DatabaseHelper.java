@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam.database;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,17 +13,18 @@ import com.annimon.stream.Stream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "dodam_db";
+    private static final String DATABASE_NAME = "dodam.db";
 
     private static volatile DatabaseHelper INSTANCE;
-    private final DatabaseManager dbManager = new DatabaseManager();
 
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -44,10 +44,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("PRAGMA foreign_keys = ON;");
-        db.execSQL(dbManager.getCreateTableToken());
-        db.execSQL(dbManager.getCreateTableTime());
-        db.execSQL(dbManager.getCreateTablePlace());
-        db.execSQL(dbManager.getCreateTableClass());
+        db.execSQL(DatabaseManager.getCreateTableToken());
+        db.execSQL(DatabaseManager.getCreateTableTime());
+        db.execSQL(DatabaseManager.getCreateTablePlace());
+        db.execSQL(DatabaseManager.getCreateTableClass());
     }
 
     @Override
@@ -62,37 +62,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insert(String tableName, Object insertValue) {
         final SQLiteDatabase db = this.getWritableDatabase();
 
-
         for (ContentValues contentValues :
                 getContentValuesByInsertValue(insertValue)) {
             db.insert(tableName, null, contentValues);
         }
-
     }
 
-    private ArrayList<ContentValues> getContentValuesByInsertValue(Object insertValue) {
-        final ArrayList<ContentValues> contentValuesList = new ArrayList<>();
+    private List<ContentValues> getContentValuesByInsertValue(Object insertValue) {
+        final List<ContentValues> contentValuesList = new ArrayList<>();
 
-        ArrayList<Map<Object, Object>> maps = new ArrayList<>();
+        List<Map<String, Object>> maps = new ArrayList<>();
 
-        if (insertValue instanceof ArrayList)
-            for (Object obj : (ArrayList) insertValue)
+        if (insertValue instanceof List)
+            for (Object obj : (List) insertValue)
                 maps.add(convertObjectToMap(obj));
         else maps.add(convertObjectToMap(insertValue));
 
-        for (Map<Object, Object> map : maps) {
+        for (Map<String, Object> map : maps) {
             ContentValues contentValues = new ContentValues();
             Stream.of(map).forEach(stringObjectEntry -> {
-                Object k = stringObjectEntry.getKey();
+                String k = stringObjectEntry.getKey();
                 Object v = stringObjectEntry.getValue();
                 if (v instanceof Integer) {
-                    contentValues.put((String) k, (int) v);
+                    contentValues.put(k, (int) v);
                 } else if (v instanceof String) {
-                    contentValues.put((String) k, (String) v);
+                    contentValues.put(k, (String) v);
                 } else if (v instanceof Boolean) {
-                    contentValues.put((String) k, ((Boolean) v) ? 1 : 0);
+                    contentValues.put(k, ((Boolean) v) ? 1 : 0);
                 } else if (v instanceof Double) {
-                    contentValues.put((String) k, (Double) v);
+                    contentValues.put(k, (Double) v);
                 }
             });
             contentValuesList.add(contentValues);
@@ -104,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Token getToken() {
         final SQLiteDatabase db = this.getWritableDatabase();
 
-        @SuppressLint("Recycle") final Cursor res = db.rawQuery("SELECT * FROM token limit 1", null);
+        final Cursor res = db.rawQuery("SELECT * FROM token limit 1", null);
 
         Token result = new Token();
 
@@ -118,37 +116,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public <T> Object getData(String tableName, String where, String value, DatabaseGetDataType<T> getDataType) {
+    public <T> T getData(String tableName, String where, String value, DatabaseGetDataType<T> getDataType) {
         final SQLiteDatabase db = this.getWritableDatabase();
+        final Cursor res = db.rawQuery("SELECT * FROM " + tableName + " WHERE " + where + " = " + value, null);
 
-        @SuppressLint("Recycle") final Cursor res =
-                db.rawQuery("SELECT * FROM " + tableName + " WHERE " + where + " = " + value, null);
-
-        T t = (T) selectData(res, getDataType);
-        return t;
+        return selectData(res, getDataType);
     }
 
-    public <T> Object getData(String tableName, DatabaseGetDataType<T> getDataType) {
+    public <T> List<T> getData(String tableName, DatabaseGetDataType<T> getDataType) {
         final SQLiteDatabase db = this.getWritableDatabase();
+        final Cursor res = db.rawQuery("SELECT * FROM " + tableName, null);
 
-        @SuppressLint("Recycle") final Cursor res =
-                db.rawQuery("SELECT * FROM " + tableName, null);
-
-        T t = (T) selectData(res, getDataType);
-        return t;
+        return selectDataList(res, getDataType);
     }
 
 
-    @SuppressWarnings("unchecked")
-    public <T> Object selectData(Cursor res, DatabaseGetDataType<T> getDataType) {
-        ArrayList<T> result = new ArrayList<>();
+    private <T> T selectData(Cursor res, DatabaseGetDataType<T> getDataType) {
+        List<T> result = selectDataFromMap(res, getDataType);
+        return result.get(0);
+    }
 
-        ArrayList<Map<Object, Object>> maps = new ArrayList<>();
+    private <T> List<T> selectDataList(Cursor res, DatabaseGetDataType<T> getDataType) {
+        return selectDataFromMap(res, getDataType);
+    }
+
+    private <T> List<T> selectDataFromMap(Cursor res, DatabaseGetDataType<T> getDataType) {
+        List<T> result;
+        List<Map<String, Object>> maps = new ArrayList<>();
 
         while (res.moveToNext()) {
-            Map<Object, Object> map = convertObjectToMap(getDataType.get());
+            Map<String, Object> map = convertObjectToMap(getDataType.get());
             Stream.of(map).forEach(stringObjectEntry -> {
-                String k = (String) stringObjectEntry.getKey();
+                String k = stringObjectEntry.getKey();
                 Object v = stringObjectEntry.getValue();
                 if (v instanceof Integer) {
                     map.put(k, res.getInt(res.getColumnIndex(k)));
@@ -167,15 +166,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         res.close();
 
-        for (Map map : maps) {
-            result.add((T) this.convertMapToObject(map, getDataType.get()));
+        if (maps.size() == 1)
+            result = Collections.singletonList(convertMapToObject(maps.get(0), getDataType.get()));
+        else {
+            result = new ArrayList<>();
+            for (Map<String, Object> map : maps) {
+                result.add(this.convertMapToObject(map, getDataType.get()));
+            }
         }
 
-        return result.size() == 1 ? result.get(0) : result;
+        return result;
     }
 
-    private Map<Object, Object> convertObjectToMap(Object obj) {
-        Map<Object, Object> map = new HashMap<>();
+    private Map<String, Object> convertObjectToMap(Object obj) {
+        Map<String, Object> map = new HashMap<>();
         Field[] fields = obj.getClass().getDeclaredFields();
         for (int i = fields.length - 1; i >= 0; i--) {
             fields[i].setAccessible(true);
@@ -198,13 +202,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    private <T> T convertMapToObject(Map<Object, Object> map, T t) {
-        String keyAttribute;
+    private <T> T convertMapToObject(Map<String, Object> map, T t) {
         String setMethodString = "set";
         String methodString;
 
-        for (Object s : map.keySet()) {
-            keyAttribute = (String) s;
+        for (String keyAttribute : map.keySet()) {
             methodString = setMethodString + keyAttribute.substring(0, 1).toUpperCase() + keyAttribute.substring(1);
             Method[] methods = t.getClass().getDeclaredMethods();
             for (Method method : methods) {

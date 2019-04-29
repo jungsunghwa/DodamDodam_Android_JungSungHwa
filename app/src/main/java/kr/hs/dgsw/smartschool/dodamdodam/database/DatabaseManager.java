@@ -6,7 +6,9 @@ public final class DatabaseManager {
     public static final String TABLE_PLACE = "place";
     public static final String TABLE_CLASS = "class";
 
-    String getCreateTableToken() {
+    private DatabaseManager() {}
+
+    static String getCreateTableToken() {
         return "CREATE TABLE " + TABLE_TOKEN +" ( "
                 + "idx INTEGER UNIQUE, "
                 + "token STRING, "
@@ -15,7 +17,7 @@ public final class DatabaseManager {
                 + ")";
     }
 
-    String getCreateTableTime() {
+    static String getCreateTableTime() {
         return "CREATE TABLE "+ TABLE_TIME +" ( "
                 + "idx INTEGER, "
                 + "name STRING, "
@@ -25,14 +27,14 @@ public final class DatabaseManager {
                 + ")";
     }
 
-    String getCreateTablePlace() {
+    static String getCreateTablePlace() {
         return "CREATE TABLE "+ TABLE_PLACE +" ( "
                 + "idx INTEGER, "
                 + "name STRING"
                 + ")";
     }
 
-    String getCreateTableClass() {
+    static String getCreateTableClass() {
         return "CREATE TABLE "+ TABLE_CLASS +" ( "
                 + "idx INTEGER, "
                 + "grade INTEGER, "

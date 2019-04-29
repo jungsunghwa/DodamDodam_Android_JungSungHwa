@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#254de3</color>
     <color name="colorSecondary">#5800c5</color>
     <color name="colorControlNormal">#076fe4</color>
-    <color name="windowBackgroundColor">#ffffff</color>
     <color name="textColor">#4a4a4a</color>
-    <color name="white">#fff</color>
+    <color name="mealTextColor">#596b8c</color>
+    <color name="windowBackgroundColor">#ffffff</color>
 </resources>

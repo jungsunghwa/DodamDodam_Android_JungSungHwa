@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdgeLength="24dp"
+        android:requiresFadingEdge="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <kr.hs.dgsw.smartschool.dodamdodam.widget.MealCardView
+                android:id="@+id/meal_breakfast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:dividerColor="@color/colorPrimary"
+                app:typeText="아침"
+                tools:mealText="쇠고기퀴노아죽\n스크램블드에그\n배추김치\n그래놀라크랜베리아몬드+우유\n꼬마부시브레드(초코시럽)" />
+
+            <kr.hs.dgsw.smartschool.dodamdodam.widget.MealCardView
+                android:id="@+id/meal_lunch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:dividerColor="@color/colorPrimaryDark"
+                app:typeText="점심"
+                tools:mealText="기장밥\n들깨닭칼국수\n단배추겉절이\n파돈\n아빠의주스(사과)" />
+
+            <kr.hs.dgsw.smartschool.dodamdodam.widget.MealCardView
+                android:id="@+id/meal_dinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:dividerColor="@color/colorSecondary"
+                app:typeText="저녁"
+                tools:mealText="생채소돈불고기덮밥\n황태콩나물무국\n사각어묵조림\n배추김치\n두부담은찰도그롤" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

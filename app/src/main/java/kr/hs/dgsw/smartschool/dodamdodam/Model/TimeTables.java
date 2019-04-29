@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TimeTables{
     @SerializedName("time_tables")
-    List<Time> timeTables;
+    private List<Time> timeTables;
 
     public List<Time> getTimeTables() {
         return timeTables;

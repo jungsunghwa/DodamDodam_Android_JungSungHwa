@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.response;
 
-public class Response<T>{
+public final class Response<T>{
     private String message;
     private int status;
     private T data;

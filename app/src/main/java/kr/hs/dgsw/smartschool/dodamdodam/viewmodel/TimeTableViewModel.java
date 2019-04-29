@@ -2,23 +2,24 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
 public class TimeTableViewModel extends ViewModel {
@@ -28,7 +29,7 @@ public class TimeTableViewModel extends ViewModel {
     private DatabaseHelper databaseHelper;
 
     private final MutableLiveData<List<Time>> response = new MutableLiveData<>();
-    private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
     public TimeTableViewModel(Context context) {
@@ -42,7 +43,7 @@ public class TimeTableViewModel extends ViewModel {
     }
 
     public LiveData<String> getError() {
-        return loginErrorMessage;
+        return errorMessage;
     }
 
     public LiveData<Boolean> getLoading() {
@@ -51,8 +52,8 @@ public class TimeTableViewModel extends ViewModel {
 
     public void getTimeTable() {
         loading.setValue(true);
-        List<Time> timeList = (ArrayList<Time>) databaseHelper.getData("time", new DatabaseGetDataType<>(Time.class));
-        if (!timeList.isEmpty()){
+        List<Time> timeList = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
+        if (!timeList.isEmpty()) {
             loading.setValue(false);
 
             if (Utils.isWeekEnd)
@@ -69,7 +70,7 @@ public class TimeTableViewModel extends ViewModel {
                         new DisposableSingleObserver<List<Time>>() {
                             @Override
                             public void onSuccess(List<Time> timeTable) {
-                                databaseHelper.insert("time", timeTable);
+                                databaseHelper.insert(DatabaseManager.TABLE_TIME, timeTable);
 
                                 if (Utils.isWeekEnd)
                                     timeTable = Stream.of(timeTable).filter(time -> time.getType() == 2).collect(Collectors.toList());
@@ -82,7 +83,7 @@ public class TimeTableViewModel extends ViewModel {
 
                             @Override
                             public void onError(Throwable e) {
-                                loginErrorMessage.setValue(e.getMessage());
+                                errorMessage.setValue(e.getMessage());
                                 loading.setValue(false);
                             }
                         }));

@@ -21,8 +21,6 @@ public class Utils {
                     .build();
 
     public static boolean isWeekEnd(Date date) {
-        String dateType = "yyyy-MM-dd";
-        String day = "" ;
         boolean isWeekEnd = false;
 
         Calendar cal = Calendar.getInstance() ;
@@ -31,16 +29,14 @@ public class Utils {
         int dayNum = cal.get(Calendar.DAY_OF_WEEK) ;
 
         switch(dayNum){
-            case 1:
+            case Calendar.SUNDAY:
                 isWeekEnd = true;
                 break ;
-            case 7:
+            case Calendar.SATURDAY:
                 isWeekEnd = true;
                 break ;
 
         }
-
-
 
         return isWeekEnd;
     }
