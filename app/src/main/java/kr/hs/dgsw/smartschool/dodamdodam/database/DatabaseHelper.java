@@ -47,6 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(dbManager.getCreateTableToken());
         db.execSQL(dbManager.getCreateTableTime());
         db.execSQL(dbManager.getCreateTablePlace());
+        db.execSQL(dbManager.getCreateTableClass());
     }
 
     @Override
@@ -54,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_TOKEN);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_TIME);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_PLACE);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_CLASS);
         onCreate(db);
     }
 

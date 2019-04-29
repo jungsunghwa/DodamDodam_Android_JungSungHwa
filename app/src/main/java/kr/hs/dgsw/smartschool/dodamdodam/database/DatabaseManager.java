@@ -4,6 +4,7 @@ public final class DatabaseManager {
     public static final String TABLE_TOKEN = "token";
     public static final String TABLE_TIME = "time";
     public static final String TABLE_PLACE = "place";
+    public static final String TABLE_CLASS = "class";
 
     String getCreateTableToken() {
         return "CREATE TABLE " + TABLE_TOKEN +" ( "
@@ -28,6 +29,14 @@ public final class DatabaseManager {
         return "CREATE TABLE "+ TABLE_PLACE +" ( "
                 + "idx INTEGER, "
                 + "name STRING"
+                + ")";
+    }
+
+    String getCreateTableClass() {
+        return "CREATE TABLE "+ TABLE_CLASS +" ( "
+                + "idx INTEGER, "
+                + "grade INTEGER, "
+                + "room STRING"
                 + ")";
     }
 }
