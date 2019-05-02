@@ -63,12 +63,13 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 binding.mealItems.mealDinner.setMeal(Optional
                         .ofNullable(meal.getDinner())
                         .orElse(getString(R.string.meal_empty)));
-            } else
+            } else {
+                binding.mealItems.mealBreakfast.setMeal(null);
                 binding.mealItems.mealLunch.setMeal(getString(R.string.meal_empty));
+                binding.mealItems.mealDinner.setMeal(null);
+            }
         });
-        viewModel.getLoading().observe(this, loading -> {
-            binding.mealItems.mealLunch.setLoading(loading);
-        });
+        viewModel.getLoading().observe(this, loading -> binding.mealItems.mealLunch.setLoading(loading));
         viewModel.getError().observe(this, error -> {
             Log.w(TAG, "ERROR: ", error);
             binding.mealItems.mealLunch.setLoading(false);

@@ -28,5 +28,5 @@
     <string name="menu_counsel_apply">상담 신청</string>
     <string name="title_song_apply">기상송</string>
     <string name="title_location_apply">랩실 신청</string>
-    <string name="meal_empty">급식이 없습니다.</string>
+    <string name="meal_empty">급식이 없습니다</string>
 </resources>
