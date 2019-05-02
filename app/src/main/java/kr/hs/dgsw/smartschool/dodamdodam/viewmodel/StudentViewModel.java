@@ -2,26 +2,20 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import java.util.ArrayList;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.ClassClient;
-import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
 public class StudentViewModel extends ViewModel {
 
@@ -51,10 +45,10 @@ public class StudentViewModel extends ViewModel {
         return loading;
     }
 
-    public void getClasses(){
+    public void getClasses() {
         loading.setValue(true);
         ArrayList<ClassInfo> timeList = (ArrayList<ClassInfo>) databaseHelper.getData("class", new DatabaseGetDataType<>(ClassInfo.class));
-        if (!timeList.isEmpty()){
+        if (!timeList.isEmpty()) {
             loading.setValue(false);
             response.setValue(timeList);
             return;

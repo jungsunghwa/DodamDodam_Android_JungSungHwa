@@ -28,7 +28,7 @@ import java.net.HttpURLConnection;
 import java.util.Collections;
 import java.util.List;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.YoutubeData;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.song.YoutubeData;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.network.task.OnTaskListener;

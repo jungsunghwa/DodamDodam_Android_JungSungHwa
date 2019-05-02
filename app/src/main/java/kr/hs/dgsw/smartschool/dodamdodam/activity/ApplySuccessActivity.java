@@ -1,11 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.os.Bundle;
-import android.widget.Toast;
-
-import com.airbnb.lottie.LottieAnimationView;
-
-import androidx.databinding.DataBindingUtil;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.ApplySuccessActivityBinding;

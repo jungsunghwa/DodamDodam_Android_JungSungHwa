@@ -3,11 +3,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.annimon.stream.Stream;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,17 +15,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.PlaceAdapter;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.PlaceAdapter;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.TimeTableAdapter;
 
 public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> {
 
@@ -68,7 +64,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         observableLocationViewModel();
 
 
-
         binding.locationApplyBtn.setOnClickListener(view -> {
             locationViewModel.postLocation(timeTable);
         });
@@ -91,11 +86,11 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         });
 
         locationViewModel.getStudentLocationValue().observe(this, myLocation -> {
-            int i =0;
+            int i = 0;
 
-            for (Time time : timeTable.keySet()){
-                for (Time time1 : myLocation.keySet()){
-                    if (time.getIdx() == time1.getIdx()){
+            for (Time time : timeTable.keySet()) {
+                for (Time time1 : myLocation.keySet()) {
+                    if (time.getIdx() == time1.getIdx()) {
                         timeTable.put(time, myLocation.get(time1));
                     }
                 }
@@ -159,7 +154,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             Place place = timeTable.get(timeList.get(position));
 
             binding.selectPlaceTv.setText(timeList.get(position).getName()
-                    + getString(R.string.selct_place_text));
+                    + getString(R.string.select_place_text));
 
             if (place == null) {
                 placeAdapter.setPosition(null);
@@ -167,7 +162,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             }
 
             for (int j = 0; j < placeList.size(); j++) {
-                if (placeList.get(j).getIdx().equals(place.getIdx())){
+                if (placeList.get(j).getIdx().equals(place.getIdx())) {
                     placeAdapter.setPosition(j);
                     placeAdapter.notifyDataSetChanged();
                 }

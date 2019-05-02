@@ -17,22 +17,16 @@
     <string name="hint_search_song">제목 입력</string>
     <string name="hint_search_song_desc">제목을 입력하여 검색</string>
     <string name="menu_song">기상송</string>
-    <string name="menu_location_apply">랩실위치신청</string>
+    <string name="menu_location_apply">랩실 신청</string>
     <string name="drawer_open">열기</string>
     <string name="drawer_close">닫기</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
-    <string name="selct_place_text">에 있을 장소를 선택해 주세요!</string>
+    <string name="select_place_text">에 있을 장소를 선택해 주세요!</string>
+    <string name="menu_profile">내 정보</string>
+    <string name="menu_offbase">외출/외박 신청</string>
+    <string name="menu_bus_apply">셔틀 버스</string>
+    <string name="menu_lost_found">분실물</string>
+    <string name="menu_counsel_apply">상담 신청</string>
+    <string name="title_song_apply">기상송</string>
+    <string name="title_location_apply">랩실 신청</string>
+    <string name="meal_empty">급식이 없습니다.</string>
 </resources>

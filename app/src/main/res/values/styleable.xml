@@ -3,6 +3,12 @@
     <declare-styleable name="MealCardView">
         <attr name="typeText" format="string" />
         <attr name="mealText" format="string" />
+        <attr name="errorText" format="string" />
         <attr name="dividerColor" format="color" />
+        <attr name="showLoading" format="boolean" />
+        <attr name="showError" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="FloatingActionButton">
+        <attr name="fabDrawable" format="reference"/>
     </declare-styleable>
 </resources>

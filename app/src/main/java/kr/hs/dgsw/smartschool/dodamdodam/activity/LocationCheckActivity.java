@@ -1,11 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import androidx.annotation.Nullable;
-import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationCheckActivityBinding;
-
 import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+
+import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationCheckActivityBinding;
 
 public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBinding> {
 
@@ -16,9 +17,8 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         super.onCreateTablet(savedInstanceState);
 
 
-
-        binding.toggle.setOnCheckedChangeListener((view, checkedId) ->{
-            switch (checkedId){
+        binding.toggle.setOnCheckedChangeListener((view, checkedId) -> {
+            switch (checkedId) {
                 case R.id.list_type_class:
                     binding.listTypeClass.setTextColor(Color.WHITE);
                     binding.listTypePlace.setTextColor(Color.BLACK);
@@ -34,8 +34,6 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         });
 
 
-
-
     }
 
     @Override
@@ -44,7 +42,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     }
 }
 
-enum ListType{
+enum ListType {
     PLACE,
     CLASS
 }

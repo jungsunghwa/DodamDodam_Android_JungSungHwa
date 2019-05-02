@@ -1,8 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Meal;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.MealPlaceHolder;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Meals;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meals;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -18,7 +17,7 @@ public interface MealService {
     );
 
     @GET("meal/today")
-    Call<Response<MealPlaceHolder>> getTodayMeal(
+    Call<Response<Meal>> getTodayMeal(
             @Header("x-access-token") String token
     );
 }

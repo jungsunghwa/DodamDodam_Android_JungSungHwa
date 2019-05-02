@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.TimeTables;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.TimeTables;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;

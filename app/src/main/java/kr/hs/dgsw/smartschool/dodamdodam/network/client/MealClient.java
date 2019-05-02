@@ -8,10 +8,9 @@ import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Meal;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.MealPlaceHolder;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Meals;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meals;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.MealService;
@@ -20,6 +19,8 @@ import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class MealClient {
+    private static final String TAG = "MealClient";
+
     private MealService meal;
 
     public MealClient() {
@@ -53,12 +54,12 @@ public class MealClient {
     }
 
     public Single<Meal> getTodayMeal(Token token) {
-        return Single.create(observer -> meal.getTodayMeal(token.getToken()).enqueue(new Callback<Response<MealPlaceHolder>>() {
+        return Single.create(observer -> meal.getTodayMeal(token.getToken()).enqueue(new Callback<Response<Meal>>() {
             @Override
             @EverythingIsNonNull
-            public void onResponse(Call<Response<MealPlaceHolder>> call, retrofit2.Response<Response<MealPlaceHolder>> response) {
+            public void onResponse(Call<Response<Meal>> call, retrofit2.Response<Response<Meal>> response) {
                 if (response.isSuccessful())
-                    observer.onSuccess(response.body().getData().getMeal());
+                    observer.onSuccess(response.body().getData());
                 else
                     try {
                         JSONObject errorBody = new JSONObject(Objects
@@ -72,7 +73,7 @@ public class MealClient {
 
             @Override
             @EverythingIsNonNull
-            public void onFailure(Call<Response<MealPlaceHolder>> call, Throwable t) {
+            public void onFailure(Call<Response<Meal>> call, Throwable t) {
                 observer.onError(t);
             }
         }));

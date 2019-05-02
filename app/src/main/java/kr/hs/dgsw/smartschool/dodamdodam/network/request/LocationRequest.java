@@ -1,16 +1,14 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.request;
 
-import android.content.Intent;
-
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
 public class LocationRequest {
     private List<Location> locations = new ArrayList<>();

@@ -12,6 +12,14 @@
         <item name="android:windowActivityTransitions">true</item>
     </style>
 
+    <style name="Theme.App.SongList">
+        <item name="fabDrawable">@drawable/ic_add</item>
+    </style>
+
+    <style name="Theme.App.LostFound">
+        <item name="fabDrawable">@drawable/ic_create</item>
+    </style>
+
     <style name="ThemeOverlay.App.AppBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="colorControlNormal">?colorPrimary</item>
         <item name="android:windowBackground">@color/windowBackgroundColor</item>

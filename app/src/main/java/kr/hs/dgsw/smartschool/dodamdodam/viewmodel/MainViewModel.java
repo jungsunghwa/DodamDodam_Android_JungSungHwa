@@ -11,8 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Meal;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Meals;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.MealClient;
 

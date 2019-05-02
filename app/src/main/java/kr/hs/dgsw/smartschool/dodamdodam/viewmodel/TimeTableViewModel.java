@@ -15,7 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;

@@ -18,6 +18,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 
+import com.annimon.stream.Optional;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -50,15 +52,27 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         viewModel = new MainViewModel(this);
 
         viewModel.getMealData().observe(this, meal -> {
-            binding.mealItems.mealBreakfast.setMeal(meal.getBreakfast());
-            binding.mealItems.mealLunch.setMeal(meal.getLunch());
-            binding.mealItems.mealDinner.setMeal(meal.getDinner());
+            binding.mealItems.mealLunch.setLoading(false);
+            if (meal.isExists()) {
+                binding.mealItems.mealBreakfast.setMeal(Optional
+                        .ofNullable(meal.getBreakfast())
+                        .orElse(getString(R.string.meal_empty)));
+                binding.mealItems.mealLunch.setMeal(Optional
+                        .ofNullable(meal.getLunch())
+                        .orElse(getString(R.string.meal_empty)));
+                binding.mealItems.mealDinner.setMeal(Optional
+                        .ofNullable(meal.getDinner())
+                        .orElse(getString(R.string.meal_empty)));
+            } else
+                binding.mealItems.mealLunch.setMeal(getString(R.string.meal_empty));
         });
         viewModel.getLoading().observe(this, loading -> {
-
+            binding.mealItems.mealLunch.setLoading(loading);
         });
         viewModel.getError().observe(this, error -> {
             Log.w(TAG, "ERROR: ", error);
+            binding.mealItems.mealLunch.setLoading(false);
+            binding.mealItems.mealLunch.setError(error.getMessage());
         });
 
         viewModel.today();
@@ -120,18 +134,8 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case android.R.id.home:
-                /*B1ndBottomSheetDialogFragment bottomSheetDialogFragment = new B1ndBottomSheetDialogFragment()
-                        .setProfileImageResource(android.R.drawable.sym_def_app_icon, getResources())
-                        .setSubIconImageResource(android.R.drawable.ic_lock_power_off, getResources())
-                        .setName("이름")
-                        .setEmail("이메일");
-                bottomSheetDialogFragment.menuInflate(R.menu.menu_main);
-                bottomSheetDialogFragment.setOnBottomSheetOptionsItemSelectedListener(this::onOptionsItemSelected);
-                bottomSheetDialogFragment.show(getSupportFragmentManager(), "bottom");*/
-                break;
             case R.id.menu_song_apply:
-                startActivity(new Intent(this, SongApplyActivity.class));
+                startActivity(new Intent(this, SongListActivity.class));
                 break;
             case R.id.menu_location_apply:
                 startActivity(new Intent(this, LocationApplyActivity.class));
@@ -171,15 +175,25 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     public void onDateChanged(Date date) {
         binding.fabDateToday.setCurrentDate(date);
+        Calendar calendarToday = Calendar.getInstance();
+        calendarToday.set(Calendar.HOUR, 0);
+        calendarToday.set(Calendar.MINUTE, 0);
+        calendarToday.set(Calendar.SECOND, 0);
+        calendarToday.set(Calendar.MILLISECOND, 0);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        viewModel.date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        if (calendarToday.compareTo(calendar) == 0)
+            viewModel.today();
+        else
+            viewModel.date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, dayOfMonth);
+        calendar.set(year, month, dayOfMonth, 0, 0, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         ((OnDateClickListener) this).onDateChanged(calendar.getTime());
     }
 }

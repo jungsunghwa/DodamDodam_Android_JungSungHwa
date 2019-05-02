@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.Model;
+package kr.hs.dgsw.smartschool.dodamdodam.Model.meal;
 
 import java.util.Date;
 import java.util.Locale;
@@ -17,16 +17,8 @@ public class Meal {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public boolean isExists() {
         return exists;
-    }
-
-    public void setExists(boolean exists) {
-        this.exists = exists;
     }
 
     public String getBreakfast() {
@@ -37,20 +29,12 @@ public class Meal {
         return breakfast;
     }
 
-    public void setBreakfast(String breakfast) {
-        this.breakfast = filterMeal(breakfast);
-    }
-
     public String getLunch() {
         if (!isFilteredL) {
             lunch = filterMeal(lunch);
             isFilteredL = !isFilteredL;
         }
         return lunch;
-    }
-
-    public void setLunch(String lunch) {
-        this.lunch = filterMeal(lunch);
     }
 
     public String getDinner() {
@@ -61,11 +45,8 @@ public class Meal {
         return dinner;
     }
 
-    public void setDinner(String dinner) {
-        this.dinner = filterMeal(dinner);
-    }
-
     private String filterMeal(String mealRaw) {
+        if (mealRaw == null) return null;
         String[] filters = {"[(]조[)]", "[(]중[)]", "[(]석[)]"};
         for (int i = 18; i >= 1; i--)
             mealRaw = mealRaw.replaceAll(String.format(Locale.getDefault(), "%d\\.", i), "");
