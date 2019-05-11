@@ -10,14 +10,16 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -33,10 +35,16 @@ import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.network.task.OnTaskListener;
 import kr.hs.dgsw.smartschool.dodamdodam.network.task.YoutubeMusicSearchTask;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.SongViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.SoftKeyboardManager;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OnItemClickListener;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongSearchAdapter;
 
 public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> implements OnTaskListener<List<YoutubeData>>, OnItemClickListener<YoutubeData> {
+
+    private SongViewModel viewModel;
+
+    private SoftKeyboardManager keyboardManager;
 
     private static final int REQUEST_ACCOUNT_PICKER = 0;
     private static final int REQUEST_AUTHORIZATION = 1;
@@ -49,6 +57,8 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
     private SharedPreferences preferences;
     private String PREF_ACCOUNT_NAME = "account";
 
+    private CircularProgressDrawable progressDrawable;
+
     @Override
     protected int layoutId() {
         return R.layout.song_apply_activity;
@@ -58,15 +68,28 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        keyboardManager = new SoftKeyboardManager(this);
+
+        viewModel = new SongViewModel(this);
+        viewModel.getMessage().observe(this, message -> Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show());
+
+        progressDrawable = new CircularProgressDrawable(this);
+        progressDrawable.setStyle(CircularProgressDrawable.LARGE);
+        progressDrawable.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TooltipCompat.setTooltipText(binding.searchButton, getString(R.string.search));
         binding.searchList.setAdapter(adapter = new SongSearchAdapter(this, this));
-        binding.searchList.setLayoutManager(new LinearLayoutManager(this));
-        binding.searchButton.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(binding.searchText.getText()))
-                getResultsFromApi(binding.searchText.getText().toString());
+        binding.searchText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                search();
+                return true;
+            }
+            return false;
         });
+        binding.searchTextLayout.setEndIconDrawable(progressDrawable);
+        binding.searchButton.setOnClickListener(v -> search());
         preferences = getPreferences(Context.MODE_PRIVATE);
         credential = GoogleAccountCredential.usingOAuth2(
                 this, Collections.singletonList(YouTubeScopes.YOUTUBE_READONLY))
@@ -75,14 +98,25 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
         checkAccount();
     }
 
-    private void goneProgress() {
-        binding.progressBar.setVisibility(View.GONE);
+    private void showProgress() {
+        progressDrawable.start();
+    }
+
+    private void hideProgress() {
+        progressDrawable.stop();
+    }
+
+    private void search() {
+        if (!TextUtils.isEmpty(binding.searchText.getText())) {
+            getResultsFromApi(binding.searchText.getText().toString());
+            keyboardManager.closeSoftKeyboard();
+        }
     }
 
     private void getResultsFromApi(String query) {
         if (credential.getSelectedAccountName() != null) {
             adapter.setSearch(true);
-            binding.progressBar.setVisibility(View.VISIBLE);
+            showProgress();
             new YoutubeMusicSearchTask(this, credential, this).execute(query);
         }
     }
@@ -98,6 +132,12 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
             String accountName = preferences.getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 credential.setSelectedAccountName(accountName);
+
+                //설정해도 null 인 경우 계정 재등록 (공장초기화 후 앱 데이터 자동 복원 되었을 경우)
+                if (credential.getSelectedAccountName() == null) {
+                    preferences.edit().remove(PREF_ACCOUNT_NAME).apply();
+                    chooseAccount();
+                }
             } else {
                 startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
             }
@@ -151,14 +191,14 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
 
     @Override
     public void onFinished(List<YoutubeData> data) {
-        adapter.setYoutubeDataList(data);
+        adapter.setList(data);
         adapter.notifyDataSetChanged();
-        goneProgress();
+        hideProgress();
     }
 
     @Override
     public void onCancelled() {
-        goneProgress();
+        hideProgress();
     }
 
     @Override
@@ -173,11 +213,19 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
             exception.printStackTrace();
         }
 
-        goneProgress();
+        hideProgress();
     }
 
     @Override
     public void onItemClick(YoutubeData youtubeData) {
-        Log.d(TAG, "Clicked: " + youtubeData.getVideoId() + " | " + youtubeData.getVideoTitle());
+        Log.d(TAG, "Clicked: " + youtubeData.getVideoId() + " | " + youtubeData.getVideoTitle() + " | " + youtubeData.getVideoUrl());
+        Snackbar.make(binding.rootLayout, "Clicked: " + youtubeData.getVideoId() + " | " + youtubeData.getVideoTitle() + " | " + youtubeData.getVideoUrl(), Snackbar.LENGTH_SHORT).show();
+        //viewModel.apply(new SongRequest(youtubeData.getVideoUrl()));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        keyboardManager.unregisterSoftKeyboardCallback();
     }
 }

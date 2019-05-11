@@ -1,10 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient"
+        android:fitsSystemWindows="true"
+        tools:context=".activity.MainActivity">
 
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/wave_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:scaleY="-1"
+            app:mwhCloseColor="#FFF"
+            app:mwhColorAlpha=".3"
+            app:mwhGradientAngle="320"
+            app:mwhIsRunning="false"
+            app:mwhProgress=".7"
+            app:mwhStartColor="#FFF"
+            app:mwhVelocity="2"
+            app:mwhWaveHeight="45dp"
+            app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/root_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?actionBarSize"
+            android:alpha="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/nav_view"
+            tools:alpha="1">
+
+            <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamTextDate
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:fontFamily="@font/nanum_square_light"
+                tools:text="2019-04-15 Mon" />
+
+
+            <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamTextClock
+                android:id="@+id/text_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/white"
+                android:textSize="33sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_date"
+                tools:fontFamily="@font/gotham_thin"
+                tools:text="1 2 : 0 0 : 0 0" />
+
+            <LinearLayout
+                android:id="@+id/date_select_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="120dp"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_clock">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_date_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    app:backgroundTint="@android:color/white"
+                    app:fabCustomSize="38dp"
+                    app:rippleColor="?colorControlNormal"
+                    app:srcCompat="@drawable/ic_arrow_back"
+                    app:tint="?colorControlNormal" />
+
+                <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamDateExtendedFloatingActionButton
+                    android:id="@+id/fab_date_today"
+                    style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    tools:fontFamily="@font/nanum_square_light" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_date_forward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    app:backgroundTint="@android:color/white"
+                    app:fabCustomSize="38dp"
+                    app:rippleColor="?colorControlNormal"
+                    app:srcCompat="@drawable/ic_arrow_forward"
+                    app:tint="?colorControlNormal" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/meal_items"
+                layout="@layout/meal_items"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_select_layout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/appbar_layout"
+            layout="@layout/app_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="@dimen/design_navigation_width"
+            android:layout_height="0dp"
+            android:background="#aaffffff"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header"
+            app:itemIconTint="?colorControlNormal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/menu_main" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

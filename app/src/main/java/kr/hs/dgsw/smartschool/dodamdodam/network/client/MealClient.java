@@ -19,7 +19,6 @@ import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class MealClient {
-    private static final String TAG = "MealClient";
 
     private MealService meal;
 

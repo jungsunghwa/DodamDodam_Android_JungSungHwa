@@ -43,11 +43,6 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
-        super.onCreatePhone(savedInstanceState);
 
         viewModel = new MainViewModel(this);
 
@@ -83,9 +78,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         showWithAnimate();
 
         ActionBar actionBar = getSupportActionBar();
-        drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.appbarLayout.toolbar, R.string.drawer_open, R.string.drawer_close);
-        binding.drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+
         binding.navView.setNavigationItemSelectedListener(this::onOptionsItemSelected);
 
         if (actionBar != null) {
@@ -95,6 +88,14 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         binding.fabDateBack.setOnClickListener(((OnDateClickListener) this)::onDateBackClick);
         binding.fabDateToday.setOnClickListener(((OnDateClickListener) this)::onDateTodayClick);
         binding.fabDateForward.setOnClickListener(((OnDateClickListener) this)::onDateForwardClick);
+    }
+
+    @Override
+    protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
+        super.onCreatePhone(savedInstanceState);
+        drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.appbarLayout.toolbar, R.string.drawer_open, R.string.drawer_close);
+        binding.drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
     }
 
     @Override
@@ -113,12 +114,12 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+        if (!isTablet()) drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (!isTablet() && binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -176,17 +177,9 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     public void onDateChanged(Date date) {
         binding.fabDateToday.setCurrentDate(date);
-        Calendar calendarToday = Calendar.getInstance();
-        calendarToday.set(Calendar.HOUR, 0);
-        calendarToday.set(Calendar.MINUTE, 0);
-        calendarToday.set(Calendar.SECOND, 0);
-        calendarToday.set(Calendar.MILLISECOND, 0);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        if (calendarToday.compareTo(calendar) == 0)
-            viewModel.today();
-        else
-            viewModel.date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        viewModel.date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override

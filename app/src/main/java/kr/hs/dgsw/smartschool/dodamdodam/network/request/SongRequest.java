@@ -10,9 +10,9 @@ public class SongRequest {
     @SerializedName("submit_date")
     private Date submitDate;
 
-    public SongRequest(String videoUrl, Date submitDate) {
+    public SongRequest(String videoUrl) {
         this.videoUrl = videoUrl;
-        this.submitDate = submitDate;
+        this.submitDate = new Date();
     }
 
     public String getVideoUrl() {

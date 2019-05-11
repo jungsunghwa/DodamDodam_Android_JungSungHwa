@@ -1,6 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.song.Videos;
+import java.util.List;
+
+import kr.hs.dgsw.smartschool.dodamdodam.Model.song.Video;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongCheckRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -13,7 +15,7 @@ import retrofit2.http.POST;
 public interface SongService {
 
     @GET("wake-song")
-    Call<Response<Videos>> getSongs(
+    Call<Response<List<Video>>> getSongs(
             @Header("x-access-token") String token
     );
 
@@ -24,12 +26,12 @@ public interface SongService {
     );
 
     @GET("wake-song/list")
-    Call<Response<Videos>> getMySongs(
+    Call<Response<List<Video>>> getMySongs(
             @Header("x-access-token") String token
     );
 
     @GET("wake-song/allow")
-    Call<Response<Videos>> getMyAllowSongs(
+    Call<Response<List<Video>>> getMyAllowSongs(
             @Header("x-access-token") String token
     );
 

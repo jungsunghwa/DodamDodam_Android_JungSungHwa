@@ -25,7 +25,10 @@ public final class ViewUtils {
     public static void setOnApplyWindowInsetsListenerToWindow(Window window) {
         window.getDecorView().setOnApplyWindowInsetsListener(((v, insets) -> {
             while (!listeners.empty()) {
-                listeners.pop().onApplyWindowInsets(v, insets);
+                try {
+                    listeners.pop().onApplyWindowInsets(v, insets);
+                } catch (NullPointerException ignore) {
+                }
             }
 
             return insets;

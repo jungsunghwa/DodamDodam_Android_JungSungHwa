@@ -43,7 +43,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("PRAGMA foreign_keys = ON;");
         db.execSQL(DatabaseManager.getCreateTableToken());
         db.execSQL(DatabaseManager.getCreateTableTime());
         db.execSQL(DatabaseManager.getCreateTablePlace());
@@ -57,6 +56,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_PLACE);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_CLASS);
         onCreate(db);
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
     }
 
     public void insert(String tableName, Object insertValue) {

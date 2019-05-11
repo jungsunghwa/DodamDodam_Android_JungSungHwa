@@ -17,7 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="p">
-        <activity android:name=".activity.LoginActivity">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,13 +29,7 @@
         <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.PointListActivity"
-            android:label="@string/title_point_list" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="@string/title_point_list" />
         <activity
             android:name=".activity.LocationApplyActivity"
             android:label="@string/title_location_apply" />
@@ -50,8 +46,8 @@
             android:name=".activity.SongListActivity"
             android:label="@string/title_song_apply"
             android:theme="@style/Theme.App.SongList" />
-        <activity android:name=".activity.LocationCheckActivity"/>
-        <activity android:name=".activity.OffbaseActivity"/>
+        <activity android:name=".activity.LocationCheckActivity" />
+        <activity android:name=".activity.OffbaseActivity" />
         <activity
             android:name=".activity.TestMainActivity"
             android:label="TestMain" />

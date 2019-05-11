@@ -7,6 +7,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -51,8 +58,19 @@ public class LoginViewModel extends ViewModel {
                         new DisposableSingleObserver<LoginData>() {
                             @Override
                             public void onSuccess(LoginData loginData) {
-                                databaseHelper.insert(DatabaseManager.TABLE_TOKEN, loginData);
                                 Log.i("token", loginData.getToken());
+                                try {
+                                    DecodedJWT decodedJWT = JWT.decode(loginData.getToken());
+                                    String tokenMemberId = decodedJWT.getClaim("memberId").asString();
+                                    if (!id.equals(tokenMemberId)) {
+                                        //TODO TOKEN MISMATCH ERROR MESSAGE
+                                        onError(new Throwable("잘못 된 정보가 반환되었습니다. 다시 시도해주세요."));
+                                        return;
+                                    }
+                                } catch (JWTDecodeException ignore) {
+                                }
+                                databaseHelper.insert(DatabaseManager.TABLE_TOKEN, loginData);
+
                                 isSuccess.setValue(true);
                                 loading.setValue(false);
                             }

@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongItemBinding;
 
-public class SongSearchViewHolder extends RecyclerView.ViewHolder {
+public class SongViewHolder extends RecyclerView.ViewHolder {
 
     public SongItemBinding binding;
 
-    public SongSearchViewHolder(@NonNull View itemView) {
+    public SongViewHolder(@NonNull View itemView) {
         super(itemView);
         binding = DataBindingUtil.bind(itemView);
         binding.videoTitleText.setSelected(true);

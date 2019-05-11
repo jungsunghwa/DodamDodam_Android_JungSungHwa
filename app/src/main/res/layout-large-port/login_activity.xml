@@ -6,9 +6,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:background="@drawable/background_gradient"
         android:fitsSystemWindows="true"
+        android:background="@drawable/background_gradient"
         tools:context=".activity.LoginActivity">
 
         <com.scwang.wave.MultiWaveHeader
@@ -28,11 +27,9 @@
             app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="480dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:animateLayoutChanges="true"
-            android:maxWidth="420dp">
+            android:layout_gravity="center_horizontal">
 
             <FrameLayout
                 android:id="@+id/buttonSets"
@@ -84,8 +81,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
-                    android:inputType="textPassword"
-                    android:privateImeOptions="nm" />
+                    android:privateImeOptions="nm"
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,8 +105,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
-                    android:inputType="textEmailAddress"
-                    android:privateImeOptions="nm" />
+                    android:privateImeOptions="nm"
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
