@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
@@ -18,13 +19,13 @@ public interface LocationService {
     );
 
     @GET("location/search/my")
-    public Call<Response<LocationRequest>> getMyLocation(
+    public Call<Response<LocationRequest<LocationInfo>>> getMyLocation(
             @Header("x-access-token") String token,
             @Query("date") String date
     );
 
     @GET("location")
-    public Call<Response<LocationRequest>> getLocation(
+    public Call<Response<LocationRequest<LocationInfo>>> getLocation(
             @Header("x-access-token") String token
     );
 

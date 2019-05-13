@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.Model;
+package kr.hs.dgsw.smartschool.dodamdodam.Model.meal;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,9 +10,5 @@ public class Meals {
 
     public List<Meal> getMeals() {
         return meals;
-    }
-
-    public void setMeals(List<Meal> meals) {
-        this.meals = meals;
     }
 }

@@ -37,6 +37,7 @@
                 android:layout_marginBottom="8dp"
                 app:dividerColor="@color/colorPrimaryDark"
                 app:typeText="점심"
+                app:showLoading="true"
                 tools:mealText="기장밥\n들깨닭칼국수\n단배추겉절이\n파돈\n아빠의주스(사과)" />
 
             <kr.hs.dgsw.smartschool.dodamdodam.widget.MealCardView

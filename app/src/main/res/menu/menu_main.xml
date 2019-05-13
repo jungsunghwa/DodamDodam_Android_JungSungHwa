@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_song_apply"
-        android:title="@string/menu_song"
-        android:icon="@drawable/ic_song_apply" />
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/menu_profile" />
+    <item
+        android:id="@+id/menu_offbase"
+        android:icon="@drawable/ic_offbase"
+        android:title="@string/menu_offbase" />
     <item
         android:id="@+id/menu_location_apply"
-        android:title="@string/menu_location_apply"
-        android:icon="@drawable/ic_queue_music" />
+        android:icon="@drawable/ic_location_apply"
+        android:title="@string/menu_location_apply" />
+    <item
+        android:id="@+id/menu_bus_apply"
+        android:icon="@drawable/ic_bus_apply"
+        android:title="@string/menu_bus_apply" />
+    <item
+        android:id="@+id/menu_song_apply"
+        android:icon="@drawable/ic_song_apply"
+        android:title="@string/menu_song" />
+    <item
+        android:id="@+id/menu_lost_found"
+        android:icon="@drawable/ic_lost_found"
+        android:title="@string/menu_lost_found" />
+    <item
+        android:id="@+id/menu_counsel_apply"
+        android:icon="@drawable/ic_counsel_apply"
+        android:title="@string/menu_counsel_apply" />
 </menu>

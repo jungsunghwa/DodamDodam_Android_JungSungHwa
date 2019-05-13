@@ -14,10 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.appcompat.app.WindowDecorActionBar;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -25,11 +21,10 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.model.Student;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
@@ -79,9 +74,12 @@ public class LocationViewModel extends ViewModel {
 
         if (locationRequest.getLocations().isEmpty()){
                 method = "POST";
+            locationRequest = new LocationRequest(timeTable);
+
+        }else {
+            locationRequest.setLocations(timeTable);
         }
 
-        locationRequest.setLocations(timeTable);
 
         single = locationClient.postLocation(locationRequest
                 , databaseHelper.getToken().getToken()
@@ -148,7 +146,7 @@ public class LocationViewModel extends ViewModel {
                                 if (response.getData() == null){
                                     successMessage.setValue(response.getMessage());
                                 }else{
-                                    locationRequest = (LocationRequest) response.getData();
+                                    locationRequest = (LocationRequest<LocationInfo>) response.getData();
                                     data.setValue(
                                             convertLocationRequestToMap((LocationRequest) response.getData()));
                                 }
@@ -163,7 +161,7 @@ public class LocationViewModel extends ViewModel {
                         }));
     }
 
-    private Map convertLocationRequestToMap(LocationRequest locations){
+    private Map convertLocationRequestToMap(LocationRequest<Location> locations){
         Map<Student,Map<Time,Place>> result = new HashMap<>();
 
         Map<Time, Place> locationTemp = new HashMap<>();
@@ -179,7 +177,7 @@ public class LocationViewModel extends ViewModel {
             locationTemp.put(time, null);
         }
 
-        for (LocationInfo location : locations.getLocations()) {
+        for (Location location : locations.getLocations()) {
 
             Time time = Stream.of(times)
                     .filter(a -> a.getIdx() == location.getTimetableIdx())

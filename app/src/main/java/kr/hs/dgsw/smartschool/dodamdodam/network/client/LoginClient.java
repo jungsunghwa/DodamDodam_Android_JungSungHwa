@@ -37,6 +37,8 @@ public class LoginClient {
 
                     observer.onSuccess(loginData);
                     return;
+                }if (status == 401){
+                    observer.onError(new Throwable("아이디 또는 비밀번호가 일치하지 않습니다"));
                 }
                 observer.onError(new Throwable(message));
             }

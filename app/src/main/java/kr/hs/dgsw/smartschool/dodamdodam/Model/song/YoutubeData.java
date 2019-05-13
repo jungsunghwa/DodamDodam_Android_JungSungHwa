@@ -1,4 +1,6 @@
-package kr.hs.dgsw.smartschool.dodamdodam.Model;
+package kr.hs.dgsw.smartschool.dodamdodam.Model.song;
+
+import java.util.Locale;
 
 public class YoutubeData {
 
@@ -50,5 +52,9 @@ public class YoutubeData {
 
     public void setChannelTitle(String channelTitle) {
         this.channelTitle = channelTitle;
+    }
+
+    public String getVideoUrl() {
+        return String.format(Locale.getDefault(), "https://www.youtube.com/watch?v=%s", videoId);
     }
 }

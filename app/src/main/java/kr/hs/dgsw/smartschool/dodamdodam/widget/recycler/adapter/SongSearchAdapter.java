@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.YoutubeData;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.SongSearchViewHolder;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.song.YoutubeData;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.SongViewHolder;
 
 public class SongSearchAdapter extends RecyclerView.Adapter {
 
@@ -26,20 +26,20 @@ public class SongSearchAdapter extends RecyclerView.Adapter {
     private static final int TYPE_HINT = 2;
 
     private final RequestManager glide;
-    private List<YoutubeData> youtubeDataList;
+    private List<YoutubeData> list;
     private OnItemClickListener<YoutubeData> onItemClickListener;
     private boolean isSearch;
     private boolean hasQuotaError;
 
     public SongSearchAdapter(Context context, OnItemClickListener<YoutubeData> onItemClickListener) {
         glide = Glide.with(context);
-        youtubeDataList = new ArrayList<>();
+        list = new ArrayList<>();
         this.onItemClickListener = onItemClickListener;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (youtubeDataList.isEmpty()) {
+        if (list.isEmpty()) {
             if (hasQuotaError)
                 return TYPE_ERROR;
             else if (isSearch)
@@ -71,7 +71,7 @@ public class SongSearchAdapter extends RecyclerView.Adapter {
                 break;
             default:
                 view = inflater.inflate(R.layout.song_item, parent, false);
-                viewHolder = new SongSearchViewHolder(view);
+                viewHolder = new SongViewHolder(view);
                 break;
         }
 
@@ -80,10 +80,10 @@ public class SongSearchAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof SongSearchViewHolder) {
-            final YoutubeData data = youtubeDataList.get(position);
+        if (holder instanceof SongViewHolder) {
+            final YoutubeData data = list.get(position);
 
-            SongSearchViewHolder searchViewHolder = (SongSearchViewHolder) holder;
+            SongViewHolder searchViewHolder = (SongViewHolder) holder;
 
             holder.itemView.setOnClickListener(v -> {
                 if (onItemClickListener != null)
@@ -96,19 +96,19 @@ public class SongSearchAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public List<YoutubeData> getYoutubeDataList() {
-        return youtubeDataList;
+    public List<YoutubeData> getList() {
+        return list;
     }
 
-    public void setYoutubeDataList(List<YoutubeData> youtubeDataList) {
-        this.youtubeDataList = youtubeDataList;
+    public void setList(List<YoutubeData> list) {
+        this.list = list;
     }
 
     @Override
     public int getItemCount() {
-        if (youtubeDataList == null) return 0;
-        if (youtubeDataList.isEmpty()) return 1;
-        return youtubeDataList.size();
+        if (list == null) return 0;
+        if (list.isEmpty()) return 1;
+        return list.size();
     }
 
     public void setHasQuotaError(boolean hasQuotaError) {

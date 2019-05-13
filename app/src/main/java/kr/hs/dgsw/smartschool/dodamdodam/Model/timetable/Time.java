@@ -1,15 +1,15 @@
-package kr.hs.dgsw.smartschool.dodamdodam.Model;
+package kr.hs.dgsw.smartschool.dodamdodam.Model.timetable;
 
 import com.google.gson.annotations.SerializedName;
 
 public class Time {
-    int idx;
-    String name;
-    int type;
+    private int idx;
+    private String name;
+    private int type;
     @SerializedName("start_time")
-    String startTime;
+    private String startTime;
     @SerializedName("end_time")
-    String endTime;
+    private String endTime;
 
     public int getIdx() {
         return idx;

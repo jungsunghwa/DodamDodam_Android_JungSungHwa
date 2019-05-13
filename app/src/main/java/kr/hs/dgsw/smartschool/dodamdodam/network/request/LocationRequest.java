@@ -1,20 +1,18 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.request;
 
-import android.content.Intent;
-
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
-public class LocationRequest {
-    private List<LocationInfo> locations = new ArrayList<>();
+public class LocationRequest<T extends Location> {
+    private List<T> locations = new ArrayList<>();
 
     public LocationRequest(Map<Time, Place> timePlaceMap) {
         locations.clear();
@@ -23,14 +21,14 @@ public class LocationRequest {
             Place place = stringObjectEntry.getValue();
 
             if (place != null) {
-                locations.add(new LocationInfo(time.getIdx(), place.getIdx()));
+                locations.add((T) new Location(time.getIdx(), place.getIdx()));
             } else {
-                locations.add(new LocationInfo(time.getIdx(), null));
+                locations.add((T) new Location(time.getIdx(), null));
             }
         });
     }
 
-    public List<LocationInfo> getLocations() {
+    public List<T> getLocations() {
         return locations;
     }
 
@@ -48,18 +46,19 @@ public class LocationRequest {
 
                 int index = locations.indexOf(location);
                 locations.remove(index);
-                locations.add(index, location);
+                locations.add(index, (T) location);
             }else if (place != null){
                 location.setPlaceIdx(place.getIdx());
-                locations.add(location);
+                locations.add((T) location);
             }else{
-                locations.add(location);
+                locations.add((T) location);
             }
         });
     }
 
     public LocationInfo findLocationByTimeIdx(Integer timeIdx){
-        for (LocationInfo location : locations) {
+        for (T obj : locations) {
+            LocationInfo location = (LocationInfo) obj;
             if (location.getTimetableIdx() == timeIdx){
                 return location;
             }

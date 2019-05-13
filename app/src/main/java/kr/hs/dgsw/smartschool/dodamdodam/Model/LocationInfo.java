@@ -2,41 +2,67 @@ package kr.hs.dgsw.smartschool.dodamdodam.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 public class LocationInfo extends Location {
 
-    @SerializedName("time_table_idx")
-    private Integer timetableIdx;
+    private Integer idx;
 
-    @SerializedName("place_idx")
-    private Integer placeIdx;
+    @SerializedName("student_idx")
+    private Integer studentIdx;
 
-    public void setTimetableIdx(Integer timetableIdx) {
-        this.timetableIdx = timetableIdx;
-    }
+    @SerializedName("is_checked")
+    private Integer isChecked;
 
-    public void setPlaceIdx(Integer placeIdx) {
-        this.placeIdx = placeIdx;
-    }
+    @SerializedName("check_teacher_idx")
+    private Integer checkTeacherIdx;
+
+    private String date;
 
     public LocationInfo(Integer timetableIdx, Integer placeIdx) {
         super(timetableIdx, placeIdx);
-        this.timetableIdx = timetableIdx;
-        this.placeIdx = placeIdx;
+        isChecked = 0;
     }
 
-    public Integer getPlaceIdx() {
-        return placeIdx;
+    public Integer getIdx() {
+        return idx;
     }
 
-    public void setPlaceIdx(int placeIdx) {
-        this.placeIdx = placeIdx;
+    public void setIdx(Integer idx) {
+        this.idx = idx;
     }
 
-    public int getTimetableIdx() {
-        return timetableIdx;
+    public Integer getStudenIdx() {
+        return studentIdx;
     }
 
-    public void setTimetableIdx(int timetableIdx) {
-        this.timetableIdx = timetableIdx;
+    public void setStudenIdx(Integer studenIdx) {
+        this.studentIdx = studenIdx;
     }
+
+
+    public Integer getChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(Boolean checked) {
+        isChecked = checked ? 1 : 0;
+    }
+
+    public Integer getCheckTeacherIdx() {
+        return checkTeacherIdx;
+    }
+
+    public void setCheckTeacherIdx(Integer checkTeacherIdx) {
+        this.checkTeacherIdx = checkTeacherIdx;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.PlaceList;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.PlaceList;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
 import retrofit2.http.GET;

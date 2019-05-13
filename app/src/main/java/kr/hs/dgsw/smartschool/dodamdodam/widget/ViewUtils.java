@@ -25,7 +25,10 @@ public final class ViewUtils {
     public static void setOnApplyWindowInsetsListenerToWindow(Window window) {
         window.getDecorView().setOnApplyWindowInsetsListener(((v, insets) -> {
             while (!listeners.empty()) {
-                listeners.pop().onApplyWindowInsets(v, insets);
+                try {
+                    listeners.pop().onApplyWindowInsets(v, insets);
+                } catch (NullPointerException ignore) {
+                }
             }
 
             return insets;
@@ -63,7 +66,7 @@ public final class ViewUtils {
         } else {
             marginLayoutParams = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
         }
-        marginLayoutParams.topMargin = insets.getSystemWindowInsetTop();
+        marginLayoutParams.topMargin += insets.getSystemWindowInsetTop();
         view.setLayoutParams(layoutParams);
     }
 
@@ -75,12 +78,17 @@ public final class ViewUtils {
         } else {
             marginLayoutParams = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
         }
-        marginLayoutParams.bottomMargin = insets.getSystemWindowInsetBottom();
+        marginLayoutParams.bottomMargin += insets.getSystemWindowInsetBottom();
         view.setLayoutParams(layoutParams);
     }
 
-    public static float dpToPx(Context context, @Dimension(unit = Dimension.DP) int dp) {
+    public static float dpToPx(Context context, @Dimension(unit = Dimension.DP) float dp) {
         Resources r = context.getResources();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+    }
+
+    public static int dpToPx(Context context, @Dimension(unit = Dimension.DP) int dp) {
+        Resources r = context.getResources();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 }

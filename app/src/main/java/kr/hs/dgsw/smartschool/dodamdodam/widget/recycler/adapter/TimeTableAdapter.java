@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.TimeViewHolder;
 

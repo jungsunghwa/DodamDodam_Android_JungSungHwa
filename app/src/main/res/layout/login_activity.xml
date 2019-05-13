@@ -6,8 +6,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
+        android:animateLayoutChanges="true"
         android:background="@drawable/background_gradient"
+        android:fitsSystemWindows="true"
         tools:context=".activity.LoginActivity">
 
         <com.scwang.wave.MultiWaveHeader
@@ -27,9 +28,11 @@
             app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/root_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:animateLayoutChanges="true"
+            android:maxWidth="420dp">
 
             <FrameLayout
                 android:id="@+id/buttonSets"
@@ -49,7 +52,7 @@
                     android:layout_height="60dp"
                     android:text="@string/login" />
 
-                <ProgressBar
+                <androidx.core.widget.ContentLoadingProgressBar
                     android:id="@+id/progress"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
@@ -80,7 +83,9 @@
                     android:id="@+id/textInputPw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                    android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
+                    android:inputType="textPassword"
+                    android:privateImeOptions="nm" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,21 +95,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/hint_email"
                 app:boxBackgroundColor="#b0ffffff"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:passwordToggleEnabled="false">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:imeOptions="flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
+                    android:inputType="textEmailAddress"
+                    android:privateImeOptions="nm" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,31 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:theme="@style/ThemeOverlay.App.AppBar">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/wave"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.App.AppBar"
-            app:subtitleTextColor="?colorSecondary"
-            app:titleTextColor="?colorPrimary"
-            app:layout_scrollFlags="scroll|snap"
-            tools:videoTitle="@string/app_name" />
+            android:layout_height="128dp"
+            app:mwhCloseColor="#5800C5"
+            app:mwhGradientAngle="0"
+            app:mwhStartColor="#3096F8"
+            app:mwhVelocity="1.5"
+            app:mwhWaveHeight="20dp"
+            app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/toolbar_tab"
-            style="@style/Widget.MaterialComponents.TabLayout"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabGravity="fill"
-            app:tabIndicatorFullWidth="true"
-            app:tabInlineLabel="true"
-            app:tabMode="fixed" />
+            android:background="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                tools:title="@string/app_name" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/toolbar_tab"
+                style="@style/Widget.MaterialComponents.TabLayout.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                app:tabGravity="fill"
+                app:tabIndicator="@null"
+                app:tabInlineLabel="true"
+                app:tabMode="fixed" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+    </FrameLayout>
 </layout>

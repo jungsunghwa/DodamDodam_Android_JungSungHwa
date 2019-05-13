@@ -4,13 +4,15 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-
 import android.view.Gravity;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
+
+import com.annimon.stream.Optional;
 
 import java.lang.reflect.Field;
 
@@ -44,7 +46,11 @@ public class DodamToolbar extends Toolbar {
                     textView.setTypeface(ResourcesCompat.getFont(getContext(), R.font.nanum_square_regular));
                 } catch (Resources.NotFoundException ignore) {
                 }
-                textView.setLayoutParams(generateDefaultLayoutParams());
+
+                LayoutParams layoutParams = generateDefaultLayoutParams();
+                Field paramField = layoutParams.getClass().getField("mViewType");
+                paramField.setInt(layoutParams, 1);
+                textView.setLayoutParams(layoutParams);
             }
         } catch (NoSuchFieldException | IllegalAccessException ignore) {
         }
@@ -63,8 +69,34 @@ public class DodamToolbar extends Toolbar {
                 Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nanum_square_regular);
                 textView.setTypeface(typeface);
                 LayoutParams layoutParams = generateDefaultLayoutParams();
-                layoutParams.setMarginStart((int) ViewUtils.dpToPx(getContext(), 24));
+                Field paramField = layoutParams.getClass().getField("mViewType");
+                paramField.setInt(layoutParams, 1);
                 textView.setLayoutParams(layoutParams);
+            }
+        } catch (NoSuchFieldException | IllegalAccessException ignore) {
+        }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        try {
+            Class superClass = getClass().getSuperclass();
+            if (superClass != null) {
+                Field fieldTitle = superClass.getDeclaredField("mTitleTextView");
+                fieldTitle.setAccessible(true);
+                TextView titleView = (TextView) fieldTitle.get(this);
+
+                Field fieldSubTitle = superClass.getDeclaredField("mSubtitleTextView");
+                fieldSubTitle.setAccessible(true);
+                TextView subTitleView = (TextView) fieldSubTitle.get(this);
+
+                if (titleView == null) return;
+                titleView.layout((getWidth() / 2) - (titleView.getWidth() / 2), titleView.getTop(), (getWidth() / 2) + (titleView.getWidth() / 2), titleView.getBottom());
+                Optional.ofNullable(subTitleView).map(view -> {
+                    view.layout((getWidth() / 2) - (view.getWidth() / 2), view.getTop(), (getWidth() / 2) + (view.getWidth() / 2), view.getBottom());
+                    return view;
+                });
             }
         } catch (NoSuchFieldException | IllegalAccessException ignore) {
         }

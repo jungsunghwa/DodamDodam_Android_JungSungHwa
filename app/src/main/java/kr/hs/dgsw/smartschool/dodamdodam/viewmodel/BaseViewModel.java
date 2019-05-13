@@ -18,10 +18,10 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
@@ -83,7 +83,7 @@ public class BaseViewModel<T> extends ViewModel {
                         }));
     }
 
-    private Map convertLocationRequestToMap(LocationRequest locations){
+    private Map convertLocationRequestToMap(LocationRequest<Location> locations){
         Map<Time, Place> result = new HashMap<>();
         List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
         if (Utils.isWeekEnd)
@@ -95,7 +95,7 @@ public class BaseViewModel<T> extends ViewModel {
             result.put(time, null);
         }
 
-        for (LocationInfo location : locations.getLocations()) {
+        for (Location location : locations.getLocations()) {
 
             Time time = Stream.of(times)
                     .filter(a -> a.getIdx() == location.getTimetableIdx())
@@ -109,7 +109,7 @@ public class BaseViewModel<T> extends ViewModel {
                     DatabaseManager.TABLE_PLACE
                     , "idx"
                     , Integer.toString(location.getPlaceIdx())
-                    , new DatabaseGetDataType<>(Place.class)
+                    , new DatabaseGetDataType<Place>(Place.class)
             );
 
             result.put(time, place);

@@ -1,31 +1,28 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+
+import java.util.ArrayList;
+
 import androidx.annotation.Nullable;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationCheckActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-
-import com.google.android.material.snackbar.Snackbar;
-import com.jaredrummler.materialspinner.MaterialSpinner;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBinding> {
     ListType listType;
     ArrayList<Place> placeList = new ArrayList<>();
     DatabaseHelper databaseHelper;
     PlaceViewModel placeViewModel;
-    ArrayAdapter<Place> placeSpinnerAdapter;
 
     @Override
     protected int layoutId() {
@@ -69,7 +66,9 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                     break;
             }
         });
+
     }
+
 }
 
 enum ListType {

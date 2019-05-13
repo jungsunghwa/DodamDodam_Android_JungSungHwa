@@ -6,10 +6,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -37,7 +39,7 @@ public class LocationClient extends NetworkClient{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date());
 
-        Call<Response<LocationRequest>> service =null;
+        Call<Response<LocationRequest<LocationInfo>>> service =null;
 
         if (Utils.identity == Identity.STUDENT)
              service  = location.getMyLocation(token,date);

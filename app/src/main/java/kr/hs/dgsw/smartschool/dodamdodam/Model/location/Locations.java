@@ -1,11 +1,15 @@
-package kr.hs.dgsw.smartschool.dodamdodam.Model;
+package kr.hs.dgsw.smartschool.dodamdodam.Model.location;
 
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Locations extends ArrayList<LocationInfo> {
+import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
+
+public class Locations extends ArrayList<Location> {
     public Locations(Map<Time, Place> timePlaceMap) {
         this.clear();
         Stream.of(timePlaceMap).forEach(stringObjectEntry -> {

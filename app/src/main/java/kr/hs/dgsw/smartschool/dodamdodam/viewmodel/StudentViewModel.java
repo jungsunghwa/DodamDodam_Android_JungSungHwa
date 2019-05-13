@@ -2,15 +2,15 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -20,7 +20,6 @@ import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.b1nd.service.model.Student;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
@@ -28,7 +27,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.ClassClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.StudentClient;
-import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
 public class StudentViewModel extends ViewModel {
 
