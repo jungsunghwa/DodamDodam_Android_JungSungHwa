@@ -21,22 +21,5 @@ public class ClassClient {
         B1ndService.setHostURL(Constants.DEFAULT_HOST);
     }
 
-    public Single<ArrayList<ClassInfo>> getClasses(Token token) {
-        return Single.create(observer -> new B1ndGetClasses().getClasses(token.getToken(), new OnGetClassesListener() {
 
-            @Override
-            public void onGetClassesSuccess(int status, kr.hs.dgsw.b1nd.service.model.ClassInfo[] classes) {
-                if (status == 200){
-                    observer.onSuccess((ArrayList<ClassInfo>) Arrays.asList(classes));
-                    return;
-                }
-                observer.onError(new Throwable(status+""));
-            }
-
-            @Override
-            public void onGetClassesFailed(int status, Throwable throwable, String message) {
-                observer.onError(new Throwable(message));
-            }
-        }));
-    }
 }

@@ -6,17 +6,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Executors;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Utils {
 
     public static boolean isWeekEnd = isWeekEnd(new Date());
+    public static Identity identity = Identity.TEACHER;
+    public static String myId = "";
 
     public static Retrofit RETROFIT =
             new Retrofit.Builder()
                     .baseUrl(Constants.DEFAULT_HOST)
-                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
+                    .addConverterFactory(GsonConverterFactory.create())
                     .callbackExecutor(Executors.newSingleThreadExecutor())
                     .build();
 

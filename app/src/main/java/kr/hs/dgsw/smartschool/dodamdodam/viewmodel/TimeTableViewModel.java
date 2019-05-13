@@ -28,7 +28,7 @@ public class TimeTableViewModel extends ViewModel {
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
 
-    private final MutableLiveData<List<Time>> response = new MutableLiveData<>();
+    private final MutableLiveData<List<Time>> data = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
@@ -38,8 +38,8 @@ public class TimeTableViewModel extends ViewModel {
         databaseHelper = DatabaseHelper.getDatabaseHelper(context);
     }
 
-    public LiveData<List<Time>> getIsSuccess() {
-        return response;
+    public LiveData<List<Time>> getData() {
+        return data;
     }
 
     public LiveData<String> getError() {
@@ -61,7 +61,7 @@ public class TimeTableViewModel extends ViewModel {
             else
                 timeList = Stream.of(timeList).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
-            response.setValue(timeList);
+            data.setValue(timeList);
             return;
         }
         disposable.add(timeTableClient.getTimeTable(databaseHelper.getToken())
@@ -77,7 +77,7 @@ public class TimeTableViewModel extends ViewModel {
                                 else
                                     timeTable = Stream.of(timeTable).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
-                                response.setValue(timeTable);
+                                data.setValue(timeTable);
                                 loading.setValue(false);
                             }
 

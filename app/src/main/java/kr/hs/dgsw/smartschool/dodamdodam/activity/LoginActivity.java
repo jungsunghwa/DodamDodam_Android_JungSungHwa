@@ -8,13 +8,18 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
+import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
 
 public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
     private LoginViewModel loginViewModel;
+    private StudentViewModel studentViewModel;
 
     @Override
     protected int layoutId() {
@@ -26,6 +31,10 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         super.onCreate(savedInstanceState);
 
         loginViewModel = new LoginViewModel(this);
+        studentViewModel = new StudentViewModel(this);
+
+        binding.textInputId.setText("teacher1");
+        binding.textInputPw.setText("1234");
 
         loginViewModel.getLoading().observe(this, isLoading -> {
             if (!isLoading) {
@@ -39,7 +48,17 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
         loginViewModel.getIsSuccess().observe(this, isSuccess -> {
             if (isSuccess) {
+                studentViewModel.getClasses();
+                studentViewModel.getStudent();
+            }
+        });
+
+        studentViewModel.getIsSuccess().observe(this, isSuccess -> {
+            if (isSuccess) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                if(Utils.identity == Identity.TEACHER)
+                    intent = new Intent(getApplicationContext(), LocationCheckActivity.class);
+
                 startActivity(intent);
                 overridePendingTransition(0, R.anim.fade_out);
                 finish();

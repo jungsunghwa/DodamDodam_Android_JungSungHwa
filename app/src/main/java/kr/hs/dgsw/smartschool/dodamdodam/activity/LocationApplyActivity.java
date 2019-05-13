@@ -20,10 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.PlaceAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
@@ -84,19 +87,22 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void observableLocationViewModel() {
-        locationViewModel.getIsPostSuccess().observe(this, successMessage -> {
+        locationViewModel.getSuccessMessage().observe(this, successMessage -> {
             Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
             startActivity(intent);
             finish();
         });
 
-        locationViewModel.getStudentLocationValue().observe(this, myLocation -> {
+        locationViewModel.getData().observe(this, data -> {
             int i =0;
-
+            Map<Time,Place> location = new HashMap();
+            for (Student student : data.keySet()) {
+                location = data.get(student);
+            }
             for (Time time : timeTable.keySet()){
-                for (Time time1 : myLocation.keySet()){
+                for (Time time1 : location.keySet()){
                     if (time.getIdx() == time1.getIdx()){
-                        timeTable.put(time, myLocation.get(time1));
+                        timeTable.put(time, location.get(time1));
                     }
                 }
             }
@@ -105,7 +111,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             setTimeTableRecyclerView();
         });
 
-        locationViewModel.getError().observe(this, errorMessage -> {
+        locationViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });
     }
@@ -176,7 +182,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void observablePlaceViewModel() {
-        placeViewModel.getIsSuccess().observe(this, placeList -> {
+        placeViewModel.getData().observe(this, placeList -> {
 
             this.placeList.clear();
             this.placeList.addAll(placeList);
@@ -188,7 +194,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     private void observableTimeTableViewModel() {
         timeTableViewModel.getError().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
 
-        timeTableViewModel.getIsSuccess().observe(this, timeList -> {
+        timeTableViewModel.getData().observe(this, timeList -> {
             location.clear();
 
             int i = 0;
@@ -215,6 +221,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
         timeTableViewModel.getTimeTable();
         placeViewModel.getAllPlace();
-        locationViewModel.getMyLocation();
+        locationViewModel.getLocation();
     }
 }

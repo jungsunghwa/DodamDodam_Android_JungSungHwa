@@ -5,7 +5,7 @@ import com.annimon.stream.Stream;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Locations extends ArrayList<Location> {
+public class Locations extends ArrayList<LocationInfo> {
     public Locations(Map<Time, Place> timePlaceMap) {
         this.clear();
         Stream.of(timePlaceMap).forEach(stringObjectEntry -> {
@@ -13,7 +13,7 @@ public class Locations extends ArrayList<Location> {
             Place place = stringObjectEntry.getValue();
 
             if (place != null){
-                this.add(new Location(time.getIdx(),place.getIdx()));
+                this.add(new LocationInfo(time.getIdx(),place.getIdx()));
             }
         });
     }

@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 
 public class LocationRequest {
-    private List<Location> locations = new ArrayList<>();
+    private List<LocationInfo> locations = new ArrayList<>();
 
     public LocationRequest(Map<Time, Place> timePlaceMap) {
         locations.clear();
@@ -22,14 +23,14 @@ public class LocationRequest {
             Place place = stringObjectEntry.getValue();
 
             if (place != null) {
-                locations.add(new Location(time.getIdx(), place.getIdx()));
+                locations.add(new LocationInfo(time.getIdx(), place.getIdx()));
             } else {
-                locations.add(new Location(time.getIdx(), null));
+                locations.add(new LocationInfo(time.getIdx(), null));
             }
         });
     }
 
-    public List<Location> getLocations() {
+    public List<LocationInfo> getLocations() {
         return locations;
     }
 
@@ -38,7 +39,7 @@ public class LocationRequest {
             Time time = stringObjectEntry.getKey();
             Place place = stringObjectEntry.getValue();
 
-            Location location = findLocationByTimeIdx(time.getIdx());
+            LocationInfo location = findLocationByTimeIdx(time.getIdx());
 
             if (location.getPlaceIdx() != null) {
 
@@ -57,12 +58,12 @@ public class LocationRequest {
         });
     }
 
-    public Location findLocationByTimeIdx(Integer timeIdx){
-        for (Location location : locations) {
+    public LocationInfo findLocationByTimeIdx(Integer timeIdx){
+        for (LocationInfo location : locations) {
             if (location.getTimetableIdx() == timeIdx){
                 return location;
             }
         }
-        return new Location(timeIdx,null);
+        return new LocationInfo(timeIdx,null);
     }
 }

@@ -23,6 +23,11 @@ public interface LocationService {
             @Query("date") String date
     );
 
+    @GET("location")
+    public Call<Response<LocationRequest>> getLocation(
+            @Header("x-access-token") String token
+    );
+
     @PUT("location")
     public Call<Response> putLocation(
             @Header("x-access-token") String token,

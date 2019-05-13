@@ -24,7 +24,10 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -41,8 +44,8 @@ public class LocationViewModel extends ViewModel {
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
 
-    private final MutableLiveData<String> isPostSuccess = new MutableLiveData<>();
-    private final MutableLiveData<Map<Time, Place>> studentLocationValue = new MutableLiveData<>();
+    private final MutableLiveData<String> successMessage = new MutableLiveData<>();
+    private final MutableLiveData<Map<Student,Map<Time, Place>>> data = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
@@ -52,15 +55,15 @@ public class LocationViewModel extends ViewModel {
         databaseHelper = DatabaseHelper.getDatabaseHelper(context);
     }
 
-    public LiveData<String> getIsPostSuccess() {
-        return isPostSuccess;
+    public LiveData<String> getSuccessMessage() {
+        return successMessage;
     }
 
-    public LiveData<Map<Time, Place>> getStudentLocationValue() {
-        return studentLocationValue;
+    public LiveData<Map<Student,Map<Time, Place>>> getData() {
+        return data;
     }
 
-    public LiveData<String> getError() {
+    public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
 
@@ -70,84 +73,85 @@ public class LocationViewModel extends ViewModel {
 
     public void postLocation(Map<Time, Place> timeTable) {
         loading.setValue(true);
-        Single<String> client;
+        Single<Response> single;
 
-        String method = "POST";
+        String method = "PUT";
 
-        if (locationRequest.getLocations() != null) {
-            method = "PUT";
+        if (locationRequest.getLocations().isEmpty()){
+                method = "POST";
         }
 
         locationRequest.setLocations(timeTable);
 
-        client = locationClient.postLocation(locationRequest
+        single = locationClient.postLocation(locationRequest
                 , databaseHelper.getToken().getToken()
                 , method);
 
         Log.e("request", locationRequest.toString());
-        disposable.add(client
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(
-                        new DisposableSingleObserver<String>() {
-                            @Override
-                            public void onSuccess(String successMessage) {
-                                isPostSuccess.setValue(successMessage);
-                                loading.setValue(false);
-                            }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                errorMessage.setValue(e.getMessage());
-                                loading.setValue(false);
-                            }
-                        }));
+        addDisposable(single);
+
+//        disposable.add(single
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(
+//                        new DisposableSingleObserver<Response>() {
+//                            @Override
+//                            public void onSuccess(Response response) {
+//                                isPostSuccess.setValue(response.getMessage());
+//                                loading.setValue(false);
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                errorMessage.setValue(e.getMessage());
+//                                loading.setValue(false);
+//                            }
+//                        }));
 
     }
 
-    public void getMyLocation() {
+    public void getLocation() {
         loading.setValue(true);
-        disposable.add((Disposable) locationClient.getMyLocation(
-                databaseHelper.getToken().getToken())
-                .subscribeOn(Schedulers.io())
+        Single<Response> single = null;
+        single =  locationClient.getLocation(databaseHelper.getToken().getToken());
+
+        assert single != null;
+        addDisposable(single);
+
+//        disposable.add(single.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(
+//                        new DisposableSingleObserver<Response>() {
+//                            @Override
+//                            public void onSuccess(Response response) {
+//                                locationRequest = (LocationRequest) response.getData();
+//                                studentLocationValue.setValue(convertLocationRequestToMap((LocationRequest)response.getData()));
+//                                loading.setValue(false);
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                errorMessage.setValue(e.getMessage());
+//                                loading.setValue(false);
+//                            }
+//                        }));
+    }
+
+    private void addDisposable(Single single){
+        disposable.add((Disposable) single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
-                        new DisposableSingleObserver<LocationRequest>() {
+                        new DisposableSingleObserver<Response>() {
                             @Override
-                            public void onSuccess(LocationRequest locations) {
-                                locationRequest = locations;
-
-                                Map<Time, Place> result = new HashMap<>();
-                                List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
-                                if (Utils.isWeekEnd)
-                                    times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
-                                else
-                                    times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
-
-                                for (Time time : times) {
-                                    result.put(time, null);
+                            public void onSuccess(Response response) {
+                                if (response.getData() == null){
+                                    successMessage.setValue(response.getMessage());
+                                }else{
+                                    locationRequest = (LocationRequest) response.getData();
+                                    data.setValue(
+                                            convertLocationRequestToMap((LocationRequest) response.getData()));
                                 }
-
-                                for (Location location : locations.getLocations()) {
-
-                                    Time time = Stream.of(times)
-                                            .filter(a -> a.getIdx() == location.getTimetableIdx())
-                                            .collect(Collectors.toList()).get(0);
-
-                                    if (location.getPlaceIdx() == null) {
-                                        result.put(time, null);
-                                        continue;
-                                    }
-                                    Place place = databaseHelper.getData(
-                                            DatabaseManager.TABLE_PLACE
-                                            , "idx"
-                                            , Integer.toString(location.getPlaceIdx())
-                                            , new DatabaseGetDataType<>(Place.class)
-                                    );
-
-                                    result.put(time, place);
-                                }
-                                studentLocationValue.setValue(result);
                                 loading.setValue(false);
                             }
 
@@ -157,6 +161,45 @@ public class LocationViewModel extends ViewModel {
                                 loading.setValue(false);
                             }
                         }));
+    }
 
+    private Map convertLocationRequestToMap(LocationRequest locations){
+        Map<Student,Map<Time,Place>> result = new HashMap<>();
+
+        Map<Time, Place> locationTemp = new HashMap<>();
+
+        List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
+
+        if (Utils.isWeekEnd)
+            times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
+        else
+            times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
+
+        for (Time time : times) {
+            locationTemp.put(time, null);
+        }
+
+        for (LocationInfo location : locations.getLocations()) {
+
+            Time time = Stream.of(times)
+                    .filter(a -> a.getIdx() == location.getTimetableIdx())
+                    .collect(Collectors.toList()).get(0);
+
+            if (location.getPlaceIdx() == null) {
+                locationTemp.put(time, null);
+                continue;
+            }
+            Place place = databaseHelper.getData(
+                    DatabaseManager.TABLE_PLACE
+                    , "idx"
+                    , Integer.toString(location.getPlaceIdx())
+                    , new DatabaseGetDataType<>(Place.class)
+            );
+
+            locationTemp.put(time, place);
+        }
+
+        result.put((Student) databaseHelper.getMyInfo(),locationTemp);
+        return result;
     }
 }

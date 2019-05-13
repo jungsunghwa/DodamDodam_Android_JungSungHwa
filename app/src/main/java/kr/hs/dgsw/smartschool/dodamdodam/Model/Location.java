@@ -9,16 +9,10 @@ public class Location {
     private Integer idx;
 
     @SerializedName("student_idx")
-    private Integer studenIdx;
-
-    @SerializedName("time_table_idx")
-    private Integer timetableIdx;
-
-    @SerializedName("place_idx")
-    private Integer placeIdx;
+    private Integer studentIdx;
 
     @SerializedName("is_checked")
-    private int isChecked;
+    private Integer isChecked;
 
     @SerializedName("check_teacher_idx")
     private Integer checkTeacherIdx;
@@ -34,22 +28,15 @@ public class Location {
     }
 
     public Integer getStudenIdx() {
-        return studenIdx;
+        return studentIdx;
     }
 
     public void setStudenIdx(Integer studenIdx) {
-        this.studenIdx = studenIdx;
+        this.studentIdx = studenIdx;
     }
 
-    public void setTimetableIdx(Integer timetableIdx) {
-        this.timetableIdx = timetableIdx;
-    }
 
-    public void setPlaceIdx(Integer placeIdx) {
-        this.placeIdx = placeIdx;
-    }
-
-    public int getChecked() {
+    public Integer getChecked() {
         return isChecked;
     }
 
@@ -74,24 +61,6 @@ public class Location {
     }
 
     public Location(Integer timetableIdx, Integer placeIdx) {
-        this.timetableIdx = timetableIdx;
-        this.placeIdx = placeIdx;
-        this.isChecked = 0;
     }
 
-    public Integer getPlaceIdx() {
-        return placeIdx;
-    }
-
-    public void setPlaceIdx(int placeIdx) {
-        this.placeIdx = placeIdx;
-    }
-
-    public int getTimetableIdx() {
-        return timetableIdx;
-    }
-
-    public void setTimetableIdx(int timetableIdx) {
-        this.timetableIdx = timetableIdx;
-    }
 }

@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="a"
+            type="kr.hs.dgsw.smartschool.dodamdodam.activity.LocationCheckActivity"/>
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
@@ -74,6 +79,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toggle">
 
             <LinearLayout
+                android:id="@+id/class_spinner_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -110,6 +116,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="반" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/place_spinner_layout"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/place_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -13,18 +14,21 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.PlaceList;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.PlaceClient;
+import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 
 public class PlaceViewModel extends ViewModel {
     private PlaceClient placeClient;
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
 
-    private final MutableLiveData<List<Place>> response = new MutableLiveData<>();
+    private final MutableLiveData<List<Place>> data = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
     public PlaceViewModel(Context context) {
@@ -33,8 +37,8 @@ public class PlaceViewModel extends ViewModel {
         databaseHelper = DatabaseHelper.getDatabaseHelper(context);
     }
 
-    public LiveData<List<Place>> getIsSuccess() {
-        return response;
+    public LiveData<List<Place>> getData() {
+        return data;
     }
 
     public LiveData<String> getError() {
@@ -44,6 +48,9 @@ public class PlaceViewModel extends ViewModel {
     public LiveData<Boolean> getLoading() {
         return loading;
     }
+    public LiveData<String> getSuccessMessage() {
+        return successMessage;
+    }
 
     public void getAllPlace() {
         loading.setValue(true);
@@ -51,17 +58,19 @@ public class PlaceViewModel extends ViewModel {
                 new DatabaseGetDataType<>(Place.class));
         if (!placeList.isEmpty()) {
             loading.setValue(false);
-            response.setValue(placeList);
+            data.setValue(placeList);
             return;
         }
+
         disposable.add(placeClient.getAllPlace(databaseHelper.getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
-                        new DisposableSingleObserver<List<Place>>() {
+                        new DisposableSingleObserver<Response>() {
                             @Override
-                            public void onSuccess(List<Place> placeList) {
+                            public void onSuccess(Response response) {
+                                List<Place> placeList = ((Response<PlaceList>)response).getData().getPlaces();
                                 databaseHelper.insert(DatabaseManager.TABLE_PLACE, placeList);
-                                response.setValue(placeList);
+                                data.setValue(placeList);
                                 loading.setValue(false);
                             }
 

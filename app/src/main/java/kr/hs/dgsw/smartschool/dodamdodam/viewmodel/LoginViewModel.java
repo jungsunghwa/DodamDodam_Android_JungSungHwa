@@ -13,6 +13,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginData;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LoginClient;
@@ -53,6 +54,7 @@ public class LoginViewModel extends ViewModel {
                             public void onSuccess(LoginData loginData) {
                                 databaseHelper.insert(DatabaseManager.TABLE_TOKEN, loginData);
                                 Log.i("token", loginData.getToken());
+                                Utils.myId = id;
                                 isSuccess.setValue(true);
                                 loading.setValue(false);
                             }
@@ -63,6 +65,5 @@ public class LoginViewModel extends ViewModel {
                                 loading.setValue(false);
                             }
                         }));
-
     }
 }

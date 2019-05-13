@@ -1,10 +1,20 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
+import java.util.ArrayList;
+
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.B1ndService;
+import kr.hs.dgsw.b1nd.service.interfaces.OnGetAllProfileListener;
 import kr.hs.dgsw.b1nd.service.interfaces.OnLoginSuccessListener;
+import kr.hs.dgsw.b1nd.service.model.Member;
+import kr.hs.dgsw.b1nd.service.model.Student;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginData;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
+import kr.hs.dgsw.b1nd.service.service.B1ndGetAllProfileService;
+import kr.hs.dgsw.b1nd.service.service.B1ndGetClasses;
 import kr.hs.dgsw.b1nd.service.service.B1ndLogin;
 import kr.hs.dgsw.smartschool.dodamdodam.Constants;
 import retrofit2.internal.EverythingIsNonNull;

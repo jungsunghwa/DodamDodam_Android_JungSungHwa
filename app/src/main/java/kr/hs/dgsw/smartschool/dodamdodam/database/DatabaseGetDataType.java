@@ -1,7 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.database;
 
 public class DatabaseGetDataType<T> {
-    private Class<T> mClass;
+    private Class<T>     mClass;
 
     public DatabaseGetDataType(Class<T> cls) {
         mClass = cls;
