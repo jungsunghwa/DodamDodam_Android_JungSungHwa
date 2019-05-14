@@ -2,7 +2,11 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -11,11 +15,12 @@ import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongListActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.SongViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongListAdapter;
 
-public class SongListActivity extends BaseActivity<SongListActivityBinding> {
+public class SongListActivity extends BaseActivity<SongListActivityBinding> implements SwipeRefreshLayout.OnRefreshListener {
 
-    private SongViewModel viewModel;
-
+    public static final String REQ_SONG_APPLY_RESULT_MESSAGE = "message";
     private static final String TAG = "SongListActivity";
+    private static final int REQ_SONG_APPLY = 1000;
+    private SongViewModel viewModel;
 
     @Override
     protected int layoutId() {
@@ -26,17 +31,46 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         viewModel = new SongViewModel(this);
 
         viewModel.getSongsData().observe(this, songs -> binding.songList.setAdapter(new SongListAdapter(this, songs)));
         viewModel.getError().observe(this, error -> {
-            Log.w(TAG, "ERROR!", error);
             Snackbar.make(binding.rootLayout, error.getMessage(), Snackbar.LENGTH_SHORT).show();
         });
-        viewModel.getLoading().observe(this, loading -> Log.d(TAG, "isLoading " + loading));
+        viewModel.getLoading().observe(this, loading -> {
+            binding.swipeRefreshLayout.setRefreshing(loading);
+            binding.progress.setVisibility(loading ? View.VISIBLE : View.GONE);
+        });
 
         viewModel.list();
 
-        binding.songApplyFab.setOnClickListener(v -> startActivity(new Intent(this, SongApplyActivity.class)));
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
+        binding.swipeRefreshLayout.setOnRefreshListener(this);
+        binding.openSongApplyFab.setOnClickListener(v -> startActivityForResult(new Intent(this, SongApplyActivity.class), REQ_SONG_APPLY));
+    }
+
+    @Override
+    public void onRefresh() {
+        viewModel.list();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_SONG_APPLY && resultCode == RESULT_OK) {
+            Snackbar.make(binding.rootLayout, data.getStringExtra(REQ_SONG_APPLY_RESULT_MESSAGE), Snackbar.LENGTH_SHORT).show();
+            viewModel.list();
+        }
     }
 }

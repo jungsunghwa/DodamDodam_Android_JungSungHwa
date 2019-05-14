@@ -41,16 +41,14 @@
             android:label="@string/title_bus_apply" />
         <activity
             android:name=".activity.SongApplyActivity"
-            android:label="@string/title_song_apply" />
+            android:label="@string/title_song_apply"
+            android:theme="@style/Theme.App.SongApply"  />
         <activity
             android:name=".activity.SongListActivity"
             android:label="@string/title_song_apply"
             android:theme="@style/Theme.App.SongList" />
         <activity android:name=".activity.LocationCheckActivity" />
         <activity android:name=".activity.OffbaseActivity" />
-        <activity
-            android:name=".activity.TestMainActivity"
-            android:label="TestMain" />
     </application>
 
 </manifest>

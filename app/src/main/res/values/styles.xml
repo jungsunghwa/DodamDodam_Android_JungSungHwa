@@ -12,6 +12,10 @@
         <item name="android:windowActivityTransitions">true</item>
     </style>
 
+    <style name="Theme.App.SongApply">
+        <item name="fabDrawable">@drawable/ic_send</item>
+    </style>
+
     <style name="Theme.App.SongList">
         <item name="fabDrawable">@drawable/ic_add</item>
     </style>

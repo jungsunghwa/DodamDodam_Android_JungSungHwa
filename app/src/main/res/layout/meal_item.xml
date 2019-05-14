@@ -82,7 +82,7 @@
                     tools:text="급식 설정이 필요합니다" />
             </LinearLayout>
 
-            <ProgressBar
+            <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progress"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
