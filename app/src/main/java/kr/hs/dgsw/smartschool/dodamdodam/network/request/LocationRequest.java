@@ -39,6 +39,8 @@ public class LocationRequest<T extends Location> {
 
             LocationInfo location = findLocationByTimeIdx(time.getIdx());
 
+            if (location.getChecked() == null) location.setChecked(true);
+
             if (location.getPlaceIdx() != null) {
 
                 if (place == null) location.setPlaceIdx(null);
@@ -47,22 +49,22 @@ public class LocationRequest<T extends Location> {
                 int index = locations.indexOf(location);
                 locations.remove(index);
                 locations.add(index, (T) location);
-            }else if (place != null){
+            } else if (place != null) {
                 location.setPlaceIdx(place.getIdx());
-                locations.add((T) location);
-            }else{
-                locations.add((T) location);
+                int index = locations.indexOf(location);
+                locations.remove(index);
+                locations.add(index,(T) location);
             }
         });
     }
 
-    public LocationInfo findLocationByTimeIdx(Integer timeIdx){
+    public LocationInfo findLocationByTimeIdx(Integer timeIdx) {
         for (T obj : locations) {
             LocationInfo location = (LocationInfo) obj;
-            if (location.getTimetableIdx() == timeIdx){
+            if (location.getTimetableIdx() == timeIdx) {
                 return location;
             }
         }
-        return new LocationInfo(timeIdx,null);
+        return new LocationInfo(timeIdx, null);
     }
 }
