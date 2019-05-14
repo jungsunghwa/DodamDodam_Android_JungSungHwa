@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.activity;
+package kr.hs.dgsw.smartschool.dodamdodam.activity.song;
 
 import android.Manifest;
 import android.accounts.AccountManager;
@@ -32,6 +32,7 @@ import java.util.List;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.song.YoutubeData;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.task.OnTaskListener;

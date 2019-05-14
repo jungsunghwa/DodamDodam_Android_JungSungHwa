@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.activity;
+package kr.hs.dgsw.smartschool.dodamdodam.activity.song;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +11,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongListActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.SongViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongListAdapter;
 
+/*
+ * TODO
+ * 썸네일 화질 사용자 설정 (낮음, 보통, 높음 | 서버가 반환하는 값: 높음)
+ * 신청 정보 상세 보기 (카드 클릭시 카드가 펴지며 상세 정보 표시)
+ */
 public class SongListActivity extends BaseActivity<SongListActivityBinding> implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String REQ_SONG_APPLY_RESULT_MESSAGE = "message";

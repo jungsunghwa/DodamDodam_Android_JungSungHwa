@@ -40,15 +40,16 @@
             android:name=".activity.BusApplyActivity"
             android:label="@string/title_bus_apply" />
         <activity
-            android:name=".activity.SongApplyActivity"
+            android:name=".activity.song.SongApplyActivity"
             android:label="@string/title_song_apply"
-            android:theme="@style/Theme.App.SongApply"  />
+            android:theme="@style/Theme.App.SongApply" />
         <activity
-            android:name=".activity.SongListActivity"
+            android:name=".activity.song.SongListActivity"
             android:label="@string/title_song_apply"
             android:theme="@style/Theme.App.SongList" />
         <activity android:name=".activity.LocationCheckActivity" />
-        <activity android:name=".activity.OffbaseActivity" />
+        <activity android:name=".activity.offbase.OffbaseActivity" />
+        <activity android:name=".activity.offbase.OffbaseApplyActivity"/>
     </application>
 
 </manifest>

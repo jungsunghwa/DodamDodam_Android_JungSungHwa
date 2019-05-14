@@ -34,10 +34,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "dodam.db";
 
+    private static final int DATABASE_VERSION = 1;
+
     private static volatile DatabaseHelper INSTANCE;
 
     private DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @NonNull
@@ -76,11 +78,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_LOCATION);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_STUDENT);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_TEACHER);
-        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_PARENTSLOG);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_PARENTS_LOG);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_MEMBER);
-        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_DEPARTMENTLOG);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_DEPARTMENT_LOG);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_PARENT);
-        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_CHILDRENLOG);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_CHILDREN_LOG);
         onCreate(db);
     }
 
@@ -99,10 +101,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Member getMyInfo(){
+    public Member getMyInfo() {
 
         final SQLiteDatabase db = this.getReadableDatabase();
-        final Cursor res = db.rawQuery("SELECT * FROM member WHERE id =  '" +Utils.myId +"'",null);
+        final Cursor res = db.rawQuery("SELECT * FROM member WHERE id =  '" + Utils.myId + "'", null);
         final Member member = new Member();
 
         while (res.moveToNext()) {
@@ -116,11 +118,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         switch (member.getAuth()) {
-            case 1:
+            case 1: /* STUDENT */
                 return getStudentByMember(new Student(member));
-            case 2:
+            case 2: /* TEACHER */
                 return getTeacherByMember(new Teacher(member));
-            case 3:
+            case 3: /* PARENT */
                 return getParentByMember(new Parent(member));
         }
 
@@ -133,8 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Parent parent = new Parent(member);
         final SQLiteDatabase db = this.getWritableDatabase();
         final Cursor res =
-                db.rawQuery(
-                        "SELECT * FROM parent WHERE member_id = '" + member.getId() + "'", null);
+                db.rawQuery("SELECT * FROM parent WHERE member_id = '" + member.getId() + "'", null);
 
         while (res.moveToNext()) {
             parent.setIdx(res.getInt(res.getColumnIndex("idx")));
@@ -332,8 +333,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } else if (v instanceof Double) {
                     contentValues.put(k, (Double) v);
                     if (contentValues.get(k).equals("")) contentValues.put(k, (Double) null);
-                } else if (v.getClass().isArray()){
-                    insert(k,v);
+                } else if (v.getClass().isArray()) {
+                    insert(k, v);
                 }
             });
             contentValuesList.add(contentValues);
@@ -434,7 +435,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     map.put(field.getName(), field.get(obj) != null ? field.get(obj) : true);
                 } else if (field.getType() == Double.class) {
                     map.put(field.getName(), field.get(obj) != null ? field.get(obj) : 0);
-                } else if (field.getType().isArray()){
+                } else if (field.getType().isArray()) {
                     map.put(field.getName(), field.get(obj));
                 }
             } catch (Exception e) {

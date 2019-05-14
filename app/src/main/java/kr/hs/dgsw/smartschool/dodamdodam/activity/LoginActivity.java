@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import kr.hs.dgsw.b1nd.service.model.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -37,9 +36,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         loginViewModel = new LoginViewModel(this);
         studentViewModel = new StudentViewModel(this);
 
-        binding.textInputId.setText("teacher1");
-        binding.textInputPw.setText("1234");
-
         studentViewModel.getLoading().observe(this, isLoading -> {
             if (!isLoading) {
                 binding.progress.hide();
@@ -50,8 +46,8 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
         loginViewModel.getError().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
 
-        loginViewModel.getIsSuccess().observe(this, isSuccess -> {
-            if (isSuccess) {
+        loginViewModel.isSuccess().observe(this, success -> {
+            if (success) {
                 studentViewModel.getClasses();
                 studentViewModel.getStudent();
             } else {

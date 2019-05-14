@@ -120,8 +120,8 @@ public class SongViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
-                            public void onSuccess(String videos) {
-                                message.setValue(videos);
+                            public void onSuccess(String msg) {
+                                message.setValue(msg);
                                 loading.setValue(false);
                             }
 
@@ -139,8 +139,8 @@ public class SongViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
-                            public void onSuccess(String videos) {
-                                message.setValue(videos);
+                            public void onSuccess(String msg) {
+                                message.setValue(msg);
                                 loading.setValue(false);
                             }
 
@@ -158,8 +158,8 @@ public class SongViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
-                            public void onSuccess(String videos) {
-                                message.setValue(videos);
+                            public void onSuccess(String msg) {
+                                message.setValue(msg);
                                 loading.setValue(false);
                             }
 
