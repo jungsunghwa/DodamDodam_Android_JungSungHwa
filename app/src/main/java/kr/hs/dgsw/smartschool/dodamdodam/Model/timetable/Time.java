@@ -2,6 +2,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.Model.timetable;
 
 import com.google.gson.annotations.SerializedName;
 
+import androidx.annotation.NonNull;
+
 public class Time {
     private int idx;
     private String name;
@@ -49,5 +51,11 @@ public class Time {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
     }
 }

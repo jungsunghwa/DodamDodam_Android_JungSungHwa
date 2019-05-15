@@ -67,6 +67,7 @@ public class StudentViewModel extends ViewModel {
         loading.setValue(true);
 
         ArrayList<ClassInfo> classes = (ArrayList<ClassInfo>) databaseHelper.getData("class", new DatabaseGetDataType<>(ClassInfo.class));
+
         if (!classes.isEmpty()) {
             loading.setValue(false);
             classInfos.setValue(classes);

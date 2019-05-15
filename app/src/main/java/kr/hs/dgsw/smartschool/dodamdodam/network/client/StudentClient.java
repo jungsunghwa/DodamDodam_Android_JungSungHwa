@@ -5,6 +5,7 @@ import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.B1ndService;
@@ -46,7 +47,8 @@ public class StudentClient {
             @Override
             public void onGetClassesSuccess(int status, kr.hs.dgsw.b1nd.service.model.ClassInfo[] classes) {
                 if (status == 200){
-                    observer.onSuccess((ArrayList<ClassInfo>) Arrays.asList(classes));
+                    ArrayList<ClassInfo> list = new ArrayList<>(Arrays.asList(classes));
+                    observer.onSuccess(list);
                     return;
                 }
                 observer.onError(new Throwable(status+""));

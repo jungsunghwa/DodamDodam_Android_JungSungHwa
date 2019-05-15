@@ -93,7 +93,7 @@ public final class DatabaseManager {
     static String getCreateTableParent() {
         return "CREATE TABLE "+TABLE_PARENT+" ("
                 + "idx INTEGER UNIQUE,"
-                + "member_id STRING,"
+                + "memberId STRING,"
                 + "PRIMARY KEY (idx)"
                 + ")";
     }

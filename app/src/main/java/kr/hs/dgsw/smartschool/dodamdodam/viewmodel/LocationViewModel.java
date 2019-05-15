@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,10 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -38,11 +41,14 @@ public class LocationViewModel extends ViewModel {
     private LocationRequest locationRequest;
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
+    private ArrayList<Locations> locations;
 
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<Map<Student,Map<Time, Place>>> data = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+
+    Map<Student,Map<Time,Place>> result = new HashMap<>();
 
     public LocationViewModel(Context context) {
         locationClient = new LocationClient();
@@ -146,9 +152,18 @@ public class LocationViewModel extends ViewModel {
                                 if (response.getData() == null){
                                     successMessage.setValue(response.getMessage());
                                 }else{
-                                    locationRequest = (LocationRequest<LocationInfo>) response.getData();
-                                    data.setValue(
-                                            convertLocationRequestToMap((LocationRequest) response.getData()));
+                                    if (Utils.identity == Identity.STUDENT) {
+                                        locationRequest = (LocationRequest<LocationInfo>) response.getData();
+                                        result.clear();
+                                        data.setValue(
+                                                convertLocationRequestToMap((ArrayList<Location>) locationRequest.getLocations(), null));
+                                    }else {
+                                        locations = (ArrayList<Locations>) response.getData();
+                                        result.clear();
+                                        data.setValue(
+                                                convertLocationsToMap(locations)
+                                        );
+                                    }
                                 }
                                 loading.setValue(false);
                             }
@@ -161,9 +176,17 @@ public class LocationViewModel extends ViewModel {
                         }));
     }
 
-    private Map convertLocationRequestToMap(LocationRequest<Location> locations){
-        Map<Student,Map<Time,Place>> result = new HashMap<>();
+    private Map convertLocationsToMap(ArrayList<Locations> locations){
+        result.clear();
 
+        for (Locations location : locations) {
+            convertLocationRequestToMap(location.getLocations(), location.getStudentIdx());
+        }
+
+        return result;
+    }
+
+    private Map convertLocationRequestToMap(ArrayList<Location> locations, Integer studentIdx){
         Map<Time, Place> locationTemp = new HashMap<>();
 
         List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
@@ -177,7 +200,7 @@ public class LocationViewModel extends ViewModel {
             locationTemp.put(time, null);
         }
 
-        for (Location location : locations.getLocations()) {
+        for (Location location : locations) {
 
             Time time = Stream.of(times)
                     .filter(a -> a.getIdx() == location.getTimetableIdx())
@@ -187,6 +210,7 @@ public class LocationViewModel extends ViewModel {
                 locationTemp.put(time, null);
                 continue;
             }
+
             Place place = databaseHelper.getData(
                     DatabaseManager.TABLE_PLACE
                     , "idx"
@@ -197,7 +221,11 @@ public class LocationViewModel extends ViewModel {
             locationTemp.put(time, place);
         }
 
-        result.put((Student) databaseHelper.getMyInfo(),locationTemp);
+        if (studentIdx.equals(null))
+            result.put((Student) databaseHelper.getMyInfo(),locationTemp);
+        else
+            result.put((Student) databaseHelper.getStudentByIdx(studentIdx), locationTemp);
+
         return result;
     }
 }

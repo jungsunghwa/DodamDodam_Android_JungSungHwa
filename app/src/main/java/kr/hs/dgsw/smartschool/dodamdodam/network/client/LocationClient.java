@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -12,6 +13,7 @@ import java.util.Objects;
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -20,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class LocationClient extends NetworkClient{
+public class LocationClient extends NetworkClient {
     private LocationService location;
     private NetworkClient networkClient = new NetworkClient();
 
@@ -39,13 +41,15 @@ public class LocationClient extends NetworkClient{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date());
 
-        Call<Response<LocationRequest<LocationInfo>>> service =null;
 
-        if (Utils.identity == Identity.STUDENT)
-             service  = location.getMyLocation(token,date);
-        else if (Utils.identity == Identity.TEACHER)
-            service  = location.getLocation(token);
+        if (Utils.identity == Identity.STUDENT) {
+            Call<Response<LocationRequest<LocationInfo>>> service = location.getMyLocation(token, date);
+            return actionService(service);
+        } else if (Utils.identity == Identity.TEACHER) {
+            Call<Response<ArrayList<Locations>>> service = location.getLocation(token, date);
+            return actionService(service);
+        }
 
-        return actionService(service);
+        return actionService(null);
     }
 }

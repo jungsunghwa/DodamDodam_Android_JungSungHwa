@@ -25,11 +25,11 @@
 
         <RadioGroup
             android:id="@+id/toggle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/pink_out_line"
             android:checkedButton="@+id/list_type_class"
             android:orientation="horizontal"
@@ -69,10 +69,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,56 +90,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <Spinner
-                    android:id="@+id/grade_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="21dp"
-                    tools:layout_editor_absoluteX="62dp"
-                    tools:layout_editor_absoluteY="29dp" />
-
-                <TextView
-                    android:id="@+id/grade_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="학년" />
-
-                <Spinner
+                <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/class_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp" />
 
-                <TextView
-                    android:id="@+id/class_tv"
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/time_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="반" />
+                    android:layout_marginStart="8dp" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/place_spinner_layout"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/class_spinner_layout">
 
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                    android:id="@+id/place_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-
+            </androidx.recyclerview.widget.RecyclerView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

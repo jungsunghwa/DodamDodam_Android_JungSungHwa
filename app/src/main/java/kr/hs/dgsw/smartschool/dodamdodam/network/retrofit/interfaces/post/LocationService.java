@@ -1,6 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
 
+import java.util.ArrayList;
+
 import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
@@ -24,10 +27,11 @@ public interface LocationService {
             @Query("date") String date
     );
 
-    @GET("location")
-    public Call<Response<LocationRequest<LocationInfo>>> getLocation(
-            @Header("x-access-token") String token
-    );
+    @GET("location/search/students")
+    public Call<Response<ArrayList<Locations>>> getLocation(
+            @Header("x-access-token") String token,
+            @Query("date") String date
+            );
 
     @PUT("location")
     public Call<Response> putLocation(

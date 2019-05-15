@@ -100,9 +100,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Member getMyInfo(){
-
         final SQLiteDatabase db = this.getReadableDatabase();
         final Cursor res = db.rawQuery("SELECT * FROM member WHERE id =  '" +Utils.myId +"'",null);
+
+        return getMemberInfo(res);
+    }
+
+    public Member getStudentByIdx(int idx){
+        final SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM student WHERE idx =  '" + idx +"'",null);
+
+        String memberId = null;
+
+        while (res.moveToNext()) {
+            memberId = res.getString(res.getColumnIndex("memberId"));
+        }
+
+        res = db.rawQuery("SELECT * FROM member WHERE id =  '" + memberId +"'",null);
+
+        return getMemberInfo(res);
+    }
+
+    public Member getMemberInfo(Cursor res){
+
+        final SQLiteDatabase db = this.getReadableDatabase();
         final Member member = new Member();
 
         while (res.moveToNext()) {
@@ -134,7 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final SQLiteDatabase db = this.getWritableDatabase();
         final Cursor res =
                 db.rawQuery(
-                        "SELECT * FROM parent WHERE member_id = '" + member.getId() + "'", null);
+                        "SELECT * FROM parent WHERE memberId = '" + member.getId() + "'", null);
 
         while (res.moveToNext()) {
             parent.setIdx(res.getInt(res.getColumnIndex("idx")));
