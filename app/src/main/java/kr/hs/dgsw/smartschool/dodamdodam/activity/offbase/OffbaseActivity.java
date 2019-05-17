@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.activity;
+package kr.hs.dgsw.smartschool.dodamdodam.activity.offbase;
 
 import android.os.Bundle;
 

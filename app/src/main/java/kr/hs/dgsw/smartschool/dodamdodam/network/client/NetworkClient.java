@@ -37,6 +37,7 @@ public class NetworkClient {
                     }
 
                     @Override
+                    @EverythingIsNonNull
                     public void onFailure(Call<Response> call, Throwable t) {
                         observer.onError(new Throwable("네트워크 상태를 확인하세요"));
 

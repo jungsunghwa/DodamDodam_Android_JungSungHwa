@@ -1,15 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +37,7 @@ public class LoginViewModel extends ViewModel {
         databaseHelper = DatabaseHelper.getDatabaseHelper(context);
     }
 
-    public LiveData<Boolean> getIsSuccess() {
+    public LiveData<Boolean> isSuccess() {
         return isSuccess;
     }
 
@@ -60,16 +57,17 @@ public class LoginViewModel extends ViewModel {
                             @Override
                             public void onSuccess(LoginData loginData) {
                                 Log.i("token", loginData.getToken());
-//                                try {
-//                                    DecodedJWT decodedJWT = JWT.decode(loginData.getToken());
-//                                    String tokenMemberId = decodedJWT.getClaim("memberId").asString();
-//                                    if (!id.equals(tokenMemberId)) {
-//                                        //TODO TOKEN MISMATCH ERROR MESSAGE
-//                                        onError(new Throwable("잘못 된 정보가 반환되었습니다. 다시 시도해주세요."));
-//                                        return;
-//                                    }
-//                                } catch (JWTDecodeException ignore) {
-//                                }
+                                try {
+                                    String[] split = loginData.getToken().split("\\.");
+                                    JSONObject payload = new JSONObject(new String(Base64.decode(split[1], Base64.DEFAULT)));
+                                    String tokenMemberId = payload.getString("memberId");
+                                    if (!id.equals(tokenMemberId)) {
+                                        //TODO TOKEN MISMATCH ERROR MESSAGE
+                                        onError(new Throwable("잘못 된 정보가 반환되었습니다. 다시 시도해주세요."));
+                                        return;
+                                    }
+                                } catch (JSONException ignore) {
+                                }
                                 databaseHelper.insert(DatabaseManager.TABLE_TOKEN, loginData);
                                 Utils.myId = id;
                                 isSuccess.setValue(true);

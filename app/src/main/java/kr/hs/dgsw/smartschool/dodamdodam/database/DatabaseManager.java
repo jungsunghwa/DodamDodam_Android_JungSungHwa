@@ -10,9 +10,9 @@ public final class DatabaseManager {
     public static final String TABLE_MEMBER = "member";
     public static final String TABLE_TEACHER = "teacher";
     public static final String TABLE_PARENT = "parent";
-    public static final String TABLE_PARENTSLOG = "parentsLogs";
-    public static final String TABLE_DEPARTMENTLOG = "departmentLog";
-    public static final String TABLE_CHILDRENLOG = "childrenLog";
+    public static final String TABLE_PARENTS_LOG = "parentsLogs";
+    public static final String TABLE_DEPARTMENT_LOG = "departmentLog";
+    public static final String TABLE_CHILDREN_LOG = "childrenLog";
 
     private DatabaseManager() {}
 
@@ -71,7 +71,7 @@ public final class DatabaseManager {
     }
 
    static String getCreateTableDepartmentLog() {
-        return "CREATE TABLE "+ TABLE_DEPARTMENTLOG +" (" +
+        return "CREATE TABLE "+ TABLE_DEPARTMENT_LOG +" (" +
                 "departmentIdx INTEGER," +
                 "teacherIdx INTEGER," +
                 "type INTEGER," +
@@ -82,7 +82,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableChildrenLog() {
-        return "CREATE TABLE "+TABLE_CHILDRENLOG +" (" +
+        return "CREATE TABLE "+ TABLE_CHILDREN_LOG +" (" +
                 "  idx INTEGER UNIQUE," +
                 "  parentIdx INTEGER," +
                 "  studentIdx INTEGER," +
@@ -123,7 +123,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableParentsLogs() {
-        return "CREATE TABLE "+ TABLE_PARENTSLOG +" (" +
+        return "CREATE TABLE "+ TABLE_PARENTS_LOG +" (" +
                 "  parentIdx INTEGER," +
                 "  studentIdx INTEGER," +
                 "  primary key(parentIdx, studentIdx)" +

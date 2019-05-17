@@ -38,12 +38,12 @@ public interface OffbaseService {
     );
 
     @GET("offbase/leave/allow")
-    Call<Response<Leaves>> getLeaveAllow(
+    Call<Response<Leaves>> getLeaveAllows(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave/cancel")
-    Call<Response<Leaves>> getLeaveCancel(
+    Call<Response<Leaves>> getLeaveCancels(
             @Header("x-access-token") String token
     );
 
@@ -58,12 +58,12 @@ public interface OffbaseService {
     );
 
     @GET("offbase/pass/allow")
-    Call<Response<Passes>> getPassesAllow(
+    Call<Response<Passes>> getPassAllows(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/pass/cancel")
-    Call<Response<Passes>> getPassesCancel(
+    Call<Response<Passes>> getPassCancels(
             @Header("x-access-token") String token
     );
 
