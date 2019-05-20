@@ -143,6 +143,9 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
             case R.id.menu_location_apply:
                 startActivity(new Intent(this, LocationApplyActivity.class));
                 break;
+            case R.id.menu_bus_apply:
+                startActivity(new Intent(this, BusApplyActivity.class));
+                break;
         }
 
         return false;

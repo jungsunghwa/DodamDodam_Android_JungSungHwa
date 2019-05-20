@@ -3,6 +3,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Buses;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,10 +16,10 @@ import retrofit2.http.Path;
 
 public interface BusService {
     @POST("/bus")
-    Call<Response<Buses>> postBusApply(
+    Call<Response> postBusApply(
             @Header("x-access-token") String token,
-            @Body Bus bus
-    );
+            @Body BusRequest request
+            );
 
     @DELETE("/bus/{idx}")
     Call<Response> deleteBusApply(
@@ -32,9 +33,9 @@ public interface BusService {
     );
 
     @PUT("/bus/{idx}")
-    Call<Response<Buses>> putModifyBusApply(
+    Call<Response> putModifyBusApply(
             @Header("x-access-token") String token,
             @Path("idx") int idx,
-            @Body Bus bus
+            @Body BusRequest request
     );
 }
