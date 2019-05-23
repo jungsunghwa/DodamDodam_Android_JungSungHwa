@@ -12,7 +12,7 @@
         tools:context=".activity.LoginActivity">
 
         <com.scwang.wave.MultiWaveHeader
-            android:id="@+id/waveHeader"
+            android:id="@+id/wave_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -35,7 +35,7 @@
             android:maxWidth="420dp">
 
             <FrameLayout
-                android:id="@+id/buttonSets"
+                android:id="@+id/button_sets"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -43,10 +43,10 @@
                 android:layout_marginEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPw">
+                app:layout_constraintTop_toBottomOf="@+id/input_layout_pw">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnLogin"
+                    android:id="@+id/btn_login"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -60,12 +60,13 @@
                     android:layout_gravity="bottom"
                     android:indeterminate="true"
                     android:indeterminateTint="@android:color/white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
             </FrameLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutPw"
+                android:id="@+id/input_layout_pw"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -76,11 +77,11 @@
                 app:boxBackgroundColor="#b0ffffff"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutId"
+                app:layout_constraintTop_toBottomOf="@+id/input_layout_id"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputPw"
+                    android:id="@+id/input_pw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
@@ -90,7 +91,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutId"
+                android:id="@+id/input_layout_id"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -104,7 +105,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputId"
+                    android:id="@+id/input_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"

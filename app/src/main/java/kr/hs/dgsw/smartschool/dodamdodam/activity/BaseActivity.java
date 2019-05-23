@@ -46,6 +46,11 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
  * </SomeAnotherLayout>
  * </SomeLayout>
  * </layout>
+ *
+ *
+ * @author kimji
+ *
+ * binding 필드와 기본 레이아웃 설정이 들어 있는 기반 액티비티
  */
 public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity {
 
