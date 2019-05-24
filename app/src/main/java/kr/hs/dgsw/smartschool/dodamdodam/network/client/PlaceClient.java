@@ -31,28 +31,28 @@ public class PlaceClient extends NetworkClient {
 
         return actionService(service);
 
-//        return Single.create(observer -> place.getAllPlace(token.getToken()).enqueue(new Callback<Response<PlaceList>>() {
-//            @Override
-//            @EverythingIsNonNull
-//            public void onResponse(Call<Response<PlaceList>> call, retrofit2.Response<Response<PlaceList>> response) {
-//                if (response.isSuccessful()){
-//                    observer.onSuccess(response.body().getData().getPlaces());
-//                } else {
-//                    try {
-//                        JSONObject errorBody = new JSONObject(Objects
-//                                .requireNonNull(
-//                                        response.errorBody()).string());
-//                        observer.onError(new Throwable(errorBody.getString("message")));
-//                    } catch (JSONException | IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//            @Override
-//            @EverythingIsNonNull
-//            public void onFailure(Call<Response<PlaceList>> call, Throwable t) {
-//                observer.onError( new Throwable("네트워크 상태를 확인하세요"));
-//            }
-//        }));
+        /*return Single.create(observer -> place.getAllPlace(token.getToken()).enqueue(new Callback<Response<PlaceList>>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<Response<PlaceList>> call, retrofit2.Response<Response<PlaceList>> response) {
+                if (response.isSuccessful()){
+                    observer.onSuccess(response.body().getData().getPlaces());
+                } else {
+                    try {
+                        JSONObject errorBody = new JSONObject(Objects
+                                .requireNonNull(
+                                        response.errorBody()).string());
+                        observer.onError(new Throwable(errorBody.getString("message")));
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<Response<PlaceList>> call, Throwable t) {
+                observer.onError( new Throwable("네트워크 상태를 확인하세요"));
+            }
+        }));*/
     }
 }

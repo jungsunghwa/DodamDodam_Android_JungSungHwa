@@ -13,10 +13,8 @@ import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class NetworkClient {
-    public NetworkClient() {
-    }
 
-    public Single<Response> actionService(Call service){
+    public Single<Response> actionService(Call service) {
         return Single.create(observer ->
                 service.enqueue(new Callback<Response>() {
                     @Override
