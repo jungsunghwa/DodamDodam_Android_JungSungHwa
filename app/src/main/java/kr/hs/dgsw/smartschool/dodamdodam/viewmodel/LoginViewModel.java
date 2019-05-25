@@ -57,17 +57,17 @@ public class LoginViewModel extends ViewModel {
                             @Override
                             public void onSuccess(LoginData loginData) {
                                 Log.i("token", loginData.getToken());
-                                try {
-                                    String[] split = loginData.getToken().split("\\.");
-                                    JSONObject payload = new JSONObject(new String(Base64.decode(split[1], Base64.DEFAULT)));
-                                    String tokenMemberId = payload.getString("memberId");
-                                    if (!id.equals(tokenMemberId)) {
-                                        //TODO TOKEN MISMATCH ERROR MESSAGE
-                                        onError(new Throwable("잘못 된 정보가 반환되었습니다. 다시 시도해주세요."));
-                                        return;
-                                    }
-                                } catch (JSONException ignore) {
-                                }
+//                                try {
+//                                    String[] split = loginData.getToken().split("\\.");
+//                                    JSONObject payload = new JSONObject(new String(Base64.decode(split[1], Base64.DEFAULT)));
+//                                    String tokenMemberId = payload.getString("memberId");
+//                                    if (!id.equals(tokenMemberId)) {
+//                                        //TODO TOKEN MISMATCH ERROR MESSAGE
+//                                        onError(new Throwable("잘못 된 정보가 반환되었습니다. 다시 시도해주세요."));
+//                                        return;
+//                                    }
+//                                } catch (JSONException ignore) {
+//                                }
                                 databaseHelper.insert(DatabaseManager.TABLE_TOKEN, loginData);
                                 Utils.myId = id;
                                 isSuccess.setValue(true);

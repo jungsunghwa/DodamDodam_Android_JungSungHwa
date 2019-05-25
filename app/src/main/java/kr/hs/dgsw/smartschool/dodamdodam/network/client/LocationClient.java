@@ -1,26 +1,18 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post.LocationService;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.internal.EverythingIsNonNull;
 
 public class LocationClient extends NetworkClient {
     private LocationService location;
@@ -51,5 +43,10 @@ public class LocationClient extends NetworkClient {
         }
 
         return actionService(null);
+    }
+
+    public Single<Response> checkLocation(String token, int idx){
+        Call<Response> service = location.checkLocation(token, idx);
+        return actionService(service);
     }
 }

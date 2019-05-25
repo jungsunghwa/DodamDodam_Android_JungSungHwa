@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -20,7 +21,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.TimeViewHolder;
 
 public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
 
-    private Map<Time, Place> timeTable;
+    private List<LocationInfo> timeTable;
     private List<Time> timeList;
     Context context;
 
@@ -30,7 +31,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
         return timePosition;
     }
 
-    public TimeTableAdapter(Context context, Map<Time, Place> timeTable, List<Time> timeList) {
+    public TimeTableAdapter(Context context, List<LocationInfo> timeTable, List<Time> timeList) {
         this.context = context;
         this.timeTable = timeTable;
         this.timeList = timeList;
@@ -47,7 +48,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
     public void onBindViewHolder(@NonNull TimeViewHolder holder, int position) {
 
         Time time = this.timeList.get(position);
-        Place place = this.timeTable.get(time);
+        Place place = this.timeTable.get(position).getPlace();
 
         if (place != null) {
             holder.binding.placeSelectBtn.setText(place.getName());

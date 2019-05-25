@@ -17,7 +17,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.b1nd.service.model.Member;
-import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
@@ -118,55 +118,49 @@ public class StudentViewModel extends ViewModel {
         Token token = databaseHelper.getToken();
 
         disposable.add(studentClient.getMember(token)
-                .
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<ArrayList<Member>>() {
+                    @Override
+                    public void onSuccess(ArrayList<Member> response) {
+                        ArrayList<Member> members = new ArrayList();
+                        for (Member member : response) {
+                            if (member.getId().equals(Utils.myId)) {
+                                switch (member.getAuth()) {
+                                    case 1:
+                                        Utils.identity = Identity.STUDENT;
+                                        break;
+                                    case 2:
+                                        Utils.identity = Identity.STUDENT;
+                                        break;
+                                }
+                            }
+                            members.add(new Member(member));
+                        }
 
-                        subscribeOn(Schedulers.io())
-                .
+                        List<Member> studentList = Stream.of(response).filter(value -> value.getAuth() == 1).toList();
+                        List<Member> teacherList = Stream.of(response).filter(value -> value.getAuth() == 2).toList();
 
-                        observeOn(AndroidSchedulers.mainThread()).
+                        for (int i = 0; i < studentList.size(); i++) {
+                            ((kr.hs.dgsw.b1nd.service.model.Student) studentList.get(i)).setMemberID(studentList.get(i).getId());
+                        }
 
-                        subscribeWith(
-                                new DisposableSingleObserver<ArrayList<Member>>() {
-                                    @Override
-                                    public void onSuccess(ArrayList<Member> response) {
-                                        ArrayList<Member> members = new ArrayList();
-                                        for (Member member : response) {
-                                            if (member.getId().equals(Utils.myId)) {
-                                                switch (member.getAuth()) {
-                                                    case 1:
-                                                        Utils.identity = Identity.STUDENT;
-                                                        break;
-                                                    case 2:
-                                                        Utils.identity = Identity.STUDENT;
-                                                        break;
-                                                }
-                                            }
-                                            members.add(new Member(member));
-                                        }
+                        for (int i = 0; i < teacherList.size(); i++) {
+                            ((Teacher)teacherList.get(i)).setMemberID(teacherList.get(i).getId());
+                        }
 
-                                        List<Member> studentList = Stream.of(response).filter(value -> value.getAuth() == 1).toList();
-                                        List<Member> teacherList = Stream.of(response).filter(value -> value.getAuth() == 2).toList();
+                        databaseHelper.insert(DatabaseManager.TABLE_MEMBER, members);
+                        databaseHelper.insert(DatabaseManager.TABLE_STUDENT, studentList);
+                        databaseHelper.insert(DatabaseManager.TABLE_TEACHER, teacherList);
+                        isSuccess.setValue(true);
+                        loading.setValue(false);
+                    }
 
-                                        for (int i = 0; i < studentList.size(); i++) {
-                                            ((Student) studentList.get(i)).setMemberID(studentList.get(i).getId());
-                                        }
-
-                                        for (int i = 0; i < teacherList.size(); i++) {
-                                            ((Teacher) teacherList.get(i)).setMemberID(teacherList.get(i).getId());
-                                        }
-
-                                        databaseHelper.insert(DatabaseManager.TABLE_MEMBER, members);
-                                        databaseHelper.insert(DatabaseManager.TABLE_STUDENT, studentList);
-                                        databaseHelper.insert(DatabaseManager.TABLE_TEACHER, teacherList);
-                                        isSuccess.setValue(true);
-                                        loading.setValue(false);
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        loginErrorMessage.setValue(e.getMessage());
-                                        loading.setValue(false);
-                                    }
-                                }));
+                    @Override
+                    public void onError(Throwable e) {
+                        loginErrorMessage.setValue(e.getMessage());
+                        loading.setValue(false);
+                    }
+                }));
     }
 }

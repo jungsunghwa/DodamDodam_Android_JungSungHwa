@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.PlaceAdapter;
@@ -36,7 +38,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     TimeTableAdapter timeTableAdapter;
     PlaceAdapter placeAdapter;
 
-    Map<Time, Place> timeTable = new HashMap<>();
+    List<LocationInfo> timeTable = new ArrayList<>();
     List<Time> timeList = new ArrayList<>();
     List<Place> placeList = new ArrayList<>();
     List<Place> location = new ArrayList<>();
@@ -87,15 +89,16 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         });
 
         locationViewModel.getData().observe(this, data -> {
-            int i = 0;
-            Map<Time, Place> location = new HashMap();
+            List<LocationInfo> location = new ArrayList<>();
             for (Student student : data.keySet()) {
                 location = data.get(student);
             }
-            for (Time time : timeTable.keySet()) {
-                for (Time time1 : location.keySet()) {
-                    if (time.getIdx() == time1.getIdx()) {
-                        timeTable.put(time, location.get(time1));
+
+            for (int i = 0; i < timeTable.size(); i++) {
+                for (LocationInfo info : location) {
+                    if (timeTable.get(i).getTimetableIdx() == info.getTimetableIdx()) {
+                        timeTable.remove(i);
+                        timeTable.add(i,info);
                     }
                 }
             }
@@ -122,7 +125,11 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
                 if (timeTable.isEmpty() && location.isEmpty()) {
                     return;
                 }
-                this.timeTable.put(timeList.get(timePosition), null);
+                LocationInfo locationInfo = timeTable.get(timePosition);
+                locationInfo.setPlace(null);
+
+                this.timeTable.remove(timePosition);
+                this.timeTable.add(timePosition, locationInfo);
                 this.location.remove(timePosition);
                 this.location.add(timePosition, null);
                 timeTableAdapter.notifyItemChanged(timePosition);
@@ -130,9 +137,16 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             }
             Time time = timeList.get(timePosition);
             Place place = placeList.get(position);
-            this.timeTable.put(time, place);
+
+            LocationInfo locationInfo = timeTable.get(timePosition);
+            locationInfo.setPlace(place);
+
+            this.timeTable.remove(timePosition);
+            this.timeTable.add(timePosition, locationInfo);
+
             this.location.remove(timePosition);
             this.location.add(timePosition, place);
+
             timeTableAdapter.notifyItemChanged(timePosition);
         });
     }
@@ -155,7 +169,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             placeAdapter.notifyDataSetChanged();
 
-            Place place = timeTable.get(timeList.get(position));
+            Place place = timeTable.get(position).getPlace();
 
             binding.selectPlaceTv.setText(timeList.get(position).getName());
 
@@ -199,7 +213,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             timeTable.clear();
             for (Time time : timeList) {
-                timeTable.put(time, null);
+                timeTable.add(new LocationInfo(time,null));
             }
 
 //            timeTableAdapter.notifyDataSetChanged();

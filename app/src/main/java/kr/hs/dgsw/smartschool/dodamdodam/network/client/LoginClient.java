@@ -10,13 +10,14 @@ import kr.hs.dgsw.b1nd.service.B1ndService;
 import kr.hs.dgsw.b1nd.service.interfaces.OnGetAllProfileListener;
 import kr.hs.dgsw.b1nd.service.interfaces.OnLoginSuccessListener;
 import kr.hs.dgsw.b1nd.service.model.Member;
-import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginData;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
 import kr.hs.dgsw.b1nd.service.service.B1ndGetAllProfileService;
 import kr.hs.dgsw.b1nd.service.service.B1ndGetClasses;
 import kr.hs.dgsw.b1nd.service.service.B1ndLogin;
 import kr.hs.dgsw.smartschool.dodamdodam.Constants;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class LoginClient {
@@ -47,7 +48,7 @@ public class LoginClient {
             @EverythingIsNonNull
             public void onFail(Throwable throwable, String message) {
                 throwable.printStackTrace();
-                observer.onError(new Throwable(message));
+                observer.onError(new Throwable(throwable.getMessage()));
             }
         }));
     }

@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
-import android.view.View;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -18,7 +17,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;

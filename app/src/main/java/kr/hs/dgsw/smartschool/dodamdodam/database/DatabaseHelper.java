@@ -25,7 +25,7 @@ import kr.hs.dgsw.b1nd.service.model.DepartmentLog;
 import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.b1nd.service.model.Parent;
 import kr.hs.dgsw.b1nd.service.model.ParentLog;
-import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -118,6 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             memberId = res.getString(res.getColumnIndex("memberId"));
         }
 
+        if (memberId == null) return null;
         res = db.rawQuery("SELECT * FROM member WHERE id =  '" + memberId +"'",null);
 
         return getMemberInfo(res);
@@ -355,9 +356,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } else if (v instanceof Double) {
                     contentValues.put(k, (Double) v);
                     if (contentValues.get(k).equals("")) contentValues.put(k, (Double) null);
-                } else if (v.getClass().isArray()) {
+                } /*else if (v.getClass().isArray()) {
                     insert(k, v);
-                }
+                }*/
             });
             contentValuesList.add(contentValues);
         }

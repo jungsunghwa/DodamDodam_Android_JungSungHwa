@@ -13,7 +13,7 @@ import kr.hs.dgsw.b1nd.service.interfaces.OnGetAllProfileListener;
 import kr.hs.dgsw.b1nd.service.interfaces.OnGetClassesListener;
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.b1nd.service.model.Member;
-import kr.hs.dgsw.b1nd.service.model.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.b1nd.service.service.B1ndGetAllProfileService;
 import kr.hs.dgsw.b1nd.service.service.B1ndGetClasses;

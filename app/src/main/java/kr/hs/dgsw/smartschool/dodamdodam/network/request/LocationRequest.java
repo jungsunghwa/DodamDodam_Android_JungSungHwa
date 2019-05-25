@@ -6,19 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 
 public class LocationRequest<T extends Location> {
     private List<T> locations = new ArrayList<>();
 
-    public LocationRequest(Map<Time, Place> timePlaceMap) {
+    public LocationRequest(List<LocationInfo> timePlaceMap) {
         locations.clear();
-        Stream.of(timePlaceMap).forEach(stringObjectEntry -> {
-            Time time = stringObjectEntry.getKey();
-            Place place = stringObjectEntry.getValue();
+        Stream.of(timePlaceMap).forEach(locationInfo -> {
+            Time time = locationInfo.getTime();
+            Place place = locationInfo.getPlace();
 
             if (place != null) {
                 locations.add((T) new Location(time.getIdx(), place.getIdx()));
@@ -32,14 +34,14 @@ public class LocationRequest<T extends Location> {
         return locations;
     }
 
-    public void setLocations(Map<Time, Place> timePlaceMap) {
-        Stream.of(timePlaceMap).forEach(stringObjectEntry -> {
-            Time time = stringObjectEntry.getKey();
-            Place place = stringObjectEntry.getValue();
+    public void setLocations(List<LocationInfo> timePlaceMap) {
+        Stream.of(timePlaceMap).forEach(locationInfo -> {
+            Time time = locationInfo.getTime();
+            Place place = locationInfo.getPlace();
 
             LocationInfo location = findLocationByTimeIdx(time.getIdx());
 
-            if (location.getChecked() == null) location.setChecked(true);
+            if (location.getChecked() == null) location.setChecked(false);
 
             if (location.getPlaceIdx() != null) {
 

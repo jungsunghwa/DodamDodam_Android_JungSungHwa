@@ -1,16 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.Model.location;
 
-import com.annimon.stream.Stream;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.Map;
-
-import kr.hs.dgsw.b1nd.service.model.Student;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
-import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 
 public class Locations {
 
@@ -20,7 +12,7 @@ public class Locations {
     @SerializedName("class_idx")
     private int classIdx;
 
-    private ArrayList<Location> locations;
+    private ArrayList<LocationInfo> locations;
 
     public int getStudentIdx() {
         return studentIdx;
@@ -38,15 +30,15 @@ public class Locations {
         this.classIdx = classIdx;
     }
 
-    public ArrayList<Location> getLocations() {
+    public ArrayList<LocationInfo> getLocations() {
         return locations;
     }
 
-    public void setLocations(ArrayList<Location> locations) {
+    public void setLocations(ArrayList<LocationInfo> locations) {
         this.locations = locations;
     }
 
-    public Locations(int studentIdx, int classIdx, ArrayList<Location> locations) {
+    public Locations(int studentIdx, int classIdx, ArrayList<LocationInfo> locations) {
         this.studentIdx = studentIdx;
         this.classIdx = classIdx;
         this.locations = locations;
