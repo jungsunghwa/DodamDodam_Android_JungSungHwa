@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.BusClient;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 
 public class BusViewModel extends ViewModel {
     BusClient busClient;
@@ -49,15 +50,15 @@ public class BusViewModel extends ViewModel {
     }
 
     @SuppressLint("CheckResult")
-    public void postBusApply(int idx) {
+    public void postBusApply(BusRequest request) {
         loading.setValue(true);
         disposable.add(busClient.postBusApply(
-                databaseHelper.getToken().getToken(), idx)
+                databaseHelper.getToken().getToken(), request)
                 .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<String>(){
                     @Override
-                    public void onSuccess(String s) {
-                        isSuccess.setValue(s);
+                    public void onSuccess(String successMessage) {
+                        isSuccess.setValue(successMessage);
                         loading.setValue(false);
                     }
 
@@ -116,10 +117,10 @@ public class BusViewModel extends ViewModel {
     }
 
     @SuppressLint("CheckResult")
-    public void putModifyBusApply(int idx, Bus bus) {
+    public void putModifyBusApply(int idx, BusRequest request) {
         loading.setValue(true);
         disposable.add(busClient.putModifyBusApply(
-                databaseHelper.getToken().getToken(), idx, bus)
+                databaseHelper.getToken().getToken(), idx, request)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<String>(){
             @Override

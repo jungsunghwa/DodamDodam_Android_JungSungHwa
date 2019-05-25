@@ -13,6 +13,7 @@ public final class DatabaseManager {
     public static final String TABLE_PARENTS_LOG = "parentsLogs";
     public static final String TABLE_DEPARTMENT_LOG = "departmentLog";
     public static final String TABLE_CHILDREN_LOG = "childrenLog";
+    public static final String TABLE_BUS = "bus";
 
     private DatabaseManager() {}
 
@@ -128,5 +129,13 @@ public final class DatabaseManager {
                 "  studentIdx INTEGER," +
                 "  primary key(parentIdx, studentIdx)" +
                 ")";
+    }
+
+    static String getCreateTableBus(){
+        return "CREATE TABLE "+ TABLE_BUS +" ( "
+                + "idx INTEGER, "
+                + "type INTEGER, "
+                + "student_idx"
+                + ")";
     }
 }

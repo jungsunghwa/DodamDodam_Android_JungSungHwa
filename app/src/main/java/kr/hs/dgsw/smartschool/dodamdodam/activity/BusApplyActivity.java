@@ -3,22 +3,24 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.BusApplyActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.BusViewModel;
 
 public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
 
-    BusApplyActivityBinding binding;
     BusViewModel busViewModel;
     Boolean applyStatus = false;
     Integer idx;
-    Bus bus = new Bus();
     Integer busType;
+    BusRequest request = new BusRequest();
 
     @Override
     protected int layoutId() {
@@ -28,15 +30,19 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bus_apply_activity);
-        binding = DataBindingUtil.setContentView(this, R.layout.bus_apply_activity);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         initViewModel();
         buttonCheckStatus();
 
 
         busViewModel.getResponse().observe(this, bus -> {
-            Toast.makeText(this, bus.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, bus.toString(), Toast.LENGTH_SHORT).show();
             idx = bus.getIdx();
 
             Log.e("response", bus.getType().toString());
@@ -45,6 +51,22 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             busType = bus.getType();
 
             initCheckbox(bus.getType());
+
+            String busTypeMessage = "";
+
+            switch (bus.getType()) {
+                case 1 :
+                    busTypeMessage = "동대구";
+                    break;
+                case 2 :
+                    busTypeMessage = "대곡";
+                    break;
+                case 3:
+                    busTypeMessage = "용산";
+                    break;
+            }
+
+            Toast.makeText(this, busTypeMessage+"역이 이미 신청되어있습니다.", Toast.LENGTH_SHORT).show();
         });
 
         busViewModel.getIsSuccess().observe(this, successMessage -> {
@@ -70,7 +92,8 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             {
                 if (selectedBusType > 0)
                 {
-                    busViewModel.postBusApply(selectedBusType);
+                    request.setType(selectedBusType);
+                    busViewModel.postBusApply(request);
                 }
                 else if (selectedBusType == 0)
                 {
@@ -91,8 +114,9 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
                 {
                     if (selectedBusType > 0)
                     {
-                        bus.setType(selectedBusType);
-                        busViewModel.putModifyBusApply(idx, bus);
+                        Log.e("type", selectedBusType+""+idx);
+                        request.setType(selectedBusType);
+                        busViewModel.putModifyBusApply(idx, request);
                     }
                     else if (selectedBusType == 0)
                     {
@@ -106,6 +130,18 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return false;
+    }
+
     private void initCheckbox(int busType)
     {
         binding.eastdaeguCheckBtn.setChecked(false);

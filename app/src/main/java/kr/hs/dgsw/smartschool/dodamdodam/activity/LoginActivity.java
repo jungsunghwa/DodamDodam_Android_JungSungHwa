@@ -30,17 +30,17 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        keyboardManager = new SoftKeyboardManager(this);
         super.onCreate(savedInstanceState);
+        keyboardManager = new SoftKeyboardManager(this);
 
         loginViewModel = new LoginViewModel(this);
         studentViewModel = new StudentViewModel(this);
 
         studentViewModel.getLoading().observe(this, isLoading -> {
-            if (!isLoading) {
-                binding.progress.hide();
-            } else {
+            if (isLoading) {
                 binding.progress.show();
+            } else {
+                binding.progress.hide();
             }
         });
 
@@ -50,8 +50,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             if (success) {
                 studentViewModel.getClasses();
                 studentViewModel.getStudent();
-            } else {
-                binding.progress.show();
             }
         });
 
@@ -61,15 +59,13 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
                 if (Utils.identity == Identity.TEACHER)
                     intent = new Intent(getApplicationContext(), LocationCheckActivity.class);
 
-                binding.progress.hide();
-
                 startActivity(intent);
                 overridePendingTransition(0, R.anim.fade_out);
                 finish();
             }
         });
 
-        binding.textInputId.addTextChangedListener(new TextWatcher() {
+        binding.inputId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -78,7 +74,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s))
-                    binding.textInputLayoutId.setError(null);
+                    binding.inputLayoutId.setError(null);
             }
 
             @Override
@@ -86,7 +82,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
             }
         });
-        binding.textInputPw.addTextChangedListener(new TextWatcher() {
+        binding.inputPw.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -95,7 +91,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s))
-                    binding.textInputLayoutPw.setError(null);
+                    binding.inputLayoutPw.setError(null);
             }
 
             @Override
@@ -103,7 +99,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
             }
         });
-        binding.textInputPw.setOnKeyListener((v, keyCode, event) -> {
+        binding.inputPw.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER) {
                 login();
                 return true;
@@ -117,17 +113,17 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
     private void login() {
         keyboardManager.closeSoftKeyboard();
         boolean hasError = false;
-        if (binding.textInputId.getText().toString().isEmpty()) {
-            binding.textInputLayoutId.setError(getString(R.string.error_empty_id));
+        if (binding.inputId.getText().toString().isEmpty()) {
+            binding.inputLayoutId.setError(getString(R.string.error_empty_id));
             hasError = true;
         }
-        if (binding.textInputPw.getText().toString().isEmpty()) {
-            binding.textInputLayoutPw.setError(getString(R.string.error_empty_pw));
+        if (binding.inputPw.getText().toString().isEmpty()) {
+            binding.inputLayoutPw.setError(getString(R.string.error_empty_pw));
             hasError = true;
         }
         if (hasError) return;
 
-        loginViewModel.login(binding.textInputId.getText().toString(), binding.textInputPw.getText().toString());
+        loginViewModel.login(binding.inputId.getText().toString(), binding.inputPw.getText().toString());
     }
 
     @Override

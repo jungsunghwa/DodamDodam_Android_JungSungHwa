@@ -10,6 +10,7 @@ import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Buses;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.BusService;
 import retrofit2.Call;
@@ -22,11 +23,11 @@ public class BusClient {
         bus = Utils.RETROFIT.create(BusService.class);
     }
 
-    public Single<String> postBusApply(String token, Integer type) {
+    public Single<String> postBusApply(String token, BusRequest request) {
         return Single.create(observer -> {
-            bus.postBusApply(token, new Bus(type)).enqueue(new Callback<Response<Buses>>() {
+            bus.postBusApply(token, request).enqueue(new Callback<Response>() {
                 @Override
-                public void onResponse(Call<Response<Buses>> call, retrofit2.Response<Response<Buses>> response) {
+                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                     if (response.isSuccessful()) {
                         observer.onSuccess(response.body().getMessage());
                     } else {
@@ -42,7 +43,7 @@ public class BusClient {
                 }
 
                 @Override
-                public void onFailure(Call<Response<Buses>> call, Throwable t) {
+                public void onFailure(Call<Response> call, Throwable t) {
                     observer.onError(new Throwable("네트워크상태를 확인하세요"));
                 }
             });
@@ -103,11 +104,11 @@ public class BusClient {
         });
     }
 
-    public Single<String> putModifyBusApply(String token, int idx, Bus buses) {
+    public Single<String> putModifyBusApply(String token, int idx, BusRequest request) {
         return Single.create(observer -> {
-            bus.putModifyBusApply(token, idx, buses).enqueue(new Callback<Response<Buses>>() {
+            bus.putModifyBusApply(token, idx, request).enqueue(new Callback<Response>() {
                 @Override
-                public void onResponse(Call<Response<Buses>> call, retrofit2.Response<Response<Buses>> response) {
+                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                     if (response.isSuccessful()) {
                         observer.onSuccess(response.body().getMessage());
                     } else {
@@ -123,7 +124,7 @@ public class BusClient {
                 }
 
                 @Override
-                public void onFailure(Call<Response<Buses>> call, Throwable t) {
+                public void onFailure(Call<Response> call, Throwable t) {
                     observer.onError(new Throwable("네트워크상태를 확인하세요"));
                 }
             });
