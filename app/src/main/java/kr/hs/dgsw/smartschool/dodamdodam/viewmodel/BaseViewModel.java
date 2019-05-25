@@ -1,7 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
-import android.view.View;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -10,15 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
@@ -38,6 +37,11 @@ public class BaseViewModel<T> extends ViewModel {
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
 
+    protected BaseViewModel(Context context) {
+        disposable = new CompositeDisposable();
+        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+    }
+
     public MutableLiveData<String> getSuccessMessage() {
         return successMessage;
     }
@@ -54,23 +58,17 @@ public class BaseViewModel<T> extends ViewModel {
         return loading;
     }
 
-    protected BaseViewModel(Context context){
-        disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
-    }
-
-    protected void addDisposable(Single single){
+    protected void addDisposable(Single single) {
         disposable.add((Disposable) single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
                         new DisposableSingleObserver<Response>() {
                             @Override
                             public void onSuccess(Response response) {
-                                if (response.getData() == null){
+                                if (response.getData() == null) {
                                     successMessage.setValue(response.getMessage());
-                                }else{
-                                    data.setValue((T)
-                                            convertLocationRequestToMap((LocationRequest) response.getData()));
+                                } else {
+                                    data.setValue((T) convertLocationRequestToMap((LocationRequest) response.getData()));
                                 }
                                 loading.setValue(false);
                             }
@@ -83,7 +81,7 @@ public class BaseViewModel<T> extends ViewModel {
                         }));
     }
 
-    private Map convertLocationRequestToMap(LocationRequest<Location> locations){
+    private Map<Time, Place> convertLocationRequestToMap(LocationRequest locations) {
         Map<Time, Place> result = new HashMap<>();
         List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
         if (Utils.isWeekEnd)
@@ -106,10 +104,10 @@ public class BaseViewModel<T> extends ViewModel {
                 continue;
             }
             Place place = databaseHelper.getData(
-                    DatabaseManager.TABLE_PLACE
-                    , "idx"
-                    , Integer.toString(location.getPlaceIdx())
-                    , new DatabaseGetDataType<Place>(Place.class)
+                    DatabaseManager.TABLE_PLACE,
+                    "idx",
+                    Integer.toString(location.getPlaceIdx()),
+                    new DatabaseGetDataType<>(Place.class)
             );
 
             result.put(time, place);
