@@ -27,8 +27,12 @@ public class LocationRequest<T extends Location> {
         });
     }
 
-    public ArrayList<T> getLocations() {
-        return (ArrayList<T>) locations;
+    public LocationRequest() {
+
+    }
+
+    public List<T> getLocations() {
+        return locations;
     }
 
     public void setLocations(List<LocationInfo> timePlaceMap) {

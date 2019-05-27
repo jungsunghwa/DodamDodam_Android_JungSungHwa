@@ -9,7 +9,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
@@ -40,6 +44,8 @@ public class LocationViewModel extends ViewModel {
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
     private ArrayList<Locations> locations;
+
+    private Boolean isPost = false;
 
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<Map<Student, List<LocationInfo>>> data = new MutableLiveData<>();
@@ -76,7 +82,7 @@ public class LocationViewModel extends ViewModel {
 
         String method = "PUT";
 
-        if (locationRequest.getLocations().isEmpty()) {
+        if (isPost) {
             method = "POST";
             locationRequest = new LocationRequest(timeTable);
         } else {
@@ -154,7 +160,7 @@ public class LocationViewModel extends ViewModel {
                                     successMessage.setValue(response.getMessage());
                                 } else {
                                     if (Utils.identity == Identity.STUDENT) {
-                                        locationRequest = (LocationRequest) response.getData();
+                                        locationRequest = ((Response<LocationRequest<LocationInfo>>) response).getData();
                                         result.clear();
                                         data.setValue(
                                                 convertLocationRequestToMap(locationRequest.getLocations(), null));
@@ -185,7 +191,7 @@ public class LocationViewModel extends ViewModel {
         return result;
     }
 
-    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(ArrayList<LocationInfo> locations, Integer studentIdx){
+    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(List<LocationInfo> locations, Integer studentIdx){
         Map<Student, List<LocationInfo>> locationInfoMap = new HashMap<>();
         Student student;
 
@@ -204,9 +210,12 @@ public class LocationViewModel extends ViewModel {
         else
             times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
-        if (locations.isEmpty())
-            for (Time time : times)
-                locations.add(new LocationInfo(time,null));
+        if (locations.isEmpty()) {
+            isPost = true;
+            for (Time time : times) {
+                locations.add(new LocationInfo(time, null));
+            }
+        }
 
         for (LocationInfo location : locations) {
 
