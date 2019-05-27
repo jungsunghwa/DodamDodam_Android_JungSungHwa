@@ -84,9 +84,9 @@ public class LocationViewModel extends ViewModel {
 
         if (isPost) {
             method = "POST";
-            locationRequest = new LocationRequest(timeTable);
+            locationRequest = new LocationRequest(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
         } else {
-            locationRequest.setLocations(timeTable);
+            locationRequest.setLocations(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
         }
 
 

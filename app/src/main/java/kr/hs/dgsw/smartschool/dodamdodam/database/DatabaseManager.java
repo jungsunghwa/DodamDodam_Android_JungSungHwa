@@ -46,7 +46,8 @@ public final class DatabaseManager {
         return "CREATE TABLE "+ TABLE_CLASS +" ( "
                 + "idx INTEGER, "
                 + "grade INTEGER, "
-                + "room STRING"
+                + "room INTEGER,"
+                + "placeIdx INTEGER"
                 + ")";
     }
 

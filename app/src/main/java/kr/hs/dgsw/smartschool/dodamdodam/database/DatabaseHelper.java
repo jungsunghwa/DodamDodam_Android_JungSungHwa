@@ -207,6 +207,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             student.setNumber(res.getInt(res.getColumnIndex("number")));
         }
 
+        student.setClassInfo(
+                getData("class","idx",student.getClassIdx()+"",
+                        new DatabaseGetDataType<>(ClassInfo.class)));
+
         student.setParentsLogs(getParentsLogsByStudentIdx(student.getIdx()));
 
         res.close();
