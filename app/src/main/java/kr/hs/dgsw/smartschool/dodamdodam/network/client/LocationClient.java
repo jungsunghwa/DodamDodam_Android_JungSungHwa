@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
@@ -34,7 +35,7 @@ public class LocationClient extends NetworkClient {
 
 
         if (Utils.identity == Identity.STUDENT) {
-            Call<Response<LocationRequest>> service = location.getMyLocation(token, date);
+            Call<Response<LocationRequest<LocationInfo>>> service = location.getMyLocation(token, date);
             return actionService(service);
         } else if (Utils.identity == Identity.TEACHER) {
             Call<Response<List<Locations>>> service = location.getLocation(token, date);
@@ -42,5 +43,10 @@ public class LocationClient extends NetworkClient {
         }
 
         return actionService(null);
+    }
+
+    public Single<Response> checkLocation(String token, int idx){
+        Call<Response> service = location.checkLocation(token, idx);
+        return actionService(service);
     }
 }

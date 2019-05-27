@@ -23,8 +23,9 @@ public class NetworkClient {
                         if (response.isSuccessful()) {
                             observer.onSuccess(response.body());
                         } else {
+                            JSONObject errorBody = null;
                             try {
-                                JSONObject errorBody = new JSONObject(Objects
+                                errorBody = new JSONObject(Objects
                                         .requireNonNull(
                                                 response.errorBody()).string());
                                 observer.onError(new Throwable(errorBody.getString("message")));

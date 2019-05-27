@@ -9,7 +9,11 @@ import androidx.lifecycle.ViewModel;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +23,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.b1nd.service.model.Student;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
@@ -34,16 +39,20 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 
 public class LocationViewModel extends ViewModel {
-    private final MutableLiveData<String> successMessage = new MutableLiveData<>();
-    private final MutableLiveData<Map<Student, Map<Time, Place>>> data = new MutableLiveData<>();
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private LocationClient locationClient;
     private LocationRequest locationRequest;
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
-    private List<Locations> locations;
-    private Map<Student, Map<Time, Place>> result = new HashMap<>();
+    private ArrayList<Locations> locations;
+
+    private Boolean isPost = false;
+
+    private final MutableLiveData<String> successMessage = new MutableLiveData<>();
+    private final MutableLiveData<Map<Student, List<LocationInfo>>> data = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+
+    Map<Student,List<LocationInfo>> result = new HashMap<>();
 
     public LocationViewModel(Context context) {
         locationClient = new LocationClient();
@@ -55,7 +64,7 @@ public class LocationViewModel extends ViewModel {
         return successMessage;
     }
 
-    public LiveData<Map<Student, Map<Time, Place>>> getData() {
+    public LiveData<Map<Student,List<LocationInfo>>> getData() {
         return data;
     }
 
@@ -67,16 +76,15 @@ public class LocationViewModel extends ViewModel {
         return loading;
     }
 
-    public void postLocation(Map<Time, Place> timeTable) {
+    public void postLocation(List<LocationInfo> timeTable) {
         loading.setValue(true);
         Single<Response> single;
 
         String method = "PUT";
 
-        if (locationRequest.getLocations().isEmpty()) {
+        if (isPost) {
             method = "POST";
             locationRequest = new LocationRequest(timeTable);
-
         } else {
             locationRequest.setLocations(timeTable);
         }
@@ -106,6 +114,14 @@ public class LocationViewModel extends ViewModel {
                             }
                         }));*/
 
+    }
+
+    public void checkLocation(int idx){
+        Single<Response> single;
+
+        single = locationClient.checkLocation(databaseHelper.getToken().getToken(), idx);
+
+        addDisposable(single);
     }
 
     public void getLocation() {
@@ -144,11 +160,12 @@ public class LocationViewModel extends ViewModel {
                                     successMessage.setValue(response.getMessage());
                                 } else {
                                     if (Utils.identity == Identity.STUDENT) {
-                                        locationRequest = (LocationRequest) response.getData();
+                                        locationRequest = ((Response<LocationRequest<LocationInfo>>) response).getData();
                                         result.clear();
-                                        data.setValue(convertLocationRequestToMap(locationRequest.getLocations(), null));
-                                    } else {
-                                        locations = (List<Locations>) response.getData();
+                                        data.setValue(
+                                                convertLocationRequestToMap(locationRequest.getLocations(), null));
+                                    }else {
+                                        locations = (ArrayList<Locations>) response.getData();
                                         result.clear();
                                         data.setValue(convertLocationsToMap(locations));
                                     }
@@ -164,7 +181,7 @@ public class LocationViewModel extends ViewModel {
                         }));
     }
 
-    private Map<Student, Map<Time, Place>> convertLocationsToMap(List<Locations> locations) {
+    private Map<Student, List<LocationInfo>> convertLocationsToMap(List<Locations> locations) {
         result.clear();
 
         for (Locations location : locations) {
@@ -174,8 +191,17 @@ public class LocationViewModel extends ViewModel {
         return result;
     }
 
-    private Map<Student, Map<Time, Place>> convertLocationRequestToMap(List<Location> locations, Integer studentIdx) {
-        Map<Time, Place> locationTemp = new HashMap<>();
+    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(List<LocationInfo> locations, Integer studentIdx){
+        Map<Student, List<LocationInfo>> locationInfoMap = new HashMap<>();
+        Student student;
+
+        if (studentIdx == null)
+            student = (Student) databaseHelper.getMyInfo();
+        else{
+            student = (Student) databaseHelper.getStudentByIdx(studentIdx);
+        }
+
+        locationInfoMap.put(student, new ArrayList<>());
 
         List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
 
@@ -184,18 +210,23 @@ public class LocationViewModel extends ViewModel {
         else
             times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
-        for (Time time : times) {
-            locationTemp.put(time, null);
+        if (locations.isEmpty()) {
+            isPost = true;
+            for (Time time : times) {
+                locations.add(new LocationInfo(time, null));
+            }
         }
 
-        for (Location location : locations) {
+        for (LocationInfo location : locations) {
 
             Time time = Stream.of(times)
                     .filter(a -> a.getIdx() == location.getTimetableIdx())
                     .collect(Collectors.toList()).get(0);
 
+            location.setTime(time);
+
             if (location.getPlaceIdx() == null) {
-                locationTemp.put(time, null);
+                locationInfoMap.get(student).add(location);
                 continue;
             }
 
@@ -206,14 +237,13 @@ public class LocationViewModel extends ViewModel {
                     new DatabaseGetDataType<>(Place.class)
             );
 
-            locationTemp.put(time, place);
+            location.setPlace(place);
+
+            locationInfoMap.get(student).add(location);
         }
 
-        if (studentIdx == null)
-            result.put((Student) databaseHelper.getMyInfo(), locationTemp);
-        else
-            result.put((Student) databaseHelper.getStudentByIdx(studentIdx), locationTemp);
+        if (student != null) result.put(student, locations);
 
-        return result;
+        return locationInfoMap;
     }
 }

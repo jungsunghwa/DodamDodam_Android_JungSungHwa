@@ -63,7 +63,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         binding = DataBindingUtil.setContentView(this, layoutId());
         ViewUtils.setOnApplyWindowInsetsListenerToWindow(getWindow());
-        try {
+        /*try {
             Field rootField = binding.getClass().getField("rootLayout");
             View rootView = (View) rootField.get(binding);
 
@@ -124,7 +124,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
             }
 
         } catch (NoSuchFieldException | IllegalAccessException | NullPointerException ignore) {
-        }
+        }*/
         if (isTablet()) onCreateTablet(savedInstanceState);
         else onCreatePhone(savedInstanceState);
     }
