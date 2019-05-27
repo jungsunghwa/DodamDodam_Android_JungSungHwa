@@ -50,6 +50,7 @@
         <activity android:name=".activity.LocationCheckActivity" />
         <activity android:name=".activity.offbase.OffbaseActivity" />
         <activity android:name=".activity.offbase.OffbaseApplyActivity"/>
+        <activity android:name=".activity.CounselActivity" />
     </application>
 
 </manifest>
