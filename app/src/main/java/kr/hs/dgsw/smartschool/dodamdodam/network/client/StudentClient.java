@@ -1,11 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.B1ndService;
@@ -19,7 +15,6 @@ import kr.hs.dgsw.b1nd.service.service.B1ndGetAllProfileService;
 import kr.hs.dgsw.b1nd.service.service.B1ndGetClasses;
 import kr.hs.dgsw.smartschool.dodamdodam.Constants;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
-import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 
 public class StudentClient {
     public StudentClient() {

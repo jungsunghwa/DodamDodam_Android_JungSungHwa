@@ -35,7 +35,7 @@ public class LocationClient extends NetworkClient {
 
 
         if (Utils.identity == Identity.STUDENT) {
-            Call<Response<LocationRequest>> service = location.getMyLocation(token, date);
+            Call<Response<LocationRequest<LocationInfo>>> service = location.getMyLocation(token, date);
             return actionService(service);
         } else if (Utils.identity == Identity.TEACHER) {
             Call<Response<List<Locations>>> service = location.getLocation(token, date);

@@ -40,7 +40,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'com.google.guava'
     }
-    implementation 'kr.hs.dgsw.b1nd:service:1.2.8'
+    implementation 'kr.hs.dgsw.b1nd:service:1.2.10'
     implementation 'kr.hs.dgsw.b1nd:bottomsheet:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.guava:guava:27.1-android'

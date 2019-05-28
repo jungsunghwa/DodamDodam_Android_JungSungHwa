@@ -18,6 +18,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -67,7 +68,7 @@ public class BaseViewModel<T> extends ViewModel {
                                 if (response.getData() == null) {
                                     successMessage.setValue(response.getMessage());
                                 } else {
-                                    data.setValue((T) convertLocationRequestToMap((LocationRequest) response.getData()));
+                                    data.setValue((T) convertLocationRequestToMap((LocationRequest<LocationInfo>) response.getData()));
                                 }
                                 loading.setValue(false);
                             }
@@ -80,7 +81,7 @@ public class BaseViewModel<T> extends ViewModel {
                         }));
     }
 
-    private Map<Time, Place> convertLocationRequestToMap(LocationRequest locations) {
+    private Map<Time, Place> convertLocationRequestToMap(LocationRequest<LocationInfo> locations) {
         Map<Time, Place> result = new HashMap<>();
         List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
         if (Utils.isWeekEnd)
