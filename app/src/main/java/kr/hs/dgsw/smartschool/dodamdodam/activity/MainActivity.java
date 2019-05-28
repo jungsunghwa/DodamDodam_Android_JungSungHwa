@@ -23,7 +23,10 @@ import com.annimon.stream.Optional;
 import java.util.Calendar;
 import java.util.Date;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.Utils;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.offbase.OffbaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.song.SongListActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.MainViewModel;
@@ -52,16 +55,16 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
             if (meal.isExists()) {
                 binding.mealItems.mealBreakfast.setMeal(Optional
                         .ofNullable(meal.getBreakfast())
-                        .orElse(getString(R.string.meal_empty)));
+                        .orElse(getString(R.string.text_meal_empty)));
                 binding.mealItems.mealLunch.setMeal(Optional
                         .ofNullable(meal.getLunch())
-                        .orElse(getString(R.string.meal_empty)));
+                        .orElse(getString(R.string.text_meal_empty)));
                 binding.mealItems.mealDinner.setMeal(Optional
                         .ofNullable(meal.getDinner())
-                        .orElse(getString(R.string.meal_empty)));
+                        .orElse(getString(R.string.text_meal_empty)));
             } else {
                 binding.mealItems.mealBreakfast.setMeal(null);
-                binding.mealItems.mealLunch.setMeal(getString(R.string.meal_empty));
+                binding.mealItems.mealLunch.setMeal(getString(R.string.text_meal_empty));
                 binding.mealItems.mealDinner.setMeal(null);
             }
         });
@@ -81,6 +84,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         ActionBar actionBar = getSupportActionBar();
 
         binding.navView.setNavigationItemSelectedListener(this::onOptionsItemSelected);
+        binding.navView.getMenu().getItem(3).setVisible(Utils.identity == Identity.TEACHER);
 
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -89,12 +93,13 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         binding.fabDateBack.setOnClickListener(((OnDateClickListener) this)::onDateBackClick);
         binding.fabDateToday.setOnClickListener(((OnDateClickListener) this)::onDateTodayClick);
         binding.fabDateForward.setOnClickListener(((OnDateClickListener) this)::onDateForwardClick);
+
     }
 
     @Override
     protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
         super.onCreatePhone(savedInstanceState);
-        drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.appbarLayout.toolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.appbarLayout.toolbar, R.string.desc_drawer_open, R.string.desc_drawer_close);
         binding.drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
@@ -142,6 +147,12 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 break;
             case R.id.menu_location_apply:
                 startActivity(new Intent(this, LocationApplyActivity.class));
+                break;
+            case R.id.menu_location_check:
+                startActivity(new Intent(this, LocationCheckActivity.class));
+                break;
+            case R.id.menu_offbase:
+                startActivity(new Intent(this, OffbaseActivity.class));
                 break;
             case R.id.menu_bus_apply:
                 startActivity(new Intent(this, BusApplyActivity.class));

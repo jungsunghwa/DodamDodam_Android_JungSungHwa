@@ -285,6 +285,44 @@ public class OffbaseViewModel extends ViewModel {
                         }));
     }
 
+    public void postLeave(OffbaseRequest request) {
+        loading.setValue(true);
+        disposable.add(client.postLeave(helper.getToken(), request).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
+                        new DisposableSingleObserver<String>() {
+                            @Override
+                            public void onSuccess(String msg) {
+                                message.setValue(msg);
+                                loading.setValue(false);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                error.setValue(e);
+                                loading.setValue(false);
+                            }
+                        }));
+    }
+
+    public void postPass(OffbaseRequest request) {
+        loading.setValue(true);
+        disposable.add(client.postPass(helper.getToken(), request).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
+                        new DisposableSingleObserver<String>() {
+                            @Override
+                            public void onSuccess(String msg) {
+                                message.setValue(msg);
+                                loading.setValue(false);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                error.setValue(e);
+                                loading.setValue(false);
+                            }
+                        }));
+    }
+
     public void updateLeave(int leaveId, OffbaseRequest request) {
         loading.setValue(true);
         disposable.add(client.putLeave(helper.getToken(), leaveId, request).subscribeOn(Schedulers.io())

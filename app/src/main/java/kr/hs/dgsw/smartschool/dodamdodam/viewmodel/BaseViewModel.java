@@ -57,7 +57,7 @@ public class BaseViewModel<T> extends ViewModel {
         return loading;
     }
 
-    protected void addDisposable(Single single) {
+    /*protected void addDisposable(Single single) {
         disposable.add((Disposable) single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
@@ -112,5 +112,5 @@ public class BaseViewModel<T> extends ViewModel {
             result.put(time, place);
         }
         return result;
-    }
+    }*/
 }

@@ -28,7 +28,11 @@ public class NetworkClient {
                                 errorBody = new JSONObject(Objects
                                         .requireNonNull(
                                                 response.errorBody()).string());
-                                observer.onError(new Throwable(errorBody.getString("message")));
+                                try {
+                                    observer.onError(new Throwable(errorBody.getString("message")));
+                                } catch (JSONException jE) {
+                                    observer.onError(new Throwable(errorBody.getString("messages")));
+                                }
                             } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                             }

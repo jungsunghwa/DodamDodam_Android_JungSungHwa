@@ -5,13 +5,13 @@ import com.annimon.stream.Stream;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
-public class LocationRequest<T extends Location> {
-    private List<T> locations = new ArrayList<>();
+public class LocationRequest {
+    private List<Location> locations = new ArrayList<>();
 
     public LocationRequest(List<LocationInfo> timePlaceMap) {
         locations.clear();
@@ -20,15 +20,16 @@ public class LocationRequest<T extends Location> {
             Place place = locationInfo.getPlace();
 
             if (place != null) {
-                locations.add((T)new Location(time.getIdx(), place.getIdx()));
+                locations.add(new Location(time.getIdx(), place.getIdx()));
             } else {
-                locations.add((T)new Location(time.getIdx(), null));
+                locations.add(new Location(time.getIdx(), null));
             }
         });
     }
 
-    public ArrayList<T> getLocations() {
-        return (ArrayList<T>) locations;
+    @SuppressWarnings("unchecked")
+    public <T extends Location> List<T> getLocations() {
+        return (List<T>) locations;
     }
 
     public void setLocations(List<LocationInfo> timePlaceMap) {
@@ -47,12 +48,12 @@ public class LocationRequest<T extends Location> {
 
                 int index = locations.indexOf(location);
                 locations.remove(index);
-                locations.add(index, (T) location);
+                locations.add(index, location);
             } else if (place != null) {
                 location.setPlaceIdx(place.getIdx());
                 int index = locations.indexOf(location);
                 locations.remove(index);
-                locations.add(index, (T) location);
+                locations.add(index, location);
             }
         });
     }

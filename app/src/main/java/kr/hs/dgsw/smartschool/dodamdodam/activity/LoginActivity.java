@@ -31,6 +31,8 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setLayoutNoLimits(false);
+
         keyboardManager = new SoftKeyboardManager(this);
 
         loginViewModel = new LoginViewModel(this);
@@ -56,8 +58,8 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         studentViewModel.getIsSuccess().observe(this, isSuccess -> {
             if (isSuccess) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                if (Utils.identity == Identity.TEACHER)
-                    intent = new Intent(getApplicationContext(), LocationCheckActivity.class);
+                /*if (Utils.identity == Identity.TEACHER)
+                    intent = new Intent(getApplicationContext(), LocationCheckActivity.class);*/
 
                 startActivity(intent);
                 overridePendingTransition(0, R.anim.fade_out);

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.Model.offbase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Offbase {
@@ -12,5 +13,12 @@ public class Offbase {
 
     public List<Pass> getPasses() {
         return passes;
+    }
+
+    public List<OffbaseItem> getAll() {
+        List<OffbaseItem> list = new ArrayList<>();
+        list.addAll(leaves);
+        list.addAll(passes);
+        return list;
     }
 }

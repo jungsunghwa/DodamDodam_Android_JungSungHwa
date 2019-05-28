@@ -12,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
@@ -72,22 +73,32 @@ public interface OffbaseService {
             @Header("x-access-token") String token, @Path("pass_idx") int passIdx
     );
 
-    @PUT("/offbase/leave/{leave_idx}")
+    @POST("offbase/leave")
+    Call<Response> postLeave(
+            @Header("x-access-token") String token, @Body OffbaseRequest request
+    );
+
+    @PUT("offbase/leave/{leave_idx}")
     Call<Response> putLeave(
             @Header("x-access-token") String token, @Path("leave_idx") int leaveIdx, @Body OffbaseRequest request
     );
 
-    @DELETE("/offbase/leave/{leave_idx}")
+    @DELETE("offbase/leave/{leave_idx}")
     Call<Response> deleteLeave(
             @Header("x-access-token") String token, @Path("leave_idx") int leaveIdx
     );
 
-    @PUT("/offbase/pass/{pass_idx}")
+    @POST("offbase/pass")
+    Call<Response> postPass(
+            @Header("x-access-token") String token, @Body OffbaseRequest request
+    );
+
+    @PUT("offbase/pass/{pass_idx}")
     Call<Response> putPass(
             @Header("x-access-token") String token, @Path("pass_idx") int leaveIdx, @Body OffbaseRequest request
     );
 
-    @DELETE("/offbase/pass/{pass_idx}")
+    @DELETE("offbase/pass/{pass_idx}")
     Call<Response> deletePass(
             @Header("x-access-token") String token, @Path("pass_idx") int leaveIdx
     );

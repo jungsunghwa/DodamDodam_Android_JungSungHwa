@@ -315,8 +315,60 @@ public class OffbaseClient {
         }));
     }
 
+    public Single<String> postLeave(Token token, OffbaseRequest request) {
+        return Single.create(observer -> offbase.postLeave(token.getToken(), request).enqueue(new Callback<Response>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                if (response.isSuccessful())
+                    observer.onSuccess(response.body().getMessage());
+                else
+                    try {
+                        JSONObject errorBody = new JSONObject(Objects
+                                .requireNonNull(
+                                        response.errorBody()).string());
+                        observer.onError(new Throwable(errorBody.getString("message")));
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<Response> call, Throwable t) {
+                observer.onError(t);
+            }
+        }));
+    }
+
     public Single<String> putLeave(Token token, int leaveId, OffbaseRequest request) {
         return Single.create(observer -> offbase.putLeave(token.getToken(), leaveId, request).enqueue(new Callback<Response>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                if (response.isSuccessful())
+                    observer.onSuccess(response.body().getMessage());
+                else
+                    try {
+                        JSONObject errorBody = new JSONObject(Objects
+                                .requireNonNull(
+                                        response.errorBody()).string());
+                        observer.onError(new Throwable(errorBody.getString("message")));
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<Response> call, Throwable t) {
+                observer.onError(t);
+            }
+        }));
+    }
+
+    public Single<String> postPass(Token token, OffbaseRequest request) {
+        return Single.create(observer -> offbase.postPass(token.getToken(), request).enqueue(new Callback<Response>() {
             @Override
             @EverythingIsNonNull
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {

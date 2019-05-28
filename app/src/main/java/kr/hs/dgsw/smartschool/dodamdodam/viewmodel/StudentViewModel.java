@@ -2,11 +2,11 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
 
-import com.annimon.stream.Stream;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +17,10 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.b1nd.service.model.Member;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
@@ -30,15 +30,14 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.client.StudentClient;
 
 public class StudentViewModel extends ViewModel {
 
-    private ClassClient classClient;
-    private StudentClient studentClient;
-    private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
-
     private final MutableLiveData<ArrayList<ClassInfo>> classInfos = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private ClassClient classClient;
+    private StudentClient studentClient;
+    private CompositeDisposable disposable;
+    private DatabaseHelper databaseHelper;
 
     public StudentViewModel(Context context) {
         classClient = new ClassClient();
@@ -138,15 +137,15 @@ public class StudentViewModel extends ViewModel {
                             members.add(new Member(member));
                         }
 
-                        List<Member> studentList = Stream.of(response).filter(value -> value.getAuth() == 1).toList();
-                        List<Member> teacherList = Stream.of(response).filter(value -> value.getAuth() == 2).toList();
+                        List<Member> studentList = Stream.of(response).filter(value -> value instanceof Student).toList();
+                        List<Member> teacherList = Stream.of(response).filter(value -> value instanceof Teacher).toList();
 
                         for (int i = 0; i < studentList.size(); i++) {
-                            ((kr.hs.dgsw.b1nd.service.model.Student) studentList.get(i)).setMemberID(studentList.get(i).getId());
+                            ((Student) studentList.get(i)).setMemberID(studentList.get(i).getId());
                         }
 
                         for (int i = 0; i < teacherList.size(); i++) {
-                            ((Teacher)teacherList.get(i)).setMemberID(teacherList.get(i).getId());
+                            ((Teacher) teacherList.get(i)).setMemberID(teacherList.get(i).getId());
                         }
 
                         databaseHelper.insert(DatabaseManager.TABLE_MEMBER, members);

@@ -47,6 +47,6 @@ public class PointListActivity extends BaseActivity<PointListActivityBinding> {
             return true;
         }
 
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 }

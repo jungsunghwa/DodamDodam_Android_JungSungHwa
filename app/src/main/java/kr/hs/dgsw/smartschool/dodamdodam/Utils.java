@@ -22,7 +22,7 @@ public final class Utils {
             new Retrofit.Builder()
                     .client(getClient())
                     .baseUrl(Constants.DEFAULT_HOST)
-                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").serializeNulls().create()))
+                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create()))
                     .callbackExecutor(Executors.newSingleThreadExecutor())
                     .build();
 
@@ -36,8 +36,6 @@ public final class Utils {
 
         switch (dayNum) {
             case Calendar.SUNDAY:
-                isWeekEnd = true;
-                break;
             case Calendar.SATURDAY:
                 isWeekEnd = true;
                 break;

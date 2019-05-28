@@ -1,33 +1,63 @@
 <resources>
     <string name="app_name">도담도담</string>
+
     <string name="title_point_list">상벌점 기준</string>
+    <string name="title_bus_apply">귀가 버스 신청</string>
+    <string name="title_song">기상송</string>
+    <string name="title_location_apply">랩실 신청</string>
+    <string name="title_offbase">외출 / 외박</string>
+    <string name="title_offbase_apply_leave">외박 신청</string>
+    <string name="title_offbase_apply_pass">외출 신청</string>
+    <string name="title_offbase_detail">상세 정보</string>
+
     <string name="subtitle_point_list">2019.3.</string>
-    <string name="login">로그인</string>
+
+    <string name="text_login">로그인</string>
+    <string name="text_meal_empty">급식이 없습니다</string>
+    <string name="text_song_video_title">제목</string>
+    <string name="text_song_search">검색</string>
+    <string name="text_offbase_leave_date">외박날짜</string>
+    <string name="text_offbase_leave_date_end">복귀날짜</string>
+    <string name="text_offbase_leave_time">외박시간</string>
+    <string name="text_offbase_pass_date">외출날짜</string>
+    <string name="text_offbase_pass_time">외출시간</string>
+    <string name="text_offbase_time_end">복귀시간</string>
+    <string name="text_offbase_reason">사유</string>
+    <string name="text_hour">시</string>
+    <string name="text_minute">분</string>
+    <string name="text_apply">신청</string>
+    <string name="text_offbase_leave">외박</string>
+    <string name="text_offbase_pass">외출</string>
+    <string name="text_offbase_status_ok">승인됨</string>
+    <string name="text_offbase_status_wait">대기중</string>
+    <string name="text_offbase_status_refuse">거부됨</string>
+    <string name="text_refresh">새로고침</string>
+
     <string name="hint_email">이메일</string>
     <string name="hint_pw">비밀번호</string>
-    <string name="error_empty_id">이메일를 입력해주세요</string>
-    <string name="error_empty_pw">비밀번호를 입력해주세요</string>
-    <string name="title_bus_apply">귀가 버스 신청</string>
-    <string name="video_title">제목</string>
-    <string name="search">검색</string>
-    <string name="empty_search">검색결과 없음</string>
-    <string name="empty_search_song">검색 된 음악이 없습니다</string>
-    <string name="error_quota">검색 한도 초과</string>
-    <string name="error_quota_desc">오늘의 검색 한도를 초과하였습니다</string>
     <string name="hint_search_song">제목 입력</string>
     <string name="hint_search_song_desc">제목을 입력하여 검색</string>
+
+    <string name="error_empty_id">이메일를 입력해주세요</string>
+    <string name="error_empty_pw">비밀번호를 입력해주세요</string>
+    <string name="error_quota">검색 한도 초과</string>
+    <string name="error_quota_desc">오늘의 검색 한도를 초과하였습니다</string>
+
+    <string name="empty_search">검색결과 없음</string>
+    <string name="empty_search_song">검색 된 음악이 없습니다</string>
+
     <string name="menu_song">기상송</string>
     <string name="menu_location_apply">랩실 신청</string>
-    <string name="drawer_open">열기</string>
-    <string name="drawer_close">닫기</string>
-    <string name="select_place_text">에 있을 장소를 선택해 주세요!</string>
     <string name="menu_profile">내 정보</string>
     <string name="menu_offbase">외출/외박 신청</string>
     <string name="menu_bus_apply">셔틀 버스</string>
     <string name="menu_lost_found">분실물</string>
     <string name="menu_counsel_apply">상담 신청</string>
-    <string name="title_song_apply">기상송</string>
-    <string name="title_location_apply">랩실 신청</string>
-    <string name="meal_empty">급식이 없습니다</string>
-    <string name="text_refresh">새로고침</string>
+
+    <!--TODO '+' to format-->
+    <string name="desc_select_place">에 있을 장소를 선택해 주세요!</string>
+    <string name="desc_offbase_apply">신청하고 싶은 날짜와 시간, 사유를 작성해 주세요</string>
+    <string name="desc_drawer_open">열기</string>
+    <string name="desc_drawer_close">닫기</string>
+    <string name="menu_location_check">위치 확인</string>
 </resources>

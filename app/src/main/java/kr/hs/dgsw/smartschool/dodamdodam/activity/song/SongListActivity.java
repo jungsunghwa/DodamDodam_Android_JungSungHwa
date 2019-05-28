@@ -18,7 +18,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongListAdapter
 
 /*
  * TODO
- * 썸네일 화질 사용자 설정 (낮음, 보통, 높음 | 서버가 반환하는 값: 높음)
+ * 썸네일 화질 사용자 설정 (낮음, 보통, 높음 | 서버가 기본적으로 반환하는 값: 높음)
  * 신청 정보 상세 보기 (카드 클릭시 카드가 펴지며 상세 정보 표시)
  */
 public class SongListActivity extends BaseActivity<SongListActivityBinding> implements SwipeRefreshLayout.OnRefreshListener {
@@ -54,7 +54,7 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
 
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
         binding.swipeRefreshLayout.setOnRefreshListener(this);
-        binding.openSongApplyFab.setOnClickListener(v -> startActivityForResult(new Intent(this, SongApplyActivity.class), REQ_SONG_APPLY));
+        binding.fabOpenSongApply.setOnClickListener(v -> startActivityForResult(new Intent(this, SongApplyActivity.class), REQ_SONG_APPLY));
     }
 
     @Override
@@ -68,6 +68,7 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
             finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/nanum_square_regular"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/colorControlNormal"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/text_offbase_leave" />
+
+            <TextView
+                android:id="@+id/text_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nanum_square_round"
+                android:textColor="@color/textColorLight"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_status"
+                app:layout_constraintEnd_toStartOf="@+id/image_status"
+                app:layout_constraintTop_toTopOf="@+id/image_status"
+                tools:text="@string/text_offbase_status_wait" />
+
+            <ImageView
+                android:id="@+id/image_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:srcCompat="@drawable/ic_offbase_unknown" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_type" />
+
+            <LinearLayout
+                android:id="@+id/layout_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/layout_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider">
+
+                <TextView
+                    android:id="@+id/text_label_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="외박 날짜" />
+
+                <TextView
+                    android:id="@+id/text_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/nanum_square_round"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="12sp"
+                    tools:text="2019-03-13" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_date_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/layout_time_end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider">
+
+                <TextView
+                    android:id="@+id/text_label_date_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="복귀 날짜" />
+
+                <TextView
+                    android:id="@+id/text_date_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/nanum_square_round"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="12sp"
+                    tools:text="2019-03-15" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/btn_delete"
+                app:layout_constraintStart_toStartOf="@+id/layout_date"
+                app:layout_constraintTop_toBottomOf="@+id/layout_date">
+
+                <TextView
+                    android:id="@+id/text_label_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="외박 시간" />
+
+                <TextView
+                    android:id="@+id/text_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/nanum_square_round"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="12sp"
+                    tools:text="16:30 - 19:10" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_time_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/btn_delete"
+                app:layout_constraintStart_toStartOf="@+id/layout_date_end"
+                app:layout_constraintTop_toBottomOf="@+id/layout_date_end">
+
+                <TextView
+                    android:id="@+id/text_label_time_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="복귀 시간" />
+
+                <TextView
+                    android:id="@+id/text_time_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/nanum_square_round"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="12sp"
+                    tools:text="19:10" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="?actionBarItemBackground"
+                android:src="@drawable/ic_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@color/textColorLight"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

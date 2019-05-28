@@ -13,6 +13,10 @@
         android:icon="@drawable/ic_location_apply"
         android:title="@string/menu_location_apply" />
     <item
+        android:id="@+id/menu_location_check"
+        android:icon="@drawable/ic_location_apply"
+        android:title="@string/menu_location_check" />
+    <item
         android:id="@+id/menu_bus_apply"
         android:icon="@drawable/ic_bus_apply"
         android:title="@string/menu_bus_apply" />

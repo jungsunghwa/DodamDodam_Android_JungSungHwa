@@ -69,7 +69,6 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         keyboardManager = new SoftKeyboardManager(this);
 
         viewModel = new SongViewModel(this);
@@ -92,7 +91,7 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TooltipCompat.setTooltipText(binding.searchButton, getString(R.string.search));
+        TooltipCompat.setTooltipText(binding.searchButton, getString(R.string.text_song_search));
         binding.searchList.setAdapter(adapter = new SongSearchAdapter(this, this));
         if (savedInstanceState != null) {
             List<YoutubeData> list = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_RESULTS);

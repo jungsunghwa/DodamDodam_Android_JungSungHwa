@@ -48,14 +48,13 @@ public class LocationInfo extends Location {
         this.idx = idx;
     }
 
-    public Integer getStudenIdx() {
+    public Integer getStudentIdx() {
         return studentIdx;
     }
 
-    public void setStudenIdx(Integer studenIdx) {
-        this.studentIdx = studenIdx;
+    public void setStudentIdx(Integer studentIdx) {
+        this.studentIdx = studentIdx;
     }
-
 
     public Integer getChecked() {
         return isChecked;

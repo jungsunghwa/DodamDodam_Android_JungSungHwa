@@ -46,7 +46,7 @@ public class LocationViewModel extends ViewModel {
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
-    Map<Student,List<LocationInfo>> result = new HashMap<>();
+    private Map<Student,List<LocationInfo>> result = new HashMap<>();
 
     public LocationViewModel(Context context) {
         locationClient = new LocationClient();
@@ -143,6 +143,7 @@ public class LocationViewModel extends ViewModel {
                         }));*/
     }
 
+    @SuppressWarnings("unchecked")
     private void addDisposable(Single<Response> single) {
         disposable.add(single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -157,7 +158,7 @@ public class LocationViewModel extends ViewModel {
                                         locationRequest = (LocationRequest) response.getData();
                                         result.clear();
                                         data.setValue(
-                                                convertLocationRequestToMap(locationRequest.getLocations(), null));
+                                                convertLocationRequestToMap(locationRequest.<LocationInfo>getLocations(), null));
                                     }else {
                                         locations = (ArrayList<Locations>) response.getData();
                                         result.clear();
@@ -185,7 +186,7 @@ public class LocationViewModel extends ViewModel {
         return result;
     }
 
-    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(ArrayList<LocationInfo> locations, Integer studentIdx){
+    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(List<LocationInfo> locations, Integer studentIdx){
         Map<Student, List<LocationInfo>> locationInfoMap = new HashMap<>();
         Student student;
 

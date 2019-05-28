@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.App" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -20,7 +20,15 @@
         <item name="fabDrawable">@drawable/ic_add</item>
     </style>
 
+    <style name="Theme.App.Offbase">
+        <item name="fabDrawable">@drawable/ic_add</item>
+    </style>
+
     <style name="Theme.App.LostFound">
+        <item name="fabDrawable">@drawable/ic_create</item>
+    </style>
+
+    <style name="Theme.App.Offbase.Detail">
         <item name="fabDrawable">@drawable/ic_create</item>
     </style>
 
@@ -36,5 +44,13 @@
     <style name="Theme.App.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.App.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TextAppearance.App.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/nanum_square_regular</item>
+    </style>
+
+    <style name="TextAppearance.App.Title.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:fontFamily">@font/nanum_square_regular</item>
+    </style>
 
 </resources>

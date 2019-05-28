@@ -24,6 +24,9 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 
 /**
  * @param <VB> ViewDataBinding 을 상속 받는 View 바인딩 클래스
+ * @author kimji
+ * <p>
+ * binding 필드와 기본 레이아웃 설정이 들어 있는 기반 액티비티
  * @apiNote Layout 구조
  * <p>
  * ! ->  필요할 때
@@ -46,11 +49,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
  * </SomeAnotherLayout>
  * </SomeLayout>
  * </layout>
- *
- *
- * @author kimji
- *
- * binding 필드와 기본 레이아웃 설정이 들어 있는 기반 액티비티
  */
 public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity {
 
@@ -59,11 +57,10 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!getClass().getName().equals(LoginActivity.class.getName()))
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        setLayoutNoLimits(true);
         binding = DataBindingUtil.setContentView(this, layoutId());
         ViewUtils.setOnApplyWindowInsetsListenerToWindow(getWindow());
-        /*try {
+        try {
             Field rootField = binding.getClass().getField("rootLayout");
             View rootView = (View) rootField.get(binding);
 
@@ -124,32 +121,56 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
             }
 
         } catch (NoSuchFieldException | IllegalAccessException | NullPointerException ignore) {
-        }*/
+        }
         if (isTablet()) onCreateTablet(savedInstanceState);
         else onCreatePhone(savedInstanceState);
     }
 
     /**
-     * onCreate for Phone
+     * 폰 용 onCreate
+     * <p>
+     * 폰과 태블릿의 작업이 다를 경우 사용
+     * 단독 또는 같을 경우 사용하지 않아도 됨
      */
     protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
 
     }
 
     /**
-     * onCreate for Tablet
+     * 태블릿 용 onCreate
+     * <p>
+     * 폰과 태블릿의 작업이 다를 경우 사용
+     * 단독 또는 같을 경우 사용하지 않아도 됨
      */
     protected void onCreateTablet(@Nullable Bundle savedInstanceState) {
 
     }
 
+    /**
+     * setContentView 를 Base 에서 작업하기 위해 필요
+     *
+     * @return 설정할 레이아웃 ID
+     */
     @LayoutRes
     protected abstract int layoutId();
 
     /**
-     * Checking current device is Tablet.
+     * LAYOUT_NO_LIMITS 설정, 기본적으로 사용 됨
      *
-     * @return Current device is Tablet (or Size like Tablet), is true. Or, result is false.
+     * @param enable LAYOUT_NO_LIMITS 의 사용 여부
+     */
+    protected final void setLayoutNoLimits(boolean enable) {
+        if (enable)
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        else
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    /**
+     * 현재 장비가 태블릿인지 확인
+     * 크기에 따라 정의되어 있는 bool 값이 true 또는 build.prop 에 정의되어 있는 characteristics 가 tablet 인지를 확인
+     *
+     * @return 태블릿 또는 그것에 해당되는 크기일 경우: true, 아니면 false
      */
     protected final boolean isTablet() {
         return getSystemProperty("ro.build.characteristics").equals("tablet") || getResources().getBoolean(R.bool.isTablet);
