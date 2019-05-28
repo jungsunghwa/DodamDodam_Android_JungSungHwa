@@ -406,6 +406,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private <T> T selectData(Cursor res, DatabaseGetDataType<T> getDataType) {
         List<T> result = selectDataFromMap(res, getDataType);
+        if (result.isEmpty()) return null;
         return result.get(0);
     }
 

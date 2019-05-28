@@ -141,24 +141,28 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Intent intent = null;
         switch (id) {
             case R.id.menu_song_apply:
-                startActivity(new Intent(this, SongListActivity.class));
+                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, SongListActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_location_apply:
-                startActivity(new Intent(this, LocationApplyActivity.class));
-                break;
-            case R.id.menu_location_check:
-                startActivity(new Intent(this, LocationCheckActivity.class));
+                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, LocationApplyActivity.class);
+                else intent = new Intent(this, LocationCheckActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_offbase:
-                startActivity(new Intent(this, OffbaseActivity.class));
+                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, OffbaseActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_bus_apply:
-                startActivity(new Intent(this, BusApplyActivity.class));
+                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, BusApplyActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_counsel_apply:
-                startActivity(new Intent(this, CounselActivity.class));
+                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, CounselActivity.class);
+                startActivity(intent);
                 break;
         }
 

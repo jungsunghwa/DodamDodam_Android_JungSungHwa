@@ -9,10 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +37,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 
 public class LocationViewModel extends ViewModel {
     private LocationClient locationClient;
-    private LocationRequest locationRequest;
+    private LocationRequest<LocationInfo> locationRequest;
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
     private ArrayList<Locations> locations;
@@ -84,13 +81,12 @@ public class LocationViewModel extends ViewModel {
 
         if (isPost) {
             method = "POST";
-            locationRequest = new LocationRequest(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
+            locationRequest = new LocationRequest<>(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
         } else {
             locationRequest.setLocations(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
         }
 
-
-        single = locationClient.postLocation(locationRequest, databaseHelper.getToken().getToken(), method);
+        single = (Single<Response>) locationClient.postLocation(locationRequest, databaseHelper.getToken().getToken(), method);
 
         Log.e("request", locationRequest.toString());
 

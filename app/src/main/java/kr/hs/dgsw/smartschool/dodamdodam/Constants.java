@@ -15,7 +15,7 @@ public final class Constants {
     public static final String SOCKET_HOST = "http://192.168.0.55:3000";
     /*public static final String DEFAULT_LOCAL_HOST = "http://192.168.0.55:8000";
     public static final String DEFAULT_HOST = "http://49.247.130.189:35800";*/
-    public static final String DEFAULT_HOST = "http://49.247.130.189:35800";
+    public static final String DEFAULT_HOST = "http://192.168.0.55:8000";
 
 
         /*

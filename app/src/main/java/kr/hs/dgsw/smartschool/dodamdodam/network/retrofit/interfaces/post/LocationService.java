@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
 
 import java.util.List;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
@@ -19,7 +20,7 @@ public interface LocationService {
     @POST("location")
     public Call<Response> postLocation(
             @Header("x-access-token") String token,
-            @Body LocationRequest request
+            @Body LocationRequest<LocationInfo> request
     );
 
     @GET("location/search/my")
@@ -37,7 +38,7 @@ public interface LocationService {
     @PUT("location")
     public Call<Response> putLocation(
             @Header("x-access-token") String token,
-            @Body LocationRequest request
+            @Body LocationRequest<LocationInfo> request
     );
 
     @PUT("location/check/{idx}")

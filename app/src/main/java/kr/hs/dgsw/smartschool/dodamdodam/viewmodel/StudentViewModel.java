@@ -108,7 +108,6 @@ public class StudentViewModel extends ViewModel {
         }
 
         if (!students.isEmpty()) {
-
             loading.setValue(false);
             isSuccess.setValue(true);
             return;
@@ -122,7 +121,7 @@ public class StudentViewModel extends ViewModel {
                 .subscribeWith(new DisposableSingleObserver<ArrayList<Member>>() {
                     @Override
                     public void onSuccess(ArrayList<Member> response) {
-                        ArrayList<Member> members = new ArrayList();
+                        ArrayList<Member> members = new ArrayList<>();
                         for (Member member : response) {
                             if (member.getId().equals(Utils.myId)) {
                                 switch (member.getAuth()) {
@@ -130,18 +129,18 @@ public class StudentViewModel extends ViewModel {
                                         Utils.identity = Identity.STUDENT;
                                         break;
                                     case 2:
-                                        Utils.identity = Identity.STUDENT;
+                                        Utils.identity = Identity.TEACHER;
                                         break;
                                 }
                             }
                             members.add(new Member(member));
                         }
 
-                        List<Member> studentList = Stream.of(response).filter(value -> value instanceof Student).toList();
+                        List<Member> studentList = Stream.of(response).filter(value -> value.getAuth() == 1).toList();
                         List<Member> teacherList = Stream.of(response).filter(value -> value instanceof Teacher).toList();
 
                         for (int i = 0; i < studentList.size(); i++) {
-                            ((Student) studentList.get(i)).setMemberID(studentList.get(i).getId());
+                            ((kr.hs.dgsw.b1nd.service.model.Student) studentList.get(i)).setMemberID(studentList.get(i).getId());
                         }
 
                         for (int i = 0; i < teacherList.size(); i++) {

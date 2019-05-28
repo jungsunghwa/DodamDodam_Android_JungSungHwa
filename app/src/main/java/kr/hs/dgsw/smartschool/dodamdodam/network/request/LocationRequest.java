@@ -12,7 +12,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
-public class LocationRequest {
+public class LocationRequest<L extends Location> {
     private List<Location> locations = new ArrayList<>();
 
     public LocationRequest(List<LocationInfo> timePlaceMap, ClassInfo classInfo) {

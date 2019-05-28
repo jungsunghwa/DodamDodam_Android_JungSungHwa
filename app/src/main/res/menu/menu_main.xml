@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_profile"
@@ -8,10 +9,12 @@
         android:id="@+id/menu_offbase"
         android:icon="@drawable/ic_offbase"
         android:title="@string/menu_offbase" />
+
     <item
         android:id="@+id/menu_location_apply"
         android:icon="@drawable/ic_location_apply"
         android:title="@string/menu_location_apply" />
+
     <item
         android:id="@+id/menu_location_check"
         android:icon="@drawable/ic_location_apply"
