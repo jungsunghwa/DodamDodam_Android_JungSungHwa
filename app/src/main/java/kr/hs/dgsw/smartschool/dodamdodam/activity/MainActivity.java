@@ -144,26 +144,49 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         Intent intent = null;
         switch (id) {
             case R.id.menu_song_apply:
-                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, SongListActivity.class);
+                if (Utils.identity == Identity.STUDENT)
+                    intent = new Intent(this, SongListActivity.class);
+                else {
+                    notSupportToast();
+                    break;
+                }
                 startActivity(intent);
                 break;
             case R.id.menu_location_apply:
-                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, LocationApplyActivity.class);
+                if (Utils.identity == Identity.STUDENT)
+                    intent = new Intent(this, LocationApplyActivity.class);
                 else intent = new Intent(this, LocationCheckActivity.class);
                 startActivity(intent);
                 break;
             case R.id.menu_offbase:
-                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, OffbaseActivity.class);
+                if (Utils.identity == Identity.STUDENT)
+                    intent = new Intent(this, OffbaseActivity.class);
+                else {
+                    notSupportToast();
+                    break;
+                }
                 startActivity(intent);
                 break;
             case R.id.menu_bus_apply:
-                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, BusApplyActivity.class);
+                if (Utils.identity == Identity.STUDENT)
+                    intent = new Intent(this, BusApplyActivity.class);
+                else {
+                    notSupportToast();
+                    break;
+                }
                 startActivity(intent);
                 break;
             case R.id.menu_counsel_apply:
-                if (Utils.identity == Identity.STUDENT) intent = new Intent(this, CounselActivity.class);
+                if (Utils.identity == Identity.STUDENT)
+                    intent = new Intent(this, CounselActivity.class);
+                else {
+                    notSupportToast();
+                    break;
+                }
                 startActivity(intent);
                 break;
+            default :
+                notSupportToast();
         }
 
         return false;

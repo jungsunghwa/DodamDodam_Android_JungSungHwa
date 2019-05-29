@@ -154,8 +154,10 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
 
                 for (LocationInfo locationInfo : locationInfos) {
                     if (locationInfo.getPlace() == null) continue;
-                    if (locationInfo.getPlace().getIdx() == idx)
-                        bindingValue.put(student, Objects.requireNonNull(location.get(student)));
+                    if (locationInfo.getTimetableIdx() == selectTime.getIdx() &&
+                            locationInfo.getPlaceIdx() == idx){
+                            bindingValue.put(student, Objects.requireNonNull(location.get(student)));
+                    }
                 }
             }
         }

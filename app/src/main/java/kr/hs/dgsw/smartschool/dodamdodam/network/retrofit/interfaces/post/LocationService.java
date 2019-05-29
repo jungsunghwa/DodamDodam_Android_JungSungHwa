@@ -36,9 +36,15 @@ public interface LocationService {
     );
 
     @PUT("location")
-    public Call<Response> putLocation(
+    public Call<Response> putAllLocation(
             @Header("x-access-token") String token,
             @Body LocationRequest<LocationInfo> request
+    );
+
+    @PUT("location/{idx}")
+    public Call<Response> putLocation(
+            @Header("x-access-token") String token,
+            @Body int placeIdx
     );
 
     @PUT("location/check/{idx}")

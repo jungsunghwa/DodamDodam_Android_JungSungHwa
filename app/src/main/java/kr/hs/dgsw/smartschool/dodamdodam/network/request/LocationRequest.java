@@ -13,7 +13,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
 public class LocationRequest<L extends Location> {
-    private List<Location> locations = new ArrayList<>();
+    private List<L> locations = new ArrayList<>();
 
     public LocationRequest(List<LocationInfo> timePlaceMap, ClassInfo classInfo) {
         locations.clear();
@@ -22,9 +22,9 @@ public class LocationRequest<L extends Location> {
             Place place = locationInfo.getPlace();
 
             if (place != null) {
-                locations.add(new Location(time.getIdx(), place.getIdx()));
+                locations.add((L) new Location(time.getIdx(), place.getIdx()));
             } else {
-                locations.add(new Location(time.getIdx(), classInfo.getPlaceIdx()));
+                locations.add((L) new Location(time.getIdx(), classInfo.getPlaceIdx()));
             }
         });
     }
@@ -50,12 +50,12 @@ public class LocationRequest<L extends Location> {
 
                 int index = locations.indexOf(location);
                 locations.remove(index);
-                locations.add(index, location);
+                locations.add(index, (L) location);
             } else if (place != null) {
                 location.setPlaceIdx(place.getIdx());
                 int index = locations.indexOf(location);
                 locations.remove(index);
-                locations.add(index, location);
+                locations.add(index, (L) location);
             }else {
                 if (place == null) location.setPlaceIdx(classInfo.getPlaceIdx());
                 else location.setPlaceIdx(place.getIdx());

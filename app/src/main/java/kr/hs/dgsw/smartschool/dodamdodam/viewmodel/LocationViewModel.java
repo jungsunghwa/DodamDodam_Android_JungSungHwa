@@ -73,6 +73,13 @@ public class LocationViewModel extends ViewModel {
         return loading;
     }
 
+    public void postLocation(LocationInfo locationInfo) {
+        List<LocationInfo> timeTable = new ArrayList<>();
+        timeTable.add(locationInfo);
+
+        postLocation(timeTable);
+    }
+
     public void postLocation(List<LocationInfo> timeTable) {
         loading.setValue(true);
         Single<Response> single;

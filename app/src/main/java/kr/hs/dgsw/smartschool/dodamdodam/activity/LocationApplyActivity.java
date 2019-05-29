@@ -66,7 +66,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         observablePlaceViewModel();
         observableLocationViewModel();
 
-
         binding.locationApplyBtn.setOnClickListener(view -> {
             locationViewModel.postLocation(timeTable);
         });
@@ -128,10 +127,12 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
                 LocationInfo locationInfo = timeTable.get(timePosition);
                 locationInfo.setPlace(null);
 
+
                 this.timeTable.remove(timePosition);
                 this.timeTable.add(timePosition, locationInfo);
                 this.location.remove(timePosition);
                 this.location.add(timePosition, null);
+
                 timeTableAdapter.notifyItemChanged(timePosition);
                 return;
             }
@@ -140,6 +141,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             LocationInfo locationInfo = timeTable.get(timePosition);
             locationInfo.setPlace(place);
+
 
             this.timeTable.remove(timePosition);
             this.timeTable.add(timePosition, locationInfo);

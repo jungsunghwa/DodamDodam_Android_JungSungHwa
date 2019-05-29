@@ -7,7 +7,6 @@ import java.util.Locale;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -25,7 +24,9 @@ public class LocationClient extends NetworkClient {
 
     public Single<Response> postLocation(LocationRequest<LocationInfo> request, String token, String method) {
         Call<Response> service = location.postLocation(token, request);
-        if (method.equals("PUT")) service = location.putLocation(token, request);
+        if (method.equals("PUT")) {
+            service = location.putAllLocation(token, request);
+        }
 
         return actionService(service);
     }

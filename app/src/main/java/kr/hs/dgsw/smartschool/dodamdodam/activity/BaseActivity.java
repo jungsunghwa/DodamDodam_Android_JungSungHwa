@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -187,5 +188,9 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         }
 
         return value;
+    }
+
+    public void notSupportToast(){
+        Toast.makeText(this, "아직 지원하지 않는 기능입니다.", Toast.LENGTH_SHORT).show();
     }
 }
