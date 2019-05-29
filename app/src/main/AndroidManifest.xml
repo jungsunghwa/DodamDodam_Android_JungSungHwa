@@ -59,6 +59,9 @@
             android:name=".activity.offbase.OffbaseDetailActivity"
             android:label="@string/title_offbase_detail"
             android:theme="@style/Theme.App.Offbase.Detail" />
+        <activity
+            android:name=".activity.LostFoundActivity"
+            android:label="@string/title_lostfound" />
         <activity android:name=".activity.CounselActivity" />
     </application>
 </manifest>

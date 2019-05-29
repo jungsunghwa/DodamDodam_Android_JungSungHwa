@@ -14,6 +14,7 @@ public final class DatabaseManager {
     public static final String TABLE_DEPARTMENT_LOG = "departmentLog";
     public static final String TABLE_CHILDREN_LOG = "childrenLog";
     public static final String TABLE_BUS = "bus";
+    public static final String TABLE_LOSTFOUND = "lostfound";
 
     private DatabaseManager() {}
 
@@ -137,6 +138,21 @@ public final class DatabaseManager {
                 + "idx INTEGER, "
                 + "type INTEGER, "
                 + "student_idx"
+                + ")";
+    }
+
+    static String getCreateTableLostFound() {
+        return "CREATE TABLE " + TABLE_LOSTFOUND+" ( "
+                + "idx INTEGER, "
+                + "memberId STRING, "
+                + "type INTEGER, "
+                + "title STRING, "
+                + "upload_time STRING, "
+                + "modify_time STRING, "
+                + "place STRING, "
+                + "picture STRING, "
+                + "content STRING, "
+                + "contact STRING"
                 + ")";
     }
 }
