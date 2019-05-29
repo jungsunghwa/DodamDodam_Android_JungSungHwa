@@ -68,6 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DatabaseManager.getCreateTableChildrenLog());
         db.execSQL(DatabaseManager.getCreateTableParent());
         db.execSQL(DatabaseManager.getCreateTableBus());
+        db.execSQL(DatabaseManager.getCreateTableLostFound());
     }
 
     @Override
@@ -85,6 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_PARENT);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_CHILDREN_LOG);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_BUS);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseManager.TABLE_LOSTFOUND);
         onCreate(db);
     }
 

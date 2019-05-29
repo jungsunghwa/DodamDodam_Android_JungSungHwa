@@ -123,17 +123,17 @@ public class BusViewModel extends ViewModel {
                 databaseHelper.getToken().getToken(), idx, request)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<String>(){
-            @Override
-            public void onSuccess(String s) {
-                isSuccess.setValue(s);
-                loading.setValue(false);
-            }
+                    @Override
+                    public void onSuccess(String s) {
+                        isSuccess.setValue(s);
+                        loading.setValue(false);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                loginErrorMessage.setValue(e.getMessage());
-                loading.setValue(false);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        loginErrorMessage.setValue(e.getMessage());
+                        loading.setValue(false);
+                    }
         }));
     }
 

@@ -164,6 +164,9 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 if (Utils.identity == Identity.STUDENT) intent = new Intent(this, CounselActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.menu_lost_found:
+                startActivity(new Intent(this, LostFoundActivity.class));
+                break;
         }
 
         return false;

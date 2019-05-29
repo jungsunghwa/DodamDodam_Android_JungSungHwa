@@ -61,7 +61,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
                 case 2 :
                     busTypeMessage = "대곡";
                     break;
-                case 3:
+                case 3 :
                     busTypeMessage = "용산";
                     break;
             }
