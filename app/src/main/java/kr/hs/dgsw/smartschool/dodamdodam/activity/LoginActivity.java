@@ -58,8 +58,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         studentViewModel.getIsSuccess().observe(this, isSuccess -> {
             if (isSuccess) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                /*if (Utils.identity == Identity.TEACHER)
-                    intent = new Intent(getApplicationContext(), LocationCheckActivity.class);*/
 
                 startActivity(intent);
                 overridePendingTransition(0, R.anim.fade_out);

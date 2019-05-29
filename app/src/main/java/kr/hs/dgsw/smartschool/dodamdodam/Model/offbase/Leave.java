@@ -33,6 +33,18 @@ public class Leave extends OffbaseItem {
         return arrivedTime;
     }
 
+    public static final Creator<Leave> CREATOR = new Creator<Leave>() {
+        @Override
+        public Leave createFromParcel(Parcel in) {
+            return new Leave(in);
+        }
+
+        @Override
+        public Leave[] newArray(int size) {
+            return new Leave[size];
+        }
+    };
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);

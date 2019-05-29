@@ -34,6 +34,10 @@ public class OffbaseItem implements Parcelable {
         isAllow = in.readInt();
         reason = in.readString();
         allowTeacherIdx = in.readInt();
+        startTime = (Date) in.readSerializable();
+        endTime = (Date) in.readSerializable();
+        allowTeacherTime = (Date) in.readSerializable();
+        createdAt = (Date) in.readSerializable();
     }
 
     public static final Creator<OffbaseItem> CREATOR = new Creator<OffbaseItem>() {
@@ -96,5 +100,9 @@ public class OffbaseItem implements Parcelable {
         dest.writeInt(isAllow);
         dest.writeString(reason);
         dest.writeInt(allowTeacherIdx);
+        dest.writeSerializable(startTime);
+        dest.writeSerializable(endTime);
+        dest.writeSerializable(allowTeacherTime);
+        dest.writeSerializable(createdAt);
     }
 }

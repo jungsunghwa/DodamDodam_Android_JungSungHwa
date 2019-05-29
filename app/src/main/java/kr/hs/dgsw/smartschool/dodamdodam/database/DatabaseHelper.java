@@ -241,7 +241,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final SQLiteDatabase db = this.getWritableDatabase();
 
         final Cursor res = db.rawQuery("SELECT * FROM member", null);
-        final ArrayList<Member> memberArrayList = new ArrayList<Member>();
+        final ArrayList<Member> memberArrayList = new ArrayList<>();
 
         while (res.moveToNext()) {
 
@@ -422,9 +422,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         while (res.moveToNext()) {
             Map<String, Object> map = convertObjectToMap(getDataType.get());
-            Stream.of(map).forEach(stringObjectEntry -> {
-                String k = stringObjectEntry.getKey();
-                Object v = stringObjectEntry.getValue();
+            Stream.of(map).forEach(entry -> {
+                String k = entry.getKey();
+                Object v = entry.getValue();
                 if (v instanceof Integer) {
                     map.put(k, res.getInt(res.getColumnIndex(k)));
                 } else if (v instanceof String) {

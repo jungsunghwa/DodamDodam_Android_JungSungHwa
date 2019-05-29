@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity.offbase;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +16,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -54,13 +57,14 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Calendar calendar = Calendar.getInstance();
         Intent intent = getIntent();
         int type;
         if ((type = intent.getIntExtra(EXTRA_OFFBASE_TYPE, -1)) != -1) {
             switch (type) {
                 case TYPE_LEAVE:
                     setTitle(R.string.title_offbase_apply_leave);
-
+                    binding.inputDateEnd.setText(String.format(Locale.getDefault(), "%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH) + 1));
                     break;
                 case TYPE_PASS:
                     setTitle(R.string.title_offbase_apply_pass);
@@ -70,6 +74,14 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
                     break;
             }
         }
+
+        binding.inputDate.setText(String.format(Locale.getDefault(), "%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
+        binding.inputDate.setOnClickListener(v -> showDatePicker((EditText) v));
+        binding.inputDateEnd.setOnClickListener(v -> showDatePicker((EditText) v));
+        binding.inputTimeHour.setOnClickListener(v -> showTimePicker((EditText) v, binding.inputTimeMinute));
+        binding.inputTimeHourEnd.setOnClickListener(v -> showTimePicker((EditText) v, binding.inputTimeMinuteEnd));
+        binding.inputTimeMinute.setOnClickListener(v -> showTimePicker(binding.inputTimeHour, (EditText) v));
+        binding.inputTimeMinuteEnd.setOnClickListener(v -> showTimePicker(binding.inputTimeHourEnd, (EditText) v));
 
         binding.btnApply.setOnClickListener(v -> {
             CharSequence date, dateEnd, timeHour, timeHourEnd, timeMinute, timeMinuteEnd;
@@ -109,6 +121,23 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
                 e.printStackTrace();
             }
         });
+    }
+
+    private void showDatePicker(EditText editText) {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog pickerDialog = new DatePickerDialog(this, 0, (view, year, month, dayOfMonth) -> {
+            editText.setText(String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth));
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        pickerDialog.show();
+    }
+
+    private void showTimePicker(EditText editHour, EditText editMinute) {
+        Calendar calendar = Calendar.getInstance();
+        TimePickerDialog pickerDialog = new TimePickerDialog(this, 0, (view, hourOfDay, minute) -> {
+            editHour.setText(String.format(Locale.getDefault(), "%d", hourOfDay));
+            editMinute.setText(String.format(Locale.getDefault(), "%02d", minute));
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+        pickerDialog.show();
     }
 
     private boolean theyEmptyToError(TextInputLayout... layouts) {

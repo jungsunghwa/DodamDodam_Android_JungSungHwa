@@ -75,7 +75,9 @@
                             android:id="@+id/input_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10" />
+                            android:editable="false"
+                            android:ems="10"
+                            android:focusable="false" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -110,7 +112,9 @@
                             android:id="@+id/input_date_end"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10" />
+                            android:editable="false"
+                            android:ems="10"
+                            android:focusable="false" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -145,7 +149,9 @@
                             android:id="@+id/input_time_hour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="4" />
+                            android:editable="false"
+                            android:ems="4"
+                            android:focusable="false" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -169,7 +175,9 @@
                             android:id="@+id/input_time_minute"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="4" />
+                            android:editable="false"
+                            android:ems="4"
+                            android:focusable="false" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -214,7 +222,9 @@
                             android:id="@+id/input_time_hour_end"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="4" />
+                            android:editable="false"
+                            android:ems="4"
+                            android:focusable="false" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -238,7 +248,9 @@
                             android:id="@+id/input_time_minute_end"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="4" />
+                            android:editable="false"
+                            android:ems="4"
+                            android:focusable="false" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -282,8 +294,8 @@
                             android:id="@+id/input_reason"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textMultiLine"
-                            android:ems="10" />
+                            android:ems="10"
+                            android:inputType="textMultiLine" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>

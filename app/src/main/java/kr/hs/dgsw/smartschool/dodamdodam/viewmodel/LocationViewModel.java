@@ -164,7 +164,7 @@ public class LocationViewModel extends ViewModel {
                                     successMessage.setValue(response.getMessage());
                                 } else {
                                     if (Utils.identity == Identity.STUDENT) {
-                                        locationRequest = ((Response<LocationRequest<LocationInfo>>) response).getData();
+                                        locationRequest = ((Response<LocationRequest>) response).getData();
                                         result.clear();
                                         data.setValue(
                                                 convertLocationRequestToMap(locationRequest.<LocationInfo>getLocations(), null));

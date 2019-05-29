@@ -24,7 +24,7 @@ public interface LocationService {
     );
 
     @GET("location/search/my")
-    public Call<Response<LocationRequest<LocationInfo>>> getMyLocation(
+    public Call<Response<LocationRequest>> getMyLocation(
             @Header("x-access-token") String token,
             @Query("date") String date
     );
