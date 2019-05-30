@@ -1,13 +1,16 @@
+//noinspection GradleDependency
 apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "kr.hs.dgsw.smartschool.dodamdodam"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,6 +33,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0-beta01'
     implementation 'com.google.android.material:material:1.1.0-alpha06'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation('com.google.api-client:google-api-client-android:1.29.0') {
@@ -40,13 +45,14 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'com.google.guava'
     }
-    implementation 'kr.hs.dgsw.b1nd:service:1.2.10'
-    implementation 'kr.hs.dgsw.b1nd:bottomsheet:1.0.0'
+    //noinspection GradleDependency
+    implementation 'kr.hs.dgsw.b1nd:service:1.2.10-1'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.guava:guava:27.1-android'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
+    //noinspection GradleDependency
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.3'
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

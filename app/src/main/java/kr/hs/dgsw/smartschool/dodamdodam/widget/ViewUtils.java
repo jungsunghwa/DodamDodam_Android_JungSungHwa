@@ -5,25 +5,24 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowInsets;
 
 import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 public final class ViewUtils {
 
-    private static Stack<View.OnApplyWindowInsetsListener> listeners = new Stack<>();
+    private static Stack<OnApplyWindowInsetsListener> listeners = new Stack<>();
 
     private ViewUtils() {
     }
 
-    public static void setOnApplyWindowInsetsListenerToWindow(Window window) {
-        window.getDecorView().setOnApplyWindowInsetsListener(((v, insets) -> {
+    public static void setOnApplyWindowInsetsListenerToWindow(View view) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, ((v, insets) -> {
             while (!listeners.empty()) {
                 try {
                     listeners.pop().onApplyWindowInsets(v, insets);
@@ -35,11 +34,11 @@ public final class ViewUtils {
         }));
     }
 
-    public static void marginSystemWindows(@NonNull Window window, @NonNull View topView, @NonNull View bottomView) {
-        window.getDecorView().setOnApplyWindowInsetsListener((v, insets) -> {
+    public static void marginSystemWindows(@NonNull View view, @NonNull View topView, @NonNull View bottomView) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
             marginTopSystemWindow(topView, insets);
             marginBottomSystemWindow(bottomView, insets);
-            v.setOnApplyWindowInsetsListener(null);
+            ViewCompat.setOnApplyWindowInsetsListener(view, null);
             return insets;
         });
     }
@@ -58,7 +57,7 @@ public final class ViewUtils {
         }));
     }
 
-    private static void marginTopSystemWindow(View view, WindowInsets insets) {
+    private static void marginTopSystemWindow(View view, WindowInsetsCompat insets) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         ViewGroup.MarginLayoutParams marginLayoutParams;
         if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
@@ -70,7 +69,7 @@ public final class ViewUtils {
         view.setLayoutParams(layoutParams);
     }
 
-    private static void marginBottomSystemWindow(View view, WindowInsets insets) {
+    private static void marginBottomSystemWindow(View view, WindowInsetsCompat insets) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         ViewGroup.MarginLayoutParams marginLayoutParams;
         if (layoutParams instanceof ViewGroup.MarginLayoutParams) {

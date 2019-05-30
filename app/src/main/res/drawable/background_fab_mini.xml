@@ -16,9 +16,4 @@
         android:left="10dp"
         android:right="10dp"
         android:top="10dp" />
-    <item>
-        <ripple
-            android:color="#fff"
-            android:radius="22dp" />
-    </item>
 </layer-list>

@@ -80,7 +80,7 @@ public final class DatabaseManager {
                 "type INTEGER," +
                 "position STRING ," +
                 "class_idx INTEGER," +
-                "primary key(departmentIdx, teacherIdx)" +
+                "PRIMARY KEY(departmentIdx, teacherIdx)" +
                 ")";
     }
 

@@ -60,7 +60,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         super.onCreate(savedInstanceState);
         setLayoutNoLimits(true);
         binding = DataBindingUtil.setContentView(this, layoutId());
-        ViewUtils.setOnApplyWindowInsetsListenerToWindow(getWindow());
+        ViewUtils.setOnApplyWindowInsetsListenerToWindow(binding.getRoot());
         try {
             Field rootField = binding.getClass().getField("rootLayout");
             View rootView = (View) rootField.get(binding);

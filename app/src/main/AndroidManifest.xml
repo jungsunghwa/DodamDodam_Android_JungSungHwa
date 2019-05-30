@@ -14,9 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App"
-        android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:targetApi="p">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
             android:name=".activity.LoginActivity"
             android:windowSoftInputMode="adjustResize">
