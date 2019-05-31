@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Offbase;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.OffbaseItem;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.OffbaseActivityBinding;
@@ -17,7 +17,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OffbaseAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OnItemClickListener;
 
-public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implements OnItemClickListener<Offbase> {
+public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implements OnItemClickListener<OffbaseItem> {
 
     private static final int REQ_APPLY = 1000;
 
@@ -38,13 +38,11 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        adapter = new OffbaseAdapter(offbaseItem -> startActivity(new Intent(this, OffbaseDetailActivity.class).putExtra(OffbaseDetailActivity.EXTRA_OFFBASE, offbaseItem)));
+        adapter = new OffbaseAdapter(this);
 
         viewModel = new OffbaseViewModel(this);
 
-        viewModel.getOffbase().observe(this, offbase -> {
-            adapter.setOffbaseItems(offbase);
-        });
+        viewModel.getOffbase().observe(this, offbase -> adapter.setOffbaseItems(offbase));
 
         viewModel.list();
 
@@ -88,7 +86,7 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
     }
 
     @Override
-    public void onItemClick(Offbase offbase) {
-
+    public void onItemClick(OffbaseItem offbaseItem) {
+        startActivity(new Intent(this, OffbaseDetailActivity.class).putExtra(OffbaseDetailActivity.EXTRA_OFFBASE, offbaseItem));
     }
 }

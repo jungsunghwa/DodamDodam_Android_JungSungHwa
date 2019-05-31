@@ -129,8 +129,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Member getMemberInfo(Cursor res){
-
-        final SQLiteDatabase db = this.getReadableDatabase();
         final Member member = new Member();
 
         while (res.moveToNext()) {
@@ -454,7 +452,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Map<String, Object> convertObjectToMap(Object obj) {
         Map<String, Object> map = new HashMap<>();
 
-        List<Field> fields = Arrays.asList(obj.getClass().getDeclaredFields());
+        Field[] fields = obj.getClass().getDeclaredFields();
 
         for (Field field : fields) {
             field.setAccessible(true);
@@ -475,11 +473,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
 
-//        Object superclass = obj.getClass().getSuperclass();
-//
-//        if (!(((Class) superclass).getName().equals("java.lang.Object"))) {
-//            insert(((Class) superclass).getName(), superclass);
-//        }
+        /*Object superclass = obj.getClass().getSuperclass();
+
+        if (!(((Class) superclass).getName().equals("java.lang.Object"))) {
+            insert(((Class) superclass).getName(), superclass);
+        }*/
 
         return map;
     }

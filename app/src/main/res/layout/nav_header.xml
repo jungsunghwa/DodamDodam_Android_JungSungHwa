@@ -7,6 +7,6 @@
     android:layout_marginBottom="48dp"
     android:fontFamily="@font/nanum_square_light"
     android:text="Menu"
-    android:textColor="@android:color/black"
+    android:textColor="?android:textColorPrimary"
     android:textSize="18sp"
     android:textStyle="bold" />

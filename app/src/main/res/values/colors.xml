@@ -12,4 +12,7 @@
     <color name="windowBackgroundColor">#ffffff</color>
 
     <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="loginBoxColor">#b0ffffff</color>
+    <color name="colorBackground">#FFF</color>
 </resources>
