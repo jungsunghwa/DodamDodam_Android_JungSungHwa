@@ -13,7 +13,6 @@ import com.annimon.stream.Stream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +24,9 @@ import kr.hs.dgsw.b1nd.service.model.DepartmentLog;
 import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.b1nd.service.model.Parent;
 import kr.hs.dgsw.b1nd.service.model.ParentLog;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -47,7 +46,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (INSTANCE == null) {
             synchronized (DatabaseHelper.class) {
                 if (INSTANCE == null)
-                    INSTANCE = new DatabaseHelper(context);
+                    /*
+                        램 누수 방지를 위해 context 대신 {@link Context#getApplicationContext()} 를 사용.
+                    */
+                    INSTANCE = new DatabaseHelper(context.getApplicationContext());
             }
         }
         return INSTANCE;
@@ -105,16 +107,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Member getMyInfo(){
+    public Member getMyInfo() {
         final SQLiteDatabase db = this.getReadableDatabase();
-        final Cursor res = db.rawQuery("SELECT * FROM member WHERE id =  '" +Utils.myId +"'",null);
+        final Cursor res = db.rawQuery("SELECT * FROM member WHERE id =  '" + Utils.myId + "'", null);
 
         return getMemberInfo(res);
     }
 
-    public Member getStudentByIdx(int idx){
+    public Member getStudentByIdx(int idx) {
         final SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM student WHERE idx =  '" + idx +"'",null);
+        Cursor res = db.rawQuery("SELECT * FROM student WHERE idx =  '" + idx + "'", null);
 
         String memberId = null;
 
@@ -123,12 +125,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         if (memberId == null) return null;
-        res = db.rawQuery("SELECT * FROM member WHERE id =  '" + memberId +"'",null);
+        res = db.rawQuery("SELECT * FROM member WHERE id =  '" + memberId + "'", null);
 
         return getMemberInfo(res);
     }
 
-    public Member getMemberInfo(Cursor res){
+    public Member getMemberInfo(Cursor res) {
         final Member member = new Member();
 
         while (res.moveToNext()) {
@@ -208,7 +210,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         student.setClassInfo(
-                getData("class","idx",student.getClassIdx()+"",
+                getData("class", "idx", student.getClassIdx() + "",
                         new DatabaseGetDataType<>(ClassInfo.class)));
 
         student.setParentsLogs(getParentsLogsByStudentIdx(student.getIdx()));

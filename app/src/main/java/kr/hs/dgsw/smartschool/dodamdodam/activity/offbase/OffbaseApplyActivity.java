@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.annimon.stream.Optional;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
@@ -20,6 +21,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Leave;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.OffbaseItem;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Pass;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.OffbaseApplyActivityBinding;
@@ -29,14 +33,16 @@ import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.OffbaseViewModel;
 public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBinding> {
 
     public static final String EXTRA_OFFBASE_TYPE = "offbase_type";
+    public static final String EXTRA_OFFBASE = "offbase";
 
     public static final int TYPE_LEAVE = 0;
     public static final int TYPE_PASS = 1;
 
-    private static final String TAG = "OffbaseApplyActivity";
-
     private OffbaseViewModel viewModel;
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+    private SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private SimpleDateFormat formatTimeHour = new SimpleDateFormat("HH", Locale.getDefault());
+    private SimpleDateFormat formatTimeMinute = new SimpleDateFormat("mm", Locale.getDefault());
     private SparseArray<TextWatcher> watcherSparseArray;
 
     @Override
@@ -59,23 +65,36 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
 
         Calendar calendar = Calendar.getInstance();
         Intent intent = getIntent();
-        int type;
-        if ((type = intent.getIntExtra(EXTRA_OFFBASE_TYPE, -1)) != -1) {
-            switch (type) {
-                case TYPE_LEAVE:
-                    setTitle(R.string.title_offbase_apply_leave);
+        OffbaseItem item = intent.getParcelableExtra(EXTRA_OFFBASE);
+        int type = intent.getIntExtra(EXTRA_OFFBASE_TYPE, -1);
+        if (type != -1 || item != null) {
+            if (type == TYPE_LEAVE || item instanceof Leave) {
+                setTitle(R.string.title_offbase_apply_leave);
+                if (item != null)
+                    binding.inputDateEnd.setText(formatDate.format(item.getEndTime()));
+                else
                     binding.inputDateEnd.setText(String.format(Locale.getDefault(), "%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH) + 1));
-                    break;
-                case TYPE_PASS:
-                    setTitle(R.string.title_offbase_apply_pass);
-                    binding.layoutDateEnd.setVisibility(View.GONE);
-                    binding.textDate.setText(R.string.text_offbase_pass_date);
-                    binding.textTime.setText(R.string.text_offbase_pass_time);
-                    break;
+
+            } else if (type == TYPE_PASS || item instanceof Pass) {
+                setTitle(R.string.title_offbase_apply_pass);
+                binding.layoutDateEnd.setVisibility(View.GONE);
+                binding.textDate.setText(R.string.text_offbase_pass_date);
+                binding.textTime.setText(R.string.text_offbase_pass_time);
+            }
+
+            if (item != null) {
+                binding.inputTimeHour.setText(formatTimeHour.format(item.getStartTime()));
+                binding.inputTimeMinute.setText(formatTimeMinute.format(item.getStartTime()));
+                binding.inputTimeHourEnd.setText(formatTimeHour.format(item.getEndTime()));
+                binding.inputTimeMinuteEnd.setText(formatTimeMinute.format(item.getEndTime()));
+                binding.inputReason.setText(item.getReason());
             }
         }
 
-        binding.inputDate.setText(String.format(Locale.getDefault(), "%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
+        binding.inputDate.setText(Optional
+                .ofNullable(item)
+                .map(offbaseItem -> formatDate.format(offbaseItem.getStartTime()))
+                .orElse(String.format(Locale.getDefault(), "%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))));
         binding.inputDate.setOnClickListener(v -> showDatePicker((EditText) v));
         binding.inputDateEnd.setOnClickListener(v -> showDatePicker((EditText) v));
         binding.inputTimeHour.setOnClickListener(v -> showTimePicker((EditText) v, binding.inputTimeMinute));
@@ -105,18 +124,35 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
             try {
                 Date startDate = format.parse(String.format(Locale.getDefault(), "%s %02d:%02d", date, Integer.parseInt(timeHour.toString()), Integer.parseInt(timeMinute.toString())));
 
-                if (type == TYPE_LEAVE)
-                    viewModel.postLeave(
-                            new OffbaseRequest(
-                                    startDate,
-                                    format.parse(String.format(Locale.getDefault(), "%s %02d:%02d", dateEnd, Integer.parseInt(timeHourEnd.toString()), Integer.parseInt(timeMinuteEnd.toString()))),
-                                    binding.inputReason.getText().toString()));
-                else if (type == TYPE_PASS)
-                    viewModel.postPass(
-                            new OffbaseRequest(
-                                    startDate,
-                                    format.parse(String.format(Locale.getDefault(), "%s %02d:%02d", date, Integer.parseInt(timeHourEnd.toString()), Integer.parseInt(timeMinuteEnd.toString()))),
-                                    binding.inputReason.getText().toString()));
+                if (item == null) {
+                    if (type == TYPE_LEAVE)
+                        viewModel.postLeave(
+                                new OffbaseRequest(
+                                        startDate,
+                                        format.parse(String.format(Locale.getDefault(), "%s %02d:%02d", dateEnd, Integer.parseInt(timeHourEnd.toString()), Integer.parseInt(timeMinuteEnd.toString()))),
+                                        binding.inputReason.getText().toString()));
+                    else if (type == TYPE_PASS)
+                        viewModel.postPass(
+                                new OffbaseRequest(
+                                        startDate,
+                                        format.parse(String.format(Locale.getDefault(), "%s %02d:%02d", date, Integer.parseInt(timeHourEnd.toString()), Integer.parseInt(timeMinuteEnd.toString()))),
+                                        binding.inputReason.getText().toString()));
+                } else {
+                    if (item instanceof Leave)
+                        viewModel.updateLeave(
+                                item.getIdx(),
+                                new OffbaseRequest(
+                                        startDate,
+                                        format.parse(String.format(Locale.getDefault(), "%s %02d:%02d", dateEnd, Integer.parseInt(timeHourEnd.toString()), Integer.parseInt(timeMinuteEnd.toString()))),
+                                        binding.inputReason.getText().toString()));
+                    else if (type == TYPE_PASS)
+                        viewModel.updatePass(
+                                item.getIdx(),
+                                new OffbaseRequest(
+                                        startDate,
+                                        format.parse(String.format(Locale.getDefault(), "%s %02d:%02d", date, Integer.parseInt(timeHourEnd.toString()), Integer.parseInt(timeMinuteEnd.toString()))),
+                                        binding.inputReason.getText().toString()));
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -55,7 +55,6 @@
     <string name="menu_lost_found">분실물</string>
     <string name="menu_counsel_apply">상담 신청</string>
 
-    <!--TODO '+' to format-->
     <string name="desc_select_place">에 있을 장소를 선택해 주세요!</string>
     <string name="desc_offbase_apply">신청하고 싶은 날짜와 시간, 사유를 작성해 주세요</string>
     <string name="desc_drawer_open">열기</string>

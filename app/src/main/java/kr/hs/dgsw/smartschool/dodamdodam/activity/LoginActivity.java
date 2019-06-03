@@ -8,20 +8,18 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.SoftKeyboardManager;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.InputMethodHelper;
 
 public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
     private LoginViewModel loginViewModel;
     private StudentViewModel studentViewModel;
 
-    private SoftKeyboardManager keyboardManager;
+    private InputMethodHelper keyboardManager;
 
     @Override
     protected int layoutId() {
@@ -33,7 +31,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         super.onCreate(savedInstanceState);
         setLayoutNoLimits(false);
 
-        keyboardManager = new SoftKeyboardManager(this);
+        keyboardManager = new InputMethodHelper(this);
 
         loginViewModel = new LoginViewModel(this);
         studentViewModel = new StudentViewModel(this);
@@ -108,6 +106,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             return false;
         });
         binding.btnLogin.setOnClickListener(view -> login());
+        binding.inputId.requestFocus();
     }
 
     private void login() {
@@ -124,11 +123,5 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         if (hasError) return;
 
         loginViewModel.login(binding.inputId.getText().toString(), binding.inputPw.getText().toString());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        keyboardManager.unregisterSoftKeyboardCallback();
     }
 }

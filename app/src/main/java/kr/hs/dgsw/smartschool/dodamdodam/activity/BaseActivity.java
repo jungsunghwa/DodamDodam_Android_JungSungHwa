@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -74,13 +75,8 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
                 appBarBinding.wave.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        int flags = getWindow().getDecorView().getSystemUiVisibility();
                         if (appBarBinding.wave.getVisibility() == View.VISIBLE) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                flags ^= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                                getWindow().getDecorView().setSystemUiVisibility(flags);
-                            } else
-                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                            lightNavMode();
                         }
                         appBarBinding.wave.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
@@ -97,13 +93,8 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
                     appBarBinding.wave.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
                         public void onGlobalLayout() {
-                            int flags = getWindow().getDecorView().getSystemUiVisibility();
                             if (appBarBinding.wave.getVisibility() == View.VISIBLE) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    flags ^= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                                    getWindow().getDecorView().setSystemUiVisibility(flags);
-                                } else
-                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                                lightNavMode();
                             }
                             appBarBinding.wave.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         }
@@ -125,6 +116,21 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         }
         if (isTablet()) onCreateTablet(savedInstanceState);
         else onCreatePhone(savedInstanceState);
+    }
+
+    protected void lightNavMode() {
+        int flags = getWindow().getDecorView().getSystemUiVisibility();
+        int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        /*
+            버전이 Oreo 미만 또는
+            야간 모드일때, 네비바를 밝게 설정하지 않음
+         */
+        if (mode != Configuration.UI_MODE_NIGHT_YES)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                flags ^= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                getWindow().getDecorView().setSystemUiVisibility(flags);
+            } else
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 
     /**
@@ -190,7 +196,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         return value;
     }
 
-    public void notSupportToast(){
+    public void notSupportToast() {
         Toast.makeText(this, "아직 지원하지 않는 기능입니다.", Toast.LENGTH_SHORT).show();
     }
 }
