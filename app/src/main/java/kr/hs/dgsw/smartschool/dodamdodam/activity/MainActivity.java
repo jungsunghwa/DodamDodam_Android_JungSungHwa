@@ -19,6 +19,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 
 import com.annimon.stream.Optional;
+import com.scwang.wave.Util;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -179,6 +180,15 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
             case R.id.menu_counsel_apply:
                 if (Utils.identity == Identity.STUDENT)
                     intent = new Intent(this, CounselActivity.class);
+                else {
+                    notSupportToast();
+                    break;
+                }
+                startActivity(intent);
+                break;
+            case R.id.menu_lost_found:
+                if (Utils.identity == Identity.STUDENT)
+                    intent = new Intent(this, LostFoundActivity.class);
                 else {
                     notSupportToast();
                     break;

@@ -47,10 +47,11 @@
 
             <Spinner
                 android:id="@+id/lostfound_spinner"
-                android:layout_width="93dp"
+                android:layout_width="130dp"
                 android:layout_height="46dp"
-                android:layout_marginStart="130dp"
+                android:layout_marginStart="140dp"
                 android:layout_marginTop="120dp"
+                android:entries="@array/lostfound_type"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
