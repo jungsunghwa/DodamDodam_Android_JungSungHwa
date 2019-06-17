@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam;
 
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +24,7 @@ public final class Utils {
                     .client(getClient())
                     .baseUrl(Constants.DEFAULT_HOST)
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create()))
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .callbackExecutor(Executors.newSingleThreadExecutor())
                     .build();
 

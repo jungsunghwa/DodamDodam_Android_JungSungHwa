@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 
+import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Buses;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
@@ -16,7 +17,7 @@ import retrofit2.http.Path;
 
 public interface BusService {
     @POST("/bus")
-    Call<Response> postBusApply(
+    Single<Response> postBusApply(
             @Header("x-access-token") String token,
             @Body BusRequest request
             );

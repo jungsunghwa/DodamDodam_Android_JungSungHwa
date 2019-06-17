@@ -24,30 +24,7 @@ public class BusClient {
     }
 
     public Single<String> postBusApply(String token, BusRequest request) {
-        return Single.create(observer -> {
-            bus.postBusApply(token, request).enqueue(new Callback<Response>() {
-                @Override
-                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                    if (response.isSuccessful()) {
-                        observer.onSuccess(response.body().getMessage());
-                    } else {
-                        try {
-                            JSONObject errorBody = new JSONObject(Objects
-                                    .requireNonNull(
-                                            response.errorBody()).string());
-                            observer.onError(new Throwable(errorBody.getString("message")));
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response> call, Throwable t) {
-                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-                }
-            });
-        });
+        return bus.postBusApply(token, request).map(Response::getMessage);
     }
 
     public Single<String> deleteBusApply(String token, int idx) {

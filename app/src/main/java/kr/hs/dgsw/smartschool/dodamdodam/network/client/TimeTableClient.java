@@ -25,31 +25,7 @@ public class TimeTableClient extends NetworkClient{
         timeTableService = Utils.RETROFIT.create(TimeTableService.class);
     }
 
-    public Single<Response> getTimeTable(Token token) {
-
-        return actionService(timeTableService.getTimeTable(token.getToken()));
-//        return Single.create(observer -> timeTableService.getTimeTable(token.getToken()).enqueue(new Callback<Response<TimeTables>>() {
-//            @Override
-//            @EverythingIsNonNull
-//            public void onResponse(Call<Response<TimeTables>> call, retrofit2.Response<Response<TimeTables>> response) {
-//                if (response.isSuccessful()){
-//                    observer.onSuccess(response.body());
-//                } else {
-//                    try {
-//                        JSONObject errorBody = new JSONObject(Objects
-//                                .requireNonNull(
-//                                         response.errorBody()).string());
-//                        observer.onError(new Throwable(errorBody.getString("message")));
-//                    } catch (JSONException | IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//            @Override
-//            @EverythingIsNonNull
-//            public void onFailure(Call<Response<TimeTables>> call, Throwable t) {
-//                observer.onError( new Throwable("네트워크 상태를 확인하세요"));
-//            }
-//        }));
+    public Single<TimeTables> getTimeTable(Token token) {
+        return timeTableService.getTimeTable(token.getToken()).map(Response::getData);
     }
 }

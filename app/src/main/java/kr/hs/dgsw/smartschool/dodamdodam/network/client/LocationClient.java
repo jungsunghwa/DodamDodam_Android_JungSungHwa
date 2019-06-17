@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -17,46 +17,32 @@ import retrofit2.Call;
 
 public class LocationClient extends NetworkClient {
     private LocationService location;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    String date;
 
     public LocationClient() {
         location = Utils.RETROFIT.create(LocationService.class);
+        date = sdf.format(new Date());
     }
 
-    public Single<Response> putLocation(LocationInfo request, String token) {
-
+    public Single<Response> putLocation(LocationInfo request, Token token) {
         request.setTimetableIdx(null);
-        Call<Response> service = location.putLocation(token, request.getIdx(), request);
-
-        return actionService(service);
+        return location.putLocation(token.getToken(), request.getIdx(), request);
     }
 
-    public Single<Response> postLocation(LocationRequest<LocationInfo> request, String token, String method) {
-        Call<Response> service = location.postLocation(token, request);
-
-        if (method.equals("PUT")) {
-            service = location.putAllLocation(token, request);
-        }
-
-        return actionService(service);
+    public Single<Response> postLocation(LocationRequest<LocationInfo> request, Token token) {
+       return location.postLocation(token.getToken(), request).map(response -> response);
     }
 
-    public Single<Response> getLocation(String token) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String date = sdf.format(new Date());
-
-
-        if (Utils.identity == Identity.STUDENT) {
-            Call<Response<LocationRequest>> service = location.getMyLocation(token, date);
-            return actionService(service);
-        } else if (Utils.identity == Identity.TEACHER) {
-            Call<Response<List<Locations>>> service = location.getLocation(token, date);
-            return actionService(service);
-        }
-
-        return actionService(null);
+    public Single<List<Locations>> getLocation(Token token) {
+        return location.getLocation(token.getToken(), date).map(Response::getData);
     }
 
-    public Single<Response> checkLocation(String token, int idx){
+    public Single<LocationRequest> getMyLocation(Token token) {
+        return location.getMyLocation(token.getToken(), date).map(Response::getData);
+    }
+
+    public Single<Response> checkLocation(String token, int idx) {
         Call<Response> service = location.checkLocation(token, idx);
         return actionService(service);
     }

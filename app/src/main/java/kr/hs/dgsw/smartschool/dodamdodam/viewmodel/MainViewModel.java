@@ -16,11 +16,13 @@ import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.MealClient;
+import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
+import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.MealService;
 
 /**
  * @author kimji
  */
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends BaseViewModel {
 
     private final MutableLiveData<Meal> mealData = new MutableLiveData<>();
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
@@ -33,6 +35,7 @@ public class MainViewModel extends ViewModel {
     private static SparseArray<List<Meal>> cacheMonthMeal = new SparseArray<>();
 
     public MainViewModel(Context context) {
+        super(context);
         client = new MealClient();
         disposable = new CompositeDisposable();
         helper = DatabaseHelper.getDatabaseHelper(context);
@@ -74,8 +77,7 @@ public class MainViewModel extends ViewModel {
         List<Meal> meals = cacheMonthMeal.get(month);
 
         if (meals == null)
-            disposable.add(client.<Meal>getTodayMeal(helper.getToken()).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
+            addDisposable(client.getTodayMeal(helper.getToken()),observer);
         else
             observer.onSuccess(meals.get(day));
     }
@@ -102,8 +104,7 @@ public class MainViewModel extends ViewModel {
         List<Meal> meals = cacheMonthMeal.get(month);
 
         if (meals == null)
-            disposable.add(client.getAllMeal(helper.getToken(), year, month).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
+            addDisposable(client.getAllMeal(helper.getToken(), year, month), observer);
         else
             observer.onSuccess(meals);
     }
