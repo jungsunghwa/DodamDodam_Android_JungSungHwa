@@ -16,11 +16,13 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.TimeTables;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
+import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 
 public class TimeTableViewModel extends ViewModel {
 
@@ -64,12 +66,16 @@ public class TimeTableViewModel extends ViewModel {
             data.setValue(timeList);
             return;
         }
+
         disposable.add(timeTableClient.getTimeTable(databaseHelper.getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
-                        new DisposableSingleObserver<List<Time>>() {
+                        new DisposableSingleObserver<Response>() {
                             @Override
-                            public void onSuccess(List<Time> timeTable) {
+                            public void onSuccess(Response response) {
+                                TimeTables timeTables = (TimeTables) response.getData();
+                                List<Time> timeTable = timeTables.getTimeTables();
+
                                 databaseHelper.insert(DatabaseManager.TABLE_TIME, timeTable);
 
                                 if (Utils.isWeekEnd)

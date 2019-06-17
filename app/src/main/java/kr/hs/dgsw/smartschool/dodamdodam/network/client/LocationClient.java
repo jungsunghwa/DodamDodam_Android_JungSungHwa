@@ -22,8 +22,17 @@ public class LocationClient extends NetworkClient {
         location = Utils.RETROFIT.create(LocationService.class);
     }
 
+    public Single<Response> putLocation(LocationInfo request, String token) {
+
+        request.setTimetableIdx(null);
+        Call<Response> service = location.putLocation(token, request.getIdx(), request);
+
+        return actionService(service);
+    }
+
     public Single<Response> postLocation(LocationRequest<LocationInfo> request, String token, String method) {
         Call<Response> service = location.postLocation(token, request);
+
         if (method.equals("PUT")) {
             service = location.putAllLocation(token, request);
         }

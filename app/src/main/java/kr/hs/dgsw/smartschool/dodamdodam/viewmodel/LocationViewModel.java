@@ -42,14 +42,13 @@ public class LocationViewModel extends ViewModel {
     private DatabaseHelper databaseHelper;
     private ArrayList<Locations> locations;
 
-    private Boolean isPost = false;
 
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<Map<Student, List<LocationInfo>>> data = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
-    private Map<Student,List<LocationInfo>> result = new HashMap<>();
+    private Map<Student, List<LocationInfo>> result = new HashMap<>();
 
     public LocationViewModel(Context context) {
         locationClient = new LocationClient();
@@ -61,7 +60,7 @@ public class LocationViewModel extends ViewModel {
         return successMessage;
     }
 
-    public LiveData<Map<Student,List<LocationInfo>>> getData() {
+    public LiveData<Map<Student, List<LocationInfo>>> getData() {
         return data;
     }
 
@@ -73,25 +72,50 @@ public class LocationViewModel extends ViewModel {
         return loading;
     }
 
-    public void postLocation(LocationInfo locationInfo) {
-        List<LocationInfo> timeTable = new ArrayList<>();
-        timeTable.add(locationInfo);
+    public void putLocation(LocationInfo locationInfo) {
+        Single<Response> single = null;
 
-        postLocation(timeTable);
+        single = locationClient.putLocation(locationInfo, databaseHelper.getToken().getToken());
+
+        disposable.add(single
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(
+                        new DisposableSingleObserver<Response>() {
+                            @Override
+                            public void onSuccess(Response response) {
+                                loading.setValue(false);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                loading.setValue(false);
+                            }
+                        }));
+
     }
 
-    public void postLocation(List<LocationInfo> timeTable) {
+    public void postLocation() {
         loading.setValue(true);
         Single<Response> single;
 
         String method = "PUT";
 
-        if (isPost) {
-            method = "POST";
-            locationRequest = new LocationRequest<>(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
-        } else {
-            locationRequest.setLocations(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
-        }
+        List<LocationInfo> timeTable = new ArrayList<>();
+
+        method = "POST";
+
+        List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
+
+        if (Utils.isWeekEnd)
+            times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
+        else
+            times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
+
+        for (Time time : times)
+            timeTable.add(new LocationInfo(time, null));
+
+        locationRequest = new LocationRequest<>(timeTable, ((Student) databaseHelper.getMyInfo()).getClassInfo());
 
         single = (Single<Response>) locationClient.postLocation(locationRequest, databaseHelper.getToken().getToken(), method);
 
@@ -119,7 +143,7 @@ public class LocationViewModel extends ViewModel {
 
     }
 
-    public void checkLocation(int idx){
+    public void checkLocation(int idx) {
         Single<Response> single;
 
         single = locationClient.checkLocation(databaseHelper.getToken().getToken(), idx);
@@ -132,24 +156,6 @@ public class LocationViewModel extends ViewModel {
         Single<Response> single = locationClient.getLocation(databaseHelper.getToken().getToken());
 
         addDisposable(single);
-
-        /*disposable.add(single.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(
-                        new DisposableSingleObserver<Response>() {
-                            @Override
-                            public void onSuccess(Response response) {
-                                locationRequest = (LocationRequest) response.getData();
-                                studentLocationValue.setValue(convertLocationRequestToMap((LocationRequest)response.getData()));
-                                loading.setValue(false);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                errorMessage.setValue(e.getMessage());
-                                loading.setValue(false);
-                            }
-                        }));*/
     }
 
     @SuppressWarnings("unchecked")
@@ -161,20 +167,25 @@ public class LocationViewModel extends ViewModel {
                             @Override
                             public void onSuccess(Response response) {
                                 if (response.getData() == null) {
-                                    successMessage.setValue(response.getMessage());
+                                    getLocation();
                                 } else {
                                     if (Utils.identity == Identity.STUDENT) {
                                         locationRequest = ((Response<LocationRequest>) response).getData();
                                         result.clear();
-                                        data.setValue(
-                                                convertLocationRequestToMap(locationRequest.<LocationInfo>getLocations(), null));
-                                    }else {
+                                        if (locationRequest.getLocationInfos().isEmpty()) {
+                                            postLocation();
+                                        } else {
+                                            data.setValue(
+                                                    convertLocationRequestToMap(locationRequest.getLocationInfos(), null));
+                                            loading.setValue(false);
+                                        }
+                                    } else {
                                         locations = (ArrayList<Locations>) response.getData();
                                         result.clear();
                                         data.setValue(convertLocationsToMap(locations));
+                                        loading.setValue(false);
                                     }
                                 }
-                                loading.setValue(false);
                             }
 
                             @Override
@@ -195,13 +206,13 @@ public class LocationViewModel extends ViewModel {
         return result;
     }
 
-    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(List<LocationInfo> locations, Integer studentIdx){
+    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(List<LocationInfo> locations, Integer studentIdx) {
         Map<Student, List<LocationInfo>> locationInfoMap = new HashMap<>();
         Student student;
 
         if (studentIdx == null)
             student = (Student) databaseHelper.getMyInfo();
-        else{
+        else {
             student = (Student) databaseHelper.getStudentByIdx(studentIdx);
         }
 
@@ -215,14 +226,12 @@ public class LocationViewModel extends ViewModel {
             times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
         if (locations.isEmpty()) {
-            isPost = true;
             for (Time time : times) {
                 locations.add(new LocationInfo(time, null));
             }
         }
 
         for (LocationInfo location : locations) {
-
             Time time = Stream.of(times)
                     .filter(a -> a.getIdx() == location.getTimetableIdx())
                     .collect(Collectors.toList()).get(0);

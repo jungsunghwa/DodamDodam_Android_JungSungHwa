@@ -12,25 +12,34 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.PlaceViewHolder;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
     List<Place> placeList;
+    List<LocationInfo> locations;
     Integer beforePosition;
     Context context;
 
     private final MutableLiveData<Integer> placePosition = new MutableLiveData<>();
+    private final MutableLiveData<Integer> putLocation = new MutableLiveData<>();
 
     public LiveData<Integer> getPlacePosition() {
         return placePosition;
+    }
+    public LiveData<Integer> getPutLocation() {
+        return putLocation;
     }
     public void setPosition(Integer position) {
         placePosition.setValue(position);
     }
 
-    public PlaceAdapter(Context context, List<Place> placeList) {
+    public PlaceAdapter(Context context, List<Place> placeList, LocationViewModel locationViewModel) {
         this.context = context;
         this.placeList = placeList;
     }
@@ -71,15 +80,16 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
                     view.setTextColor(Color.WHITE);
                     notifyItemChanged(beforePosition);
                     notifyItemChanged(position);
+                    putLocation.setValue(place.getIdx());
                 }else {
                     placePosition.setValue(position);
                     beforePosition = position;
                     view.setTextColor(Color.WHITE);
+                    putLocation.setValue(place.getIdx());
                 }
             }else {
                 placePosition.setValue(null);
                 beforePosition = null;
-//                notifyItemChanged(beforePosition);
                 view.setTextColor(ContextCompat.getColor(context, R.color.textColor));
             }
         });

@@ -52,7 +52,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         return selectLocationIdx;
     }
 
-    private ArrayList<Student> students;
+    private List<Student> students;
 
     public void setListType(ListType listType){
         this.listType = listType;
@@ -120,7 +120,8 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         }
         LocationInfo finalLocationInfo = locationInfo;
 
-        holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
+        if (locationInfo.getChecked() != null)
+            holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
 
         holder.binding.checkLocationCb.setOnCheckedChangeListener((view, isChecked) ->{
             if (isChecked){
@@ -164,6 +165,8 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
 
         Log.e("bindingValue", bindingValue.toString());
         this.students = new ArrayList<>(bindingValue.keySet());
+
+        this.students = Stream.of(students).sortBy(kr.hs.dgsw.b1nd.service.model.Student::getNumber).toList();
 
         notifyDataSetChanged();
     }

@@ -8,12 +8,11 @@ import java.util.List;
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
 public class LocationRequest<L extends Location> {
-    private List<L> locations = new ArrayList<>();
+    private List<LocationInfo> locations = new ArrayList<>();
 
     public LocationRequest(List<LocationInfo> timePlaceMap, ClassInfo classInfo) {
         locations.clear();
@@ -22,16 +21,15 @@ public class LocationRequest<L extends Location> {
             Place place = locationInfo.getPlace();
 
             if (place != null) {
-                locations.add((L) new Location(time.getIdx(), place.getIdx()));
+                locations.add(new LocationInfo(time.getIdx(), place.getIdx()));
             } else {
-                locations.add((L) new Location(time.getIdx(), classInfo.getPlaceIdx()));
+                locations.add(new LocationInfo(time.getIdx(), classInfo.getPlaceIdx()));
             }
         });
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Location> List<T> getLocations() {
-        return (List<T>) locations;
+    public List<LocationInfo> getLocationInfos() {
+        return  locations;
     }
 
     public void setLocations(List<LocationInfo> timePlaceMap, ClassInfo classInfo) {
@@ -41,7 +39,7 @@ public class LocationRequest<L extends Location> {
 
             LocationInfo location = findLocationByTimeIdx(time.getIdx(), classInfo);
 
-            if (location.getChecked() == null) location.setChecked(false);
+            if (location.getChecked() == null) location.setChecked(0);
 
             if (location.getPlaceIdx() != null) {
 
@@ -50,12 +48,12 @@ public class LocationRequest<L extends Location> {
 
                 int index = locations.indexOf(location);
                 locations.remove(index);
-                locations.add(index, (L) location);
+                locations.add(index, (LocationInfo) location);
             } else if (place != null) {
                 location.setPlaceIdx(place.getIdx());
                 int index = locations.indexOf(location);
                 locations.remove(index);
-                locations.add(index, (L) location);
+                locations.add(index, (LocationInfo) location);
             }else {
                 if (place == null) location.setPlaceIdx(classInfo.getPlaceIdx());
                 else location.setPlaceIdx(place.getIdx());

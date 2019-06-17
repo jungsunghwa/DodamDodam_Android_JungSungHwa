@@ -364,9 +364,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } else if (v instanceof Double) {
                     contentValues.put(k, (Double) v);
                     if (contentValues.get(k).equals("")) contentValues.put(k, (Double) null);
-                } /*else if (v.getClass().isArray()) {
+                } else if (v.getClass().isArray()) {
                     insert(k, v);
-                }*/
+                }
             });
             contentValuesList.add(contentValues);
         }

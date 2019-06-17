@@ -74,7 +74,7 @@ public class MainViewModel extends ViewModel {
         List<Meal> meals = cacheMonthMeal.get(month);
 
         if (meals == null)
-            disposable.add(client.getTodayMeal(helper.getToken()).subscribeOn(Schedulers.io())
+            disposable.add(client.<Meal>getTodayMeal(helper.getToken()).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
         else
             observer.onSuccess(meals.get(day));

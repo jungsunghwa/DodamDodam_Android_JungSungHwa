@@ -17,10 +17,11 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface LocationService {
+
     @POST("location")
     public Call<Response> postLocation(
             @Header("x-access-token") String token,
-            @Body LocationRequest<LocationInfo> request
+            @Body LocationRequest<LocationInfo> locations
     );
 
     @GET("location/search/my")
@@ -44,7 +45,8 @@ public interface LocationService {
     @PUT("location/{idx}")
     public Call<Response> putLocation(
             @Header("x-access-token") String token,
-            @Body int placeIdx
+            @Path("idx") int idx,
+            @Body Location placeIdx
     );
 
     @PUT("location/check/{idx}")

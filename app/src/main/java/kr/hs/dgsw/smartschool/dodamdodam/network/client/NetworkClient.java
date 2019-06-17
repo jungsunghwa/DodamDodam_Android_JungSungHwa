@@ -23,16 +23,20 @@ public class NetworkClient {
                         if (response.isSuccessful()) {
                             observer.onSuccess(response.body());
                         } else {
-                            JSONObject errorBody = null;
+                            JSONObject errorBody;
                             try {
                                 errorBody = new JSONObject(Objects
                                         .requireNonNull(
                                                 response.errorBody()).string());
-                                try {
+
+                                if (errorBody.getInt("Status") == 405){
+                                    Response response1 = new Response();
+                                    response1.setStatus(errorBody.getInt("status"));
+                                    response1.setMessage(errorBody.getString("message"));
+                                    observer.onSuccess(response1);
+                                }else
                                     observer.onError(new Throwable(errorBody.getString("message")));
-                                } catch (JSONException jE) {
-                                    observer.onError(new Throwable(errorBody.getString("messages")));
-                                }
+
                             } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                             }

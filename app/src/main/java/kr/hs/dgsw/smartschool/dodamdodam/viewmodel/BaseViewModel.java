@@ -93,7 +93,7 @@ public class BaseViewModel<T> extends ViewModel {
             result.put(time, null);
         }
 
-        for (Location location : locations.getLocations()) {
+        for (Location location : locations.getLocationInfos()) {
 
             Time time = Stream.of(times)
                     .filter(a -> a.getIdx() == location.getTimetableIdx())

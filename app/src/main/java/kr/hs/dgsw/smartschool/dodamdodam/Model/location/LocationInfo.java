@@ -23,17 +23,17 @@ public class LocationInfo extends Location {
 
     public LocationInfo(Integer timetableIdx, Integer placeIdx) {
         super(timetableIdx, placeIdx);
-        isChecked = 0;
+        isChecked = null;
     }
 
     public LocationInfo(Time time, Place place) {
         super(time, place);
-        isChecked = 0;
+        isChecked = null;
     }
 
     public LocationInfo(LocationInfo locationInfo){
         super(locationInfo.getTimetableIdx(), locationInfo.getPlaceIdx());
-        isChecked = 0;
+        isChecked = locationInfo.isChecked;
     }
 
     public LocationInfo() {
@@ -60,8 +60,8 @@ public class LocationInfo extends Location {
         return isChecked;
     }
 
-    public void setChecked(Boolean checked) {
-        isChecked = checked ? 1 : 0;
+    public void setChecked(Integer checked) {
+        isChecked =  checked;
     }
 
     public Integer getCheckTeacherIdx() {

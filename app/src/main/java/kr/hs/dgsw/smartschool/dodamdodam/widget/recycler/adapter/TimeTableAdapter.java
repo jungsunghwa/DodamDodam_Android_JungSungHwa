@@ -50,6 +50,10 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
         Time time = this.timeList.get(position);
         Place place = this.timeTable.get(position).getPlace();
 
+        if (timeTable.get(position).getCheckTeacherIdx() != null){
+            holder.binding.placeSelectBtn.setEnabled(false);
+        }
+
         if (place != null) {
             holder.binding.placeSelectBtn.setText(place.getName());
             holder.binding.placeSelectBtn.setChecked(true);
