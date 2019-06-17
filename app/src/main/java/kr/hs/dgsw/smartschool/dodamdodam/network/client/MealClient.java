@@ -26,13 +26,6 @@ public class MealClient {
         meal = Utils.RETROFIT.create(MealService.class);
     }
 
-
-
-
-
-
-
-    
     public Single<List<Meal>> getAllMeal(Token token, int year, int month) {
         return Single.create(observer -> meal.getAllMeal(token.getToken(), year, month).enqueue(new Callback<Response<Meals>>() {
             @Override
