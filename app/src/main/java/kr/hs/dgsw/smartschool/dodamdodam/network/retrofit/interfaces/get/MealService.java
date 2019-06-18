@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get;
 
+import java.util.function.Function;
+
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meals;

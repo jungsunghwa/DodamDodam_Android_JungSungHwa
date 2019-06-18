@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import io.reactivex.Single;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsels;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -21,165 +22,27 @@ public class CounselClient {
 
     public CounselClient() { counsel = Utils.RETROFIT.create(CounselService.class); }
 
-    public Single<Counsel> getAllCounsel(String token) {
-        return Single.create(observer -> {
-            counsel.getAllCounsel(token).enqueue(new Callback<Response<Counsel>>() {
-                @Override
-                public void onResponse(Call<Response<Counsel>> call, retrofit2.Response<Response<Counsel>> response) {
-                    if (response.isSuccessful()) {
-                        observer.onSuccess(response.body().getData());
-                    } else {
-                        try {
-                            JSONObject errorBody = new JSONObject(Objects
-                                    .requireNonNull(
-                                            response.errorBody()).string());
-                            observer.onError(new Throwable(errorBody.getString("message")));
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response<Counsel>> call, Throwable t) {
-                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-                }
-            });
-        });
+    public Single<Counsel> getAllCounsel(Token token) {
+        return counsel.getAllCounsel(token.getToken()).map(Response::getData);
     }
 
-    public Single<String> postCounsel(String token, CounselRequest request) {
-        return Single.create(observer -> {
-            counsel.postCounsel(token, request).enqueue(new Callback<Response<Counsels>>() {
-                @Override
-                public void onResponse(Call<Response<Counsels>> call, retrofit2.Response<Response<Counsels>> response) {
-                    if (response.isSuccessful()) {
-                        observer.onSuccess(response.body().getMessage());
-                    } else {
-                        try {
-                            JSONObject errorBody = new JSONObject(Objects
-                                    .requireNonNull(
-                                            response.errorBody()).string());
-                            observer.onError(new Throwable(errorBody.getString("message")));
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response<Counsels>> call, Throwable t) {
-                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-                }
-            });
-        });
+    public Single<String> postCounsel(Token token, CounselRequest request) {
+        return counsel.postCounsel(token.getToken(), request).map(Response::getMessage);
     }
 
-    public Single<Counsel> getCertainCounsel(String token, int counselIdx) {
-        return Single.create(observer -> {
-            counsel.getCertainCounsel(token, counselIdx).enqueue(new Callback<Response<Counsel>>() {
-                @Override
-                public void onResponse(Call<Response<Counsel>> call, retrofit2.Response<Response<Counsel>> response) {
-                    if (response.isSuccessful()) {
-                        observer.onSuccess(response.body().getData());
-                    } else {
-                        try {
-                            JSONObject errorBody = new JSONObject(Objects
-                                    .requireNonNull(
-                                            response.errorBody()).string());
-                            observer.onError(new Throwable(errorBody.getString("message")));
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response<Counsel>> call, Throwable t) {
-                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-                }
-            });
-        });
+    public Single<Counsel> getCertainCounsel(Token token, int counselIdx) {
+        return counsel.getCertainCounsel(token.getToken(), counselIdx).map(Response::getData);
     }
 
-    public Single<String> deleteCounsel(String token, int counselIdx) {
-        return Single.create(observer -> {
-            counsel.deleteCounsel(token, counselIdx).enqueue(new Callback<Response>() {
-                @Override
-                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                    if (response.isSuccessful()) {
-                        observer.onSuccess(response.body().getMessage());
-                    } else {
-                        try {
-                            JSONObject errorBody = new JSONObject(Objects
-                                    .requireNonNull(
-                                            response.errorBody()).string());
-                            observer.onError(new Throwable(errorBody.getString("message")));
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response> call, Throwable t) {
-                    observer.onError(new Throwable("네트워크상태를 확인히세요"));
-                }
-            });
-        });
+    public Single<String> deleteCounsel(Token token, int counselIdx) {
+        return counsel.deleteCounsel(token.getToken(), counselIdx).map(Response::getMessage);
     }
 
-    public Single<String> postCounselAllow(String token, CounselRequest request) {
-        return Single.create(observer -> {
-            counsel.postCounselAllow(token, request).enqueue(new Callback<Response<Counsels>>() {
-                @Override
-                public void onResponse(Call<Response<Counsels>> call, retrofit2.Response<Response<Counsels>> response) {
-                    if (response.isSuccessful()) {
-                        observer.onSuccess(response.body().getMessage());
-                    } else {
-                        try {
-                            JSONObject errorBody = new JSONObject(Objects
-                                    .requireNonNull(
-                                            response.errorBody()).string());
-                            observer.onError(new Throwable(errorBody.getString("message")));
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response<Counsels>> call, Throwable t) {
-                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-                }
-            });
-        });
+    public Single<String> postCounselAllow(Token token, CounselRequest request) {
+        return counsel.postCounselAllow(token.getToken(), request).map(Response::getMessage);
     }
 
-    public Single<String> postCounselCancel(String token, CounselRequest request) {
-        return Single.create(observer -> {
-            counsel.postCounselCancel(token, request).enqueue(new Callback<Response<Counsels>>() {
-                @Override
-                public void onResponse(Call<Response<Counsels>> call, retrofit2.Response<Response<Counsels>> response) {
-                    if (response.isSuccessful()) {
-                        observer.onSuccess(response.body().getMessage());
-                    } else {
-                        try {
-                            JSONObject errorBody = new JSONObject(Objects
-                                    .requireNonNull(
-                                            response.errorBody()).string());
-                            observer.onError(new Throwable(errorBody.getString("message")));
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response<Counsels>> call, Throwable t) {
-                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-                }
-            });
-        });
+    public Single<String> postCounselCancel(Token token, CounselRequest request) {
+        return counsel.postCounselCancel(token.getToken(), request).map(Response::getMessage);
     }
 }

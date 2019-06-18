@@ -28,158 +28,164 @@ public class SongClient {
     }
 
     public Single<List<Video>> getSongs(Token token) {
-        return Single.create(observer -> song.getSongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<List<Video>>> call, retrofit2.Response<Response<List<Video>>> response) {
-                if (response.isSuccessful())
-                    observer.onSuccess(response.body().getData());
-                else
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<List<Video>>> call, Throwable t) {
-                observer.onError(t);
-            }
-        }));
+        return song.getSongs(token.getToken()).map(Response::getData);
+//        return Single.create(observer -> song.getSongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
+//            @Override
+//            @EverythingIsNonNull
+//            public void onResponse(Call<Response<List<Video>>> call, retrofit2.Response<Response<List<Video>>> response) {
+//                if (response.isSuccessful())
+//                    observer.onSuccess(response.body().getData());
+//                else
+//                    try {
+//                        JSONObject errorBody = new JSONObject(Objects
+//                                .requireNonNull(
+//                                        response.errorBody()).string());
+//                        observer.onError(new Throwable(errorBody.getString("message")));
+//                    } catch (JSONException | IOException e) {
+//                        e.printStackTrace();
+//                    }
+//            }
+//
+//            @Override
+//            @EverythingIsNonNull
+//            public void onFailure(Call<Response<List<Video>>> call, Throwable t) {
+//                observer.onError(t);
+//            }
+//        }));
     }
 
     public Single<List<Video>> getMySongs(Token token) {
-        return Single.create(observer -> song.getMySongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<List<Video>>> call, retrofit2.Response<Response<List<Video>>> response) {
-                if (response.isSuccessful())
-                    observer.onSuccess(response.body().getData());
-                else
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<List<Video>>> call, Throwable t) {
-                observer.onError(t);
-            }
-        }));
+        return song.getMySongs(token.getToken()).map(Response::getData);
+//        return Single.create(observer -> song.getMySongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
+//            @Override
+//            @EverythingIsNonNull
+//            public void onResponse(Call<Response<List<Video>>> call, retrofit2.Response<Response<List<Video>>> response) {
+//                if (response.isSuccessful())
+//                    observer.onSuccess(response.body().getData());
+//                else
+//                    try {
+//                        JSONObject errorBody = new JSONObject(Objects
+//                                .requireNonNull(
+//                                        response.errorBody()).string());
+//                        observer.onError(new Throwable(errorBody.getString("message")));
+//                    } catch (JSONException | IOException e) {
+//                        e.printStackTrace();
+//                    }
+//            }
+//
+//            @Override
+//            @EverythingIsNonNull
+//            public void onFailure(Call<Response<List<Video>>> call, Throwable t) {
+//                observer.onError(t);
+//            }
+//        }));
     }
 
     public Single<List<Video>> getMyAllowSongs(Token token) {
-        return Single.create(observer -> song.getMyAllowSongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<List<Video>>> call, retrofit2.Response<Response<List<Video>>> response) {
-                if (response.isSuccessful())
-                    observer.onSuccess(response.body().getData());
-                else
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<List<Video>>> call, Throwable t) {
-                observer.onError(t);
-            }
-        }));
+        return song.getMyAllowSongs(token.getToken()).map(Response::getData);
+//        return Single.create(observer -> song.getMyAllowSongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
+//            @Override
+//            @EverythingIsNonNull
+//            public void onResponse(Call<Response<List<Video>>> call, retrofit2.Response<Response<List<Video>>> response) {
+//                if (response.isSuccessful())
+//                    observer.onSuccess(response.body().getData());
+//                else
+//                    try {
+//                        JSONObject errorBody = new JSONObject(Objects
+//                                .requireNonNull(
+//                                        response.errorBody()).string());
+//                        observer.onError(new Throwable(errorBody.getString("message")));
+//                    } catch (JSONException | IOException e) {
+//                        e.printStackTrace();
+//                    }
+//            }
+//
+//            @Override
+//            @EverythingIsNonNull
+//            public void onFailure(Call<Response<List<Video>>> call, Throwable t) {
+//                observer.onError(t);
+//            }
+//        }));
     }
 
     public Single<String> postSong(Token token, SongRequest request) {
-        return Single.create(observer -> song.postSong(token.getToken(), request).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful())
-                    observer.onSuccess(response.body().getMessage());
-                else
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(t);
-            }
-        }));
+        return song.postSong(token.getToken(), request).map(Response::getMessage);
+//        return Single.create(observer -> song.postSong(token.getToken(), request).enqueue(new Callback<Response>() {
+//            @Override
+//            @EverythingIsNonNull
+//            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+//                if (response.isSuccessful())
+//                    observer.onSuccess(response.body().getMessage());
+//                else
+//                    try {
+//                        JSONObject errorBody = new JSONObject(Objects
+//                                .requireNonNull(
+//                                        response.errorBody()).string());
+//                        observer.onError(new Throwable(errorBody.getString("message")));
+//                    } catch (JSONException | IOException e) {
+//                        e.printStackTrace();
+//                    }
+//            }
+//
+//            @Override
+//            @EverythingIsNonNull
+//            public void onFailure(Call<Response> call, Throwable t) {
+//                observer.onError(t);
+//            }
+//        }));
     }
 
     public Single<String> postAllowSong(Token token, SongCheckRequest request) {
-        return Single.create(observer -> song.postAllowSong(token.getToken(), request).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful())
-                    observer.onSuccess(response.body().getMessage());
-                else
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(t);
-            }
-        }));
+        return song.postAllowSong(token.getToken(), request).map(Response::getMessage);
+//        return Single.create(observer -> song.postAllowSong(token.getToken(), request).enqueue(new Callback<Response>() {
+//            @Override
+//            @EverythingIsNonNull
+//            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+//                if (response.isSuccessful())
+//                    observer.onSuccess(response.body().getMessage());
+//                else
+//                    try {
+//                        JSONObject errorBody = new JSONObject(Objects
+//                                .requireNonNull(
+//                                        response.errorBody()).string());
+//                        observer.onError(new Throwable(errorBody.getString("message")));
+//                    } catch (JSONException | IOException e) {
+//                        e.printStackTrace();
+//                    }
+//            }
+//
+//            @Override
+//            @EverythingIsNonNull
+//            public void onFailure(Call<Response> call, Throwable t) {
+//                observer.onError(t);
+//            }
+//        }));
     }
 
     public Single<String> postDenySong(Token token, SongCheckRequest request) {
-        return Single.create(observer -> song.postDenySong(token.getToken(), request).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful())
-                    observer.onSuccess(response.body().getMessage());
-                else
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(t);
-            }
-        }));
+        return song.postDenySong(token.getToken(), request).map(Response::getMessage);
+//        return Single.create(observer -> song.postDenySong(token.getToken(), request).enqueue(new Callback<Response>() {
+//            @Override
+//            @EverythingIsNonNull
+//            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+//                if (response.isSuccessful())
+//                    observer.onSuccess(response.body().getMessage());
+//                else
+//                    try {
+//                        JSONObject errorBody = new JSONObject(Objects
+//                                .requireNonNull(
+//                                        response.errorBody()).string());
+//                        observer.onError(new Throwable(errorBody.getString("message")));
+//                    } catch (JSONException | IOException e) {
+//                        e.printStackTrace();
+//                    }
+//            }
+//
+//            @Override
+//            @EverythingIsNonNull
+//            public void onFailure(Call<Response> call, Throwable t) {
+//                observer.onError(t);
+//            }
+//        }));
     }
 }

@@ -23,18 +23,18 @@ public interface BusService {
             );
 
     @DELETE("/bus/{idx}")
-    Call<Response> deleteBusApply(
+    Single<Response> deleteBusApply(
             @Header("x-access-token") String token,
             @Path("idx") int idx
     );
 
     @GET("/bus/my")
-    Call<Response<Bus>> getMyBusApply(
+    Single<Response<Bus>> getMyBusApply(
             @Header("x-access-token") String token
     );
 
     @PUT("/bus/{idx}")
-    Call<Response> putModifyBusApply(
+    Single<Response> putModifyBusApply(
             @Header("x-access-token") String token,
             @Path("idx") int idx,
             @Body BusRequest request

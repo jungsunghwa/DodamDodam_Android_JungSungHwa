@@ -72,7 +72,7 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
         keyboardManager = new SoftKeyboardManager(this);
 
         viewModel = new SongViewModel(this);
-        viewModel.getMessage().observe(this, message -> {
+        viewModel.getSuccessMessage().observe(this, message -> {
             hideProgress();
             setResult(RESULT_OK, new Intent().putExtra(SongListActivity.REQ_SONG_APPLY_RESULT_MESSAGE, message));
             finish();

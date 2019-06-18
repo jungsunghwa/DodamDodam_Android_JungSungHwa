@@ -9,6 +9,7 @@ import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
+import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -25,13 +26,13 @@ public class LocationClient extends NetworkClient {
         date = sdf.format(new Date());
     }
 
-    public Single<Response> putLocation(LocationInfo request, Token token) {
+    public Single<String> putLocation(LocationInfo request, Token token) {
         request.setTimetableIdx(null);
-        return location.putLocation(token.getToken(), request.getIdx(), request);
+        return location.putLocation(token.getToken(), request.getIdx(), request).map(Response::getMessage);
     }
 
-    public Single<Response> postLocation(LocationRequest<LocationInfo> request, Token token) {
-       return location.postLocation(token.getToken(), request).map(response -> response);
+    public Single<String> postLocation(LocationRequest<LocationInfo> request, Token token) {
+        return location.postLocation(token.getToken(), request).map(Response::getMessage);
     }
 
     public Single<List<Locations>> getLocation(Token token) {
@@ -42,8 +43,7 @@ public class LocationClient extends NetworkClient {
         return location.getMyLocation(token.getToken(), date).map(Response::getData);
     }
 
-    public Single<Response> checkLocation(String token, int idx) {
-        Call<Response> service = location.checkLocation(token, idx);
-        return actionService(service);
+    public Single<String> checkLocation(Token token, int idx) {
+        return location.checkLocation(token.getToken(), idx).map(Response::getMessage);
     }
 }

@@ -23,7 +23,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.OffbaseRequest;
 /**
  * @author kimji
  */
-public class OffbaseViewModel extends ViewModel {
+public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
@@ -39,6 +39,7 @@ public class OffbaseViewModel extends ViewModel {
     private DatabaseHelper helper;
 
     public OffbaseViewModel(Context context) {
+        super(context);
         client = new OffbaseClient();
         disposable = new CompositeDisposable();
         helper = DatabaseHelper.getDatabaseHelper(context);
@@ -78,21 +79,7 @@ public class OffbaseViewModel extends ViewModel {
 
     public void list() {
         loading.setValue(true);
-        disposable.add(client.getOffbase(helper.getToken()).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
-                        new DisposableSingleObserver<Offbase>() {
-                            @Override
-                            public void onSuccess(Offbase offbase) {
-                                offbaseData.setValue(offbase);
-                                loading.setValue(false);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
-                            }
-                        }));
+        addDisposable(client.getOffbase(helper.getToken()), dataObserver);
     }
 
     public void listAllow() {

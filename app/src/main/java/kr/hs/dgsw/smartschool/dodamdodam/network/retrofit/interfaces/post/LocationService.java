@@ -51,7 +51,7 @@ public interface LocationService {
     );
 
     @PUT("location/check/{idx}")
-    public Call<Response> checkLocation(
+    Single<Response> checkLocation(
             @Header("x-access-token") String token,
             @Path("idx") int idx
     );

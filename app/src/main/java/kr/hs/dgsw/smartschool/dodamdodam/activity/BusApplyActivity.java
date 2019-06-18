@@ -7,8 +7,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.databinding.DataBindingUtil;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
+
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.BusApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
@@ -69,13 +68,13 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             Toast.makeText(this, busTypeMessage+"역이 이미 신청되어있습니다.", Toast.LENGTH_SHORT).show();
         });
 
-        busViewModel.getIsSuccess().observe(this, successMessage -> {
+        busViewModel.getSuccessMessage().observe(this, successMessage -> {
             Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
             startActivity(intent);
             finish();
         });
 
-        busViewModel.getLoginErrorMessage().observe(this, errorMessage -> {
+        busViewModel.getErrorMessage().observe(this, errorMessage -> {
             if (errorMessage.equals("신청을 찾을 수 없습니다")) {
                 initCheckbox(0);
                 applyStatus = false;

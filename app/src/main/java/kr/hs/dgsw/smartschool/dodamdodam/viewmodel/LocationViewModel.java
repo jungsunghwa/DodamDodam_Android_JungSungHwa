@@ -74,20 +74,8 @@ public class LocationViewModel extends BaseViewModel {
     }
 
     public void putLocation(LocationInfo locationInfo) {
-
-        DisposableSingleObserver<Response> observer = new DisposableSingleObserver<Response>() {
-            @Override
-            public void onSuccess(Response locationRequest) {
-                loading.setValue(false);
-            }
-            @Override
-            public void onError(Throwable e) {
-                errorMessage.setValue(e.getMessage());
-                loading.setValue(false);
-            }
-        };
-
-        addDisposable(locationClient.putLocation(locationInfo, helper.getToken()), observer);
+        loading.setValue(true);
+        addDisposable(locationClient.putLocation(locationInfo, helper.getToken()), baseObserver);
     }
 
     public void postLocation() {
@@ -119,11 +107,8 @@ public class LocationViewModel extends BaseViewModel {
     }
 
     public void checkLocation(int idx) {
-        Single<Response> single;
-
-        single = locationClient.checkLocation(helper.getToken().getToken(), idx);
-
-        addDisposable(single);
+        loading.setValue(true);
+        addDisposable(locationClient.checkLocation(helper.getToken(), idx), baseObserver);
     }
 
     public void getLocation() {
@@ -171,44 +156,6 @@ public class LocationViewModel extends BaseViewModel {
         };
 
         addDisposable(locationClient.getMyLocation(helper.getToken()), observer);
-    }
-
-    @SuppressWarnings("unchecked")
-    private void addDisposable(Single<Response> single) {
-        disposable.add(single.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(
-                        new DisposableSingleObserver<Response>() {
-                            @Override
-                            public void onSuccess(Response response) {
-                                if (response.getData() == null) {
-                                    getLocation();
-                                } else {
-                                    if (Utils.identity == Identity.STUDENT) {
-                                        locationRequest = ((Response<LocationRequest>) response).getData();
-                                        result.clear();
-                                        if (locationRequest.getLocationInfos().isEmpty()) {
-                                            postLocation();
-                                        } else {
-                                            data.setValue(
-                                                    convertLocationRequestToMap(locationRequest.getLocationInfos(), null));
-                                            loading.setValue(false);
-                                        }
-                                    } else {
-                                        locations = (ArrayList<Locations>) response.getData();
-                                        result.clear();
-                                        data.setValue(convertLocationsToMap(locations));
-                                        loading.setValue(false);
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                errorMessage.setValue(e.getMessage());
-                                loading.setValue(false);
-                            }
-                        }));
     }
 
     private Map<Student, List<LocationInfo>> convertLocationsToMap(List<Locations> locations) {

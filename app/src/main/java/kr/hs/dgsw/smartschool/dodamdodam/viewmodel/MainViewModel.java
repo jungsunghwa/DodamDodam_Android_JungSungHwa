@@ -22,14 +22,13 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.MealSer
 /**
  * @author kimji
  */
-public class MainViewModel extends BaseViewModel {
+public class MainViewModel extends BaseViewModel<Meal> {
 
     private final MutableLiveData<Meal> mealData = new MutableLiveData<>();
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
     private MealClient client;
-    private CompositeDisposable disposable;
     private DatabaseHelper helper;
 
     private static SparseArray<List<Meal>> cacheMonthMeal = new SparseArray<>();
@@ -37,7 +36,6 @@ public class MainViewModel extends BaseViewModel {
     public MainViewModel(Context context) {
         super(context);
         client = new MealClient();
-        disposable = new CompositeDisposable();
         helper = DatabaseHelper.getDatabaseHelper(context);
     }
 
@@ -54,20 +52,6 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void today() {
-        DisposableSingleObserver<Meal> observer = new DisposableSingleObserver<Meal>() {
-            @Override
-            public void onSuccess(Meal meal) {
-                mealData.setValue(meal);
-                loading.setValue(false);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                error.setValue(e);
-                loading.setValue(false);
-            }
-        };
-
         loading.setValue(true);
 
         Calendar calendar = Calendar.getInstance();
@@ -77,9 +61,9 @@ public class MainViewModel extends BaseViewModel {
         List<Meal> meals = cacheMonthMeal.get(month);
 
         if (meals == null)
-            addDisposable(client.getTodayMeal(helper.getToken()),observer);
+            addDisposable(client.getTodayMeal(helper.getToken()), dataObserver);
         else
-            observer.onSuccess(meals.get(day));
+            dataObserver.onSuccess(meals.get(day));
     }
 
     public void date(int year, int month, int day) {

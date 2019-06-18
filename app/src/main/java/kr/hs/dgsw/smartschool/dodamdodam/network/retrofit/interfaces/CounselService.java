@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
+import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.member.MemberData;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
@@ -16,42 +17,42 @@ import retrofit2.http.Path;
 
 public interface CounselService {
     @GET("/counsel")
-    Call<Response<Counsel>> getAllCounsel(
+    Single<Response<Counsel>> getAllCounsel(
             @Header("x-access-token") String token
     );
 
     @POST("/counsel")
-    Call<Response<Counsels>> postCounsel(
+    Single<Response<Counsels>> postCounsel(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @GET("/counsel/{counsel_idx}")
-    Call<Response<Counsel>> getCertainCounsel(
+    Single<Response<Counsel>> getCertainCounsel(
             @Header("x-access-token") String token,
             @Path("counsel_idx") int counselIdx
     );
 
     @DELETE("/counsel/{counsel_idx}")
-    Call<Response> deleteCounsel(
+    Single<Response> deleteCounsel(
             @Header("x-access-token") String token,
             @Path("counsel_idx") int counselIdx
     );
 
     @POST("/counsel/allow")
-    Call<Response<Counsels>> postCounselAllow(
+    Single<Response<Counsels>> postCounselAllow(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @POST("/counsel/cancel")
-    Call<Response<Counsels>> postCounselCancel(
+    Single<Response<Counsels>> postCounselCancel(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @GET("/members/teachers")
-    Call<Response<Teacher>> getTeacher(
+    Single<Response<Teacher>> getTeacher(
             @Header("x-access-token") String token
     );
 }
