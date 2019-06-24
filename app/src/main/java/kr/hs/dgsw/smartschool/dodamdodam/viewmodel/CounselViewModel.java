@@ -15,13 +15,14 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.CounselClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 
 public class CounselViewModel extends ViewModel {
     private CounselClient counselClient;
     private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
+    private TokenManager manager;
 
     private final MutableLiveData<Counsel> response = new MutableLiveData<>();
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
@@ -31,7 +32,7 @@ public class CounselViewModel extends ViewModel {
     public CounselViewModel(Context context) {
         counselClient = new CounselClient();
         disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public LiveData<Counsel> getResponse() {
@@ -51,7 +52,7 @@ public class CounselViewModel extends ViewModel {
     public void getAllCounsel() {
         loading.setValue(true);
         disposable.add(counselClient.getAllCounsel(
-                databaseHelper.getToken().getToken())
+                manager.getToken())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
                         new DisposableSingleObserver<Counsel>() {
@@ -75,7 +76,7 @@ public class CounselViewModel extends ViewModel {
     public void postCounsel(CounselRequest request) {
         loading.setValue(true);
         disposable.add(counselClient.postCounsel(
-                databaseHelper.getToken().getToken(), request)
+                manager.getToken(), request)
                 .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<String>(){
                     @Override
@@ -96,7 +97,7 @@ public class CounselViewModel extends ViewModel {
     public void getCertainCounsel(int counselIdx) {
         loading.setValue(true);
         disposable.add(counselClient.getCertainCounsel(
-                databaseHelper.getToken().getToken(), counselIdx)
+                manager.getToken(), counselIdx)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
                         new DisposableSingleObserver<Counsel>() {
@@ -119,7 +120,7 @@ public class CounselViewModel extends ViewModel {
     public void deleteCounsel(int counselIdx) {
         loading.setValue(true);
         disposable.add(counselClient.deleteCounsel(
-                databaseHelper.getToken().getToken(), counselIdx)
+                manager.getToken(), counselIdx)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -141,7 +142,7 @@ public class CounselViewModel extends ViewModel {
     public void postCounselAllow(CounselRequest request) {
         loading.setValue(true);
         disposable.add(counselClient.postCounselAllow(
-                databaseHelper.getToken().getToken(), request)
+                manager.getToken(), request)
                 .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
@@ -162,7 +163,7 @@ public class CounselViewModel extends ViewModel {
     public void postCounselCancel(CounselRequest request) {
         loading.setValue(true);
         disposable.add(counselClient.postCounselCancel(
-                databaseHelper.getToken().getToken(), request)
+                manager.getToken(), request)
                 .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override

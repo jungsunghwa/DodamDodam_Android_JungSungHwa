@@ -6,26 +6,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:background="@drawable/background_gradient"
         android:fitsSystemWindows="true"
         tools:context=".activity.LoginActivity">
-
-        <com.scwang.wave.MultiWaveHeader
-            android:id="@+id/wave_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            android:scaleY="-1"
-            app:mwhCloseColor="@color/colorBackground"
-            app:mwhColorAlpha=".3"
-            app:mwhGradientAngle="320"
-            app:mwhIsRunning="false"
-            app:mwhProgress=".7"
-            app:mwhStartColor="@color/colorBackground"
-            app:mwhVelocity="2"
-            app:mwhWaveHeight="45dp"
-            app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -39,11 +21,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_layout_pw">
+                app:layout_constraintTop_toBottomOf="@+id/input_layout">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_login"
@@ -52,7 +34,7 @@
                     android:layout_height="60dp"
                     android:text="@string/text_login" />
 
-                <androidx.core.widget.ContentLoadingProgressBar
+                <ProgressBar
                     android:id="@+id/progress"
                     style="?android:progressBarStyleHorizontal"
                     android:layout_width="match_parent"
@@ -65,53 +47,77 @@
 
             </FrameLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_pw"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/input_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/hint_pw"
-                app:boxBackgroundColor="@color/loginBoxColor"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/button_sets"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_layout_id"
-                app:passwordToggleEnabled="true">
+                app:layout_constraintTop_toBottomOf="@+id/image_logo">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_pw"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_id"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
-                    android:inputType="textPassword"
-                    android:privateImeOptions="nm" />
+                    android:hint="@string/hint_email"
+                    app:boxBackgroundColor="@color/loginBoxColor"
+                    app:layout_constraintBottom_toTopOf="@+id/input_layout_pw"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_logo">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
+                        android:inputType="textEmailAddress"
+                        android:privateImeOptions="nm" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_id"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_pw"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_pw"
+                    app:boxBackgroundColor="@color/loginBoxColor"
+                    app:layout_constraintBottom_toTopOf="@+id/button_sets"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_layout_id"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_pw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
+                        android:inputType="textPassword"
+                        android:privateImeOptions="nm" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:hint="@string/hint_email"
-                app:boxBackgroundColor="@color/loginBoxColor"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
-                    android:inputType="textEmailAddress"
-                    android:privateImeOptions="nm" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.25"
+                app:srcCompat="@drawable/ic_bind_logo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

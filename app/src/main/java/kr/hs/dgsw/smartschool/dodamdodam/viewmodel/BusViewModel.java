@@ -8,29 +8,29 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.BusClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 
 public class BusViewModel extends ViewModel {
-    BusClient busClient;
-    private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
-
     private final MutableLiveData<Bus> response = new MutableLiveData<>();
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private BusClient busClient;
+    private CompositeDisposable disposable;
+    private TokenManager manager;
 
     public BusViewModel(Context context) {
         busClient = new BusClient();
         disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public LiveData<Bus> getResponse() {
@@ -53,9 +53,9 @@ public class BusViewModel extends ViewModel {
     public void postBusApply(BusRequest request) {
         loading.setValue(true);
         disposable.add(busClient.postBusApply(
-                databaseHelper.getToken().getToken(), request)
+                manager.getToken(), request)
                 .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>(){
+                .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String successMessage) {
                         isSuccess.setValue(successMessage);
@@ -74,7 +74,7 @@ public class BusViewModel extends ViewModel {
     public void deleteBusApply(int idx) {
         loading.setValue(true);
         disposable.add(busClient.deleteBusApply(
-                databaseHelper.getToken().getToken(), idx)
+                manager.getToken(), idx)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<String>() {
 
@@ -97,7 +97,7 @@ public class BusViewModel extends ViewModel {
     public void getMyBusApply() {
         loading.setValue(true);
         disposable.add(busClient.getMyBusApply(
-                databaseHelper.getToken().getToken())
+                manager.getToken())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
                         new DisposableSingleObserver<Bus>() {
@@ -120,9 +120,9 @@ public class BusViewModel extends ViewModel {
     public void putModifyBusApply(int idx, BusRequest request) {
         loading.setValue(true);
         disposable.add(busClient.putModifyBusApply(
-                databaseHelper.getToken().getToken(), idx, request)
+                manager.getToken(), idx, request)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>(){
+                .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String s) {
                         isSuccess.setValue(s);
@@ -134,7 +134,7 @@ public class BusViewModel extends ViewModel {
                         loginErrorMessage.setValue(e.getMessage());
                         loading.setValue(false);
                     }
-        }));
+                }));
     }
 
 }

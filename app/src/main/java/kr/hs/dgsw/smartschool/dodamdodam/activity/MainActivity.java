@@ -72,8 +72,10 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         viewModel.getLoading().observe(this, loading -> binding.mealItems.mealLunch.setLoading(loading));
         viewModel.getError().observe(this, error -> {
             Log.w(TAG, "ERROR: ", error);
+            binding.mealItems.mealBreakfast.setMeal(null);
             binding.mealItems.mealLunch.setLoading(false);
             binding.mealItems.mealLunch.setError(error.getMessage());
+            binding.mealItems.mealDinner.setMeal(null);
         });
 
         viewModel.today();
@@ -121,7 +123,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (!isTablet()) drawerToggle.onConfigurationChanged(newConfig);
+        if (!isTablet() && drawerToggle != null) drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -184,7 +186,8 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                     notSupportToast();
                     break;
                 }
-                startActivity(intent);
+                notSupportToast();
+                //startActivity(intent);
                 break;
             case R.id.menu_lost_found:
                 if (Utils.identity == Identity.STUDENT)

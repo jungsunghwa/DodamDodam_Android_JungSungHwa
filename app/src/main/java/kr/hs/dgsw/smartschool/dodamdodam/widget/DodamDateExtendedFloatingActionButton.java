@@ -46,17 +46,25 @@ public class DodamDateExtendedFloatingActionButton extends ExtendedFloatingActio
 
         getContext().getTheme().resolveAttribute(R.attr.colorControlNormal, typedValue, true);
 
+        boolean isNight = getResources().getBoolean(R.bool.isNight);
+
+        ColorStateList colorControlNormal = ColorStateList.valueOf(typedValue.data);
+        ColorStateList white = ColorStateList.valueOf(Color.WHITE);
+
+        ColorStateList background = isNight ? colorControlNormal : white;
+        ColorStateList foreground = isNight ? white : colorControlNormal;
+
         setIconResource(R.drawable.ic_calendar);
-        setIconTintResource(typedValue.resourceId);
-        setRippleColor(ColorStateList.valueOf(typedValue.data));
-        setTextColor(typedValue.data);
+        setIconTint(foreground);
+        setRippleColor(foreground);
+        setTextColor(foreground.getDefaultColor());
         setTextAlignment(TEXT_ALIGNMENT_CENTER);
         try {
             setTypeface(ResourcesCompat.getFont(getContext(), R.font.nanum_square_regular), Typeface.BOLD);
         } catch (Resources.NotFoundException e) {
             setTypeface(getTypeface(), Typeface.BOLD);
         }
-        setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        setBackgroundTintList(background);
         setText("");
     }
 

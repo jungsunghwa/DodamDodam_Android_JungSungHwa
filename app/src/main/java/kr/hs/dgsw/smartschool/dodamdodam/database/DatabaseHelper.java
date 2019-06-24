@@ -42,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @NonNull
-    public static DatabaseHelper getDatabaseHelper(Context context) {
+    public static DatabaseHelper getInstance(Context context) {
         if (INSTANCE == null) {
             synchronized (DatabaseHelper.class) {
                 if (INSTANCE == null)
@@ -109,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Member getMyInfo() {
         final SQLiteDatabase db = this.getReadableDatabase();
-        final Cursor res = db.rawQuery("SELECT * FROM member WHERE id =  '" + Utils.myId + "'", null);
+        final Cursor res = db.rawQuery("SELECT * FROM member WHERE id =  '" + TokenManager.getId(getToken()) + "'", null);
 
         return getMemberInfo(res);
     }
@@ -364,9 +364,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } else if (v instanceof Double) {
                     contentValues.put(k, (Double) v);
                     if (contentValues.get(k).equals("")) contentValues.put(k, (Double) null);
-                } /*else if (v.getClass().isArray()) {
+                } else if (v.getClass().isArray()) {
                     insert(k, v);
-                }*/
+                }
             });
             contentValuesList.add(contentValues);
         }
@@ -374,8 +374,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return contentValuesList;
     }
 
-    public Token getToken() {
-        final SQLiteDatabase db = this.getWritableDatabase();
+    Token getToken() {
+        final SQLiteDatabase db = this.getReadableDatabase();
 
         final Cursor res = db.rawQuery("SELECT * FROM token ORDER BY idx DESC limit 1", null);
 

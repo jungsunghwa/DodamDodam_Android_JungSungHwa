@@ -14,7 +14,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.song.Video;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.song.YoutubeData;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.SongClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongCheckRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongRequest;
@@ -29,12 +29,12 @@ public class SongViewModel extends ViewModel {
 
     private SongClient client;
     private CompositeDisposable disposable;
-    private DatabaseHelper helper;
+    private TokenManager manager;
 
     public SongViewModel(Context context) {
         client = new SongClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public MutableLiveData<List<Video>> getSongsData() {
@@ -59,7 +59,7 @@ public class SongViewModel extends ViewModel {
 
     public void list() {
         loading.setValue(true);
-        disposable.add(client.getSongs(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getSongs(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Video>>() {
                             @Override
@@ -78,7 +78,7 @@ public class SongViewModel extends ViewModel {
 
     public void listMy() {
         loading.setValue(true);
-        disposable.add(client.getMySongs(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getMySongs(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Video>>() {
                             @Override
@@ -97,7 +97,7 @@ public class SongViewModel extends ViewModel {
 
     public void listMyAllow() {
         loading.setValue(true);
-        disposable.add(client.getMyAllowSongs(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getMyAllowSongs(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Video>>() {
                             @Override
@@ -116,7 +116,7 @@ public class SongViewModel extends ViewModel {
 
     public void apply(SongRequest request) {
         loading.setValue(true);
-        disposable.add(client.postSong(helper.getToken(), request).subscribeOn(Schedulers.io())
+        disposable.add(client.postSong(manager.getToken(), request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
@@ -135,7 +135,7 @@ public class SongViewModel extends ViewModel {
 
     public void allow(SongCheckRequest request) {
         loading.setValue(true);
-        disposable.add(client.postAllowSong(helper.getToken(), request).subscribeOn(Schedulers.io())
+        disposable.add(client.postAllowSong(manager.getToken(), request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
@@ -154,7 +154,7 @@ public class SongViewModel extends ViewModel {
 
     public void deny(SongCheckRequest request) {
         loading.setValue(true);
-        disposable.add(client.postDenySong(helper.getToken(), request).subscribeOn(Schedulers.io())
+        disposable.add(client.postDenySong(manager.getToken(), request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
@@ -185,7 +185,8 @@ public class SongViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onError(Throwable e) {}
+                    public void onError(Throwable e) {
+                    }
                 }
         ));
     }

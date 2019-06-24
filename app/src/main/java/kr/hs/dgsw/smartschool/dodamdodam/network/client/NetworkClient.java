@@ -14,6 +14,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class NetworkClient {
 
+    @SuppressWarnings("unchecked")
     public Single<Response> actionService(Call service) {
         return Single.create(observer ->
                 service.enqueue(new Callback<Response>() {

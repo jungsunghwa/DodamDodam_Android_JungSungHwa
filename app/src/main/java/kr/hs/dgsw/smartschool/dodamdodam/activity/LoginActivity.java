@@ -1,15 +1,20 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.AndroidRuntimeException;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.text.SimpleTextWatcher;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.InputMethodHelper;
@@ -29,6 +34,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //EditText 가 키보드 위에 표시되기 위해 설정
         setLayoutNoLimits(false);
 
         keyboardManager = new InputMethodHelper(this);
@@ -38,9 +44,9 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
         studentViewModel.getLoading().observe(this, isLoading -> {
             if (isLoading) {
-                binding.progress.show();
+                binding.progress.setVisibility(View.VISIBLE);
             } else {
-                binding.progress.hide();
+                binding.progress.setVisibility(View.GONE);
             }
         });
 
@@ -63,38 +69,18 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             }
         });
 
-        binding.inputId.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        binding.inputId.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s))
                     binding.inputLayoutId.setError(null);
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
         });
-        binding.inputPw.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        binding.inputPw.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s))
                     binding.inputLayoutPw.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
         binding.inputPw.setOnKeyListener((v, keyCode, event) -> {

@@ -17,15 +17,20 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="p">
-        <activity
-            android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="adjustResize">
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.PointListActivity"
@@ -38,7 +43,12 @@
             android:label="@string/title_location_apply" />
         <activity
             android:name=".activity.BusApplyActivity"
-            android:label="@string/title_bus_apply" />
+            android:label="@string/title_bus_apply"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
         <activity
             android:name=".activity.song.SongApplyActivity"
             android:label="@string/title_song"
@@ -64,4 +74,5 @@
             android:label="@string/title_lostfound" />
         <activity android:name=".activity.CounselActivity" />
     </application>
+
 </manifest>

@@ -20,22 +20,24 @@ import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
 public class TimeTableViewModel extends ViewModel {
 
-    private TimeTableClient timeTableClient;
-    private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
-
     private final MutableLiveData<List<Time>> data = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private TimeTableClient timeTableClient;
+    private CompositeDisposable disposable;
+    private DatabaseHelper helper;
+    private TokenManager manager;
 
     public TimeTableViewModel(Context context) {
         timeTableClient = new TimeTableClient();
         disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+        helper = DatabaseHelper.getInstance(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public LiveData<List<Time>> getData() {
@@ -52,7 +54,7 @@ public class TimeTableViewModel extends ViewModel {
 
     public void getTimeTable() {
         loading.setValue(true);
-        List<Time> timeList = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
+        List<Time> timeList = helper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
         if (!timeList.isEmpty()) {
             loading.setValue(false);
 
@@ -64,13 +66,13 @@ public class TimeTableViewModel extends ViewModel {
             data.setValue(timeList);
             return;
         }
-        disposable.add(timeTableClient.getTimeTable(databaseHelper.getToken())
+        disposable.add(timeTableClient.getTimeTable(manager.getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<List<Time>>() {
                             @Override
                             public void onSuccess(List<Time> timeTable) {
-                                databaseHelper.insert(DatabaseManager.TABLE_TIME, timeTable);
+                                helper.insert(DatabaseManager.TABLE_TIME, timeTable);
 
                                 if (Utils.isWeekEnd)
                                     timeTable = Stream.of(timeTable).filter(time -> time.getType() == 2).collect(Collectors.toList());

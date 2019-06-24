@@ -14,7 +14,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.MealClient;
 
 /**
@@ -22,20 +22,18 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.client.MealClient;
  */
 public class MainViewModel extends ViewModel {
 
+    private static SparseArray<List<Meal>> cacheMonthMeal = new SparseArray<>();
     private final MutableLiveData<Meal> mealData = new MutableLiveData<>();
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
-
     private MealClient client;
     private CompositeDisposable disposable;
-    private DatabaseHelper helper;
-
-    private static SparseArray<List<Meal>> cacheMonthMeal = new SparseArray<>();
+    private TokenManager manager;
 
     public MainViewModel(Context context) {
         client = new MealClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public MutableLiveData<Meal> getMealData() {
@@ -74,7 +72,7 @@ public class MainViewModel extends ViewModel {
         List<Meal> meals = cacheMonthMeal.get(month);
 
         if (meals == null)
-            disposable.add(client.getTodayMeal(helper.getToken()).subscribeOn(Schedulers.io())
+            disposable.add(client.getTodayMeal(manager.getToken()).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
         else
             observer.onSuccess(meals.get(day));
@@ -102,7 +100,7 @@ public class MainViewModel extends ViewModel {
         List<Meal> meals = cacheMonthMeal.get(month);
 
         if (meals == null)
-            disposable.add(client.getAllMeal(helper.getToken(), year, month).subscribeOn(Schedulers.io())
+            disposable.add(client.getAllMeal(manager.getToken(), year, month).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
         else
             observer.onSuccess(meals);

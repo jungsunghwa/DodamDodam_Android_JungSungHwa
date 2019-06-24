@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="loginBoxColor">#b0444444</color>
-    <color name="colorBackground">#000</color>
+    <color name="colorPrimary">#076ACD</color>
+    <color name="colorPrimaryDark">#0137A9</color>
+    <color name="colorSecondary">#28009B</color>
+    <color name="colorControlNormal">#076FE4</color>
+    <color name="colorOffbaseOK">#63BA67</color>
+    <color name="colorOffbaseCancel">#DE5050</color>
+    <color name="colorBackground">#121212</color>
+    <color name="textColor">#B4B4B4</color>
+    <color name="textColorLight">#C9C9C9</color>
+    <color name="mealTextColor">#95A3BB</color>
 
+    <color name="loginBoxColor">#b0444444</color>
 </resources>

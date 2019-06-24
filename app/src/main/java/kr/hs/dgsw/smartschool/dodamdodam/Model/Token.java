@@ -22,4 +22,9 @@ public class Token {
     public void setToken(String value) {
         this.token = value;
     }
+
+    public boolean isEmpty() {
+        if (token == null || refreshToken == null) return true;
+        return token.isEmpty() || refreshToken.isEmpty();
+    }
 }

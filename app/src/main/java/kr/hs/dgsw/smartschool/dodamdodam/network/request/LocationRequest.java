@@ -12,6 +12,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
+@SuppressWarnings("unchecked")
 public class LocationRequest<L extends Location> {
     private List<L> locations = new ArrayList<>();
 
@@ -29,11 +30,11 @@ public class LocationRequest<L extends Location> {
         });
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends Location> List<T> getLocations() {
         return (List<T>) locations;
     }
 
+    @SuppressWarnings("SuspiciousMethodCalls")
     public void setLocations(List<LocationInfo> timePlaceMap, ClassInfo classInfo) {
         Stream.of(timePlaceMap).forEach(locationInfo -> {
             Time time = locationInfo.getTime();

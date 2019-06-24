@@ -20,48 +20,47 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 
 public class LocationViewModel extends ViewModel {
-    private LocationClient locationClient;
-    private LocationRequest<LocationInfo> locationRequest;
-    private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
-    private ArrayList<Locations> locations;
-
-    private Boolean isPost = false;
-
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<Map<Student, List<LocationInfo>>> data = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
-
-    private Map<Student,List<LocationInfo>> result = new HashMap<>();
+    private LocationClient locationClient;
+    private LocationRequest<LocationInfo> locationRequest;
+    private CompositeDisposable disposable;
+    private DatabaseHelper helper;
+    private TokenManager manager;
+    private List<Locations> locations;
+    private Boolean isPost = false;
+    private Map<Student, List<LocationInfo>> result = new HashMap<>();
 
     public LocationViewModel(Context context) {
         locationClient = new LocationClient();
         disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+        helper = DatabaseHelper.getInstance(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public LiveData<String> getSuccessMessage() {
         return successMessage;
     }
 
-    public LiveData<Map<Student,List<LocationInfo>>> getData() {
+    public LiveData<Map<Student, List<LocationInfo>>> getData() {
         return data;
     }
 
@@ -88,12 +87,12 @@ public class LocationViewModel extends ViewModel {
 
         if (isPost) {
             method = "POST";
-            locationRequest = new LocationRequest<>(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
+            locationRequest = new LocationRequest<>(timeTable, ((Student) helper.getMyInfo()).getClassInfo());
         } else {
-            locationRequest.setLocations(timeTable, ((Student)databaseHelper.getMyInfo()).getClassInfo());
+            locationRequest.setLocations(timeTable, ((Student) helper.getMyInfo()).getClassInfo());
         }
 
-        single = (Single<Response>) locationClient.postLocation(locationRequest, databaseHelper.getToken().getToken(), method);
+        single = locationClient.postLocation(locationRequest, manager.getToken(), method);
 
         Log.e("request", locationRequest.toString());
 
@@ -119,17 +118,17 @@ public class LocationViewModel extends ViewModel {
 
     }
 
-    public void checkLocation(int idx){
+    public void checkLocation(int idx) {
         Single<Response> single;
 
-        single = locationClient.checkLocation(databaseHelper.getToken().getToken(), idx);
+        single = locationClient.checkLocation(manager.getToken(), idx);
 
         addDisposable(single);
     }
 
     public void getLocation() {
         loading.setValue(true);
-        Single<Response> single = locationClient.getLocation(databaseHelper.getToken().getToken());
+        Single<Response> single = locationClient.getLocation(manager.getToken());
 
         addDisposable(single);
 
@@ -167,9 +166,9 @@ public class LocationViewModel extends ViewModel {
                                         locationRequest = ((Response<LocationRequest>) response).getData();
                                         result.clear();
                                         data.setValue(
-                                                convertLocationRequestToMap(locationRequest.<LocationInfo>getLocations(), null));
-                                    }else {
-                                        locations = (ArrayList<Locations>) response.getData();
+                                                convertLocationRequestToMap(locationRequest.getLocations(), null));
+                                    } else {
+                                        locations = (List<Locations>) response.getData();
                                         result.clear();
                                         data.setValue(convertLocationsToMap(locations));
                                     }
@@ -195,19 +194,19 @@ public class LocationViewModel extends ViewModel {
         return result;
     }
 
-    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(List<LocationInfo> locations, Integer studentIdx){
+    private Map<Student, List<LocationInfo>> convertLocationRequestToMap(List<LocationInfo> locations, Integer studentIdx) {
         Map<Student, List<LocationInfo>> locationInfoMap = new HashMap<>();
         Student student;
 
         if (studentIdx == null)
-            student = (Student) databaseHelper.getMyInfo();
-        else{
-            student = (Student) databaseHelper.getStudentByIdx(studentIdx);
+            student = (Student) helper.getMyInfo();
+        else {
+            student = (Student) helper.getStudentByIdx(studentIdx);
         }
 
         locationInfoMap.put(student, new ArrayList<>());
 
-        List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
+        List<Time> times = helper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
 
         if (Utils.isWeekEnd)
             times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
@@ -234,7 +233,7 @@ public class LocationViewModel extends ViewModel {
                 continue;
             }
 
-            Place place = databaseHelper.getData(
+            Place place = helper.getData(
                     DatabaseManager.TABLE_PLACE,
                     "idx",
                     Integer.toString(location.getPlaceIdx()),

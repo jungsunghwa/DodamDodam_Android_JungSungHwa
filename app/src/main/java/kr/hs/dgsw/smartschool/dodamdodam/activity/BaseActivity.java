@@ -1,6 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.bumptech.glide.Glide;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.AppBarBinding;
@@ -30,10 +37,11 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
  * <p>
  * binding 필드와 기본 레이아웃 설정이 들어 있는 기반 액티비티
  * @apiNote Layout 구조
+ * </p>
  * <p>
  * ! ->  필요할 때
  * !! ->  필수
- * <p>
+ * </p>
  *
  * <layout> <!-- !!For DataBinding -->
  * <SomeLayout
@@ -118,6 +126,9 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         else onCreatePhone(savedInstanceState);
     }
 
+    /**
+     * 네비게이션 바를 밝음(버튼 어둡게)으로 설정
+     */
     protected void lightNavMode() {
         int flags = getWindow().getDecorView().getSystemUiVisibility();
         int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -162,6 +173,31 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     protected abstract int layoutId();
 
     /**
+     * 새 액티비티들을 시작 후 현재 액티비티는 종료
+     *
+     * @param activityClass 실행할 액티비티의 class 들
+     */
+    @SafeVarargs
+    public final void startActivitiesWithFinish(Class<? extends Activity>... activityClass) {
+        List<Intent> intents = new ArrayList<>();
+        for (Class<? extends Activity> clazz : activityClass) {
+            intents.add(new Intent(this, clazz));
+        }
+        startActivities(intents.toArray(new Intent[]{}));
+        finish();
+    }
+
+    /**
+     * 새 액티비티를 시작 후 현재 액티비티는 종료
+     *
+     * @param activityClass 실행할 액티비티의 class
+     */
+    public void startActivityWithFinish(Class<? extends Activity> activityClass) {
+        startActivity(new Intent(this, activityClass));
+        finish();
+    }
+
+    /**
      * LAYOUT_NO_LIMITS 설정, 기본적으로 사용 됨
      *
      * @param enable LAYOUT_NO_LIMITS 의 사용 여부
@@ -183,20 +219,37 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         return getSystemProperty("ro.build.characteristics").equals("tablet") || getResources().getBoolean(R.bool.isTablet);
     }
 
+    /**
+     * build.prop 의 값을 시스템 내부 클래스를 호출하여 가져옴
+     *
+     * @param key 가져올 값의 키 이름 (EX. "ro.product.device"
+     * @return 키에 설정되있는 값, 키가 없으면 null (EX. "OnePlus3T"
+     */
     @SuppressLint("PrivateApi")
     protected final String getSystemProperty(@NonNull String key) {
         String value = null;
-
         try {
             value = (String) Class.forName("android.os.SystemProperties").getMethod("get", String.class).invoke(null, key);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException | ClassNotFoundException | IllegalAccessException | InvocationTargetException ignore) {
         }
 
         return value;
     }
 
+
+    /**
+     * 지원하지 않는 내용을 표시하는 Toast 를 띄움
+     */
     public void notSupportToast() {
         Toast.makeText(this, "아직 지원하지 않는 기능입니다.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //binding 을 null 로 설정하여 누수되지 않고 GC 되도록 함
+        binding = null;
+        //FIXME Glide 누수 방지
+        Glide.get(this).clearMemory();
     }
 }

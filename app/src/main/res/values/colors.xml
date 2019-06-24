@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3096f8</color>
+    <color name="colorPrimary">#3096F8</color>
     <color name="colorPrimaryDark">#254de3</color>
     <color name="colorSecondary">#5800c5</color>
     <color name="colorControlNormal">#076FE4</color>
     <color name="colorOffbaseOK">#81C784</color>
     <color name="colorOffbaseCancel">#E57373</color>
+    <color name="colorBackground">#FFF</color>
     <color name="textColor">#4a4a4a</color>
     <color name="textColorLight">#5C5C5C</color>
     <color name="mealTextColor">#596b8c</color>
-    <color name="windowBackgroundColor">#ffffff</color>
+    <color name="loginBoxColor">#b0ffffff</color>
 
     <color name="ic_launcher_background">#FFFFFF</color>
 
-    <color name="loginBoxColor">#b0ffffff</color>
-    <color name="colorBackground">#FFF</color>
 </resources>

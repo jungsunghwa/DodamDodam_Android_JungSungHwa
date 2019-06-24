@@ -2,8 +2,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity.song;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -45,10 +45,7 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
         viewModel.getError().observe(this, error -> {
             Snackbar.make(binding.rootLayout, error.getMessage(), Snackbar.LENGTH_SHORT).show();
         });
-        viewModel.getLoading().observe(this, loading -> {
-            binding.swipeRefreshLayout.setRefreshing(loading);
-            binding.progress.setVisibility(loading ? View.VISIBLE : View.GONE);
-        });
+        viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
 
         viewModel.list();
 
