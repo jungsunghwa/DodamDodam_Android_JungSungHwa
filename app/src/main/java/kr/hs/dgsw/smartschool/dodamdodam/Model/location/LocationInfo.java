@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam.Model.location;
 
 import com.google.gson.annotations.SerializedName;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
