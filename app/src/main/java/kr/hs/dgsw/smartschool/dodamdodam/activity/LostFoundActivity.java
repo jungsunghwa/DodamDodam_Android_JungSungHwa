@@ -101,7 +101,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
 
         });
 
-        lostFoundViewModel.getLoginErrorMessage().observe(this, errorMessage -> {
+        lostFoundViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });
     }

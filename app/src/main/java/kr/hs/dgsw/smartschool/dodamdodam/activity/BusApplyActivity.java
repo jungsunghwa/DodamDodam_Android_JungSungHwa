@@ -40,7 +40,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         buttonCheckStatus();
 
 
-        busViewModel.getResponse().observe(this, bus -> {
+        busViewModel.getData().observe(this, bus -> {
             //Toast.makeText(this, bus.toString(), Toast.LENGTH_SHORT).show();
             idx = bus.getIdx();
 

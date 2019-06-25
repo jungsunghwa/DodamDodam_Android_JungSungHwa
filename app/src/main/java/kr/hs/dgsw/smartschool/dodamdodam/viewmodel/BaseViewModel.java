@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -25,6 +26,7 @@ import retrofit2.Response;
 abstract class BaseViewModel<T> extends ViewModel {
     private CompositeDisposable disposable;
     private DatabaseHelper databaseHelper;
+    private SingleObserver subscription;
 
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -59,6 +61,11 @@ abstract class BaseViewModel<T> extends ViewModel {
     void addDisposable(Single single, DisposableSingleObserver observer) {
         disposable.add((Disposable) single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
+
+        subscription = single
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer);
     }
 
     DisposableSingleObserver<String> baseObserver = new DisposableSingleObserver<String>() {

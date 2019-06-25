@@ -75,15 +75,16 @@ public class LocationViewModel extends BaseViewModel {
 
     public void putLocation(LocationInfo locationInfo) {
         loading.setValue(true);
+
         addDisposable(locationClient.putLocation(locationInfo, helper.getToken()), baseObserver);
     }
 
     public void postLocation() {
         loading.setValue(true);
         List<LocationInfo> timeTable = new ArrayList<>();
-        DisposableSingleObserver<Response> observer = new DisposableSingleObserver<Response>() {
+        DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
             @Override
-            public void onSuccess(Response locationRequest) {
+            public void onSuccess(String locationRequest) {
                 getLocation();
                 loading.setValue(false);
             }

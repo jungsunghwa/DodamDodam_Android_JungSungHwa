@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,13 +24,18 @@ public class LocationClient extends NetworkClient {
     String date;
 
     public LocationClient() {
+        super();
         location = Utils.RETROFIT.create(LocationService.class);
         date = sdf.format(new Date());
     }
 
     public Single<String> putLocation(LocationInfo request, Token token) {
         request.setTimetableIdx(null);
-        return location.putLocation(token.getToken(), request.getIdx(), request).map(Response::getMessage);
+//        addDisposable(location.putLocation(token.getToken(), request.getIdx(), request), baseObserver);
+
+        return location.putLocation(token.getToken(), request.getIdx(), request).fromCallable(
+                string -> { string}
+        )
     }
 
     public Single<String> postLocation(LocationRequest<LocationInfo> request, Token token) {
