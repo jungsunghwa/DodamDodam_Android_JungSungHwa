@@ -121,7 +121,8 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         LocationInfo finalLocationInfo = locationInfo;
 
         if (locationInfo.getChecked() != null)
-            holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
+                holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
+        else holder.binding.checkLocationCb.setChecked(false);
 
         holder.binding.checkLocationCb.setOnCheckedChangeListener((view, isChecked) ->{
             if (isChecked){
