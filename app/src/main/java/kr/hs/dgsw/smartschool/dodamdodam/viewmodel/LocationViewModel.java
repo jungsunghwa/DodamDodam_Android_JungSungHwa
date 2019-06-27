@@ -129,7 +129,7 @@ public class LocationViewModel extends BaseViewModel {
                 loading.setValue(false);
             }
         };
-
+        //client는 존재 해야되는데 onError로 호출 하는 방법을 찾아야 됨
         addDisposable(locationClient.getLocation(helper.getToken()), observer);
     }
 

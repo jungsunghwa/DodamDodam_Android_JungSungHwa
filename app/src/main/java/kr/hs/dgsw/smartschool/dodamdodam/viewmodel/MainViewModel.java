@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -60,10 +61,10 @@ public class MainViewModel extends BaseViewModel<Meal> {
 
         List<Meal> meals = cacheMonthMeal.get(month);
 
-        if (meals == null)
-            addDisposable(client.getTodayMeal(helper.getToken()), dataObserver);
-        else
-            dataObserver.onSuccess(meals.get(day));
+        if (meals == null) {
+            Single single = client.getTodayMeal(helper.getToken());
+            addDisposable(single, dataObserver);
+        } else dataObserver.onSuccess(meals.get(day));
     }
 
     public void date(int year, int month, int day) {

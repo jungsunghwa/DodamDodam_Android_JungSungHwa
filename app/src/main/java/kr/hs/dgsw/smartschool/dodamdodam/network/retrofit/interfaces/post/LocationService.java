@@ -27,13 +27,13 @@ public interface LocationService {
     );
 
     @GET("location/search/my")
-    Single<Response<LocationRequest>> getMyLocation(
+    Single<retrofit2.Response<Response<LocationRequest>>> getMyLocation(
             @Header("x-access-token") String token,
             @Query("date") String date
     );
 
     @GET("location/search/students")
-    Single<Response<List<Locations>>> getLocation(
+    Single<retrofit2.Response<Response<List<Locations>>>> getLocation(
             @Header("x-access-token") String token,
             @Query("date") String date
     );
@@ -45,7 +45,7 @@ public interface LocationService {
     );
 
     @PUT("location/{idx}")
-    Maybe<Response> putLocation(
+    Single<Response> putLocation(
             @Header("x-access-token") String token,
             @Path("idx") int idx,
             @Body Location placeIdx

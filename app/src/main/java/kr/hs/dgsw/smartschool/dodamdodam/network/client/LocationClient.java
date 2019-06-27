@@ -2,10 +2,13 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
@@ -17,6 +20,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post.LocationService;
 import retrofit2.Call;
+import retrofit2.HttpException;
 
 public class LocationClient extends NetworkClient {
     private LocationService location;
@@ -33,9 +37,7 @@ public class LocationClient extends NetworkClient {
         request.setTimetableIdx(null);
 //        addDisposable(location.putLocation(token.getToken(), request.getIdx(), request), baseObserver);
 
-        return location.putLocation(token.getToken(), request.getIdx(), request).fromCallable(
-                string -> { string}
-        )
+        return location.putLocation(token.getToken(), request.getIdx(), request).map(Response::getMessage);
     }
 
     public Single<String> postLocation(LocationRequest<LocationInfo> request, Token token) {
@@ -43,11 +45,38 @@ public class LocationClient extends NetworkClient {
     }
 
     public Single<List<Locations>> getLocation(Token token) {
-        return location.getLocation(token.getToken(), date).map(Response::getData);
+        return location.getLocation(token.getToken(), date).map(response -> {
+            if (!response.isSuccessful()){
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("aaa", errorBody.getString("message"));
+            }
+            Log.e("aaa", response.body().getStatus()+"");
+            return response.body().getData();
+        }).onErrorReturn(throwable -> {
+            Log.e("a",throwable.toString());
+            return null;
+        }).doOnError(throwable -> {
+            HttpException e = (HttpException) throwable;
+            Log.e("error", e.message()+"");
+        });
     }
 
     public Single<LocationRequest> getMyLocation(Token token) {
-        return location.getMyLocation(token.getToken(), date).map(Response::getData);
+        return location.getMyLocation(token.getToken(), date).map(response -> {
+            if (!response.isSuccessful()){
+                Log.e("aaa", response.message());
+            }
+            Log.e("aaa", response.body().getStatus()+"");
+            return response.body().getData();
+        }).onErrorReturn(throwable -> {
+            Log.e("a",throwable.toString());
+            return null;
+        }).doOnError(throwable -> {
+            HttpException e = (HttpException) throwable;
+            Log.e("error", e.message()+"");
+        });
     }
 
     public Single<String> checkLocation(Token token, int idx) {

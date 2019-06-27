@@ -55,6 +55,21 @@ abstract class BaseViewModel<T> extends ViewModel {
 
     BaseViewModel(Context context) {
         disposable = new CompositeDisposable();
+        subscription = new SingleObserver() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
+            public void onSuccess(Object o) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        };
         databaseHelper = DatabaseHelper.getDatabaseHelper(context);
     }
 
@@ -62,10 +77,10 @@ abstract class BaseViewModel<T> extends ViewModel {
         disposable.add((Disposable) single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
 
-        subscription = single
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(observer);
+//        subscription = single
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(observer);
     }
 
     DisposableSingleObserver<String> baseObserver = new DisposableSingleObserver<String>() {

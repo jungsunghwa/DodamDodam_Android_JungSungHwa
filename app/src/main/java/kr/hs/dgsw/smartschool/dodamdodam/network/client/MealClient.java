@@ -42,7 +42,16 @@ public class MealClient {
     }
 
     public Single<Meal> getTodayMeal(Token token) {
-        return meal.getTodayMeal(token.getToken()).map(Response::getData);
+        return meal.getTodayMeal(token.getToken()).map(response -> {
+            if (!response.isSuccessful()){
+                Log.e("aaa", response.message());
+            }
+            Log.e("aaa", response.body().getStatus()+"");
+            return response.body().getData();
+        }).onErrorReturn(throwable -> {
+            Log.e("a",throwable.toString());
+            return null;
+        });
     }
 
 }

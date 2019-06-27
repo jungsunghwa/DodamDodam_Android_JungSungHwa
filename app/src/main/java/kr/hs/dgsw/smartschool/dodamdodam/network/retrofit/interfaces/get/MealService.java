@@ -20,7 +20,7 @@ public interface MealService {
     );
 
     @GET("meal/today")
-    Single<Response<Meal>> getTodayMeal(
+    Single<retrofit2.Response<Response<Meal>>> getTodayMeal(
             @Header("x-access-token") String token
     );
 
