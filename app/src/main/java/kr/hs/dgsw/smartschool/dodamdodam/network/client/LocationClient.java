@@ -45,38 +45,11 @@ public class LocationClient extends NetworkClient {
     }
 
     public Single<List<Locations>> getLocation(Token token) {
-        return location.getLocation(token.getToken(), date).map(response -> {
-            if (!response.isSuccessful()){
-                JSONObject errorBody = new JSONObject(Objects
-                        .requireNonNull(
-                                response.errorBody()).string());
-                Log.e("aaa", errorBody.getString("message"));
-            }
-            Log.e("aaa", response.body().getStatus()+"");
-            return response.body().getData();
-        }).onErrorReturn(throwable -> {
-            Log.e("a",throwable.toString());
-            return null;
-        }).doOnError(throwable -> {
-            HttpException e = (HttpException) throwable;
-            Log.e("error", e.message()+"");
-        });
+        return location.getLocation(token.getToken(), date).map(getResponseObjectsFunction());
     }
 
     public Single<LocationRequest> getMyLocation(Token token) {
-        return location.getMyLocation(token.getToken(), date).map(response -> {
-            if (!response.isSuccessful()){
-                Log.e("aaa", response.message());
-            }
-            Log.e("aaa", response.body().getStatus()+"");
-            return response.body().getData();
-        }).onErrorReturn(throwable -> {
-            Log.e("a",throwable.toString());
-            return null;
-        }).doOnError(throwable -> {
-            HttpException e = (HttpException) throwable;
-            Log.e("error", e.message()+"");
-        });
+        return location.getMyLocation(token.getToken(), date).map(getResponseObjectsFunction());
     }
 
     public Single<String> checkLocation(Token token, int idx) {

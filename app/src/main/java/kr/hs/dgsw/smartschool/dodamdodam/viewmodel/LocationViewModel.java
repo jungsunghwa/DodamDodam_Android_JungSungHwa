@@ -34,6 +34,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 
 public class LocationViewModel extends BaseViewModel {
     private LocationClient locationClient;
@@ -85,9 +87,10 @@ public class LocationViewModel extends BaseViewModel {
         DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
             @Override
             public void onSuccess(String locationRequest) {
-                getLocation();
+                getMyLocation();
                 loading.setValue(false);
             }
+
             @Override
             public void onError(Throwable e) {
                 errorMessage.setValue(e.getMessage());
@@ -97,8 +100,10 @@ public class LocationViewModel extends BaseViewModel {
         //-------------------------------------------------------------------------------------------------------------------//
         List<Time> times = helper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
 
-        if (Utils.isWeekEnd) times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
-        else times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
+        if (Utils.isWeekEnd)
+            times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
+        else
+            times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
 
         for (Time time : times) timeTable.add(new LocationInfo(time, null));
 

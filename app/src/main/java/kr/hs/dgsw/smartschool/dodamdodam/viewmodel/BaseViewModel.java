@@ -21,6 +21,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 abstract class BaseViewModel<T> extends ViewModel {
@@ -111,4 +112,13 @@ abstract class BaseViewModel<T> extends ViewModel {
             loading.setValue(false);
         }
     };
+
+    private String getErrorMessage(ResponseBody responseBody) {
+        try {
+            JSONObject jsonObject = new JSONObject(responseBody.string());
+            return jsonObject.getString("message");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }
