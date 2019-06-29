@@ -13,6 +13,7 @@
     <string name="title_offbase_detail">상세 정보</string>
     <string name="title_lostfound">분실물</string>
 
+    <!-- TODO 개정일 -->
     <string name="subtitle_point_list" translatable="false">2019.3.</string>
 
     <string name="text_login">로그인</string>

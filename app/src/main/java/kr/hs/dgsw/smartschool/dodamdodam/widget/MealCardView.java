@@ -1,6 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -51,6 +53,7 @@ public class MealCardView extends MaterialCardView {
         init(context, attrs);
     }
 
+    @SuppressLint("PrivateResource")
     private void init(Context context, AttributeSet attrs) {
         setMinimumWidth(ViewUtils.dpToPx(getContext(), 480));
 
@@ -107,6 +110,8 @@ public class MealCardView extends MaterialCardView {
         errorTextView.setText(errorText);
 
         errorTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_warning, 0, 0, 0);
+        errorTextView.setCompoundDrawablePadding(ViewUtils.dpToPx(getContext(), 8));
+        errorTextView.setSupportCompoundDrawablesTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), com.google.android.material.R.color.mtrl_btn_text_color_selector)));
 
         errorTextView.setVisibility(isError ? VISIBLE : GONE);
         progress.setVisibility(isLoading ? VISIBLE : GONE);

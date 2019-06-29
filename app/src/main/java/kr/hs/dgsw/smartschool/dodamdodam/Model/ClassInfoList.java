@@ -14,6 +14,7 @@ public class ClassInfoList extends ArrayList<ClassInfo> {
 
     }
 
+    @SuppressWarnings("unchecked")
     public List<Integer> getGradeList(){
         List gradeList = new ArrayList();
 
@@ -24,6 +25,7 @@ public class ClassInfoList extends ArrayList<ClassInfo> {
         return  gradeList;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Integer> getClassList(){
         List classList = new ArrayList();
 

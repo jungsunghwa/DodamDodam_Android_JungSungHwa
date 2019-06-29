@@ -1,22 +1,17 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+
+import java.util.List;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -24,11 +19,10 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound.ItemVi
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound.LoadingViewHolder;
 
 public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<LostFound> lostFounds;
-    RequestManager glide;
-
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
+    private List<LostFound> lostFounds;
+    private RequestManager glide;
 
     public LostFoundAdapter(Context context, List<LostFound> lostFounds) {
         this.glide = Glide.with(context);
@@ -49,7 +43,7 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Log.d("LogPosition", "position = " + position);
-        Log.d("LogLostFound", "lostfound = "+lostFounds.get(position));
+        Log.d("LogLostFound", "lostfound = " + lostFounds.get(position));
 
         LostFound lostFound = lostFounds.get(position);
 
