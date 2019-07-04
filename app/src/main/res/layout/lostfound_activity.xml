@@ -35,28 +35,72 @@
                 app:layout_constraintVertical_bias="1.0"
                 tools:listitem="@layout/lostfound_item" />
 
-            <Button
-                android:id="@+id/my_writing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+            <CheckBox
+                android:id="@+id/my_writing_checkbox"
+                android:layout_width="95dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="120dp"
-                android:text="내 글만"
+                android:background="@drawable/lostfound_check_box_background"
+                android:textColor="#5C5FE1"
+                android:button="@null"
+                android:fontFamily="@font/nanum_square_round"
+                android:text="전체 글"
+                android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/lostfound_spinner"
-                android:layout_width="130dp"
-                android:layout_height="46dp"
-                android:layout_marginStart="140dp"
+                android:layout_width="112dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="110dp"
                 android:layout_marginTop="120dp"
                 android:entries="@array/lostfound_type"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="169dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="120dp"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="검색"
+                android:textColor="#808080"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:imeOptions="actionSearch"
+                android:background="@drawable/lostfound_search_edittext_background"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/scrimBackground"
+            android:visibility="invisible"
+            app:layout_behavior="@string/fab_transformation_scrim_behavior" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/lostfound_writing_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="60dp"
+            app:backgroundTint="@null"
+            app:layout_anchor="@+id/root_layout"
+            app:layout_anchorGravity="end|bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:maxImageSize="56dp"
+            app:srcCompat="@drawable/background_fab"
+            app:tint="@null" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -72,6 +72,10 @@
         <activity
             android:name=".activity.LostFoundActivity"
             android:label="@string/title_lostfound" />
+        <activity
+            android:name=".activity.LostFoundWritingActivity"
+            android:label="@string/title_lostfound_writing"/>
+
         <activity android:name=".activity.CounselActivity" />
     </application>
 

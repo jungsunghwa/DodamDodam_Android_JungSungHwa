@@ -1,13 +1,15 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -15,7 +17,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,9 +31,21 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
     LostFoundAdapter lostFoundAdapter = new LostFoundAdapter(this, lostFoundList);
 
     LostFoundViewModel lostFoundViewModel;
+
+    // 말 그대로 페이지 (게시물 10개씩)
     Integer page = 1;
-    Integer type; //분실인지=1 습득인지=2 판단하는 타입
+
+    // 분실인지=1 습득인지=2 판단하는 타입
+    Integer type;
+
+    // List 에 넣기 위한 index 선언
     int index = 0;
+
+    // 검색시 파라미터에 따로 페이지와 타입이 없어 전부 불러오기 때문에
+    // 따로 무한스크롤이 필요가 없다. 따라서 boolean 변수를 따로 선언해
+    // 검색이 아닐시 true, 검색일시 false 로 무한스크롤 여부를 판단해주는 변수
+//    boolean ready = false;
+
     boolean isLoading = false;
 
     @Override
@@ -53,9 +66,12 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         initViewModel();
         observableLostFoundViewModel();
 
+        // spinner 선택된 item (분실물, 습득물)에 따른 recyclerview 표시
         binding.lostfoundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                ready = true;
+
                 lostFoundList.clear();
                 index = 0;
 
@@ -66,6 +82,19 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
                 }
 
                 lostFoundViewModel.getLostFound(page, type);
+
+                // 내 글 표시
+                binding.myWritingCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (!isChecked) {
+                            binding.myWritingCheckbox.setText("전체 글");
+                        } else {
+                            binding.myWritingCheckbox.setText("내 글만");
+                        }
+                    }
+                });
+
                 setRecyclerViewManager();
                 initScrollListener();
             }
@@ -74,6 +103,29 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+        });
+
+        // 검색 기능 (엔터키 누를 시 검색)
+        binding.searchEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    lostFoundList.clear();
+                    index = 0;
+
+                    lostFoundViewModel.getLostFoundSearch(binding.searchEditText.getText().toString());
+
+                    setRecyclerViewManager();
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        binding.lostfoundWritingBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), LostFoundWritingActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -94,28 +146,34 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
 
     private void observableLostFoundViewModel() {
 
+        // 서버로부터 값이 들어올때마다 lostFoundList 에 넣어줌
         lostFoundViewModel.getResponse().observe(this, data -> {
+            Log.d("Tag", data.size() + "");
             for (int i = 0; i < data.size(); i++) {
                 lostFoundList.add(index, data.get(i));
                 lostFoundAdapter.notifyItemInserted(index);
                 index++;
+            }
+            if (lostFoundList.size() == 0) {
+                Toast.makeText(getApplicationContext(), "검색된 내용이 없습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
         lostFoundViewModel.getLoginErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });
-        
+
     }
 
     private void setRecyclerViewManager() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.lostfoundRecyclerView.setLayoutManager(linearLayoutManager);
-        Log.d("TAG", "listsize2 = " + lostFoundList.size());
         binding.lostfoundRecyclerView.setAdapter(lostFoundAdapter);
     }
 
     private void initScrollListener() {
+
+        // 무한 스크롤 기능을 구현하기 위해서 마지막으로 1개 남는 걸 계산
         binding.lostfoundRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -140,6 +198,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         });
     }
 
+    // 무한 스크롤 기능 구현
     private void loadMore() {
         lostFoundList.add(null);
         lostFoundAdapter.notifyItemInserted(lostFoundList.size() - 1);

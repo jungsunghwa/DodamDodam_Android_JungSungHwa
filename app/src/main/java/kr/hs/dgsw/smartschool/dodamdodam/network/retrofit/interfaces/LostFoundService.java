@@ -46,6 +46,6 @@ public interface LostFoundService {
     @GET("/lostfound/find")
     Call<Response<LostFounds>> getLostFoundSearch(
             @Header("x-access-token") String token,
-            @Query("search") String search
+            @Query("query") String search
     );
 }
