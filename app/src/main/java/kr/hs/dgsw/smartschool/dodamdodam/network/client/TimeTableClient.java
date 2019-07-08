@@ -26,6 +26,6 @@ public class TimeTableClient extends NetworkClient{
     }
 
     public Single<TimeTables> getTimeTable(Token token) {
-        return timeTableService.getTimeTable(token.getToken()).map(Response::getData);
+        return timeTableService.getTimeTable(token.getToken()).map(getResponseObjectsFunction());
     }
 }
