@@ -17,18 +17,18 @@ import retrofit2.http.Path;
 
 public interface CounselService {
     @GET("/counsel")
-    Single<Response<Counsel>> getAllCounsel(
+    Single<retrofit2.Response<Response<Counsel>>> getAllCounsel(
             @Header("x-access-token") String token
     );
 
     @POST("/counsel")
-    Single<Response<Counsels>> postCounsel(
+    Single<Response<Counsel>> postCounsel(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @GET("/counsel/{counsel_idx}")
-    Single<Response<Counsel>> getCertainCounsel(
+    Single<retrofit2.Response<Response<Counsel>>> getCertainCounsel(
             @Header("x-access-token") String token,
             @Path("counsel_idx") int counselIdx
     );
@@ -52,7 +52,7 @@ public interface CounselService {
     );
 
     @GET("/members/teachers")
-    Single<Response<Teacher>> getTeacher(
+    Single<retrofit2.Response<Response<Teacher>>> getTeacher(
             @Header("x-access-token") String token
     );
 }

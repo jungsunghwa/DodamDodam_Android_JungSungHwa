@@ -20,57 +20,57 @@ import retrofit2.http.Path;
 public interface OffbaseService {
 
     @GET("offbase")
-    Single<Response<Offbase>> getOffbase(
+    Single<retrofit2.Response<Response<Offbase>>> getOffbase(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/allow")
-    Single<Response<Offbase>> getOffbaseAllow(
+    Single<retrofit2.Response<Response<Offbase>>> getOffbaseAllow(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/cancel")
-    Single<Response<Offbase>> getOffbaseCancel(
+    Single<retrofit2.Response<Response<Offbase>>> getOffbaseCancel(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave")
-    Single<Response<Leaves>> getLeaves(
+    Single<retrofit2.Response<Response<Leaves>>> getLeaves(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave/allow")
-    Single<Response<Leaves>> getLeaveAllows(
+    Single<retrofit2.Response<Response<Leaves>>> getLeaveAllows(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave/cancel")
-    Single<Response<Leaves>> getLeaveCancels(
+    Single<retrofit2.Response<Response<Leaves>>> getLeaveCancels(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave/{leave_idx}")
-    Single<Response<Leave>> getLeaveById(
+    Single<retrofit2.Response<Response<Leave>>> getLeaveById(
             @Header("x-access-token") String token, @Path("leave_idx") int leaveIdx
     );
 
     @GET("offbase/pass")
-    Single<Response<Passes>> getPasses(
+    Single<retrofit2.Response<Response<Passes>>> getPasses(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/pass/allow")
-    Single<Response<Passes>> getPassAllows(
+    Single<retrofit2.Response<Response<Passes>>> getPassAllows(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/pass/cancel")
-    Single<Response<Passes>> getPassCancels(
+    Single<retrofit2.Response<Response<Passes>>> getPassCancels(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/pass/{pass_idx}")
-    Single<Response<Pass>> getPassById(
+    Single<retrofit2.Response<Response<Pass>>> getPassById(
             @Header("x-access-token") String token, @Path("pass_idx") int passIdx
     );
 

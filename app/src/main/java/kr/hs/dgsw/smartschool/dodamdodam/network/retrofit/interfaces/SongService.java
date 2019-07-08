@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 public interface SongService {
 
     @GET("wake-song")
-    Single<Response<List<Video>>> getSongs(
+    Single<retrofit2.Response<Response<List<Video>>>> getSongs(
             @Header("x-access-token") String token
     );
 
@@ -27,12 +27,12 @@ public interface SongService {
     );
 
     @GET("wake-song/list")
-    Single<Response<List<Video>>> getMySongs(
+    Single<retrofit2.Response<Response<List<Video>>>> getMySongs(
             @Header("x-access-token") String token
     );
 
     @GET("wake-song/allow")
-    Single<Response<List<Video>>> getMyAllowSongs(
+    Single<retrofit2.Response<Response<List<Video>>>> getMyAllowSongs(
             @Header("x-access-token") String token
     );
 

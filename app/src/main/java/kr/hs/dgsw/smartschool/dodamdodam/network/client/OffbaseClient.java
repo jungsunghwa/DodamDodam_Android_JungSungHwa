@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class OffbaseClient {
+public class OffbaseClient extends NetworkClient {
 
     private OffbaseService offbase;
 
@@ -30,47 +30,48 @@ public class OffbaseClient {
     }
 
     public Single<Offbase> getOffbase(Token token) {
-        return offbase.getOffbase(token.getToken()).map(Response::getData);
+        return offbase.getOffbase(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<Offbase> getOffbaseAllow(Token token) {
-        return offbase.getOffbaseAllow(token.getToken()).map(Response::getData);
+        return offbase.getOffbaseAllow(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<Offbase> getOffbaseCancel(Token token) {
-        return offbase.getOffbaseCancel(token.getToken()).map(Response::getData);
+        return offbase.getOffbaseCancel(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<Leaves> getLeaves(Token token) {
-        return offbase.getLeaves(token.getToken()).map(Response::getData);
+        return offbase.getLeaves(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<Leaves> getLeaveAllows(Token token) {
-        return offbase.getLeaveAllows(token.getToken()).map(Response::getData);
+        return offbase.getLeaveAllows(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<Leaves> getLeaveCancels(Token token) {
-        return offbase.getLeaveCancels(token.getToken()).map(Response::getData);
+        return offbase.getLeaveCancels(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<Leave> getLeaveById(Token token, int leaveId) {
-        return offbase.getLeaveById(token.getToken(), leaveId).map(Response::getData);
+        return offbase.getLeaveById(token.getToken(), leaveId).map(getResponseObjectsFunction());
     }
 
     public Single<Passes> getPasses(Token token) {
-        return offbase.getPasses(token.getToken()).map(Response::getData);
+        return offbase.getPasses(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<Passes> getPassAllows(Token token) {
-        return offbase.getPassAllows(token.getToken()).map(Response::getData);
+        return offbase.getPassAllows(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<Passes> getPassCancels(Token token) {
-        return offbase.getPassCancels(token.getToken()).map(Response::getData);
+        return offbase.getPassCancels(token.getToken()).map(getResponseObjectsFunction());
+        
     }
 
     public Single<Pass> getPassById(Token token, int passId) {
-        return offbase.getPassById(token.getToken(), passId).map(Response::getData);
+        return offbase.getPassById(token.getToken(), passId).map(getResponseObjectsFunction());
     }
 
     public Single<String> postLeave(Token token, OffbaseRequest request) {

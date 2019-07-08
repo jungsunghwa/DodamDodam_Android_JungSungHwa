@@ -26,32 +26,30 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class MealClient {
+public class MealClient extends NetworkClient {
 
     private MealService meal;
-
-
 
     public MealClient() {
         meal = Utils.RETROFIT.create(MealService.class);
     }
 
     public Single<List<Meal>> getAllMeal(Token token, int year, int month) {
-        return meal.getAllMeal(token.getToken(), year, month)
-                .map(mealsResponse -> mealsResponse.getData().getMeals());
+        return meal.getAllMeal(token.getToken(), year, month).map(response -> {
+            if (!response.isSuccessful()) {
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("aaa", errorBody.getString("message"));
+                throw new Exception(errorBody.getString("message"));
+            }
+            Log.e("aaa", response.body().getStatus() + "");
+            return response.body().getData().getMeals();
+        });
     }
 
     public Single<Meal> getTodayMeal(Token token) {
-        return meal.getTodayMeal(token.getToken()).map(response -> {
-            if (!response.isSuccessful()){
-                Log.e("aaa", response.message());
-            }
-            Log.e("aaa", response.body().getStatus()+"");
-            return response.body().getData();
-        }).onErrorReturn(throwable -> {
-            Log.e("a",throwable.toString());
-            return null;
-        });
+        return meal.getTodayMeal(token.getToken()).map(getResponseObjectsFunction());
     }
 
 }

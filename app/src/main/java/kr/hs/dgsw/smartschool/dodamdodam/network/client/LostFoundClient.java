@@ -22,7 +22,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.LostFoundSe
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class LostFoundClient {
+public class LostFoundClient extends NetworkClient {
     private LostFoundService lostFound;
 
     public LostFoundClient() {
@@ -30,8 +30,17 @@ public class LostFoundClient {
     }
 
     public Single<List<LostFound>> getLostFound(Token token, Integer page, Integer type) {
-        return lostFound.getLostFound(token.getToken(), page, type).map(
-                lostFoundsResponse -> lostFoundsResponse.getData().getLostFounds());
+        return lostFound.getLostFound(token.getToken(), page, type).map(response -> {
+            if (!response.isSuccessful()) {
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("aaa", errorBody.getString("message"));
+                throw new Exception(errorBody.getString("message"));
+            }
+            Log.e("aaa", response.body().getStatus() + "");
+            return response.body().getData().getLostFounds();
+        });
     }
 
     public Single<String> postCreateLostFound(Token token, LostFoundRequest request) {
@@ -48,7 +57,16 @@ public class LostFoundClient {
 
 
     public Single<List<LostFound>> getLostFoundSearch(Token token, String search) {
-        return lostFound.getLostFoundSearch(token.getToken(), search).map(
-                lostFoundsResponse -> lostFoundsResponse.getData().getLostFounds());
+        return lostFound.getLostFoundSearch(token.getToken(), search).map(response -> {
+            if (!response.isSuccessful()) {
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("aaa", errorBody.getString("message"));
+                throw new Exception(errorBody.getString("message"));
+            }
+            Log.e("aaa", response.body().getStatus() + "");
+            return response.body().getData().getLostFounds();
+        });
     }
 }

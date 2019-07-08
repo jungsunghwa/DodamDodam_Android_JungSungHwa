@@ -92,5 +92,19 @@ public class NetworkClient {
                 };
     }
 
+    <T extends retrofit2.Response, R> Function<retrofit2.Response<Response<T>>, R> ddd() {
+        return response -> {
+            if (!response.isSuccessful()) {
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("aaa", errorBody.getString("message"));
+                throw new Exception(errorBody.getString("message"));
+            }
+            Log.e("aaa", response.body().getStatus() + "");
+            return (R) response.body().getData();
+        };
+    }
+
 
 }

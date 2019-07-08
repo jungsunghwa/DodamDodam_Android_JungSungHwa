@@ -29,7 +29,7 @@ public interface BusService {
     );
 
     @GET("/bus/my")
-    Single<Response<Bus>> getMyBusApply(
+    Single<retrofit2.Response<Response<Bus>>> getMyBusApply(
             @Header("x-access-token") String token
     );
 

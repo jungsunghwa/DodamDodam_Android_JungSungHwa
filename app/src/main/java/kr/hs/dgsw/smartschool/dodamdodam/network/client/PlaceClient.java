@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class PlaceClient extends NetworkClient {
+public class PlaceClient extends NetworkClient{
     private PlaceService place;
 
     public PlaceClient(){
@@ -27,6 +27,6 @@ public class PlaceClient extends NetworkClient {
     }
 
     public Single<PlaceList> getAllPlace(Token token) {
-        return place.getAllPlace(token.getToken()).map(Response::getData);
+        return place.getAllPlace(token.getToken()).map(getResponseObjectsFunction());
     }
 }

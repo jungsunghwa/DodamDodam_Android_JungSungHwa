@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 
 public interface MealService {
     @GET("meal")
-    Single<Response<Meals>> getAllMeal(
+    Single<retrofit2.Response<Response<Meals>>> getAllMeal(
             @Header("x-access-token") String token,
             @Query("year") int year,
             @Query("month") int month

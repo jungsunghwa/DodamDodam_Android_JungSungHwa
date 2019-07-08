@@ -9,7 +9,7 @@ import retrofit2.http.Header;
 
 public interface PlaceService {
     @GET("place")
-    Single<Response<PlaceList>> getAllPlace(
+    Single<retrofit2.Response<Response<PlaceList>>> getAllPlace(
             @Header("x-access-token") String token
     );
 }

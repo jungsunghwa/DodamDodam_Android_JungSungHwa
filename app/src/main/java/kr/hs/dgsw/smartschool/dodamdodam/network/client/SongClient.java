@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class SongClient {
+public class SongClient extends NetworkClient {
 
     private SongService song;
 
@@ -28,7 +28,8 @@ public class SongClient {
     }
 
     public Single<List<Video>> getSongs(Token token) {
-        return song.getSongs(token.getToken()).map(Response::getData);
+        return song.getSongs(token.getToken()).map(getResponseObjectsFunction());
+        
 //        return Single.create(observer -> song.getSongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
 //            @Override
 //            @EverythingIsNonNull
@@ -55,7 +56,7 @@ public class SongClient {
     }
 
     public Single<List<Video>> getMySongs(Token token) {
-        return song.getMySongs(token.getToken()).map(Response::getData);
+        return song.getMySongs(token.getToken()).map(getResponseObjectsFunction());
 //        return Single.create(observer -> song.getMySongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
 //            @Override
 //            @EverythingIsNonNull
@@ -82,7 +83,7 @@ public class SongClient {
     }
 
     public Single<List<Video>> getMyAllowSongs(Token token) {
-        return song.getMyAllowSongs(token.getToken()).map(Response::getData);
+        return song.getMyAllowSongs(token.getToken()).map(getResponseObjectsFunction());
 //        return Single.create(observer -> song.getMyAllowSongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
 //            @Override
 //            @EverythingIsNonNull

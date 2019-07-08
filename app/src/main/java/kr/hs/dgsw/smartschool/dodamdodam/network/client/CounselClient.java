@@ -17,13 +17,14 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.CounselServ
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class CounselClient {
+public class CounselClient extends NetworkClient {
     private CounselService counsel;
 
     public CounselClient() { counsel = Utils.RETROFIT.create(CounselService.class); }
 
     public Single<Counsel> getAllCounsel(Token token) {
-        return counsel.getAllCounsel(token.getToken()).map(Response::getData);
+        
+        return counsel.getAllCounsel(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<String> postCounsel(Token token, CounselRequest request) {
@@ -31,7 +32,7 @@ public class CounselClient {
     }
 
     public Single<Counsel> getCertainCounsel(Token token, int counselIdx) {
-        return counsel.getCertainCounsel(token.getToken(), counselIdx).map(Response::getData);
+        return counsel.getCertainCounsel(token.getToken(), counselIdx).map(getResponseObjectsFunction());
     }
 
     public Single<String> deleteCounsel(Token token, int counselIdx) {

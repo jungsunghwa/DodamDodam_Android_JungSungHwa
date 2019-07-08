@@ -16,7 +16,7 @@ import kr.hs.dgsw.b1nd.service.service.B1ndGetClasses;
 import kr.hs.dgsw.smartschool.dodamdodam.Constants;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 
-public class StudentClient {
+public class StudentClient extends NetworkClient {
     public StudentClient() {
         B1ndService.setHostURL(Constants.DEFAULT_HOST);
     }

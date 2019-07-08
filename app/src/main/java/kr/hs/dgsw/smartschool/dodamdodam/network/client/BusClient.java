@@ -17,7 +17,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.BusService;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class BusClient {
+public class BusClient extends NetworkClient {
     private BusService bus;
 
     public BusClient() {
@@ -33,7 +33,7 @@ public class BusClient {
     }
 
     public Single<Bus> getMyBusApply(Token token) {
-        return bus.getMyBusApply(token.getToken()).map(Response::getData);
+        return bus.getMyBusApply(token.getToken()).map(getResponseObjectsFunction());
 //
 //        return Single.create(observer -> {
 //            bus.getMyBusApply(token).enqueue(new Callback<Response<Bus>>() {

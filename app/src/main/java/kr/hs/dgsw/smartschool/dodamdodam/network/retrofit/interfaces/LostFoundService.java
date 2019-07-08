@@ -20,7 +20,7 @@ import retrofit2.http.Query;
 
 public interface LostFoundService {
     @GET("/lostfound")
-    Single<Response<LostFounds>> getLostFound(
+    Single<retrofit2.Response<Response<LostFounds>>> getLostFound(
             @Header("x-access-token") String token,
             @Query("page") Integer page,
             @Query("type") Integer type
@@ -45,7 +45,7 @@ public interface LostFoundService {
     );
 
     @GET("/lostfound/find")
-    Single<Response<LostFounds>> getLostFoundSearch(
+    Single<retrofit2.Response<Response<LostFounds>>> getLostFoundSearch(
             @Header("x-access-token") String token,
             @Query("search") String search
     );

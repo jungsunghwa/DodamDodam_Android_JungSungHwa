@@ -15,7 +15,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.CounselServ
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class TeacherClient {
+public class TeacherClient extends NetworkClient {
     private CounselService counsel;
 
     public TeacherClient() {
@@ -23,7 +23,7 @@ public class TeacherClient {
     }
 
     public Single<Teacher> getTeacher(Token token) {
-        return counsel.getTeacher(token.getToken()).map(Response::getData);
+        return counsel.getTeacher(token.getToken()).map(getResponseObjectsFunction());
 //        return Single.create(observer -> {
 //            counsel.getTeacher(token).enqueue(new Callback<Response<Teacher>>() {
 //                @Override
