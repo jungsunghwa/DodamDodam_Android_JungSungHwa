@@ -14,7 +14,7 @@ public class Student extends kr.hs.dgsw.b1nd.service.model.Student {
         return classInfo;
     }
 
-    public Student(Member member){
+    public Student(Member member) {
         super(member);
     }
 

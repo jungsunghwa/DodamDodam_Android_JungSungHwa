@@ -19,6 +19,6 @@
     <item>
         <ripple
             android:color="#fff"
-            android:radius="28dp"/>
+            android:radius="28dp" />
     </item>
 </layer-list>

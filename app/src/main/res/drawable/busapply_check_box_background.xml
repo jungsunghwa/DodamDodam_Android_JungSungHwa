@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/busapply_item_unchecked_background"
-        android:state_checked="false"/>
-
-    <item android:drawable="@drawable/busapply_item_checked_background"
-        android:state_checked="true"/>
-
-</selector>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?colorPrimary">
+    <item>
+        <selector>
+            <item
+                android:drawable="@drawable/busapply_item_unchecked_background"
+                android:state_checked="false" />
+            <item
+                android:drawable="@drawable/busapply_item_checked_background"
+                android:state_checked="true" />
+        </selector>
+    </item>
+</ripple>

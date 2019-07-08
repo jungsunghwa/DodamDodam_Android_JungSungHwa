@@ -21,7 +21,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 public class BusViewModel extends ViewModel {
     private final MutableLiveData<Bus> response = new MutableLiveData<>();
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
-    private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private BusClient busClient;
     private CompositeDisposable disposable;
@@ -41,8 +41,8 @@ public class BusViewModel extends ViewModel {
         return isSuccess;
     }
 
-    public LiveData<String> getLoginErrorMessage() {
-        return loginErrorMessage;
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
     }
 
     public LiveData<Boolean> getLoading() {
@@ -64,7 +64,7 @@ public class BusViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        loginErrorMessage.setValue(e.getMessage());
+                        errorMessage.setValue(e.getMessage());
                         loading.setValue(false);
                     }
                 }));
@@ -87,7 +87,7 @@ public class BusViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        loginErrorMessage.setValue(e.getMessage());
+                        errorMessage.setValue(e.getMessage());
                         loading.setValue(false);
                     }
                 }));
@@ -110,7 +110,7 @@ public class BusViewModel extends ViewModel {
 
                             @Override
                             public void onError(Throwable e) {
-                                loginErrorMessage.setValue(e.getMessage());
+                                errorMessage.setValue(e.getMessage());
                                 loading.setValue(false);
                             }
                         }));
@@ -131,7 +131,7 @@ public class BusViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        loginErrorMessage.setValue(e.getMessage());
+                        errorMessage.setValue(e.getMessage());
                         loading.setValue(false);
                     }
                 }));

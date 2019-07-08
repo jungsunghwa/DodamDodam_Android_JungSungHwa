@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Buses;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
@@ -19,7 +18,7 @@ public interface BusService {
     Call<Response> postBusApply(
             @Header("x-access-token") String token,
             @Body BusRequest request
-            );
+    );
 
     @DELETE("/bus/{idx}")
     Call<Response> deleteBusApply(

@@ -1,33 +1,26 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
-import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.PlaceAdapter;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.TimeTableAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
+import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.PlaceAdapter;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.TimeTableAdapter;
 
 public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> {
 
@@ -97,7 +90,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
                 for (LocationInfo info : location) {
                     if (timeTable.get(i).getTimetableIdx() == info.getTimetableIdx()) {
                         timeTable.remove(i);
-                        timeTable.add(i,info);
+                        timeTable.add(i, info);
                     }
                 }
             }
@@ -113,11 +106,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
     private void setPlaceRecyclerView() {
         placeAdapter = new PlaceAdapter(this, placeList);
-        RecyclerView.LayoutManager placeRecyclerViewLayoutManager
-                = new GridLayoutManager(this, 3);
-
         binding.placeRecyclerView.setAdapter(placeAdapter);
-        binding.placeRecyclerView.setLayoutManager(placeRecyclerViewLayoutManager);
 
         placeAdapter.getPlacePosition().observe(this, position -> {
             if (position == null) {
@@ -153,15 +142,10 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         });
     }
 
-    @SuppressLint("SetTextI18n")
     private void setTimeTableRecyclerView() {
         timeTableAdapter = new TimeTableAdapter(this, timeTable, timeList);
 
-        LinearLayoutManager timeTableRecyclerViewLayoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
         binding.timeTableRecyclerView.setAdapter(timeTableAdapter);
-        binding.timeTableRecyclerView.setLayoutManager(timeTableRecyclerViewLayoutManager);
         binding.timeTableRecyclerView.setNestedScrollingEnabled(false);
 
         timeTableAdapter.getTimePosition().observe(this, position -> {
@@ -194,8 +178,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             this.placeList.clear();
             this.placeList.addAll(placeList);
-
-//            placeAdapter.notifyDataSetChanged();
         });
     }
 
@@ -215,10 +197,8 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             timeTable.clear();
             for (Time time : timeList) {
-                timeTable.add(new LocationInfo(time,null));
+                timeTable.add(new LocationInfo(time, null));
             }
-
-//            timeTableAdapter.notifyDataSetChanged();
         });
     }
 

@@ -3,12 +3,10 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.databinding.DataBindingUtil;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
+
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.BusApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
@@ -40,14 +38,12 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         initViewModel();
         buttonCheckStatus();
 
-
         busViewModel.getResponse().observe(this, bus -> {
-            //Toast.makeText(this, bus.toString(), Toast.LENGTH_SHORT).show();
             idx = bus.getIdx();
 
             Log.e("response", bus.getType().toString());
 
-            applyStatus =  (bus.getType() == 1 || bus.getType() == 2  || bus.getType() == 3 || bus.getType() == 0);
+            applyStatus = (bus.getType() == 1 || bus.getType() == 2 || bus.getType() == 3 || bus.getType() == 0);
             busType = bus.getType();
 
             initCheckbox(bus.getType());
@@ -55,18 +51,18 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             String busTypeMessage = "";
 
             switch (bus.getType()) {
-                case 1 :
+                case 1:
                     busTypeMessage = "동대구";
                     break;
-                case 2 :
+                case 2:
                     busTypeMessage = "대곡";
                     break;
-                case 3 :
+                case 3:
                     busTypeMessage = "용산";
                     break;
             }
 
-            Toast.makeText(this, busTypeMessage+"역이 이미 신청되어있습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, busTypeMessage + "역이 이미 신청되어있습니다.", Toast.LENGTH_SHORT).show();
         });
 
         busViewModel.getIsSuccess().observe(this, successMessage -> {
@@ -75,7 +71,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             finish();
         });
 
-        busViewModel.getLoginErrorMessage().observe(this, errorMessage -> {
+        busViewModel.getErrorMessage().observe(this, errorMessage -> {
             if (errorMessage.equals("신청을 찾을 수 없습니다")) {
                 initCheckbox(0);
                 applyStatus = false;
@@ -88,42 +84,26 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         binding.applyBtn.setOnClickListener(view -> {
             int selectedBusType = getSelectedBusType();
 
-            if (!applyStatus)
-            {
-                if (selectedBusType > 0)
-                {
+            if (!applyStatus) {
+                if (selectedBusType > 0) {
                     request.setType(selectedBusType);
                     busViewModel.postBusApply(request);
-                }
-                else if (selectedBusType == 0)
-                {
+                } else if (selectedBusType == 0) {
                     Toast.makeText(this, "이미 신청되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(this, "행선지가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
-            }
-            else
-            {
-                if (isSameBusType(selectedBusType))
-                {
+            } else {
+                if (isSameBusType(selectedBusType)) {
                     Toast.makeText(this, "이미 신청되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    if (selectedBusType > 0)
-                    {
-                        Log.e("type", selectedBusType+""+idx);
+                } else {
+                    if (selectedBusType > 0) {
+                        Log.e("type", selectedBusType + "" + idx);
                         request.setType(selectedBusType);
                         busViewModel.putModifyBusApply(idx, request);
-                    }
-                    else if (selectedBusType == 0)
-                    {
+                    } else if (selectedBusType == 0) {
                         busViewModel.deleteBusApply(idx);
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(this, "행선지가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -131,15 +111,13 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         });
     }
 
-    private void initCheckbox(int busType)
-    {
+    private void initCheckbox(int busType) {
         binding.eastdaeguCheckBtn.setChecked(false);
         binding.daekokCheckBtn.setChecked(false);
         binding.yongsanCheckBtn.setChecked(false);
         binding.notbusCheckBtn.setChecked(false);
 
-        switch (busType)
-        {
+        switch (busType) {
             case 1:
                 binding.eastdaeguCheckBtn.setChecked(true);
                 break;
@@ -158,8 +136,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         }
     }
 
-    private int getSelectedBusType()
-    {
+    private int getSelectedBusType() {
         if (binding.eastdaeguCheckBtn.isChecked()) {
             return 1;
         } else if (binding.daekokCheckBtn.isChecked()) {
@@ -173,8 +150,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         }
     }
 
-    private boolean isSameBusType(int busType)
-    {
+    private boolean isSameBusType(int busType) {
         return busType == this.busType;
     }
 

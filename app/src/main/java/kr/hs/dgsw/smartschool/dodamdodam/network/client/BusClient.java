@@ -18,6 +18,8 @@ import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class BusClient {
+    private static final String ERROR_NETWORK = "네트워크 상태를 확인하세요";
+
     private BusService bus;
 
     public BusClient() {
@@ -46,7 +48,7 @@ public class BusClient {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
+                observer.onError(new Throwable(ERROR_NETWORK));
             }
         }));
     }
@@ -73,7 +75,7 @@ public class BusClient {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
+                observer.onError(new Throwable(ERROR_NETWORK));
             }
         }));
     }
@@ -84,7 +86,9 @@ public class BusClient {
             @EverythingIsNonNull
             public void onResponse(Call<Response<Bus>> call, retrofit2.Response<Response<Bus>> response) {
                 if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getData());
+                    Bus bus = response.body().getData();
+                    if (bus == null) return;
+                    observer.onSuccess(bus);
                 } else {
                     try {
                         JSONObject errorBody = new JSONObject(Objects
@@ -100,7 +104,7 @@ public class BusClient {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<Response<Bus>> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
+                observer.onError(new Throwable(ERROR_NETWORK));
             }
         }));
     }
@@ -127,10 +131,8 @@ public class BusClient {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
+                observer.onError(new Throwable(ERROR_NETWORK));
             }
         }));
     }
-
-
 }

@@ -93,7 +93,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         });
 
         timeTableViewModel.getData().observe(this, times -> {
-            timeList = (ArrayList<Time>) times;
+            timeList = times;
 
             binding.timeSpinner.setItems(timeList);
 

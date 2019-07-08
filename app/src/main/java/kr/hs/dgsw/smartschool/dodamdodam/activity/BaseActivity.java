@@ -19,8 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
-import com.bumptech.glide.Glide;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -52,11 +50,11 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
  * <include
  * android:id="@+id/app_bar_layout"
  * layout="@layout/app_bar"/> <!-- !AppBar --> <!-- ID 를 'app_bar_layout' 로 설정할 경우 자동으로 System UI 와의 Margin 이 설정 됨. -->
- * <SomeAnotherLayout
+ * <SomeInnerLayout
  * android:id="@+id/root_layout"
  * android:layout_marginTop="88dp"> <!-- !!Root Layout --> <!-- System UI 와 Navigation Bar 와의 Margin 을 위해 'root_layout' ID 필요. 그렇지 않으면 System UI 또는 Navigation Bar 와 View 가 겹쳐보일 것. -->
  * <!-- Inner View... -->
- * </SomeAnotherLayout>
+ * </SomeInnerLayout>
  * </SomeLayout>
  * </layout>
  */
@@ -249,7 +247,5 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         super.onDestroy();
         //binding 을 null 로 설정하여 누수되지 않고 GC 되도록 함
         binding = null;
-        //FIXME Glide 누수 방지
-        Glide.get(this).clearMemory();
     }
 }

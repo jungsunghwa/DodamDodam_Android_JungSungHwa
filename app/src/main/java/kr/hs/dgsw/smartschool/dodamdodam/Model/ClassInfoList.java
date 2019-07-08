@@ -15,24 +15,24 @@ public class ClassInfoList extends ArrayList<ClassInfo> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Integer> getGradeList(){
+    public List<Integer> getGradeList() {
         List gradeList = new ArrayList();
 
         for (ClassInfo classInfo : this) {
             gradeList.add(classInfo.getGrade());
         }
 
-        return  gradeList;
+        return gradeList;
     }
 
     @SuppressWarnings("unchecked")
-    public List<Integer> getClassList(){
+    public List<Integer> getClassList() {
         List classList = new ArrayList();
 
         for (ClassInfo classInfo : this) {
             classList.add(classInfo.getRoom());
         }
 
-        return  classList;
+        return classList;
     }
 }

@@ -27,7 +27,6 @@ import kr.hs.dgsw.b1nd.service.model.ParentLog;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
-import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

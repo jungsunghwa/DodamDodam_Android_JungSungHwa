@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
@@ -57,14 +56,14 @@ public class LocationRequest<L extends Location> {
                 int index = locations.indexOf(location);
                 locations.remove(index);
                 locations.add(index, (L) location);
-            }else {
+            } else {
                 if (place == null) location.setPlaceIdx(classInfo.getPlaceIdx());
                 else location.setPlaceIdx(place.getIdx());
             }
         });
     }
 
-    public LocationInfo findLocationByTimeIdx(Integer timeIdx,ClassInfo classInfo) {
+    public LocationInfo findLocationByTimeIdx(Integer timeIdx, ClassInfo classInfo) {
         for (Location location : locations) {
             LocationInfo locationInfo = (LocationInfo) location;
             if (locationInfo.getTimetableIdx() == timeIdx) {

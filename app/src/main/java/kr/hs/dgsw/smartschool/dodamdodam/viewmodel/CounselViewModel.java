@@ -14,7 +14,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.CounselClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
@@ -38,12 +37,15 @@ public class CounselViewModel extends ViewModel {
     public LiveData<Counsel> getResponse() {
         return response;
     }
+
     public LiveData<String> getIsSuccess() {
         return isSuccess;
     }
+
     public LiveData<String> getError() {
         return errorMessage;
     }
+
     public LiveData<Boolean> getLoading() {
         return loading;
     }
@@ -78,7 +80,7 @@ public class CounselViewModel extends ViewModel {
         disposable.add(counselClient.postCounsel(
                 manager.getToken(), request)
                 .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>(){
+                .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String s) {
                         isSuccess.setValue(s);

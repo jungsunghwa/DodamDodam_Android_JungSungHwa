@@ -119,9 +119,7 @@ public class LocationViewModel extends ViewModel {
     }
 
     public void checkLocation(int idx) {
-        Single<Response> single;
-
-        single = locationClient.checkLocation(manager.getToken(), idx);
+        Single<Response> single = locationClient.checkLocation(manager.getToken(), idx);
 
         addDisposable(single);
     }

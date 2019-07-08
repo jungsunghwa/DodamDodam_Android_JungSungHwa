@@ -53,7 +53,7 @@ public class Meal {
         for (String filter : filters)
             mealRaw = mealRaw.replaceAll(filter, "");
 
-         String[] lines = mealRaw.split("\n");
+        String[] lines = mealRaw.split("\n");
 
         for (int i = 0; i < lines.length; i++) {
             lines[i] = lines[i].replaceAll(" $", "");

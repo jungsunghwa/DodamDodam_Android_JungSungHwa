@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam.Model.location;
 
 import com.google.gson.annotations.SerializedName;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
@@ -31,7 +30,7 @@ public class LocationInfo extends Location {
         isChecked = 0;
     }
 
-    public LocationInfo(LocationInfo locationInfo){
+    public LocationInfo(LocationInfo locationInfo) {
         super(locationInfo.getTimetableIdx(), locationInfo.getPlaceIdx());
         isChecked = 0;
     }

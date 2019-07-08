@@ -12,6 +12,9 @@
     <color name="mealTextColor">#596b8c</color>
     <color name="loginBoxColor">#b0ffffff</color>
 
+    <color name="buttonColorStart">#5196e9</color>
+    <color name="buttonColorEnd">#7b2bfc</color>
+
     <color name="ic_launcher_background">#FFFFFF</color>
 
 </resources>

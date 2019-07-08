@@ -1,8 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.Model.timetable;
 
-import com.google.gson.annotations.SerializedName;
-
 import androidx.annotation.NonNull;
+
+import com.google.gson.annotations.SerializedName;
 
 public class Time {
     private int idx;

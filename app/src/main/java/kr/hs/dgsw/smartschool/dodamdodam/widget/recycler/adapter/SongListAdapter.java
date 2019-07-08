@@ -48,7 +48,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongViewHolder> {
     public int getItemCount() {
         return list.size();
     }
-    
+
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);

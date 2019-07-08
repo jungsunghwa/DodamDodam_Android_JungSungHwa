@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/time_table_item_root"
-        android:layout_marginEnd="10dp"
+    <CheckBox
+        android:id="@+id/place_select_btn"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <CheckBox
-            android:id="@+id/place_select_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/location_check_box_background"
-            android:button="@null"
-            android:text="8교시"
-            android:textColor="#4a4a4a"
-            android:fontFamily="@font/nanum_square_regular"
-            android:textSize="12sp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_margin="8dp"
+        android:background="@drawable/location_check_box_background"
+        android:button="@null"
+        android:fontFamily="@font/nanum_square_regular"
+        android:paddingStart="24dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="8dp"
+        android:textAlignment="center"
+        android:textColor="#4a4a4a"
+        android:textSize="12sp"
+        tools:text="8교시" />
 </layout>

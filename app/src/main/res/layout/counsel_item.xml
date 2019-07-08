@@ -36,7 +36,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/teacher_image"
                 app:layout_constraintTop_toTopOf="@+id/teacher_image"
-                tools:text="Teacher Name"/>
+                tools:text="Teacher Name" />
 
             <TextView
                 android:id="@+id/part_name_text"
@@ -48,7 +48,7 @@
                 android:fontFamily="@font/nanum_square_round"
                 app:layout_constraintStart_toEndOf="@+id/teacher_image"
                 app:layout_constraintTop_toBottomOf="@+id/teacher_name_text"
-                tools:text="part"/>
+                tools:text="part" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

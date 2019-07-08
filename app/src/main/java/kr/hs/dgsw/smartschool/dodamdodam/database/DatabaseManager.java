@@ -16,10 +16,11 @@ public final class DatabaseManager {
     public static final String TABLE_BUS = "bus";
     public static final String TABLE_LOSTFOUND = "lostfound";
 
-    private DatabaseManager() {}
+    private DatabaseManager() {
+    }
 
     static String getCreateTableToken() {
-        return "CREATE TABLE " + TABLE_TOKEN +" ( "
+        return "CREATE TABLE " + TABLE_TOKEN + " ( "
                 + "idx INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + "token STRING, "
                 + "refreshToken STRING"
@@ -27,7 +28,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableTime() {
-        return "CREATE TABLE "+ TABLE_TIME +" ( "
+        return "CREATE TABLE " + TABLE_TIME + " ( "
                 + "idx INTEGER, "
                 + "name STRING, "
                 + "type INTEGER, "
@@ -37,14 +38,14 @@ public final class DatabaseManager {
     }
 
     static String getCreateTablePlace() {
-        return "CREATE TABLE "+ TABLE_PLACE +" ( "
+        return "CREATE TABLE " + TABLE_PLACE + " ( "
                 + "idx INTEGER, "
                 + "name STRING"
                 + ")";
     }
 
     static String getCreateTableClass() {
-        return "CREATE TABLE "+ TABLE_CLASS +" ( "
+        return "CREATE TABLE " + TABLE_CLASS + " ( "
                 + "idx INTEGER, "
                 + "grade INTEGER, "
                 + "room INTEGER,"
@@ -53,7 +54,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableLocation() {
-        return "CREATE TABLE "+ TABLE_LOCATION +" ( "
+        return "CREATE TABLE " + TABLE_LOCATION + " ( "
                 + "idx INTEGER, "
                 + "studentIdx INTEGER, "
                 + "placeIdx INTEGER,"
@@ -64,7 +65,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableStudent() {
-        return "CREATE TABLE "+ TABLE_STUDENT+" ("
+        return "CREATE TABLE " + TABLE_STUDENT + " ("
                 + "  idx INTEGER UNIQUE,"
                 + "  memberId STRING,"
                 + "  classIdx INTEGER,"
@@ -73,8 +74,8 @@ public final class DatabaseManager {
                 + ")";
     }
 
-   static String getCreateTableDepartmentLog() {
-        return "CREATE TABLE "+ TABLE_DEPARTMENT_LOG +" (" +
+    static String getCreateTableDepartmentLog() {
+        return "CREATE TABLE " + TABLE_DEPARTMENT_LOG + " (" +
                 "departmentIdx INTEGER," +
                 "teacherIdx INTEGER," +
                 "type INTEGER," +
@@ -85,7 +86,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableChildrenLog() {
-        return "CREATE TABLE "+ TABLE_CHILDREN_LOG +" (" +
+        return "CREATE TABLE " + TABLE_CHILDREN_LOG + " (" +
                 "  idx INTEGER UNIQUE," +
                 "  parentIdx INTEGER," +
                 "  studentIdx INTEGER," +
@@ -94,7 +95,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableParent() {
-        return "CREATE TABLE "+TABLE_PARENT+" ("
+        return "CREATE TABLE " + TABLE_PARENT + " ("
                 + "idx INTEGER UNIQUE,"
                 + "memberId STRING,"
                 + "PRIMARY KEY (idx)"
@@ -102,7 +103,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableMember() {
-        return "CREATE TABLE "+ TABLE_MEMBER+" ( "
+        return "CREATE TABLE " + TABLE_MEMBER + " ( "
                 + "id STRING UNIQUE, "
                 + "inviteMember STRING UNIQUE, "
                 + "name STRING, "
@@ -117,7 +118,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableTeacher() {
-        return "CREATE TABLE "+ TABLE_TEACHER +" (" +
+        return "CREATE TABLE " + TABLE_TEACHER + " (" +
                 "idx INTEGER UNIQUE," +
                 "memberId STRING," +
                 "tel STRING," +
@@ -126,15 +127,15 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableParentsLogs() {
-        return "CREATE TABLE "+ TABLE_PARENTS_LOG +" (" +
+        return "CREATE TABLE " + TABLE_PARENTS_LOG + " (" +
                 "  parentIdx INTEGER," +
                 "  studentIdx INTEGER," +
                 "  primary key(parentIdx, studentIdx)" +
                 ")";
     }
 
-    static String getCreateTableBus(){
-        return "CREATE TABLE "+ TABLE_BUS +" ( "
+    static String getCreateTableBus() {
+        return "CREATE TABLE " + TABLE_BUS + " ( "
                 + "idx INTEGER, "
                 + "type INTEGER, "
                 + "student_idx"
@@ -142,7 +143,7 @@ public final class DatabaseManager {
     }
 
     static String getCreateTableLostFound() {
-        return "CREATE TABLE " + TABLE_LOSTFOUND+" ( "
+        return "CREATE TABLE " + TABLE_LOSTFOUND + " ( "
                 + "idx INTEGER, "
                 + "memberId STRING, "
                 + "type INTEGER, "

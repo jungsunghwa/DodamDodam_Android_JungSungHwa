@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 import kr.hs.dgsw.b1nd.service.model.Teacher;
-import kr.hs.dgsw.b1nd.service.retrofit2.response.member.MemberData;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsels;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;

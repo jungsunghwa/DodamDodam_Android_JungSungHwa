@@ -5,10 +5,10 @@ public class Bus {
     private Integer type;
     private Integer student_idx;
 
-    public Bus(){
+    public Bus() {
     }
 
-    public Bus(Integer type){
+    public Bus(Integer type) {
         this.type = type;
     }
 

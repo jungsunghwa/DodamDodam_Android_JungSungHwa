@@ -48,7 +48,7 @@ public class LocationClient extends NetworkClient {
         return actionService(null);
     }
 
-    public Single<Response> checkLocation(Token token, int idx){
+    public Single<Response> checkLocation(Token token, int idx) {
         Call<Response> service = location.checkLocation(token.getToken(), idx);
         return actionService(service);
     }

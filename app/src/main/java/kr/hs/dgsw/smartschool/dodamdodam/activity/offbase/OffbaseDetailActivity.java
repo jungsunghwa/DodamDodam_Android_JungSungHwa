@@ -34,7 +34,8 @@ public class OffbaseDetailActivity extends BaseActivity<OffbaseDetailActivityBin
     private static final int TYPE_PASS = 1;
 
     @IntDef({TYPE_LEAVE, TYPE_PASS})
-    private @interface Type {}
+    private @interface Type {
+    }
 
     private int id = -1;
     @Type

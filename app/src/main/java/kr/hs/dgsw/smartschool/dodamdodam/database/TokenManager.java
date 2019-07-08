@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam.database;
 
 import android.content.Context;
 import android.util.Base64;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;

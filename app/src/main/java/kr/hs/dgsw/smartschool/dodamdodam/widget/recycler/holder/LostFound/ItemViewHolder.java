@@ -1,12 +1,11 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound;
 
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
+
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LostfoundItemBinding;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder {

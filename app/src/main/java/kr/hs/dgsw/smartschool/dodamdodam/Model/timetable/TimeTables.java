@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TimeTables{
+public class TimeTables {
     @SerializedName("time_tables")
     private List<Time> timeTables;
 

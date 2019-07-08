@@ -1,23 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
-
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.B1ndService;
-import kr.hs.dgsw.b1nd.service.interfaces.OnGetAllProfileListener;
 import kr.hs.dgsw.b1nd.service.interfaces.OnLoginSuccessListener;
-import kr.hs.dgsw.b1nd.service.model.Member;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginData;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
-import kr.hs.dgsw.b1nd.service.service.B1ndGetAllProfileService;
-import kr.hs.dgsw.b1nd.service.service.B1ndGetClasses;
 import kr.hs.dgsw.b1nd.service.service.B1ndLogin;
 import kr.hs.dgsw.smartschool.dodamdodam.Constants;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class LoginClient {
@@ -31,14 +20,15 @@ public class LoginClient {
             @Override
             @EverythingIsNonNull
             public void onSuccess(int status, String message, String token, String refreshToken) {
-                if (status == 200){
+                if (status == 200) {
                     LoginData loginData = new LoginData();
                     loginData.setToken(token);
                     loginData.setRefreshToken(refreshToken);
 
                     observer.onSuccess(loginData);
                     return;
-                }if (status == 401){
+                }
+                if (status == 401) {
                     observer.onError(new Throwable("아이디 또는 비밀번호가 일치하지 않습니다"));
                 }
                 observer.onError(new Throwable(message));

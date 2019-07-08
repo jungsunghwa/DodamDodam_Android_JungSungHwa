@@ -4,14 +4,16 @@
     tools:targetApi="n_mr1">
 
     <shortcut
-        android:icon="@drawable/ic_bus_apply"
+        android:icon="@drawable/ic_shortcut_bus"
         android:shortcutId="short_bus"
-        android:shortcutShortLabel="@string/title_bus_apply">
+        android:shortcutShortLabel="@string/shortcut_bus_apply">
         <intent
             android:action="android.intent.acion.VIEW"
             android:targetPackage="kr.hs.dgsw.smartschool.dodamdodam"
             android:targetClass="kr.hs.dgsw.smartschool.dodamdodam.activity.SplashActivity">
-            <extra android:name="shortcut" android:value="short_bus"/>
+            <extra
+                android:name="shortcut"
+                android:value="short_bus" />
         </intent>
     </shortcut>
 </shortcuts>

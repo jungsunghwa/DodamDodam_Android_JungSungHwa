@@ -26,7 +26,6 @@
                 app:mwhCloseColor="@color/colorBackground"
                 app:mwhColorAlpha=".3"
                 app:mwhGradientAngle="320"
-                app:mwhIsRunning="false"
                 app:mwhProgress=".7"
                 app:mwhStartColor="@color/colorBackground"
                 app:mwhVelocity="2"
@@ -37,9 +36,7 @@
                 android:id="@+id/root_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="?actionBarSize"
-                android:alpha="0"
-                tools:alpha="1">
+                android:layout_marginTop="?actionBarSize">
 
                 <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamTextDate
                     android:id="@+id/text_date"

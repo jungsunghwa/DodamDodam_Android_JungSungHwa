@@ -1,9 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFounds;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -14,7 +10,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface LostFoundService {

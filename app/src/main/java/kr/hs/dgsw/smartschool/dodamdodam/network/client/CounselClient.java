@@ -21,7 +21,9 @@ import retrofit2.internal.EverythingIsNonNull;
 public class CounselClient {
     private CounselService counsel;
 
-    public CounselClient() { counsel = Utils.RETROFIT.create(CounselService.class); }
+    public CounselClient() {
+        counsel = Utils.RETROFIT.create(CounselService.class);
+    }
 
     public Single<Counsel> getAllCounsel(Token token) {
         return Single.create(observer -> counsel.getAllCounsel(token.getToken()).enqueue(new Callback<Response<Counsel>>() {
