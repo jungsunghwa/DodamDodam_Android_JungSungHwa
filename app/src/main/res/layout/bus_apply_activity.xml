@@ -32,12 +32,13 @@
 
         <CheckBox
             android:id="@+id/eastdaegu_check_btn"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="55dp"
             android:layout_marginTop="233dp"
+            android:layout_marginEnd="1dp"
             android:background="@drawable/busapply_check_box_background"
             android:button="@null"
             android:fontFamily="@font/nanum_square_round"
@@ -50,15 +51,17 @@
             android:textAlignment="center"
             android:textColor="@drawable/text_color_selector"
             android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/daekok_check_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/daekok_check_btn"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="1dp"
             android:layout_marginTop="233dp"
             android:layout_marginEnd="55dp"
             android:background="@drawable/busapply_check_box_background"
@@ -74,16 +77,18 @@
             android:textColor="@drawable/text_color_selector"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/eastdaegu_check_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/yongsan_check_btn"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="55dp"
             android:layout_marginTop="385dp"
+            android:layout_marginEnd="1dp"
             android:background="@drawable/busapply_check_box_background"
             android:button="@null"
             android:fontFamily="@font/nanum_square_round"
@@ -96,17 +101,19 @@
             android:textAlignment="center"
             android:textColor="@drawable/text_color_selector"
             android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/notbus_check_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/notbus_check_btn"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="55dp"
+            android:layout_marginStart="1dp"
             android:layout_marginTop="385dp"
+            android:layout_marginEnd="55dp"
             android:background="@drawable/busapply_check_box_background"
             android:button="@null"
             android:fontFamily="@font/nanum_square_round"
@@ -120,6 +127,7 @@
             android:textColor="@drawable/text_color_selector"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yongsan_check_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
