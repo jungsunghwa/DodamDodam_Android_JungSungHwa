@@ -31,9 +31,9 @@ abstract class BaseViewModel<T> extends ViewModel {
 
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
+    final MutableLiveData<Throwable> error = new MutableLiveData<>();
     public final MutableLiveData<Boolean> loading = new MutableLiveData<>();
-    private final MutableLiveData<T> data = new MutableLiveData<>();
+    final MutableLiveData<T> data = new MutableLiveData<>();
 
     public LiveData<String> getSuccessMessage() {
         return successMessage;

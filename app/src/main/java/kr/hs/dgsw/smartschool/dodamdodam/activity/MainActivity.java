@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
 
         viewModel = new MainViewModel(this);
 
-        viewModel.getMealData().observe(this, meal -> {
+        viewModel.getData().observe(this, meal -> {
             binding.mealItems.mealLunch.setLoading(false);
             if (meal.isExists()) {
                 binding.mealItems.mealBreakfast.setMeal(Optional
@@ -68,7 +68,10 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 binding.mealItems.mealDinner.setMeal(null);
             }
         });
-        viewModel.getLoading().observe(this, loading -> binding.mealItems.mealLunch.setLoading(loading));
+        viewModel.getLoading().observe(this, loading -> {
+            binding.mealItems.mealLunch.setLoading(loading);
+        });
+
         viewModel.getError().observe(this, error -> {
             Log.w(TAG, "ERROR: ", error);
             binding.mealItems.mealLunch.setLoading(false);

@@ -25,10 +25,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.MealSer
  */
 public class MainViewModel extends BaseViewModel<Meal> {
 
-    private final MutableLiveData<Meal> mealData = new MutableLiveData<>();
-    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
-
     private MealClient client;
     private DatabaseHelper helper;
 
@@ -38,14 +34,6 @@ public class MainViewModel extends BaseViewModel<Meal> {
         super(context);
         client = new MealClient();
         helper = DatabaseHelper.getDatabaseHelper(context);
-    }
-
-    public MutableLiveData<Meal> getMealData() {
-        return mealData;
-    }
-
-    public MutableLiveData<Throwable> getError() {
-        return error;
     }
 
     public MutableLiveData<Boolean> getLoading() {
@@ -73,7 +61,7 @@ public class MainViewModel extends BaseViewModel<Meal> {
             public void onSuccess(List<Meal> meal) {
                 if (cacheMonthMeal.get(month) == null)
                     cacheMonthMeal.put(month, meal);
-                mealData.setValue(cacheMonthMeal.get(month).get(day - 1));
+                data.setValue(cacheMonthMeal.get(month).get(day - 1));
                 loading.setValue(false);
             }
 
