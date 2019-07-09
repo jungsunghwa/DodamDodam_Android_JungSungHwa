@@ -12,6 +12,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 public interface MealService {
+
     @GET("meal")
     Single<retrofit2.Response<Response<Meals>>> getAllMeal(
             @Header("x-access-token") String token,

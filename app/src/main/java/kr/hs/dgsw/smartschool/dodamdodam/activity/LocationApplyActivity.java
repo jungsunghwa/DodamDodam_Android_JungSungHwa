@@ -66,9 +66,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         observablePlaceViewModel();
         observableLocationViewModel();
 
-        binding.locationApplyBtn.setOnClickListener(view -> {
-            locationViewModel.postLocation();
-        });
+
     }
 
     @Override

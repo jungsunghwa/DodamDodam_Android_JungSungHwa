@@ -55,4 +55,5 @@ public class LocationClient extends NetworkClient {
     public Single<String> checkLocation(Token token, int idx) {
         return location.checkLocation(token.getToken(), idx).map(Response::getMessage);
     }
+
 }

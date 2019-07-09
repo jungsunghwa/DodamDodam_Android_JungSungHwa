@@ -74,12 +74,14 @@ abstract class BaseViewModel<T> extends ViewModel {
         public void onSuccess(String s) {
             successMessage.setValue(s);
             loading.setValue(false);
+            baseObserver.dispose();
         }
 
         @Override
         public void onError(Throwable e) {
             errorMessage.setValue(e.getMessage());
             loading.setValue(false);
+            baseObserver.dispose();
         }
     };
 
@@ -88,6 +90,7 @@ abstract class BaseViewModel<T> extends ViewModel {
         public void onSuccess(T t) {
             data.setValue(t);
             loading.setValue(false);
+            dataObserver.dispose();
         }
 
         @Override
@@ -95,6 +98,7 @@ abstract class BaseViewModel<T> extends ViewModel {
             errorMessage.setValue(e.getMessage());
             error.setValue(e);
             loading.setValue(false);
+            dataObserver.dispose();
         }
     };
 

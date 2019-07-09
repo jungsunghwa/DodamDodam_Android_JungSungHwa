@@ -34,7 +34,7 @@ public class BusClient extends NetworkClient {
 
     public Single<Bus> getMyBusApply(Token token) {
         return bus.getMyBusApply(token.getToken()).map(getResponseObjectsFunction());
-//
+
 //        return Single.create(observer -> {
 //            bus.getMyBusApply(token).enqueue(new Callback<Response<Bus>>() {
 //                @Override
