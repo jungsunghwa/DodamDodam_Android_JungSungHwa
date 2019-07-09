@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -13,13 +13,143 @@
             android:id="@+id/appbar_layout"
             layout="@layout/app_bar" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/root_layout"
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/lostfound_card_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="478dp"
+            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:checkable="true"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar_layout"
+            app:layout_constraintVertical_bias="0.11">
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/lostfound_card_image_view"
+                android:layout_width="378dp"
+                android:layout_height="169dp"
+                android:layout_margin="8dp"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#5D6EF5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appbar_layout"
+                app:layout_constraintVertical_bias="0.11">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <CheckBox
+                android:id="@+id/kindof_checkbox"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="190dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/lostfound_item_box_background"
+                android:button="@null"
+                android:fontFamily="@font/nanum_square_round"
+                android:text="분실물"
+                android:textAlignment="center"
+                android:textColor="#5C5FE1"
+                app:layout_constraintEnd_toStartOf="@+id/lostfound_spinner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/writing_place_edittext"
+                android:layout_width="280dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="190dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/lostfound_item_box_background"
+                android:ems="10"
+                android:paddingLeft="20dp"
+                android:hint="장소입력"
+                android:fontFamily="@font/nanum_square_round"
+                android:textSize="6pt"/>
+
+            <EditText
+                android:id="@+id/writing_title_edittext"
+                android:layout_width="370dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="240dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/lostfound_item_box_background"
+                android:ems="10"
+                android:paddingLeft="20dp"
+                android:hint="제목"
+                android:fontFamily="@font/nanum_square_round"
+                android:textSize="6pt"/>
+
+            <EditText
+                android:id="@+id/writing_content_edittext"
+                android:layout_width="370dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="290dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/lostfound_item_box_background"
+                android:ems="10"
+                android:paddingLeft="20dp"
+                android:hint="내용"
+                android:fontFamily="@font/nanum_square_round"
+                android:textSize="6pt"/>
+
+            <EditText
+                android:id="@+id/writing_contact_edittext"
+                android:layout_width="370dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="420dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/lostfound_item_box_background"
+                android:ems="10"
+                android:paddingLeft="20dp"
+                android:hint="전화번호"
+                android:fontFamily="@font/nanum_square_round"
+                android:textSize="6pt"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/nanum_square_round"
+            android:text="확인"
+            android:backgroundTint="#6B48F7"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lostfound_card_view" />
+
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/scrimBackground"
+            android:visibility="invisible"
+            app:layout_behavior="@string/fab_transformation_scrim_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

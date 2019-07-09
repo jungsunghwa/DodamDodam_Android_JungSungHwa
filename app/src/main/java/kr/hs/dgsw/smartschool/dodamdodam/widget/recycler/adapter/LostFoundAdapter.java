@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 
 import java.util.List;
 
@@ -22,10 +21,10 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private List<LostFound> lostFounds;
-    private RequestManager glide;
+    Context context;
 
     public LostFoundAdapter(Context context, List<LostFound> lostFounds) {
-        this.glide = Glide.with(context);
+        this.context = context;
         this.lostFounds = lostFounds;
     }
 
@@ -66,20 +65,15 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return lostFounds.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        glide = null;
-    }
-
     private void populateItemRows(ItemViewHolder viewHolder, int position, LostFound lostFound) {
         viewHolder.binding.lostfoundTitle.setText(lostFound.getTitle());
         viewHolder.binding.lostfoundName.setText(lostFound.getMemberId());
         viewHolder.binding.lostfoundUploadTime.setText(lostFound.getUpload_time());
         if (lostFound.getPicture().get(0).getUrl() == null) {
-            glide.load(R.drawable.ic_error).into(viewHolder.binding.lostfoundImageview);
+            Glide.with(context).load(R.drawable.ic_error).into(viewHolder.binding.lostfoundImageview);
         } else {
-            glide.load(lostFound.getPicture().get(0).getUrl()).into(viewHolder.binding.lostfoundImageview);
+            Log.d("TAG", lostFound.getPicture().get(0).getUrl().toString());
+            Glide.with(context).load(lostFound.getPicture().get(0).getUrl()).into(viewHolder.binding.lostfoundImageview);
         }
     }
 

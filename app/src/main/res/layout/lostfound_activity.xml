@@ -41,12 +41,14 @@
                 android:layout_height="47dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="120dp"
-                android:background="@drawable/lostfound_check_box_background"
-                android:textColor="#5C5FE1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/lostfound_item_box_background"
                 android:button="@null"
                 android:fontFamily="@font/nanum_square_round"
                 android:text="전체 글"
                 android:textAlignment="center"
+                android:textColor="#5C5FE1"
+                app:layout_constraintEnd_toStartOf="@+id/lostfound_spinner"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,16 +66,21 @@
                 android:id="@+id/searchEditText"
                 android:layout_width="169dp"
                 android:layout_height="41dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="120dp"
                 android:layout_marginEnd="16dp"
+                android:background="@drawable/lostfound_item_box_background"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="검색"
+                android:imeOptions="actionSearch"
+                android:inputType="textPersonName"
+                android:paddingLeft="10dp"
+                android:fontFamily="@font/nanum_square_round"
+                android:textSize="6pt"
                 android:textColor="#808080"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:imeOptions="actionSearch"
-                android:background="@drawable/lostfound_search_edittext_background"/>
+                app:layout_constraintStart_toEndOf="@+id/lostfound_spinner"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -83,7 +90,11 @@
             android:layout_height="match_parent"
             android:background="?attr/scrimBackground"
             android:visibility="invisible"
-            app:layout_behavior="@string/fab_transformation_scrim_behavior" />
+            app:layout_behavior="@string/fab_transformation_scrim_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/lostfound_writing_btn"

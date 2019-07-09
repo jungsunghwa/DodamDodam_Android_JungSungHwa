@@ -4,11 +4,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -18,8 +21,6 @@ import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class BusClient {
-    private static final String ERROR_NETWORK = "네트워크 상태를 확인하세요";
-
     private BusService bus;
 
     public BusClient() {
@@ -48,7 +49,7 @@ public class BusClient {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable(ERROR_NETWORK));
+                observer.onError(new Throwable("네트워크상태를 확인하세요"));
             }
         }));
     }
@@ -75,7 +76,7 @@ public class BusClient {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable(ERROR_NETWORK));
+                observer.onError(new Throwable("네트워크상태를 확인하세요"));
             }
         }));
     }
@@ -86,9 +87,7 @@ public class BusClient {
             @EverythingIsNonNull
             public void onResponse(Call<Response<Bus>> call, retrofit2.Response<Response<Bus>> response) {
                 if (response.isSuccessful()) {
-                    Bus bus = response.body().getData();
-                    if (bus == null) return;
-                    observer.onSuccess(bus);
+                    observer.onSuccess(response.body().getData());
                 } else {
                     try {
                         JSONObject errorBody = new JSONObject(Objects
@@ -104,7 +103,7 @@ public class BusClient {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<Response<Bus>> call, Throwable t) {
-                observer.onError(new Throwable(ERROR_NETWORK));
+                observer.onError(new Throwable("네트워크상태를 확인하세요"));
             }
         }));
     }
@@ -131,8 +130,36 @@ public class BusClient {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable(ERROR_NETWORK));
+                observer.onError(new Throwable("네트워크상태를 확인하세요"));
             }
         }));
     }
+
+    public Single<Types> getBusType(Token token) {
+        return Single.create(observer -> bus.getBusType(token.getToken()).enqueue(new Callback<Response<Types>>() {
+            @Override
+            public void onResponse(Call<Response<Types>> call, retrofit2.Response<Response<Types>> response) {
+                if (response.isSuccessful()) {
+                    observer.onSuccess(response.body().getData());
+                } else {
+                    try {
+                        JSONObject errorBody = new JSONObject(Objects
+                                .requireNonNull(
+                                        response.errorBody().string()));
+                        observer.onError(new Throwable(errorBody.getString("message")));
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Response<Types>> call, Throwable t) {
+                observer.onError(new Throwable("네트워크상태를 확인하세요"));
+            }
+        }));
+    }
+
+
 }
