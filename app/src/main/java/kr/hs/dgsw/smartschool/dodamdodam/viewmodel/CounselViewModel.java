@@ -9,11 +9,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.annimon.stream.Stream;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import kr.hs.dgsw.b1nd.service.model.Member;
+import kr.hs.dgsw.b1nd.service.model.Teacher;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
+import kr.hs.dgsw.smartschool.dodamdodam.Utils;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.CounselClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
@@ -22,9 +32,11 @@ public class CounselViewModel extends ViewModel {
     private CounselClient counselClient;
     private CompositeDisposable disposable;
     private TokenManager manager;
+    private DatabaseHelper helper;
 
-    private final MutableLiveData<Counsel> response = new MutableLiveData<>();
+    private final MutableLiveData<List<Counsel>> response = new MutableLiveData<>();
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> success = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
@@ -34,20 +46,21 @@ public class CounselViewModel extends ViewModel {
         manager = TokenManager.getInstance(context);
     }
 
-    public LiveData<Counsel> getResponse() {
+    public LiveData<List<Counsel>> getResponse() {
         return response;
     }
-
     public LiveData<String> getIsSuccess() {
         return isSuccess;
     }
-
     public LiveData<String> getError() {
         return errorMessage;
     }
-
     public LiveData<Boolean> getLoading() {
         return loading;
+    }
+
+    public MutableLiveData<Boolean> getSuccess() {
+        return success;
     }
 
     @SuppressLint("CheckResult")
@@ -57,11 +70,11 @@ public class CounselViewModel extends ViewModel {
                 manager.getToken())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
-                        new DisposableSingleObserver<Counsel>() {
+                        new DisposableSingleObserver<List<Counsel>>() {
                             @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
-                            public void onSuccess(Counsel counsel) {
-                                response.setValue(counsel);
+                            public void onSuccess(List<Counsel> counsels) {
+                                response.setValue(counsels);
                                 loading.setValue(false);
                             }
 
@@ -80,7 +93,7 @@ public class CounselViewModel extends ViewModel {
         disposable.add(counselClient.postCounsel(
                 manager.getToken(), request)
                 .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
+                .subscribeWith(new DisposableSingleObserver<String>(){
                     @Override
                     public void onSuccess(String s) {
                         isSuccess.setValue(s);
@@ -95,17 +108,16 @@ public class CounselViewModel extends ViewModel {
                 }));
     }
 
-    @SuppressLint("CheckResult")
     public void getCertainCounsel(int counselIdx) {
         loading.setValue(true);
         disposable.add(counselClient.getCertainCounsel(
                 manager.getToken(), counselIdx)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(
-                        new DisposableSingleObserver<Counsel>() {
+                        new DisposableSingleObserver<List<Counsel>>() {
                             @Override
-                            public void onSuccess(Counsel counsel) {
-                                response.setValue(counsel);
+                            public void onSuccess(List<Counsel> counsels) {
+                                response.setValue(counsels);
                                 loading.setValue(false);
                             }
 
@@ -181,4 +193,6 @@ public class CounselViewModel extends ViewModel {
                     }
                 }));
     }
+
+
 }

@@ -129,6 +129,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getMemberInfo(res);
     }
 
+    public Member getTeacherByIdx(int idx) {
+        final SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM teacher WHERE idx =  '" + idx + "'", null);
+
+        String memberId = null;
+
+        while (res.moveToNext()) {
+            memberId = res.getString(res.getColumnIndex("memberId"));
+        }
+
+        if (memberId == null) return null;
+        res = db.rawQuery("SELECT * FROM member WHERE id =  '" + memberId + "'", null);
+
+        return getMemberInfo(res);
+    }
+
     public Member getMemberInfo(Cursor res) {
         final Member member = new Member();
 

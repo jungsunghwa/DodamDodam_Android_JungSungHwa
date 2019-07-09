@@ -1,8 +1,13 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
+import java.util.List;
+
+import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
+import kr.hs.dgsw.b1nd.service.retrofit2.response.member.MemberData;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsels;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Teachers;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
@@ -15,7 +20,7 @@ import retrofit2.http.Path;
 
 public interface CounselService {
     @GET("/counsel")
-    Call<Response<Counsel>> getAllCounsel(
+    Call<Response<List<Counsel>>> getAllCounsel(
             @Header("x-access-token") String token
     );
 
@@ -26,7 +31,7 @@ public interface CounselService {
     );
 
     @GET("/counsel/{counsel_idx}")
-    Call<Response<Counsel>> getCertainCounsel(
+    Call<Response<List<Counsel>>> getCertainCounsel(
             @Header("x-access-token") String token,
             @Path("counsel_idx") int counselIdx
     );
@@ -50,7 +55,7 @@ public interface CounselService {
     );
 
     @GET("/members/teachers")
-    Call<Response<Teacher>> getTeacher(
+    Call<Response<Teachers>> getTeacher(
             @Header("x-access-token") String token
     );
 }

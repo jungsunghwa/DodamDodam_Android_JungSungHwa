@@ -76,8 +76,12 @@
         <activity
             android:name=".activity.LostFoundWritingActivity"
             android:label="@string/title_lostfound_writing"/>
-
-        <activity android:name=".activity.CounselActivity" />
+        <activity
+            android:name=".activity.CounselActivity"
+            android:label="@string/title_counsel" />
+        <activity
+            android:name=".activity.CounselApplyActivity"
+            android:label="@string/title_counsel_apply"/>
     </application>
 
 </manifest>

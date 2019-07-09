@@ -24,7 +24,6 @@ public class StudentClient {
         return Single.create(observer -> new B1ndGetAllProfileService().getAllProfile(token.getToken(), new OnGetAllProfileListener() {
             @Override
             public void onGetAllProfileSuccess(int status, ArrayList<Member> members) {
-
                 observer.onSuccess(members);
             }
 

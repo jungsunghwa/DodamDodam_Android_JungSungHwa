@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/counsel_imageview"
+                android:id="@+id/teacher_imageview"
                 android:layout_width="78dp"
                 android:layout_height="74dp"
                 android:layout_marginStart="16dp"
@@ -31,43 +31,31 @@
                 app:srcCompat="@mipmap/ic_launcher" />
 
             <TextView
-                android:id="@+id/counsel_title"
+                android:id="@+id/teacher_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="25dp"
                 android:fontFamily="@font/nanum_square_round"
-                android:text="Title"
-                android:textColor="#000000"
-                android:textSize="14dp"
-                app:layout_constraintStart_toEndOf="@+id/counsel_imageview"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/counsel_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="35dp"
-                android:fontFamily="@font/nanum_square_regular"
                 android:text="Name"
                 android:textColor="#000000"
-                android:textSize="11dp"
-                app:layout_constraintStart_toEndOf="@+id/counsel_imageview"
+                android:textSize="14dp"
+                app:layout_constraintStart_toEndOf="@+id/teacher_imageview"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/counsel_upload_time"
+                android:id="@+id/teacher_part"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="50dp"
                 android:fontFamily="@font/nanum_square_regular"
-                android:text="UploadTime"
+                android:text="Part"
                 android:textColor="#000000"
-                android:textSize="9dp"
-                app:layout_constraintStart_toEndOf="@+id/counsel_imageview"
+                android:textSize="11dp"
+                app:layout_constraintStart_toEndOf="@+id/teacher_imageview"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

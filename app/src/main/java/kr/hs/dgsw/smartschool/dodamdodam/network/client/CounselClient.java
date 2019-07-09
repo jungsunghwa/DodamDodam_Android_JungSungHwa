@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
@@ -21,15 +22,13 @@ import retrofit2.internal.EverythingIsNonNull;
 public class CounselClient {
     private CounselService counsel;
 
-    public CounselClient() {
-        counsel = Utils.RETROFIT.create(CounselService.class);
-    }
+    public CounselClient() { counsel = Utils.RETROFIT.create(CounselService.class); }
 
-    public Single<Counsel> getAllCounsel(Token token) {
-        return Single.create(observer -> counsel.getAllCounsel(token.getToken()).enqueue(new Callback<Response<Counsel>>() {
+    public Single<List<Counsel>> getAllCounsel(Token token) {
+        return Single.create(observer -> counsel.getAllCounsel(token.getToken()).enqueue(new Callback<Response<List<Counsel>>>() {
             @Override
             @EverythingIsNonNull
-            public void onResponse(Call<Response<Counsel>> call, retrofit2.Response<Response<Counsel>> response) {
+            public void onResponse(Call<Response<List<Counsel>>> call, retrofit2.Response<Response<List<Counsel>>> response) {
                 if (response.isSuccessful()) {
                     observer.onSuccess(response.body().getData());
                 } else {
@@ -46,7 +45,7 @@ public class CounselClient {
 
             @Override
             @EverythingIsNonNull
-            public void onFailure(Call<Response<Counsel>> call, Throwable t) {
+            public void onFailure(Call<Response<List<Counsel>>> call, Throwable t) {
                 observer.onError(new Throwable("네트워크상태를 확인하세요"));
             }
         }));
@@ -79,11 +78,11 @@ public class CounselClient {
         }));
     }
 
-    public Single<Counsel> getCertainCounsel(Token token, int counselIdx) {
-        return Single.create(observer -> counsel.getCertainCounsel(token.getToken(), counselIdx).enqueue(new Callback<Response<Counsel>>() {
+    public Single<List<Counsel>> getCertainCounsel(Token token, int counselIdx) {
+        return Single.create(observer -> counsel.getCertainCounsel(token.getToken(), counselIdx).enqueue(new Callback<Response<List<Counsel>>>() {
             @Override
             @EverythingIsNonNull
-            public void onResponse(Call<Response<Counsel>> call, retrofit2.Response<Response<Counsel>> response) {
+            public void onResponse(Call<Response<List<Counsel>>> call, retrofit2.Response<Response<List<Counsel>>> response) {
                 if (response.isSuccessful()) {
                     observer.onSuccess(response.body().getData());
                 } else {
@@ -100,7 +99,7 @@ public class CounselClient {
 
             @Override
             @EverythingIsNonNull
-            public void onFailure(Call<Response<Counsel>> call, Throwable t) {
+            public void onFailure(Call<Response<List<Counsel>>> call, Throwable t) {
                 observer.onError(new Throwable("네트워크상태를 확인하세요"));
             }
         }));

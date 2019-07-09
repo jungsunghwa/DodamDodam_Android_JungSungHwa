@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,33 +8,32 @@ import java.io.IOException;
 import java.util.Objects;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Teachers;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.CounselService;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.internal.EverythingIsNonNull;
 
 public class TeacherClient {
-    private CounselService counsel;
+    CounselService counsel;
 
     public TeacherClient() {
         counsel = Utils.RETROFIT.create(CounselService.class);
     }
 
-    public Single<Teacher> getTeacher(Token token) {
-        return Single.create(observer -> counsel.getTeacher(token.getToken()).enqueue(new Callback<Response<Teacher>>() {
+    public Single<Teachers> getTeacher(Token token) {
+        return Single.create(observer -> counsel.getTeacher(token.getToken()).enqueue(new Callback<Response<Teachers>>() {
             @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<Teacher>> call, retrofit2.Response<Response<Teacher>> response) {
+            public void onResponse(Call<Response<Teachers>> call, retrofit2.Response<Response<Teachers>> response) {
                 if (response.isSuccessful()) {
                     observer.onSuccess(response.body().getData());
                 } else {
                     try {
                         JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(response.errorBody()).string());
+                                .requireNonNull(
+                                        response.errorBody()).string());
                         observer.onError(new Throwable(errorBody.getString("message")));
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
@@ -42,8 +42,7 @@ public class TeacherClient {
             }
 
             @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<Teacher>> call, Throwable t) {
+            public void onFailure(Call<Response<Teachers>> call, Throwable t) {
                 observer.onError(new Throwable("네트워크상태를 확인하세요"));
             }
         }));
