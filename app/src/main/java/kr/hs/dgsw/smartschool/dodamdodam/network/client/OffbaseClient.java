@@ -83,7 +83,7 @@ public class OffbaseClient extends NetworkClient {
     }
 
     public Single<String> postPass(Token token, OffbaseRequest request) {
-        return offbase.postLeave(token.getToken(), request).map(Response::getMessage);
+        return offbase.postPass(token.getToken(), request).map(Response::getMessage);
     }
 
     public Single<String> putPass(Token token, int passId, OffbaseRequest request) {
