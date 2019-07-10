@@ -5,11 +5,8 @@ import java.util.List;
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsels;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Teachers;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -19,7 +16,7 @@ import retrofit2.http.Path;
 
 public interface CounselService {
     @GET("/counsel")
-    Single<retrofit2.Response<Response<Counsel>>> getAllCounsel(
+    Single<retrofit2.Response<Response<List<Counsel>>>> getAllCounsel(
             @Header("x-access-token") String token
     );
 
@@ -42,13 +39,13 @@ public interface CounselService {
     );
 
     @POST("/counsel/allow")
-    Single<Response<Counsels>> postCounselAllow(
+    Single<Response> postCounselAllow(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @POST("/counsel/cancel")
-    Single<Response<Counsels>> postCounselCancel(
+    Single<Response> postCounselCancel(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );

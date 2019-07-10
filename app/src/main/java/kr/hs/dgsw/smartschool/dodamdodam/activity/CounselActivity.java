@@ -66,9 +66,9 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> {
             }
         });
 
-        counselViewModel.getErrorMessage().observe(this, errorMessage -> {
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
-        });
+        counselViewModel.getError().observe(this, Throwable::printStackTrace);
+
+        counselViewModel.getErrorMessage().observe(this, errorMessage -> Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show());
     }
 
     private void setRecyclerView() {
