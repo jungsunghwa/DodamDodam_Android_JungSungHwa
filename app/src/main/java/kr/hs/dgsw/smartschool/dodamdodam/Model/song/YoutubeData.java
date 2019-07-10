@@ -7,18 +7,14 @@ import java.util.Locale;
 
 public class YoutubeData implements Parcelable {
 
+    private static final String[] qualities = {"default", "mqdefault", "hqdefault", "sddefault", "maxresdefault", "0", "1", "2", "3"};
+
     private String videoId;
     private String thumbnailUrl;
     private String videoTitle;
     private String channelTitle;
 
     public YoutubeData() {
-    }
-
-    public YoutubeData(String videoId, String videoTitle, String channelTitle) {
-        this.videoId = videoId;
-        this.videoTitle = videoTitle;
-        this.channelTitle = channelTitle;
     }
 
     public YoutubeData(String videoId, String thumbnailUrl, String videoTitle, String channelTitle) {
@@ -57,6 +53,28 @@ public class YoutubeData implements Parcelable {
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
+    }
+
+    public String getLowerThumbnailUrl() {
+        String lowerQuality;
+        String[] splits = thumbnailUrl.split("/");
+        switch (splits[4]) {
+            case "hqdefault":
+            case "0":
+                lowerQuality = "mqdefault";
+                break;
+            case "standard":
+                lowerQuality = "hqdefault";
+                break;
+            case "maxresdefault":
+                lowerQuality = "standard";
+                break;
+            default:
+                lowerQuality = "default";
+                break;
+        }
+
+        return "https://i.ytimg.com/vi/" + videoId + '/' + lowerQuality + ".jpg";
     }
 
     public void setThumbnailUrl(String thumbnailUrl) {

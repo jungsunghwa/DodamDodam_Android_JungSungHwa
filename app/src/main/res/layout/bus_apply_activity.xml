@@ -32,6 +32,7 @@
 
         <CheckBox
             android:id="@+id/bus_check_btn_one"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_alignParentStart="true"
@@ -55,6 +56,7 @@
 
         <CheckBox
             android:id="@+id/bus_check_btn_two"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_alignParentTop="true"
@@ -78,6 +80,7 @@
 
         <CheckBox
             android:id="@+id/bus_check_btn_three"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_alignParentStart="true"
@@ -101,6 +104,7 @@
 
         <CheckBox
             android:id="@+id/bus_check_btn_four"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_alignParentTop="true"

@@ -17,7 +17,7 @@
             android:layout_height="match_parent">
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/thumbnailImage"
+                android:id="@+id/image_thumbnail"
                 android:layout_width="88dp"
                 android:layout_height="88dp"
                 android:layout_marginStart="16dp"
@@ -31,7 +31,7 @@
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
-                android:id="@+id/video_title_text"
+                android:id="@+id/text_video_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -45,14 +45,14 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/channel_title_text"
+                app:layout_constraintBottom_toTopOf="@+id/text_channel_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/thumbnailImage"
-                app:layout_constraintTop_toTopOf="@+id/thumbnailImage"
+                app:layout_constraintStart_toEndOf="@+id/image_thumbnail"
+                app:layout_constraintTop_toTopOf="@+id/image_thumbnail"
                 tools:text="Video Name" />
 
             <TextView
-                android:id="@+id/channel_title_text"
+                android:id="@+id/text_channel_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -60,10 +60,10 @@
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/nanum_square_round"
                 android:textAlignment="textStart"
-                app:layout_constraintBottom_toBottomOf="@+id/thumbnailImage"
+                app:layout_constraintBottom_toBottomOf="@+id/image_thumbnail"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/thumbnailImage"
-                app:layout_constraintTop_toBottomOf="@+id/video_title_text"
+                app:layout_constraintStart_toEndOf="@+id/image_thumbnail"
+                app:layout_constraintTop_toBottomOf="@+id/text_video_title"
                 tools:text="Channel Name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

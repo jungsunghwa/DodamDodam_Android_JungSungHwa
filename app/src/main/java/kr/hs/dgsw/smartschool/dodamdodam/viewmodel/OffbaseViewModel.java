@@ -28,7 +28,6 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private final MutableLiveData<String> message = new MutableLiveData<>();
-    private final MutableLiveData<Offbase> offbaseData = new MutableLiveData<>();
     private final MutableLiveData<List<Leave>> leavesData = new MutableLiveData<>();
     private final MutableLiveData<List<Pass>> passesData = new MutableLiveData<>();
     private final MutableLiveData<Leave> leaveData = new MutableLiveData<>();
@@ -55,10 +54,6 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public MutableLiveData<String> getMessage() {
         return message;
-    }
-
-    public MutableLiveData<Offbase> getOffbase() {
-        return offbaseData;
     }
 
     public MutableLiveData<List<Leave>> getLeaves() {
@@ -89,7 +84,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                         new DisposableSingleObserver<Offbase>() {
                             @Override
                             public void onSuccess(Offbase offbase) {
-                                offbaseData.setValue(offbase);
+                                data.setValue(offbase);
                                 loading.setValue(false);
                             }
 
@@ -108,7 +103,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                         new DisposableSingleObserver<Offbase>() {
                             @Override
                             public void onSuccess(Offbase offbase) {
-                                offbaseData.setValue(offbase);
+                                data.setValue(offbase);
                                 loading.setValue(false);
                             }
 

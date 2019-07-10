@@ -29,6 +29,7 @@ public class PlaceViewModel extends BaseViewModel {
         manager = TokenManager.getInstance(context);
     }
 
+    @Override
     public LiveData<List<Place>> getData() {
         return data;
     }

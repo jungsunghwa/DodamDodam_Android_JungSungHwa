@@ -1,16 +1,11 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
-import android.content.Context;
 import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
@@ -20,13 +15,12 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
+@SuppressWarnings("unchecked")
 public class NetworkClient {
 
     private CompositeDisposable disposable;
@@ -80,16 +74,16 @@ public class NetworkClient {
 
     <T> Function<retrofit2.Response<Response<T>>, T> getResponseObjectsFunction() {
         return response -> {
-                    if (!response.isSuccessful()) {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        Log.e("aaa", errorBody.getString("message"));
-                        throw new Exception(errorBody.getString("message"));
-                    }
-                    Log.e("aaa", response.body().getStatus() + "");
-                    return (T) response.body().getData();
-                };
+            if (!response.isSuccessful()) {
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("Status", errorBody.getString("message"));
+                throw new Exception(errorBody.getString("message"));
+            }
+            Log.e("Status", response.body().getStatus() + "");
+            return (T) response.body().getData();
+        };
     }
 
     <T extends retrofit2.Response, R> Function<retrofit2.Response<Response<T>>, R> ddd() {
@@ -98,10 +92,10 @@ public class NetworkClient {
                 JSONObject errorBody = new JSONObject(Objects
                         .requireNonNull(
                                 response.errorBody()).string());
-                Log.e("aaa", errorBody.getString("message"));
+                Log.e("Status", errorBody.getString("message"));
                 throw new Exception(errorBody.getString("message"));
             }
-            Log.e("aaa", response.body().getStatus() + "");
+            Log.e("Status", response.body().getStatus() + "");
             return (R) response.body().getData();
         };
     }

@@ -1,12 +1,14 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.annimon.stream.Optional;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
@@ -22,10 +24,26 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.SongViewHolder;
 public class SongListAdapter extends RecyclerView.Adapter<SongViewHolder> {
 
     private RequestManager glide;
-    private List<YoutubeData> list;
+    private List<VideoYoutubeData> list;
 
-    public SongListAdapter(Context context, List<Video> list) {
+    private OnItemClickListener<VideoYoutubeData> clickListener;
+
+    private String quality;
+
+    public SongListAdapter(Context context, OnItemClickListener<VideoYoutubeData> clickListener) {
         glide = Glide.with(context.getApplicationContext());
+        this.clickListener = clickListener;
+        this.quality = PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.pref_key_thumbnail), "default");
+        if (quality != null && quality.equals("frame"))
+            quality = PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.pref_key_frame), "1");
+    }
+
+    public SongListAdapter(Context context, List<Video> list, OnItemClickListener<VideoYoutubeData> clickListener) {
+        glide = Glide.with(context.getApplicationContext());
+        this.clickListener = clickListener;
+        this.quality = PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.pref_key_thumbnail), "default");
+        if (quality != null && quality.equals("frame"))
+            quality = PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.pref_key_frame), "1");
         this.list = convertToYoutube(list);
     }
 
@@ -37,16 +55,20 @@ public class SongListAdapter extends RecyclerView.Adapter<SongViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
-        final YoutubeData data = list.get(position);
+        final VideoYoutubeData data = list.get(position);
 
-        glide.load(data.getThumbnailUrl()).into(holder.binding.thumbnailImage);
-        holder.binding.videoTitleText.setText(data.getVideoTitle());
-        holder.binding.channelTitleText.setText(data.getChannelTitle());
+        glide.load(data.getThumbnailUrl()).into(holder.binding.imageThumbnail);
+        holder.binding.textVideoTitle.setText(data.getVideoTitle());
+        holder.binding.textChannelTitle.setText(data.getChannelTitle());
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null)
+                clickListener.onItemClick(data);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return Optional.ofNullable(list).map(List::size).orElse(0);
     }
 
     @Override
@@ -55,10 +77,15 @@ public class SongListAdapter extends RecyclerView.Adapter<SongViewHolder> {
         glide = null;
     }
 
-    private List<YoutubeData> convertToYoutube(List<Video> videos) {
-        List<YoutubeData> list = new ArrayList<>();
+    public void setList(List<Video> list) {
+        this.list = convertToYoutube(list);
+        notifyDataSetChanged();
+    }
+
+    private List<VideoYoutubeData> convertToYoutube(List<Video> videos) {
+        List<VideoYoutubeData> list = new ArrayList<>();
         for (Video video : videos) {
-            list.add(new VideoYoutubeData(video));
+            list.add(new VideoYoutubeData(video, quality));
         }
 
         return list;

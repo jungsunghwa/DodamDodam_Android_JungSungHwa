@@ -19,7 +19,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 
 public class BusViewModel extends BaseViewModel<Bus> {
 
-    private final MutableLiveData<Bus> responseBus = new MutableLiveData<>();
     private final MutableLiveData<Types> responseTypes = new MutableLiveData<>();
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();

@@ -29,7 +29,6 @@ public class MainViewModel extends BaseViewModel<Meal> {
 
     private static SparseArray<List<Meal>> cacheMonthMeal = new SparseArray<>();
 
-    private final MutableLiveData<Meal> mealData = new MutableLiveData<>();
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private CompositeDisposable disposable;

@@ -136,10 +136,58 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
          */
         if (mode != Configuration.UI_MODE_NIGHT_YES)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                flags ^= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
                 getWindow().getDecorView().setSystemUiVisibility(flags);
             } else
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+    }
+
+    /**
+     * 네비게이션 바를 어두움(버튼 밝게)으로 설정
+     */
+    protected void darkNavMode() {
+        int flags = getWindow().getDecorView().getSystemUiVisibility();
+        /*
+            버전이 Oreo 미만일때, 네비바를 어둡게 설정하지 않음
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            flags ^= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            getWindow().getDecorView().setSystemUiVisibility(flags);
+        } else
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+    }
+
+    /**
+     * 상태바를 밝음(아이콘 어둡게)으로 설정
+     */
+    protected void lightStatusMode() {
+        int flags = getWindow().getDecorView().getSystemUiVisibility();
+        int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        /*
+            버전이 Marshmallow 미만 또는
+            야간 모드일때, 상태바를 밝게 설정하지 않음
+         */
+        if (mode != Configuration.UI_MODE_NIGHT_YES)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                getWindow().getDecorView().setSystemUiVisibility(flags);
+            } else
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
+
+    /**
+     * 상태바를 어두움(아이콘 밝게)으로 설정
+     */
+    protected void darkStatusMode() {
+        int flags = getWindow().getDecorView().getSystemUiVisibility();
+        /*
+            버전이 Marshmallow 미만일때, 상태바를 어둡게 설정하지 않음
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags ^= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            getWindow().getDecorView().setSystemUiVisibility(flags);
+        } else
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
     /**

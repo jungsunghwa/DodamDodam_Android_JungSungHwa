@@ -31,12 +31,12 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        lightNavMode();
         studentViewModel = new StudentViewModel(this);
         manager = TokenManager.getInstance(this);
         Token token = manager.getToken();
         if (!token.isEmpty()) {
             if (manager.isValidate()) {
-                Log.d(TAG, "Token: " + token.getToken());
                 if (token.getRefreshToken() != null) {
                     if (manager.isValidateRefresh())
                         Log.d(TAG, "Refresh Token: " + token.getRefreshToken());
@@ -47,7 +47,6 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
 
                 String shortcut = getIntent().getStringExtra("shortcut");
                 if (shortcut != null) {
-                    Log.d(TAG, "onCreate: " + shortcut);
                     switch (shortcut) {
                         case SHORTCUT_BUS:
                             startActivitiesWithFinish(MainActivity.class, BusApplyActivity.class);

@@ -143,7 +143,7 @@
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header"
             app:itemIconTint="?colorControlNormal"
-            app:menu="@menu/menu_main" />
+            app:menu="@menu/menu_nav" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

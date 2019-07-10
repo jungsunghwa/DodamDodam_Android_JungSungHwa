@@ -10,7 +10,7 @@
         <com.scwang.wave.MultiWaveHeader
             android:id="@+id/wave"
             android:layout_width="match_parent"
-            android:layout_height="95dp"
+            android:layout_height="96dp"
             app:mwhCloseColor="#5800C5"
             app:mwhGradientAngle="0"
             app:mwhStartColor="#3096F8"

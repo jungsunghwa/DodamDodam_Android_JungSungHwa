@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.annimon.stream.Optional;
 
@@ -105,6 +107,21 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     protected void onCreatePhone(@Nullable Bundle savedInstanceState) {
         super.onCreatePhone(savedInstanceState);
+        binding.drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                lightStatusMode();
+                lightNavMode();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                darkStatusMode();
+                darkNavMode();
+            }
+        });
         drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.appbarLayout.toolbar, R.string.desc_drawer_open, R.string.desc_drawer_close);
         binding.drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -137,10 +154,19 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         Intent intent;
         switch (id) {
+            case R.id.menu_settings:
+                startActivity(new Intent(this, PreferenceActivity.class));
+                break;
             case R.id.menu_song_apply:
                 if (Utils.identity == Identity.STUDENT)
                     intent = new Intent(this, SongListActivity.class);

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3096F8</color>
     <color name="colorPrimaryDark">#254de3</color>
-    <color name="colorSecondary">#5800c5</color>
+    <color name="colorSecondary">#6400e0</color>
     <color name="colorControlNormal">#076FE4</color>
     <color name="colorOffbaseOK">#81C784</color>
     <color name="colorOffbaseCancel">#E57373</color>

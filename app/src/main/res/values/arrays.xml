@@ -38,4 +38,36 @@
         <item>습득물</item>
     </string-array>
 
+    <string-array name="thumbnail_type_text">
+        <item>@string/thumbnail_low</item>
+        <item>@string/thumbnail_middle</item>
+        <item>@string/thumbnail_high</item>
+        <item>@string/thumbnail_standard</item>
+        <item>@string/thumbnail_max</item>
+        <item>@string/thumbnail_frame</item>
+        <item>@string/thumbnail_background</item>
+    </string-array>
+
+    <string-array name="thumbnail_type">
+        <item>default</item>
+        <item>mqdefault</item>
+        <item>hqdefault</item>
+        <item>sddefault</item>
+        <item>maxresdefault</item>
+        <item>frame</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="thumbnail_frame_type_text">
+        <item>@string/frame_start</item>
+        <item>@string/frame_middle</item>
+        <item>@string/frame_end</item>
+    </string-array>
+
+    <string-array name="thumbnail_frame_type">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 </resources>

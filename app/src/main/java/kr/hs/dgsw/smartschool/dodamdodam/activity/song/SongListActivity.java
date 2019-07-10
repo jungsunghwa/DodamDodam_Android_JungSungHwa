@@ -10,10 +10,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.song.VideoYoutubeData;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongListActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.SongViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OnItemClickListener;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongListAdapter;
 
 /*
@@ -21,12 +23,13 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongListAdapter
  * 썸네일 화질 사용자 설정 (낮음, 보통, 높음 | 서버가 기본적으로 반환하는 값: 높음)
  * 신청 정보 상세 보기 (카드 클릭시 카드가 펴지며 상세 정보 표시)
  */
-public class SongListActivity extends BaseActivity<SongListActivityBinding> implements SwipeRefreshLayout.OnRefreshListener {
+public class SongListActivity extends BaseActivity<SongListActivityBinding> implements SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<VideoYoutubeData> {
 
     public static final String REQ_SONG_APPLY_RESULT_MESSAGE = "message";
     private static final String TAG = "SongListActivity";
     private static final int REQ_SONG_APPLY = 1000;
     private SongViewModel viewModel;
+    private SongListAdapter adapter;
 
     @Override
     protected int layoutId() {
@@ -36,12 +39,11 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewModel = new SongViewModel(this);
 
-        viewModel.getSongsData().observe(this, songs -> binding.songList.setAdapter(new SongListAdapter(this, songs)));
+        viewModel.getData().observe(this, songs -> adapter.setList(songs));
         viewModel.getError().observe(this, error -> {
             Snackbar.make(binding.rootLayout, error.getMessage(), Snackbar.LENGTH_SHORT).show();
         });
@@ -49,9 +51,15 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
 
         viewModel.list();
 
+        binding.songList.setAdapter(adapter = new SongListAdapter(this, this));
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
         binding.swipeRefreshLayout.setOnRefreshListener(this);
         binding.fabOpenSongApply.setOnClickListener(v -> startActivityForResult(new Intent(this, SongApplyActivity.class), REQ_SONG_APPLY));
+    }
+
+    @Override
+    public void onItemClick(VideoYoutubeData videoYoutubeData) {
+        startActivity(new Intent(this, SongDetailActivity.class).putExtra(SongDetailActivity.EXTRA_VIDEO, videoYoutubeData.getSource()));
     }
 
     @Override

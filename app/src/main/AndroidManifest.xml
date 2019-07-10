@@ -17,7 +17,6 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="p">
-        <activity android:name=".activity.song.SongDetailActivity"></activity>
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,6 +57,7 @@
             android:name=".activity.song.SongListActivity"
             android:label="@string/title_song"
             android:theme="@style/Theme.App.SongList" />
+        <activity android:name=".activity.song.SongDetailActivity" />
         <activity android:name=".activity.LocationCheckActivity" />
         <activity
             android:name=".activity.offbase.OffbaseActivity"
@@ -75,13 +75,14 @@
             android:label="@string/title_lostfound" />
         <activity
             android:name=".activity.LostFoundWritingActivity"
-            android:label="@string/title_lostfound_writing"/>
+            android:label="@string/title_lostfound_writing" />
         <activity
             android:name=".activity.CounselActivity"
             android:label="@string/title_counsel" />
         <activity
             android:name=".activity.CounselApplyActivity"
-            android:label="@string/title_counsel_apply"/>
+            android:label="@string/title_counsel_apply" />
+        <activity android:name=".activity.PreferenceActivity" />
     </application>
 
 </manifest>

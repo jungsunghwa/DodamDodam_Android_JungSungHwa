@@ -21,7 +21,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongRequest;
 
 public class SongViewModel extends BaseViewModel<List<Video>> {
 
-    private final MutableLiveData<List<Video>> songsData = new MutableLiveData<>();
     private final MutableLiveData<YoutubeData> selectedYoutubeData = new MutableLiveData<>();
 
     private SongClient client;
@@ -33,10 +32,6 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
         client = new SongClient();
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(context);
-    }
-
-    public MutableLiveData<List<Video>> getSongsData() {
-        return songsData;
     }
 
     public MutableLiveData<YoutubeData> getSelectedYoutubeData() {

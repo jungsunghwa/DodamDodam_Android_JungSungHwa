@@ -33,6 +33,7 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 음영처리를 위해 R.id.container 를 사용하지 않음
         ViewUtils.marginBottomSystemWindow(binding.fabOffbaseApply);
         ViewUtils.marginBottomSystemWindow(binding.fabMenu.getRoot());
 
@@ -42,7 +43,7 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
 
         viewModel = new OffbaseViewModel(this);
 
-        viewModel.getOffbase().observe(this, offbase -> adapter.setOffbaseItems(offbase));
+        viewModel.getData().observe(this, offbase -> adapter.setOffbaseItems(offbase));
 
         viewModel.list();
 

@@ -11,9 +11,9 @@
     <string name="title_offbase_apply_pass">외출 신청</string>
     <string name="title_offbase_detail">상세 정보</string>
     <string name="title_lostfound">분실물</string>
+    <string name="title_lostfound_writing">글쓰기</string>
     <string name="title_counsel">상담</string>
     <string name="title_counsel_apply">상담 신청</string>
-
 
     <!-- TODO 개정일 -->
     <string name="subtitle_point_list" translatable="false">2019.3.</string>
@@ -61,13 +61,29 @@
     <string name="menu_bus_apply">셔틀 버스</string>
     <string name="menu_lost_found">분실물</string>
     <string name="menu_counsel_apply">상담 신청</string>
-    <string name="title_lostfound_writing">글쓰기</string>
+    <string name="menu_location_check">위치 확인</string>
 
     <string name="desc_select_place">에 있을 장소를 선택해 주세요!</string>
     <string name="desc_offbase_apply">신청하고 싶은 날짜와 시간, 사유를 작성해 주세요</string>
     <string name="desc_drawer_open">열기</string>
     <string name="desc_drawer_close">닫기</string>
-    <string name="menu_location_check">위치 확인</string>
 
     <string name="b1nd" translatable="false">B1ND</string>
+
+    <string name="thumbnail_low">낮음 (90p)</string>
+    <string name="thumbnail_middle">보통 (180p)</string>
+    <string name="thumbnail_high">높음 (360p)</string>
+    <string name="thumbnail_standard">표준 (480p)</string>
+    <string name="thumbnail_max">원본</string>
+    <string name="thumbnail_frame">영상 내부 프레임 (90p)</string>
+    <string name="thumbnail_background">버퍼링 배경 (360dp)</string>
+
+    <string name="frame_start">처음</string>
+    <string name="frame_middle">중간</string>
+    <string name="frame_end">끝</string>
+
+    <string name="pref_key_thumbnail" translatable="false">pref_thumbnail</string>
+    <string name="pref_key_frame" translatable="false">pref_frame</string>
+    <string name="pref_info_thumbnail">썸네일 품질에 따라 부과되는 데이터 요금이 달라질 수 있습니다.</string>
+    <string name="title_settings">설정</string>
 </resources>
