@@ -66,7 +66,7 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> {
             }
         });
 
-        counselViewModel.getError().observe(this, errorMessage -> {
+        counselViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });
     }

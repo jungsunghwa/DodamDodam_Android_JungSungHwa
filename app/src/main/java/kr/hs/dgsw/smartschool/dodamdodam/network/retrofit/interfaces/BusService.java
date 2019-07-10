@@ -1,8 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 
-import java.util.List;
-
+import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
@@ -19,31 +18,31 @@ import retrofit2.http.Path;
 
 public interface BusService {
     @POST("/bus")
-    Call<Response> postBusApply(
+    Single<Response> postBusApply(
             @Header("x-access-token") String token,
             @Body BusRequest request
     );
 
     @DELETE("/bus/{idx}")
-    Call<Response> deleteBusApply(
+    Single<Response> deleteBusApply(
             @Header("x-access-token") String token,
             @Path("idx") int idx
     );
 
     @GET("/bus/my")
-    Call<Response<Bus>> getMyBusApply(
+    Single<retrofit2.Response<Response<Bus>>> getMyBusApply(
             @Header("x-access-token") String token
     );
 
     @PUT("/bus/{idx}")
-    Call<Response> putModifyBusApply(
+    Single<Response> putModifyBusApply(
             @Header("x-access-token") String token,
             @Path("idx") int idx,
             @Body BusRequest request
     );
 
     @GET("/bus/type")
-    Call<Response<Types>> getBusType(
+    Single<retrofit2.Response<Response<Types>>> getBusType(
             @Header("x-access-token") String token
     );
 }

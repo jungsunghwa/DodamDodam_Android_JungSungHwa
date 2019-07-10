@@ -2,6 +2,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
 
 import java.util.List;
 
+import io.reactivex.Single;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
@@ -16,20 +18,21 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface LocationService {
+
     @POST("location")
-    Call<Response> postLocation(
+    Single<Response> postLocation(
             @Header("x-access-token") String token,
-            @Body LocationRequest<LocationInfo> request
+            @Body LocationRequest<LocationInfo> locations
     );
 
     @GET("location/search/my")
-    Call<Response<LocationRequest>> getMyLocation(
+    Single<retrofit2.Response<Response<LocationRequest>>> getMyLocation(
             @Header("x-access-token") String token,
             @Query("date") String date
     );
 
     @GET("location/search/students")
-    Call<Response<List<Locations>>> getLocation(
+    Single<retrofit2.Response<Response<List<Locations>>>> getLocation(
             @Header("x-access-token") String token,
             @Query("date") String date
     );
@@ -41,13 +44,14 @@ public interface LocationService {
     );
 
     @PUT("location/{idx}")
-    Call<Response> putLocation(
+    Single<Response> putLocation(
             @Header("x-access-token") String token,
-            @Body int placeIdx
+            @Path("idx") int idx,
+            @Body Location placeIdx
     );
 
     @PUT("location/check/{idx}")
-    Call<Response> checkLocation(
+    Single<Response> checkLocation(
             @Header("x-access-token") String token,
             @Path("idx") int idx
     );

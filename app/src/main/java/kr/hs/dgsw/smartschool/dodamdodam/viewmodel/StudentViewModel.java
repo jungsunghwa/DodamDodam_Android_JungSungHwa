@@ -28,7 +28,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.ClassClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.StudentClient;
 
-public class StudentViewModel extends ViewModel {
+public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
 
     private final MutableLiveData<List<ClassInfo>> classInfos = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
@@ -41,6 +41,7 @@ public class StudentViewModel extends ViewModel {
     private TokenManager manager;
 
     public StudentViewModel(Context context) {
+        super(context);
         classClient = new ClassClient();
         studentClient = new StudentClient();
         disposable = new CompositeDisposable();
@@ -54,10 +55,6 @@ public class StudentViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getIsSuccess() {
         return isSuccess;
-    }
-
-    public LiveData<String> getError() {
-        return loginErrorMessage;
     }
 
     public LiveData<Boolean> getLoading() {

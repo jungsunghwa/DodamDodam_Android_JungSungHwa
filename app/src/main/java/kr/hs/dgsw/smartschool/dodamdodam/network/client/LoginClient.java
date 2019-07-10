@@ -9,7 +9,7 @@ import kr.hs.dgsw.b1nd.service.service.B1ndLogin;
 import kr.hs.dgsw.smartschool.dodamdodam.Constants;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class LoginClient {
+public class LoginClient extends NetworkClient {
 
     public LoginClient() {
         B1ndService.setHostURL(Constants.DEFAULT_HOST);

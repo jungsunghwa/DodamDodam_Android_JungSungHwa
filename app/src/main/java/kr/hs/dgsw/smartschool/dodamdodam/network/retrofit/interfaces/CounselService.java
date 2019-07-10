@@ -2,9 +2,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 import java.util.List;
 
-import kr.hs.dgsw.b1nd.service.model.Member;
+import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
-import kr.hs.dgsw.b1nd.service.retrofit2.response.member.MemberData;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsels;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Teachers;
@@ -20,42 +19,42 @@ import retrofit2.http.Path;
 
 public interface CounselService {
     @GET("/counsel")
-    Call<Response<List<Counsel>>> getAllCounsel(
+    Single<retrofit2.Response<Response<Counsel>>> getAllCounsel(
             @Header("x-access-token") String token
     );
 
     @POST("/counsel")
-    Call<Response<Counsels>> postCounsel(
+    Single<Response<Counsel>> postCounsel(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @GET("/counsel/{counsel_idx}")
-    Call<Response<List<Counsel>>> getCertainCounsel(
+    Single<retrofit2.Response<Response<Counsel>>> getCertainCounsel(
             @Header("x-access-token") String token,
             @Path("counsel_idx") int counselIdx
     );
 
     @DELETE("/counsel/{counsel_idx}")
-    Call<Response> deleteCounsel(
+    Single<Response> deleteCounsel(
             @Header("x-access-token") String token,
             @Path("counsel_idx") int counselIdx
     );
 
     @POST("/counsel/allow")
-    Call<Response<Counsels>> postCounselAllow(
+    Single<Response<Counsels>> postCounselAllow(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @POST("/counsel/cancel")
-    Call<Response<Counsels>> postCounselCancel(
+    Single<Response<Counsels>> postCounselCancel(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @GET("/members/teachers")
-    Call<Response<Teachers>> getTeacher(
+    Single<retrofit2.Response<Response<Teacher>>> getTeacher(
             @Header("x-access-token") String token
     );
 }

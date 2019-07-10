@@ -28,7 +28,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.CounselClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 
-public class CounselViewModel extends ViewModel {
+public class CounselViewModel extends BaseViewModel<Counsel> {
     private CounselClient counselClient;
     private CompositeDisposable disposable;
     private TokenManager manager;
@@ -41,6 +41,7 @@ public class CounselViewModel extends ViewModel {
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
     public CounselViewModel(Context context) {
+        super(context);
         counselClient = new CounselClient();
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(context);
@@ -48,15 +49,6 @@ public class CounselViewModel extends ViewModel {
 
     public LiveData<List<Counsel>> getResponse() {
         return response;
-    }
-    public LiveData<String> getIsSuccess() {
-        return isSuccess;
-    }
-    public LiveData<String> getError() {
-        return errorMessage;
-    }
-    public LiveData<Boolean> getLoading() {
-        return loading;
     }
 
     public MutableLiveData<Boolean> getSuccess() {
@@ -66,132 +58,48 @@ public class CounselViewModel extends ViewModel {
     @SuppressLint("CheckResult")
     public void getAllCounsel() {
         loading.setValue(true);
-        disposable.add(counselClient.getAllCounsel(
-                manager.getToken())
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(
-                        new DisposableSingleObserver<List<Counsel>>() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
-                            @Override
-                            public void onSuccess(List<Counsel> counsels) {
-                                response.setValue(counsels);
-                                loading.setValue(false);
-                            }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                errorMessage.setValue(e.getMessage());
-                                loading.setValue(false);
-                            }
-                        }
-                ));
+        addDisposable(counselClient.getAllCounsel(
+                manager.getToken()), dataObserver);
     }
 
     @SuppressLint("CheckResult")
     public void postCounsel(CounselRequest request) {
         loading.setValue(true);
-        disposable.add(counselClient.postCounsel(
-                manager.getToken(), request)
-                .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>(){
-                    @Override
-                    public void onSuccess(String s) {
-                        isSuccess.setValue(s);
-                        loading.setValue(false);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        errorMessage.setValue(e.getMessage());
-                        loading.setValue(false);
-                    }
-                }));
+        addDisposable(counselClient.postCounsel(
+                manager.getToken(), request), baseObserver);
     }
 
     public void getCertainCounsel(int counselIdx) {
         loading.setValue(true);
-        disposable.add(counselClient.getCertainCounsel(
-                manager.getToken(), counselIdx)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(
-                        new DisposableSingleObserver<List<Counsel>>() {
-                            @Override
-                            public void onSuccess(List<Counsel> counsels) {
-                                response.setValue(counsels);
-                                loading.setValue(false);
-                            }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                errorMessage.setValue(e.getMessage());
-                                loading.setValue(false);
-                            }
-                        }
-                ));
+        addDisposable(counselClient.getCertainCounsel(
+                manager.getToken(), counselIdx), dataObserver);
     }
 
     @SuppressLint("CheckResult")
     public void deleteCounsel(int counselIdx) {
         loading.setValue(true);
-        disposable.add(counselClient.deleteCounsel(
-                manager.getToken(), counselIdx)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onSuccess(String successMessage) {
-                        isSuccess.setValue(successMessage);
-                        loading.setValue(false);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        errorMessage.setValue(e.getMessage());
-                        loading.setValue(false);
-                    }
-                }));
+        addDisposable(counselClient.deleteCounsel(
+                manager.getToken(), counselIdx), baseObserver);
     }
 
     @SuppressLint("CheckResult")
     public void postCounselAllow(CounselRequest request) {
         loading.setValue(true);
-        disposable.add(counselClient.postCounselAllow(
-                manager.getToken(), request)
-                .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        isSuccess.setValue(s);
-                        loading.setValue(false);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        errorMessage.setValue(e.getMessage());
-                        loading.setValue(false);
-                    }
-                }));
+        addDisposable(counselClient.postCounselAllow(
+                manager.getToken(), request), baseObserver);
     }
 
     @SuppressLint("CheckResult")
     public void postCounselCancel(CounselRequest request) {
         loading.setValue(true);
-        disposable.add(counselClient.postCounselCancel(
-                manager.getToken(), request)
-                .subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        isSuccess.setValue(s);
-                        loading.setValue(false);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        errorMessage.setValue(e.getMessage());
-                        loading.setValue(false);
-                    }
-                }));
+        addDisposable(counselClient.postCounselCancel(
+                manager.getToken(), request), baseObserver);
     }
 
 

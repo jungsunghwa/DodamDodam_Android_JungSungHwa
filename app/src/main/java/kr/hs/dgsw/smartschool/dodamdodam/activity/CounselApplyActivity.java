@@ -52,7 +52,7 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
     }
 
     private void observableTeacherViewModel() {
-        teacherViewModel.getResponse().observe(this, data -> {
+        teacherViewModel.getData().observe(this, data -> {
             for (int i = 0; i<data.getTeachers().size(); i++) {
                 teacherList.add(index, data.getTeachers().get(i));
                 teacherAdapter.notifyItemInserted(index);
@@ -61,7 +61,7 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
         });
 
         teacherViewModel.getError().observe(this, errorMessage -> {
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 

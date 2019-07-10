@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +61,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         observablePlaceViewModel();
         observableLocationViewModel();
 
-        binding.locationApplyBtn.setOnClickListener(view -> {
-            locationViewModel.postLocation(timeTable);
-        });
+
     }
 
     @Override
@@ -74,11 +74,11 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void observableLocationViewModel() {
-        locationViewModel.getSuccessMessage().observe(this, successMessage -> {
-            Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
-            startActivity(intent);
-            finish();
-        });
+//        locationViewModel.getSuccessMessage().observe(this, successMessage -> {
+//            Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
+//            startActivity(intent);
+//            finish();
+//        });
 
         locationViewModel.getData().observe(this, data -> {
             List<LocationInfo> location = new ArrayList<>();
@@ -105,32 +105,43 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void setPlaceRecyclerView() {
-        placeAdapter = new PlaceAdapter(this, placeList);
+        placeAdapter = new PlaceAdapter(this, placeList, locationViewModel);
+        RecyclerView.LayoutManager placeRecyclerViewLayoutManager
+                = new GridLayoutManager(this, 3);
+
         binding.placeRecyclerView.setAdapter(placeAdapter);
+        binding.placeRecyclerView.setLayoutManager(placeRecyclerViewLayoutManager);
 
         placeAdapter.getPlacePosition().observe(this, position -> {
+            LocationInfo locationInfo = new LocationInfo();
+
             if (position == null) {
                 if (timeTable.isEmpty() && location.isEmpty()) {
                     return;
                 }
-                LocationInfo locationInfo = timeTable.get(timePosition);
+                locationInfo = timeTable.get(timePosition);
                 locationInfo.setPlace(null);
-
 
                 this.timeTable.remove(timePosition);
                 this.timeTable.add(timePosition, locationInfo);
+
                 this.location.remove(timePosition);
                 this.location.add(timePosition, null);
 
                 timeTableAdapter.notifyItemChanged(timePosition);
                 return;
             }
+
             Time time = timeList.get(timePosition);
             Place place = placeList.get(position);
 
-            LocationInfo locationInfo = timeTable.get(timePosition);
-            locationInfo.setPlace(place);
+            locationInfo = timeTable.get(timePosition);
 
+            if (locationInfo.getPlaceIdx() == null){
+                locationInfo.setPlace(place);
+            }else{
+                locationInfo.setPlace(place);
+            }
 
             this.timeTable.remove(timePosition);
             this.timeTable.add(timePosition, locationInfo);
@@ -139,6 +150,15 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             this.location.add(timePosition, place);
 
             timeTableAdapter.notifyItemChanged(timePosition);
+        });
+
+        placeAdapter.getPlacePosition().observe(this, placeIdx ->{
+
+            LocationInfo locationInfo = timeTable.get(timePosition);
+
+            locationInfo.setPlaceIdx(placeIdx);
+
+            locationViewModel.putLocation(locationInfo);
         });
     }
 
@@ -182,7 +202,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void observableTimeTableViewModel() {
-        timeTableViewModel.getError().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
+        timeTableViewModel.getError().observe(this, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show());
 
         timeTableViewModel.getData().observe(this, timeList -> {
             location.clear();
@@ -209,6 +229,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
         timeTableViewModel.getTimeTable();
         placeViewModel.getAllPlace();
-        locationViewModel.getLocation();
+        locationViewModel.getMyLocation();
     }
 }

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
+import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Leave;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Leaves;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Offbase;
@@ -19,87 +20,87 @@ import retrofit2.http.Path;
 public interface OffbaseService {
 
     @GET("offbase")
-    Call<Response<Offbase>> getOffbase(
+    Single<retrofit2.Response<Response<Offbase>>> getOffbase(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/allow")
-    Call<Response<Offbase>> getOffbaseAllow(
+    Single<retrofit2.Response<Response<Offbase>>> getOffbaseAllow(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/cancel")
-    Call<Response<Offbase>> getOffbaseCancel(
+    Single<retrofit2.Response<Response<Offbase>>> getOffbaseCancel(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave")
-    Call<Response<Leaves>> getLeaves(
+    Single<retrofit2.Response<Response<Leaves>>> getLeaves(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave/allow")
-    Call<Response<Leaves>> getLeaveAllows(
+    Single<retrofit2.Response<Response<Leaves>>> getLeaveAllows(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave/cancel")
-    Call<Response<Leaves>> getLeaveCancels(
+    Single<retrofit2.Response<Response<Leaves>>> getLeaveCancels(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/leave/{leave_idx}")
-    Call<Response<Leave>> getLeaveById(
+    Single<retrofit2.Response<Response<Leave>>> getLeaveById(
             @Header("x-access-token") String token, @Path("leave_idx") int leaveIdx
     );
 
     @GET("offbase/pass")
-    Call<Response<Passes>> getPasses(
+    Single<retrofit2.Response<Response<Passes>>> getPasses(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/pass/allow")
-    Call<Response<Passes>> getPassAllows(
+    Single<retrofit2.Response<Response<Passes>>> getPassAllows(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/pass/cancel")
-    Call<Response<Passes>> getPassCancels(
+    Single<retrofit2.Response<Response<Passes>>> getPassCancels(
             @Header("x-access-token") String token
     );
 
     @GET("offbase/pass/{pass_idx}")
-    Call<Response<Pass>> getPassById(
+    Single<retrofit2.Response<Response<Pass>>> getPassById(
             @Header("x-access-token") String token, @Path("pass_idx") int passIdx
     );
 
     @POST("offbase/leave")
-    Call<Response> postLeave(
+    Single<Response> postLeave(
             @Header("x-access-token") String token, @Body OffbaseRequest request
     );
 
     @PUT("offbase/leave/{leave_idx}")
-    Call<Response> putLeave(
+    Single<Response> putLeave(
             @Header("x-access-token") String token, @Path("leave_idx") int leaveIdx, @Body OffbaseRequest request
     );
 
     @DELETE("offbase/leave/{leave_idx}")
-    Call<Response> deleteLeave(
+    Single<Response> deleteLeave(
             @Header("x-access-token") String token, @Path("leave_idx") int leaveIdx
     );
 
     @POST("offbase/pass")
-    Call<Response> postPass(
+    Single<Response> postPass(
             @Header("x-access-token") String token, @Body OffbaseRequest request
     );
 
     @PUT("offbase/pass/{pass_idx}")
-    Call<Response> putPass(
+    Single<Response> putPass(
             @Header("x-access-token") String token, @Path("pass_idx") int leaveIdx, @Body OffbaseRequest request
     );
 
     @DELETE("offbase/pass/{pass_idx}")
-    Call<Response> deletePass(
+    Single<Response> deletePass(
             @Header("x-access-token") String token, @Path("pass_idx") int leaveIdx
     );
 }

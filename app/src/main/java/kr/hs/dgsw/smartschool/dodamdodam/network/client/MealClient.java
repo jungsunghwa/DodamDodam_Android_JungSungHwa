@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +10,12 @@ import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meals;
@@ -18,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class MealClient {
+public class MealClient extends NetworkClient {
 
     private MealService meal;
 
@@ -27,54 +35,21 @@ public class MealClient {
     }
 
     public Single<List<Meal>> getAllMeal(Token token, int year, int month) {
-        return Single.create(observer -> meal.getAllMeal(token.getToken(), year, month).enqueue(new Callback<Response<Meals>>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<Meals>> call, retrofit2.Response<Response<Meals>> response) {
-                if (response.isSuccessful())
-                    observer.onSuccess(response.body().getData().getMeals());
-                else
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
+        return meal.getAllMeal(token.getToken(), year, month).map(response -> {
+            if (!response.isSuccessful()) {
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("aaa", errorBody.getString("message"));
+                throw new Exception(errorBody.getString("message"));
             }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<Meals>> call, Throwable t) {
-                observer.onError(t);
-            }
-        }));
+            Log.e("aaa", response.body().getStatus() + "");
+            return response.body().getData().getMeals();
+        });
     }
 
     public Single<Meal> getTodayMeal(Token token) {
-        return Single.create(observer -> meal.getTodayMeal(token.getToken()).enqueue(new Callback<Response<Meal>>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<Meal>> call, retrofit2.Response<Response<Meal>> response) {
-                if (response.isSuccessful())
-                    observer.onSuccess(response.body().getData());
-                else
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<Meal>> call, Throwable t) {
-                observer.onError(t);
-            }
-        }));
+        return meal.getTodayMeal(token.getToken()).map(getResponseObjectsFunction());
     }
+
 }

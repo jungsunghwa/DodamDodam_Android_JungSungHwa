@@ -20,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class BusClient {
+public class BusClient extends NetworkClient {
     private BusService bus;
 
     public BusClient() {
@@ -28,137 +28,48 @@ public class BusClient {
     }
 
     public Single<String> postBusApply(Token token, BusRequest request) {
-        return Single.create(observer -> bus.postBusApply(token.getToken(), request).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getMessage());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+        return bus.postBusApply(token.getToken(), request).map(Response::getMessage);
     }
 
     public Single<String> deleteBusApply(Token token, int idx) {
-        return Single.create(observer -> bus.deleteBusApply(token.getToken(), idx).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getMessage());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+        return bus.deleteBusApply(token.getToken(), idx).map(Response::getMessage);
     }
 
     public Single<Bus> getMyBusApply(Token token) {
-        return Single.create(observer -> bus.getMyBusApply(token.getToken()).enqueue(new Callback<Response<Bus>>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<Bus>> call, retrofit2.Response<Response<Bus>> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getData());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+        return bus.getMyBusApply(token.getToken()).map(getResponseObjectsFunction());
 
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<Bus>> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+//        return Single.create(observer -> {
+//            bus.getMyBusApply(token).enqueue(new Callback<Response<Bus>>() {
+//                @Override
+//                public void onResponse(Call<Response<Bus>> call, retrofit2.Response<Response<Bus>> response) {
+//                    if (response.isSuccessful()) {
+//                        observer.onSuccess(response.body().getData());
+//                    } else {
+//                        try {
+//                            JSONObject errorBody = new JSONObject(Objects
+//                                    .requireNonNull(
+//                                            response.errorBody()).string());
+//                            observer.onError(new Throwable(errorBody.getString("message")));
+//                        } catch (JSONException | IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Response<Bus>> call, Throwable t) {
+//                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
+//                }
+//            });
+//        });
     }
 
     public Single<String> putModifyBusApply(Token token, int idx, BusRequest request) {
-        return Single.create(observer -> bus.putModifyBusApply(token.getToken(), idx, request).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getMessage());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody().string()));
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+        return bus.putModifyBusApply(token.getToken(), idx, request).map(Response::getMessage);
     }
 
     public Single<Types> getBusType(Token token) {
-        return Single.create(observer -> bus.getBusType(token.getToken()).enqueue(new Callback<Response<Types>>() {
-            @Override
-            public void onResponse(Call<Response<Types>> call, retrofit2.Response<Response<Types>> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getData());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody().string()));
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Response<Types>> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+        return bus.getBusType(token.getToken()).map(getResponseObjectsFunction());
     }
 
 

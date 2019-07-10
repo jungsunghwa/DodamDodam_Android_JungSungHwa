@@ -2,96 +2,112 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Objects;
+import java.util.function.Function;
+
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
-public class BaseViewModel<T> extends ViewModel {
-    protected final MutableLiveData<String> successMessage = new MutableLiveData<>();
-    protected final MutableLiveData<T> data = new MutableLiveData<>();
-    protected final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    protected final MutableLiveData<Boolean> loading = new MutableLiveData<>();
-
+abstract class BaseViewModel<T> extends ViewModel {
     private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
+    DatabaseHelper helper;
+    private SingleObserver subscription;
 
-    protected BaseViewModel(Context context) {
-        disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getInstance(context);
-    }
+    final MutableLiveData<String> successMessage = new MutableLiveData<>();
+    final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    final MutableLiveData<Throwable> error = new MutableLiveData<>();
+    public final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    final MutableLiveData<T> data = new MutableLiveData<>();
 
-    public MutableLiveData<String> getSuccessMessage() {
+    public LiveData<String> getSuccessMessage() {
         return successMessage;
     }
 
-    public MutableLiveData<T> getData() {
+    public LiveData<T> getData() {
         return data;
     }
 
-    public MutableLiveData<String> getErrorMessage() {
+    public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
+    public LiveData<Throwable> getError() {
+        return error;
+    }
 
-    public MutableLiveData<Boolean> getLoading() {
+    public LiveData<Boolean> getLoading() {
         return loading;
     }
 
-    /*protected void addDisposable(Single single) {
-        disposable.add((Disposable) single.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(
-                        new DisposableSingleObserver<Response>() {
-                            @Override
-                            public void onSuccess(Response response) {
-                                if (response.getData() == null) {
-                                    successMessage.setValue(response.getMessage());
-                                } else {
-                                    data.setValue((T) convertLocationRequestToMap((LocationRequest<LocationInfo>) response.getData()));
-                                }
-                                loading.setValue(false);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                errorMessage.setValue(e.getMessage());
-                                loading.setValue(false);
-                            }
-                        }));
+    BaseViewModel(Context context) {
+        disposable = new CompositeDisposable();
+        helper = DatabaseHelper.getInstance(context);
     }
 
-    private Map<Time, Place> convertLocationRequestToMap(LocationRequest<LocationInfo> locations) {
-        Map<Time, Place> result = new HashMap<>();
-        List<Time> times = databaseHelper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
-        if (Utils.isWeekEnd)
-            times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
-        else
-            times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
+    void addDisposable(Single single, DisposableSingleObserver observer) {
+        disposable.add((Disposable) single.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
 
-        for (Time time : times) {
-            result.put(time, null);
+//        subscription = single
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(observer);
+    }
+
+    DisposableSingleObserver<String> baseObserver = new DisposableSingleObserver<String>() {
+        @Override
+        public void onSuccess(String s) {
+            successMessage.setValue(s);
+            loading.setValue(false);
+            baseObserver.dispose();
         }
 
-        for (Location location : locations.getLocations()) {
-
-            Time time = Stream.of(times)
-                    .filter(a -> a.getIdx() == location.getTimetableIdx())
-                    .collect(Collectors.toList()).get(0);
-
-            if (location.getPlaceIdx() == null) {
-                result.put(time, null);
-                continue;
-            }
-            Place place = databaseHelper.getData(
-                    DatabaseManager.TABLE_PLACE,
-                    "idx",
-                    Integer.toString(location.getPlaceIdx()),
-                    new DatabaseGetDataType<>(Place.class)
-            );
-
-            result.put(time, place);
+        @Override
+        public void onError(Throwable e) {
+            errorMessage.setValue(e.getMessage());
+            loading.setValue(false);
+            baseObserver.dispose();
         }
-        return result;
-    }*/
+    };
+
+    DisposableSingleObserver<T> dataObserver = new DisposableSingleObserver<T>() {
+        @Override
+        public void onSuccess(T t) {
+            data.setValue(t);
+            loading.setValue(false);
+            dataObserver.dispose();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            errorMessage.setValue(e.getMessage());
+            error.setValue(e);
+            loading.setValue(false);
+            dataObserver.dispose();
+        }
+    };
+
+    private String getErrorMessage(ResponseBody responseBody) {
+        try {
+            JSONObject jsonObject = new JSONObject(responseBody.string());
+            return jsonObject.getString("message");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

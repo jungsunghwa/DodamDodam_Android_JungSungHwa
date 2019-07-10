@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
+import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFounds;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
@@ -14,32 +15,32 @@ import retrofit2.http.Query;
 
 public interface LostFoundService {
     @GET("/lostfound")
-    Call<Response<LostFounds>> getLostFound(
+    Single<retrofit2.Response<Response<LostFounds>>> getLostFound(
             @Header("x-access-token") String token,
             @Query("page") Integer page,
             @Query("type") Integer type
     );
 
     @POST("/lostfound")
-    Call<Response> postCreateLostFound(
+    Single<Response> postCreateLostFound(
             @Header("x-access-token") String token,
             @Body LostFoundRequest request
     );
 
     @PUT("/lostfound")
-    Call<Response> putLostFound(
+    Single<Response> putLostFound(
             @Header("x-access-token") String token,
             @Body LostFoundRequest request
     );
 
     @DELETE("/lostfound")
-    Call<Response> deleteLostFound(
+    Single<Response> deleteLostFound(
             @Header("x-access-token") String token,
             @Body Integer idx
     );
 
     @GET("/lostfound/find")
-    Call<Response<LostFounds>> getLostFoundSearch(
+    Single<retrofit2.Response<Response<LostFounds>>> getLostFoundSearch(
             @Header("x-access-token") String token,
             @Query("query") String search
     );

@@ -3,15 +3,10 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.databinding.DataBindingUtil;
-
 import java.util.ArrayList;
-
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.BusApplyActivityBinding;
@@ -62,12 +57,8 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         buttonCheckStatus();
 
 
-        busViewModel.getResponseBus().observe(this, bus -> {
-            if (bus == null) {
-                initCheckbox(0);
-                applyStatus = false;
-            }
-
+        busViewModel.getData().observe(this, bus -> {
+            //Toast.makeText(this, bus.toString(), Toast.LENGTH_SHORT).show();
             idx = bus.getIdx();
 
             Log.e("response", bus.getType().toString());
@@ -81,13 +72,13 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             Toast.makeText(this, "이미 신청되어있습니다. 다른 역을 신청할 수 있습니다.", Toast.LENGTH_SHORT).show();
         });
 
-        busViewModel.getIsSuccess().observe(this, successMessage -> {
+        busViewModel.getSuccessMessage().observe(this, successMessage -> {
             Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
             startActivity(intent);
             finish();
         });
 
-        busViewModel.getLoginErrorMessage().observe(this, errorMessage -> {
+        busViewModel.getErrorMessage().observe(this, errorMessage -> {
             if (errorMessage.equals("onSuccess called with null. Null values are generally not allowed in 2.x operators and sources.")) {
                 initCheckbox(0);
                 applyStatus = false;
@@ -210,7 +201,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
     private void initViewModel() {
         busViewModel = new BusViewModel(this);
 
-        busViewModel.getBusType();
+        busViewModel.getBusTypes();
         busViewModel.getMyBusApply();
     }
 }

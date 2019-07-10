@@ -15,6 +15,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.angmarch.views.NiceSpinner;
+import org.angmarch.views.OnSpinnerItemSelectedListener;
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.ListType;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
@@ -37,6 +43,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     List<Place> placeList = new ArrayList<>();
     List<ClassInfo> classInfos = new ArrayList<>();
     List<Time> timeList = new ArrayList<>();
+    List spinnerList = new ArrayList();
 
     PlaceViewModel placeViewModel;
     StudentViewModel studentViewModel;
@@ -85,8 +92,8 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             });
         });
 
-        studentViewModel.getClassInfos().observe(this, classInfoList -> {
-            classInfos = classInfoList;
+        studentViewModel.getData().observe(this, classInfoList -> {
+            classInfos = (ArrayList<ClassInfo>) classInfoList;
 
             binding.classSpinner.setItems(classInfos);
             selectItem = classInfos.get(0);
@@ -127,7 +134,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                 (view, position, id, item) -> {
                     selectItem = item;
                     showSelectOptionSnackbar(view);
-                });
+        });
 
         binding.timeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Time>)
                 (view, position, id, item) -> {
@@ -142,7 +149,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
 
     private void showSelectOptionSnackbar(View v) {
         a();
-        Snackbar.make(v, selectedTime + "에 " + selectItem + "의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.locationList, selectedTime.toString()+"에 "+ selectItem.toString()+"의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
     }
 
     private void a() {
@@ -151,15 +158,14 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             binding.listTypePlace.setTextColor(Color.BLACK);
             binding.listHeaderLayout.studentClassTv.setVisibility(View.GONE);
             binding.classSpinner.setItems(classInfos);
-            selectItem = classInfos.get(binding.classSpinner.getSelectedIndex());
-        } else {
+//            selectItem = classInfos.get(binding.classSpinner.getSelectedIndex());
+        }else {
             binding.listTypeClass.setTextColor(Color.BLACK);
             binding.listTypePlace.setTextColor(Color.WHITE);
             binding.listHeaderLayout.studentClassTv.setVisibility(View.VISIBLE);
             binding.classSpinner.setItems(placeList);
-            selectItem = placeList.get(binding.classSpinner.getSelectedIndex());
+//            selectItem = placeList.get(binding.classSpinner.getSelectedIndex());
         }
-
         locationListAdapter.setListType(listType);
         locationListAdapter.setSelectItem(selectItem);
         locationListAdapter.setSelectTime(selectedTime);

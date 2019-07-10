@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class LostFoundClient {
+public class LostFoundClient extends NetworkClient {
     private LostFoundService lostFound;
 
     public LostFoundClient() {
@@ -29,139 +29,43 @@ public class LostFoundClient {
     }
 
     public Single<List<LostFound>> getLostFound(Token token, Integer page, Integer type) {
-        return Single.create(observer -> lostFound.getLostFound(token.getToken(), page, type).enqueue(new Callback<Response<LostFounds>>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<LostFounds>> call, retrofit2.Response<Response<LostFounds>> response) {
-                if (response.isSuccessful()) {
-                    Log.d("ShowData", response.body().getData().getLostFounds() + "");
-                    observer.onSuccess(response.body().getData().getLostFounds());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+        return lostFound.getLostFound(token.getToken(), page, type).map(response -> {
+            if (!response.isSuccessful()) {
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("aaa", errorBody.getString("message"));
+                throw new Exception(errorBody.getString("message"));
             }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<LostFounds>> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+            Log.e("aaa", response.body().getStatus() + "");
+            return response.body().getData().getLostFounds();
+        });
     }
 
     public Single<String> postCreateLostFound(Token token, LostFoundRequest request) {
-        return Single.create(observer -> lostFound.postCreateLostFound(token.getToken(), request).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getMessage());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+        return lostFound.postCreateLostFound(token.getToken(), request).map(Response::getMessage);
     }
 
     public Single<String> putLostFound(Token token, LostFoundRequest request) {
-        return Single.create(observer -> lostFound.putLostFound(token.getToken(), request).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getMessage());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+        return lostFound.putLostFound(token.getToken(), request).map(Response::getMessage);
     }
 
     public Single<String> deleteLostFound(Token token, Integer idx) {
-        return Single.create(observer -> lostFound.deleteLostFound(token.getToken(), idx).enqueue(new Callback<Response>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getMessage());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response> call, Throwable t) {
-                observer.onError(new Throwable("네트워크상태를 확인하세요"));
-            }
-        }));
+        return lostFound.deleteLostFound(token.getToken(), idx).map(Response::getMessage);
     }
 
 
     public Single<List<LostFound>> getLostFoundSearch(Token token, String search) {
-        return Single.create(observer -> lostFound.getLostFoundSearch(token.getToken(), search).enqueue(new Callback<Response<LostFounds>>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Response<LostFounds>> call, retrofit2.Response<Response<LostFounds>> response) {
-                if (response.isSuccessful()) {
-                    observer.onSuccess(response.body().getData().getLostFounds());
-                } else {
-                    try {
-                        JSONObject errorBody = new JSONObject(Objects
-                                .requireNonNull(
-                                        response.errorBody()).string());
-                        observer.onError(new Throwable(errorBody.getString("message")));
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+        return lostFound.getLostFoundSearch(token.getToken(), search).map(response -> {
+            if (!response.isSuccessful()) {
+                JSONObject errorBody = new JSONObject(Objects
+                        .requireNonNull(
+                                response.errorBody()).string());
+                Log.e("aaa", errorBody.getString("message"));
+                throw new Exception(errorBody.getString("message"));
             }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Response<LostFounds>> call, Throwable t) {
-                observer.onError(new Throwable("네트워크 상태를 확인하세요"));
-            }
-        }));
+            Log.e("aaa", response.body().getStatus() + "");
+            return response.body().getData().getLostFounds();
+        });
     }
 }
