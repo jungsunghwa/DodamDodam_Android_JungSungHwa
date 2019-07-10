@@ -57,7 +57,7 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> {
     }
 
     private void observableCounselViewModel() {
-        counselViewModel.getResponse().observe(this, data -> {
+        counselViewModel.getData().observe(this, data -> {
             Log.d("Tag", data.size() + "");
             for (int i = 0; i<data.size(); i++) {
                 counselList.add(index, data.get(i));

@@ -28,13 +28,12 @@ import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.CounselClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 
-public class CounselViewModel extends BaseViewModel<Counsel> {
+public class CounselViewModel extends BaseViewModel<List<Counsel>> {
     private CounselClient counselClient;
     private CompositeDisposable disposable;
     private TokenManager manager;
     private DatabaseHelper helper;
 
-    private final MutableLiveData<List<Counsel>> response = new MutableLiveData<>();
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<Boolean> success = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -45,10 +44,6 @@ public class CounselViewModel extends BaseViewModel<Counsel> {
         counselClient = new CounselClient();
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(context);
-    }
-
-    public LiveData<List<Counsel>> getResponse() {
-        return response;
     }
 
     public MutableLiveData<Boolean> getSuccess() {
