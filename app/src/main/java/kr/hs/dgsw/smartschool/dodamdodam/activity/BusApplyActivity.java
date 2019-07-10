@@ -79,7 +79,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         });
 
         busViewModel.getErrorMessage().observe(this, errorMessage -> {
-            if (errorMessage.equals("onSuccess called with null. Null values are generally not allowed in 2.x operators and sources.")) {
+            if (errorMessage.equals("The mapper function returned a null value.")) {
                 initCheckbox(0);
                 applyStatus = false;
             } else {

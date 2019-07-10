@@ -113,7 +113,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         binding.placeRecyclerView.setLayoutManager(placeRecyclerViewLayoutManager);
 
         placeAdapter.getPlacePosition().observe(this, position -> {
-            LocationInfo locationInfo = new LocationInfo();
+            LocationInfo locationInfo;
 
             if (position == null) {
                 if (timeTable.isEmpty() && location.isEmpty()) {
@@ -152,7 +152,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             timeTableAdapter.notifyItemChanged(timePosition);
         });
 
-        placeAdapter.getPlacePosition().observe(this, placeIdx ->{
+        placeAdapter.getPutLocation().observe(this, placeIdx ->{
 
             LocationInfo locationInfo = timeTable.get(timePosition);
 

@@ -10,6 +10,7 @@ import java.util.List;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.place.PlaceList;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
@@ -44,11 +45,11 @@ public class PlaceViewModel extends BaseViewModel {
 
         loading.setValue(true);
 
-        DisposableSingleObserver<List<Place>> observer = new DisposableSingleObserver<List<Place>>() {
+        DisposableSingleObserver<PlaceList> observer = new DisposableSingleObserver<PlaceList>() {
             @Override
-            public void onSuccess(List<Place> places) {
-                data.setValue(places);
-                helper.insert(DatabaseManager.TABLE_PLACE, places);
+            public void onSuccess(PlaceList places) {
+                data.setValue(places.getPlaces());
+                helper.insert(DatabaseManager.TABLE_PLACE, places.getPlaces());
                 loading.setValue(false);
             }
 
