@@ -9,31 +9,50 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.annimon.stream.Stream;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import kr.hs.dgsw.b1nd.service.model.Member;
+import kr.hs.dgsw.b1nd.service.model.Teacher;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
+import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.CounselClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 
 public class CounselViewModel extends BaseViewModel<Counsel> {
     private CounselClient counselClient;
     private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
+    private TokenManager manager;
+    private DatabaseHelper helper;
 
-    private final MutableLiveData<Counsel> response = new MutableLiveData<>();
+    private final MutableLiveData<List<Counsel>> response = new MutableLiveData<>();
+    private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> success = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
     public CounselViewModel(Context context) {
         super(context);
         counselClient = new CounselClient();
         disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
-    public LiveData<Counsel> getResponse() {
+    public LiveData<List<Counsel>> getResponse() {
         return response;
+    }
+
+    public MutableLiveData<Boolean> getSuccess() {
+        return success;
     }
 
     @SuppressLint("CheckResult")
@@ -41,7 +60,7 @@ public class CounselViewModel extends BaseViewModel<Counsel> {
         loading.setValue(true);
 
         addDisposable(counselClient.getAllCounsel(
-                databaseHelper.getToken()), dataObserver);
+                manager.getToken()), dataObserver);
     }
 
     @SuppressLint("CheckResult")
@@ -49,22 +68,22 @@ public class CounselViewModel extends BaseViewModel<Counsel> {
         loading.setValue(true);
 
         addDisposable(counselClient.postCounsel(
-                databaseHelper.getToken(), request), baseObserver);
+                manager.getToken(), request), baseObserver);
     }
 
-    @SuppressLint("CheckResult")
     public void getCertainCounsel(int counselIdx) {
         loading.setValue(true);
 
         addDisposable(counselClient.getCertainCounsel(
-                databaseHelper.getToken(), counselIdx), dataObserver);
+                manager.getToken(), counselIdx), dataObserver);
     }
 
     @SuppressLint("CheckResult")
     public void deleteCounsel(int counselIdx) {
         loading.setValue(true);
+
         addDisposable(counselClient.deleteCounsel(
-                databaseHelper.getToken(), counselIdx), baseObserver);
+                manager.getToken(), counselIdx), baseObserver);
     }
 
     @SuppressLint("CheckResult")
@@ -72,7 +91,7 @@ public class CounselViewModel extends BaseViewModel<Counsel> {
         loading.setValue(true);
 
         addDisposable(counselClient.postCounselAllow(
-                databaseHelper.getToken(), request), baseObserver);
+                manager.getToken(), request), baseObserver);
     }
 
     @SuppressLint("CheckResult")
@@ -80,6 +99,8 @@ public class CounselViewModel extends BaseViewModel<Counsel> {
         loading.setValue(true);
 
         addDisposable(counselClient.postCounselCancel(
-                databaseHelper.getToken(), request), baseObserver);
+                manager.getToken(), request), baseObserver);
     }
+
+
 }

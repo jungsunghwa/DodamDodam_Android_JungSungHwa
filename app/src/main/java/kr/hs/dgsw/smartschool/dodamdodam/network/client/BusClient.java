@@ -4,18 +4,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Buses;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.BusService;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class BusClient extends NetworkClient {
     private BusService bus;
@@ -63,6 +66,10 @@ public class BusClient extends NetworkClient {
 
     public Single<String> putModifyBusApply(Token token, int idx, BusRequest request) {
         return bus.putModifyBusApply(token.getToken(), idx, request).map(Response::getMessage);
+    }
+
+    public Single<Types> getBusType(Token token) {
+        return bus.getBusType(token.getToken()).map(getResponseObjectsFunction());
     }
 
 

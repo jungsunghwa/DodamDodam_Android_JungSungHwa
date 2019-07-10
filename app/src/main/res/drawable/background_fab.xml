@@ -4,9 +4,9 @@
         <shape android:shape="oval">
             <gradient
                 android:angle="0"
-                android:centerColor="#3096F8"
-                android:endColor="#5800C5"
-                android:startColor="#3096F8"
+                android:centerColor="?colorPrimary"
+                android:endColor="?colorSecondary"
+                android:startColor="?colorPrimary"
                 android:type="linear" />
         </shape>
     </item>
@@ -19,6 +19,6 @@
     <item>
         <ripple
             android:color="#fff"
-            android:radius="28dp"/>
+            android:radius="28dp" />
     </item>
 </layer-list>

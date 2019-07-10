@@ -5,14 +5,14 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import java.util.List;
-import java.util.Map;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
@@ -58,7 +58,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
             holder.binding.placeSelectBtn.setText(place.getName());
             holder.binding.placeSelectBtn.setChecked(true);
             holder.binding.placeSelectBtn.setTextColor(Color.WHITE);
-        } else if (timePosition.getValue() == position){
+        } else if (timePosition.getValue() == position) {
             holder.binding.placeSelectBtn.setText(time.getName());
             holder.binding.placeSelectBtn.setChecked(true);
             holder.binding.placeSelectBtn.setTextColor(Color.WHITE);
@@ -73,8 +73,8 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeViewHolder> {
                 timePosition.setValue(position);
                 buttonView.setTextColor(Color.WHITE);
                 notifyDataSetChanged();
-            }else {
-                if (place != null){
+            } else {
+                if (place != null) {
                     holder.binding.placeSelectBtn.setChecked(true);
                     timePosition.setValue(position);
                     notifyDataSetChanged();

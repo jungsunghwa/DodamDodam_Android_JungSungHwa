@@ -2,26 +2,24 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.text.SimpleTextWatcher;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.SoftKeyboardManager;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.InputMethodHelper;
 
 public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
     private LoginViewModel loginViewModel;
     private StudentViewModel studentViewModel;
 
-    private SoftKeyboardManager keyboardManager;
+    private InputMethodHelper keyboardManager;
 
     @Override
     protected int layoutId() {
@@ -31,18 +29,19 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //EditText 가 키보드 위에 표시되기 위해 설정
         setLayoutNoLimits(false);
 
-        keyboardManager = new SoftKeyboardManager(this);
+        keyboardManager = new InputMethodHelper(this);
 
         loginViewModel = new LoginViewModel(this);
         studentViewModel = new StudentViewModel(this);
 
         studentViewModel.getLoading().observe(this, isLoading -> {
             if (isLoading) {
-                binding.progress.show();
+                binding.progress.setVisibility(View.VISIBLE);
             } else {
-                binding.progress.hide();
+                binding.progress.setVisibility(View.GONE);
             }
         });
 
@@ -65,38 +64,18 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             }
         });
 
-        binding.inputId.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        binding.inputId.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s))
                     binding.inputLayoutId.setError(null);
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
         });
-        binding.inputPw.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        binding.inputPw.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s))
                     binding.inputLayoutPw.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
         binding.inputPw.setOnKeyListener((v, keyCode, event) -> {
@@ -108,6 +87,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             return false;
         });
         binding.btnLogin.setOnClickListener(view -> login());
+        binding.inputId.requestFocus();
     }
 
     private void login() {
@@ -124,11 +104,5 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         if (hasError) return;
 
         loginViewModel.login(binding.inputId.getText().toString(), binding.inputPw.getText().toString());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        keyboardManager.unregisterSoftKeyboardCallback();
     }
 }

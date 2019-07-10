@@ -3,11 +3,11 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-
+import java.util.ArrayList;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.BusApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
@@ -20,6 +20,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
     Integer idx;
     Integer busType;
     BusRequest request = new BusRequest();
+    ArrayList<Type> typeArrayList = new ArrayList<>();
 
     @Override
     protected int layoutId() {
@@ -37,6 +38,22 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         }
 
         initViewModel();
+
+        busViewModel.getResponseTypes().observe(this, types -> {
+            for (int i = 0; i < types.getTypes().size(); i++) {
+                typeArrayList.add(types.getTypes().get(i));
+            }
+
+            if (types.getTypes().size() == 3) {
+                binding.busCheckBtnOne.setText(typeArrayList.get(0).getName());
+                binding.busCheckBtnTwo.setText(typeArrayList.get(1).getName());
+                binding.busCheckBtnThree.setText(typeArrayList.get(2).getName());
+            } else {
+                Toast.makeText(this, "서버 오류", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
         buttonCheckStatus();
 
 
@@ -46,26 +63,13 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
 
             Log.e("response", bus.getType().toString());
 
-            applyStatus =  (bus.getType() == 1 || bus.getType() == 2  || bus.getType() == 3 || bus.getType() == 0);
+            applyStatus =  (bus.getType().equals(typeArrayList.get(0).getIdx()) || bus.getType().equals(typeArrayList.get(1).getIdx())  || bus.getType().equals(typeArrayList.get(2).getIdx()) || bus.getType() == 0);
             busType = bus.getType();
 
             initCheckbox(bus.getType());
 
-            String busTypeMessage = "";
 
-            switch (bus.getType()) {
-                case 1 :
-                    busTypeMessage = "동대구";
-                    break;
-                case 2 :
-                    busTypeMessage = "대곡";
-                    break;
-                case 3 :
-                    busTypeMessage = "용산";
-                    break;
-            }
-
-            Toast.makeText(this, busTypeMessage+"역이 이미 신청되어있습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "이미 신청되어있습니다. 다른 역을 신청할 수 있습니다.", Toast.LENGTH_SHORT).show();
         });
 
         busViewModel.getSuccessMessage().observe(this, successMessage -> {
@@ -75,17 +79,17 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         });
 
         busViewModel.getErrorMessage().observe(this, errorMessage -> {
-            if (errorMessage.equals("신청을 찾을 수 없습니다")) {
+            if (errorMessage.equals("onSuccess called with null. Null values are generally not allowed in 2.x operators and sources.")) {
                 initCheckbox(0);
                 applyStatus = false;
             } else {
+                Log.e("Error", errorMessage);
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
-                Log.e("error", errorMessage);
             }
         });
 
         binding.applyBtn.setOnClickListener(view -> {
-            int selectedBusType = getSelectedBusType();
+            Integer selectedBusType = getSelectedBusType();
 
             if (!applyStatus)
             {
@@ -113,7 +117,6 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
                 {
                     if (selectedBusType > 0)
                     {
-                        Log.e("type", selectedBusType+""+idx);
                         request.setType(selectedBusType);
                         busViewModel.putModifyBusApply(idx, request);
                     }
@@ -130,53 +133,34 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-
-        return false;
-    }
-
     private void initCheckbox(int busType)
     {
-        binding.eastdaeguCheckBtn.setChecked(false);
-        binding.daekokCheckBtn.setChecked(false);
-        binding.yongsanCheckBtn.setChecked(false);
-        binding.notbusCheckBtn.setChecked(false);
+        Log.d("initCheckbox", busType+"");
+        binding.busCheckBtnOne.setChecked(false);
+        binding.busCheckBtnTwo.setChecked(false);
+        binding.busCheckBtnThree.setChecked(false);
+        binding.busCheckBtnFour.setChecked(false);
 
-        switch (busType)
-        {
-            case 1:
-                binding.eastdaeguCheckBtn.setChecked(true);
-                break;
-
-            case 2:
-                binding.daekokCheckBtn.setChecked(true);
-                break;
-
-            case 3:
-                binding.yongsanCheckBtn.setChecked(true);
-                break;
-
-            default:
-                binding.notbusCheckBtn.setChecked(true);
-                break;
+        if (busType == typeArrayList.get(0).getIdx()) {
+            binding.busCheckBtnOne.setChecked(true);
+        } else if (busType == typeArrayList.get(1).getIdx()) {
+            binding.busCheckBtnTwo.setChecked(true);
+        } else if (busType == typeArrayList.get(2).getIdx()) {
+            binding.busCheckBtnThree.setChecked(true);
+        } else if (busType == 0) {
+            binding.busCheckBtnFour.setChecked(true);
         }
     }
 
     private int getSelectedBusType()
     {
-        if (binding.eastdaeguCheckBtn.isChecked()) {
-            return 1;
-        } else if (binding.daekokCheckBtn.isChecked()) {
-            return 2;
-        } else if (binding.yongsanCheckBtn.isChecked()) {
-            return 3;
-        } else if (binding.notbusCheckBtn.isChecked()) {
+        if (binding.busCheckBtnOne.isChecked()) {
+            return typeArrayList.get(0).getIdx();
+        } else if (binding.busCheckBtnTwo.isChecked()) {
+            return typeArrayList.get(1).getIdx();
+        } else if (binding.busCheckBtnThree.isChecked()) {
+            return typeArrayList.get(2).getIdx();
+        } else if (binding.busCheckBtnFour.isChecked()) {
             return 0;
         } else {
             return -1;
@@ -189,34 +173,35 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
     }
 
     private void buttonCheckStatus() {
-        binding.eastdaeguCheckBtn.setOnClickListener(view -> {
-            binding.daekokCheckBtn.setChecked(false);
-            binding.yongsanCheckBtn.setChecked(false);
-            binding.notbusCheckBtn.setChecked(false);
+        binding.busCheckBtnOne.setOnClickListener(view -> {
+            binding.busCheckBtnTwo.setChecked(false);
+            binding.busCheckBtnThree.setChecked(false);
+            binding.busCheckBtnFour.setChecked(false);
         });
 
-        binding.daekokCheckBtn.setOnClickListener(view -> {
-            binding.eastdaeguCheckBtn.setChecked(false);
-            binding.yongsanCheckBtn.setChecked(false);
-            binding.notbusCheckBtn.setChecked(false);
+        binding.busCheckBtnTwo.setOnClickListener(view -> {
+            binding.busCheckBtnOne.setChecked(false);
+            binding.busCheckBtnThree.setChecked(false);
+            binding.busCheckBtnFour.setChecked(false);
         });
 
-        binding.yongsanCheckBtn.setOnClickListener(view -> {
-            binding.daekokCheckBtn.setChecked(false);
-            binding.eastdaeguCheckBtn.setChecked(false);
-            binding.notbusCheckBtn.setChecked(false);
+        binding.busCheckBtnThree.setOnClickListener(view -> {
+            binding.busCheckBtnOne.setChecked(false);
+            binding.busCheckBtnTwo.setChecked(false);
+            binding.busCheckBtnFour.setChecked(false);
         });
 
-        binding.notbusCheckBtn.setOnClickListener(view -> {
-            binding.daekokCheckBtn.setChecked(false);
-            binding.yongsanCheckBtn.setChecked(false);
-            binding.eastdaeguCheckBtn.setChecked(false);
+        binding.busCheckBtnFour.setOnClickListener(view -> {
+            binding.busCheckBtnOne.setChecked(false);
+            binding.busCheckBtnTwo.setChecked(false);
+            binding.busCheckBtnThree.setChecked(false);
         });
     }
 
     private void initViewModel() {
         busViewModel = new BusViewModel(this);
 
+        busViewModel.getBusTypes();
         busViewModel.getMyBusApply();
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:targetApi="n_mr1">
+
+    <shortcut
+        android:icon="@drawable/ic_shortcut_bus"
+        android:shortcutId="short_bus"
+        android:shortcutShortLabel="@string/shortcut_bus_apply">
+        <intent
+            android:action="android.intent.acion.VIEW"
+            android:targetPackage="kr.hs.dgsw.smartschool.dodamdodam"
+            android:targetClass="kr.hs.dgsw.smartschool.dodamdodam.activity.SplashActivity">
+            <extra
+                android:name="shortcut"
+                android:value="short_bus" />
+        </intent>
+    </shortcut>
+</shortcuts>

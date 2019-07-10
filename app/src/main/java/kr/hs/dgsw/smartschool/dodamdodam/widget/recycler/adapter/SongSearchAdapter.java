@@ -29,7 +29,7 @@ public class SongSearchAdapter extends RecyclerView.Adapter {
 
     private static final String BUNDLE_KEY_SELECTED_POS = "selected_pos";
 
-    private final RequestManager glide;
+    private RequestManager glide;
     private List<YoutubeData> list;
     private int selectedPosition = -1;
     private View selectedView = null;
@@ -38,7 +38,7 @@ public class SongSearchAdapter extends RecyclerView.Adapter {
     private boolean hasQuotaError;
 
     public SongSearchAdapter(Context context, OnItemSelectedListener<YoutubeData> onItemClickListener) {
-        glide = Glide.with(context);
+        glide = Glide.with(context.getApplicationContext());
         list = new ArrayList<>();
         this.onItemClickListener = onItemClickListener;
     }
@@ -149,5 +149,11 @@ public class SongSearchAdapter extends RecyclerView.Adapter {
 
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(BUNDLE_KEY_SELECTED_POS, selectedPosition);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        glide = null;
     }
 }

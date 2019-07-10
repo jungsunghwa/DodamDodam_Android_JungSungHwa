@@ -30,7 +30,7 @@ public class LocationInfo extends Location {
         isChecked = null;
     }
 
-    public LocationInfo(LocationInfo locationInfo){
+    public LocationInfo(LocationInfo locationInfo) {
         super(locationInfo.getTimetableIdx(), locationInfo.getPlaceIdx());
         isChecked = locationInfo.isChecked;
     }

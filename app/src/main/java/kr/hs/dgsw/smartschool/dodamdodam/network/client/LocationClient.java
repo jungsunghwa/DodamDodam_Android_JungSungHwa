@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import io.reactivex.Single;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
@@ -36,7 +37,6 @@ public class LocationClient extends NetworkClient {
     public Single<String> putLocation(LocationInfo request, Token token) {
         request.setTimetableIdx(null);
 //        addDisposable(location.putLocation(token.getToken(), request.getIdx(), request), baseObserver);
-
         return location.putLocation(token.getToken(), request.getIdx(), request).map(Response::getMessage);
     }
 

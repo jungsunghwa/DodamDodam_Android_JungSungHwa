@@ -10,7 +10,7 @@
         <com.scwang.wave.MultiWaveHeader
             android:id="@+id/wave"
             android:layout_width="match_parent"
-            android:layout_height="88dp"
+            android:layout_height="95dp"
             app:mwhCloseColor="#5800C5"
             app:mwhGradientAngle="0"
             app:mwhStartColor="#3096F8"
@@ -29,7 +29,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.App.AppBar"
                 tools:title="@string/app_name" />
 
         </com.google.android.material.appbar.AppBarLayout>

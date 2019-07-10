@@ -17,7 +17,6 @@ public final class Utils {
 
     public static boolean isWeekEnd = isWeekEnd(new Date());
     public static Identity identity = Identity.TEACHER;
-    public static String myId = "";
 
     public static Retrofit RETROFIT =
             new Retrofit.Builder()
@@ -47,8 +46,10 @@ public final class Utils {
         return isWeekEnd;
     }
 
-    //TODO Remove to Release
     private static OkHttpClient getClient() {
-        return new OkHttpClient.Builder().addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG)
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        return builder.build();
     }
 }

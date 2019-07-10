@@ -13,39 +13,31 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.PlaceClient;
 
 public class PlaceViewModel extends BaseViewModel {
     private PlaceClient placeClient;
     private CompositeDisposable disposable;
-    private DatabaseHelper helper;
 
-    private final MutableLiveData<List<Place>> data = new MutableLiveData<>();
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<String> successMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private TokenManager manager;
 
     public PlaceViewModel(Context context) {
         super(context);
         placeClient = new PlaceClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public LiveData<List<Place>> getData() {
         return data;
     }
 
-    public LiveData<String> getError() {
-        return errorMessage;
-    }
 
     public LiveData<Boolean> getLoading() {
         return loading;
     }
-    public LiveData<String> getSuccessMessage() {
-        return successMessage;
-    }
+
 
     public void getAllPlace() {
 
@@ -75,6 +67,6 @@ public class PlaceViewModel extends BaseViewModel {
             return;
         }
 
-        addDisposable(placeClient.getAllPlace(helper.getToken()), observer);
+        addDisposable(placeClient.getAllPlace(manager.getToken()), observer);
     }
 }

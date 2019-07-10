@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
@@ -16,6 +17,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.CounselService;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class CounselClient extends NetworkClient {
     private CounselService counsel;

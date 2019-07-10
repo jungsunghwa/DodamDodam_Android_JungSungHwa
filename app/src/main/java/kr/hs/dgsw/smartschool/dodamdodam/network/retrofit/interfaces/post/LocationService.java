@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
 
 import java.util.List;
 
-import io.reactivex.Maybe;
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;

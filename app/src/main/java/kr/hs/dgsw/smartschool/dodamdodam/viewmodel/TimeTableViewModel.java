@@ -19,31 +19,25 @@ import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
-public class TimeTableViewModel extends BaseViewModel {
+public class TimeTableViewModel extends BaseViewModel<List<Time>> {
 
     private TimeTableClient timeTableClient;
     private CompositeDisposable disposable;
     private DatabaseHelper helper;
 
-    private final MutableLiveData<List<Time>> data = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private TokenManager manager;
 
     public TimeTableViewModel(Context context) {
         super(context);
         timeTableClient = new TimeTableClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getDatabaseHelper(context);
-    }
-
-    public LiveData<List<Time>> getData() {
-        return data;
-    }
-
-    public LiveData<String> getError() {
-        return errorMessage;
+        helper = DatabaseHelper.getInstance(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public LiveData<Boolean> getLoading() {
@@ -75,7 +69,6 @@ public class TimeTableViewModel extends BaseViewModel {
                 loading.setValue(false);
             }
         };
-
         List<Time> timeList = helper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
         if (!timeList.isEmpty()) {
             loading.setValue(false);
@@ -88,7 +81,6 @@ public class TimeTableViewModel extends BaseViewModel {
             data.setValue(timeList);
             return;
         }
-
-        addDisposable(timeTableClient.getTimeTable(helper.getToken()), observer);
+        addDisposable(timeTableClient.getTimeTable(manager.getToken()), observer);
     }
 }

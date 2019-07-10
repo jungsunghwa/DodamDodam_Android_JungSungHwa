@@ -15,7 +15,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.MealClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.MealService;
@@ -26,14 +26,20 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.MealSer
 public class MainViewModel extends BaseViewModel<Meal> {
 
     private MealClient client;
-    private DatabaseHelper helper;
 
     private static SparseArray<List<Meal>> cacheMonthMeal = new SparseArray<>();
+
+    private final MutableLiveData<Meal> mealData = new MutableLiveData<>();
+    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private CompositeDisposable disposable;
+    private TokenManager manager;
 
     public MainViewModel(Context context) {
         super(context);
         client = new MealClient();
-        helper = DatabaseHelper.getDatabaseHelper(context);
+        disposable = new CompositeDisposable();
+        manager = TokenManager.getInstance(context);
     }
 
     public MutableLiveData<Boolean> getLoading() {
@@ -50,7 +56,7 @@ public class MainViewModel extends BaseViewModel<Meal> {
         List<Meal> meals = cacheMonthMeal.get(month);
 
         if (meals == null) {
-            Single single = client.getTodayMeal(helper.getToken());
+            Single single = client.getTodayMeal(manager.getToken());
             addDisposable(single, dataObserver);
         } else dataObserver.onSuccess(meals.get(day));
     }
@@ -77,7 +83,7 @@ public class MainViewModel extends BaseViewModel<Meal> {
         List<Meal> meals = cacheMonthMeal.get(month);
 
         if (meals == null)
-            addDisposable(client.getAllMeal(helper.getToken(), year, month), observer);
+            addDisposable(client.getAllMeal(manager.getToken(), year, month), observer);
         else
             observer.onSuccess(meals);
     }

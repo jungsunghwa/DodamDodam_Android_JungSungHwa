@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,7 +14,7 @@
             android:padding="10dp"
             android:text="학년 반"
             android:background="@drawable/border"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/student_number_tv"
@@ -22,7 +23,7 @@
             android:text="번호"
             android:padding="10dp"
             android:background="@drawable/border"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/student_name_tv"
@@ -31,7 +32,7 @@
             android:text="이름"
             android:padding="10dp"
             android:background="@drawable/border"
-            android:layout_weight="4"/>
+            android:layout_weight="4" />
 
         <TextView
             android:id="@+id/location_name_tv"
@@ -40,7 +41,7 @@
             android:text="위치"
             android:padding="10dp"
             android:background="@drawable/border"
-            android:layout_weight="3"/>
+            android:layout_weight="3" />
 
         <TextView
             android:id="@+id/check_location_tv"
@@ -49,7 +50,7 @@
             android:text="확인"
             android:padding="10dp"
             android:background="@drawable/border"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <CheckBox
             android:id="@+id/check_location_cb"

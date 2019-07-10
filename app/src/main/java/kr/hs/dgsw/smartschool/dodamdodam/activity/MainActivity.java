@@ -1,15 +1,11 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
@@ -31,9 +27,17 @@ import kr.hs.dgsw.smartschool.dodamdodam.activity.song.SongListActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MainActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.MainViewModel;
 
-public class MainActivity extends BaseActivity<MainActivityBinding> implements OnDateClickListener, DatePickerDialog.OnDateSetListener {
+interface OnDateClickListener {
+    void onDateBackClick(View v);
 
-    private static final String TAG = "MainActivity";
+    void onDateTodayClick(View v);
+
+    void onDateForwardClick(View v);
+
+    void onDateChanged(Date date);
+}
+
+public class MainActivity extends BaseActivity<MainActivityBinding> implements OnDateClickListener, DatePickerDialog.OnDateSetListener {
 
     private MainViewModel viewModel;
 
@@ -73,21 +77,20 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         });
 
         viewModel.getError().observe(this, error -> {
-            Log.w(TAG, "ERROR: ", error);
+            binding.mealItems.mealBreakfast.setMeal(null);
             binding.mealItems.mealLunch.setLoading(false);
             binding.mealItems.mealLunch.setError(error.getMessage());
+            binding.mealItems.mealDinner.setMeal(null);
         });
 
         viewModel.today();
 
         binding.appbarLayout.wave.setVisibility(View.GONE);
 
-        showWithAnimate();
-
         ActionBar actionBar = getSupportActionBar();
 
         binding.navView.setNavigationItemSelectedListener(this::onOptionsItemSelected);
-        binding.navView.getMenu().getItem(3).setVisible(Utils.identity == Identity.TEACHER);
+        binding.navView.getMenu().getItem(3).setVisible(Utils.identity == Identity.STUDENT);
 
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -112,18 +115,10 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         super.onCreateTablet(savedInstanceState);
     }
 
-    private void showWithAnimate() {
-        binding.rootLayout.animate().setDuration(500).alpha(1);
-        binding.waveHeader.start();
-        ValueAnimator animator = ObjectAnimator.ofFloat(binding.waveHeader, View.ALPHA, 0, 2).setDuration(1000);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.start();
-    }
-
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (!isTablet()) drawerToggle.onConfigurationChanged(newConfig);
+        if (!isTablet() && drawerToggle != null) drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -144,7 +139,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Intent intent = null;
+        Intent intent;
         switch (id) {
             case R.id.menu_song_apply:
                 if (Utils.identity == Identity.STUDENT)
@@ -188,7 +183,16 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 }
                 startActivity(intent);
                 break;
-            default :
+            case R.id.menu_lost_found:
+                if (Utils.identity == Identity.STUDENT)
+                    intent = new Intent(this, LostFoundActivity.class);
+                else {
+                    notSupportToast();
+                    break;
+                }
+                startActivity(intent);
+                break;
+            default:
                 notSupportToast();
         }
 
@@ -238,14 +242,4 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         calendar.set(Calendar.MILLISECOND, 0);
         ((OnDateClickListener) this).onDateChanged(calendar.getTime());
     }
-}
-
-interface OnDateClickListener {
-    void onDateBackClick(View v);
-
-    void onDateTodayClick(View v);
-
-    void onDateForwardClick(View v);
-
-    void onDateChanged(Date date);
 }

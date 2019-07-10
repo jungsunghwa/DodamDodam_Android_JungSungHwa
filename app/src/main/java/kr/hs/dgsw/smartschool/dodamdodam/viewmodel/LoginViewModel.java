@@ -1,15 +1,10 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
-import android.util.Base64;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -17,9 +12,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginData;
 import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
-import kr.hs.dgsw.smartschool.dodamdodam.Utils;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LoginClient;
 
 public class LoginViewModel extends ViewModel {
@@ -29,12 +22,12 @@ public class LoginViewModel extends ViewModel {
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private LoginClient loginClient;
     private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
+    private TokenManager manager;
 
     public LoginViewModel(Context context) {
         loginClient = new LoginClient();
         disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public LiveData<Boolean> isSuccess() {
@@ -56,19 +49,9 @@ public class LoginViewModel extends ViewModel {
                         new DisposableSingleObserver<LoginData>() {
                             @Override
                             public void onSuccess(LoginData loginData) {
-                                Log.i("token", loginData.getToken());
-                                try {
-                                    String[] split = loginData.getToken().split("\\.");
-                                    JSONObject payload = new JSONObject(new String(Base64.decode(split[1], Base64.DEFAULT)));
-                                    String tokenMemberId = payload.getString("memberId");
-                                    if (!id.equals(tokenMemberId)) {
-                                        onError(new Throwable("잘못 된 정보가 반환되었습니다. 다시 시도해주세요."));
-                                        return;
-                                    }
-                                } catch (JSONException ignore) {
-                                }
-                                databaseHelper.insert(DatabaseManager.TABLE_TOKEN, loginData);
-                                Utils.myId = id;
+                                if (!TokenManager.isValidate(id, loginData.getToken()))
+                                    onError(new Throwable("잘못된 정보가 반환되었습니다. 다시 시도해주세요."));
+                                manager.setToken(loginData.getToken(), loginData.getRefreshToken());
                                 isSuccess.setValue(true);
                                 loading.setValue(false);
                             }

@@ -26,11 +26,11 @@ import retrofit2.Response;
 
 abstract class BaseViewModel<T> extends ViewModel {
     private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
+    DatabaseHelper helper;
     private SingleObserver subscription;
 
-    private final MutableLiveData<String> successMessage = new MutableLiveData<>();
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    final MutableLiveData<String> successMessage = new MutableLiveData<>();
+    final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     final MutableLiveData<Throwable> error = new MutableLiveData<>();
     public final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     final MutableLiveData<T> data = new MutableLiveData<>();
@@ -56,7 +56,7 @@ abstract class BaseViewModel<T> extends ViewModel {
 
     BaseViewModel(Context context) {
         disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+        helper = DatabaseHelper.getInstance(context);
     }
 
     void addDisposable(Single single, DisposableSingleObserver observer) {

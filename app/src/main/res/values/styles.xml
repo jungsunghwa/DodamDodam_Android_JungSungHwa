@@ -32,19 +32,6 @@
         <item name="fabDrawable">@drawable/ic_create</item>
     </style>
 
-    <style name="ThemeOverlay.App.AppBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
-        <item name="colorControlNormal">?colorPrimary</item>
-        <item name="android:windowBackground">@color/windowBackgroundColor</item>
-    </style>
-
-    <style name="ThemeOverlay.App.Dark.ActionBar" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <item name="colorControlNormal">@android:color/white</item>
-    </style>
-
-    <style name="Theme.App.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.App.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <style name="TextAppearance.App.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/nanum_square_regular</item>
     </style>

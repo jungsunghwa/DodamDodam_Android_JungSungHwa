@@ -20,42 +20,41 @@ import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.ClassClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.StudentClient;
 
-public class StudentViewModel extends ViewModel {
+public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
 
-    private final MutableLiveData<ArrayList<ClassInfo>> classInfos = new MutableLiveData<>();
+    private final MutableLiveData<List<ClassInfo>> classInfos = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private ClassClient classClient;
     private StudentClient studentClient;
     private CompositeDisposable disposable;
-    private DatabaseHelper databaseHelper;
+    private DatabaseHelper helper;
+    private TokenManager manager;
 
     public StudentViewModel(Context context) {
+        super(context);
         classClient = new ClassClient();
         studentClient = new StudentClient();
         disposable = new CompositeDisposable();
-        databaseHelper = DatabaseHelper.getDatabaseHelper(context);
+        helper = DatabaseHelper.getInstance(context);
+        manager = TokenManager.getInstance(context);
     }
 
-    public LiveData<ArrayList<ClassInfo>> getClassInfos() {
+    public LiveData<List<ClassInfo>> getClassInfos() {
         return classInfos;
     }
 
     public MutableLiveData<Boolean> getIsSuccess() {
         return isSuccess;
-    }
-
-    public LiveData<String> getError() {
-        return loginErrorMessage;
     }
 
     public LiveData<Boolean> getLoading() {
@@ -65,7 +64,7 @@ public class StudentViewModel extends ViewModel {
     public void getClasses() {
         loading.setValue(true);
 
-        ArrayList<ClassInfo> classes = (ArrayList<ClassInfo>) databaseHelper.getData("class", new DatabaseGetDataType<>(ClassInfo.class));
+        List<ClassInfo> classes = helper.getData(DatabaseManager.TABLE_CLASS, new DatabaseGetDataType<>(ClassInfo.class));
 
         if (!classes.isEmpty()) {
             loading.setValue(false);
@@ -73,16 +72,16 @@ public class StudentViewModel extends ViewModel {
             return;
         }
 
-        Token token = databaseHelper.getToken();
+        Token token = manager.getToken();
 
         disposable.add(
                 studentClient.getClasses(token)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
-                        new DisposableSingleObserver<ArrayList<ClassInfo>>() {
+                        new DisposableSingleObserver<List<ClassInfo>>() {
                             @Override
-                            public void onSuccess(ArrayList<ClassInfo> classes) {
-                                databaseHelper.insert("class", classes);
+                            public void onSuccess(List<ClassInfo> classes) {
+                                helper.insert(DatabaseManager.TABLE_CLASS, classes);
                                 classInfos.setValue(classes);
                                 loading.setValue(false);
                             }
@@ -98,10 +97,10 @@ public class StudentViewModel extends ViewModel {
     public void getStudent() {
         loading.setValue(true);
 
-        ArrayList<Member> students = (ArrayList<Member>) Stream.of(databaseHelper.getAllMembers()).filter(value -> value.getAuth() == 1).toList();
+        List<Member> students = Stream.of(helper.getAllMembers()).filter(value -> value.getAuth() == 1).toList();
 
         for (Member member : students) {
-            if (member.getId().equals(Utils.myId)) {
+            if (member.getId().equals(manager.getMyId())) {
                 Utils.identity = Identity.STUDENT;
                 break;
             }
@@ -113,17 +112,17 @@ public class StudentViewModel extends ViewModel {
             return;
         }
 
-        Token token = databaseHelper.getToken();
+        Token token = manager.getToken();
 
         disposable.add(studentClient.getMember(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<ArrayList<Member>>() {
+                .subscribeWith(new DisposableSingleObserver<List<Member>>() {
                     @Override
-                    public void onSuccess(ArrayList<Member> response) {
-                        ArrayList<Member> members = new ArrayList<>();
+                    public void onSuccess(List<Member> response) {
+                        List<Member> members = new ArrayList<>();
                         for (Member member : response) {
-                            if (member.getId().equals(Utils.myId)) {
+                            if (member.getId().equals(manager.getMyId())) {
                                 switch (member.getAuth()) {
                                     case 1:
                                         Utils.identity = Identity.STUDENT;
@@ -147,9 +146,9 @@ public class StudentViewModel extends ViewModel {
                             ((Teacher) teacherList.get(i)).setMemberID(teacherList.get(i).getId());
                         }
 
-                        databaseHelper.insert(DatabaseManager.TABLE_MEMBER, members);
-                        databaseHelper.insert(DatabaseManager.TABLE_STUDENT, studentList);
-                        databaseHelper.insert(DatabaseManager.TABLE_TEACHER, teacherList);
+                        helper.insert(DatabaseManager.TABLE_MEMBER, members);
+                        helper.insert(DatabaseManager.TABLE_STUDENT, studentList);
+                        helper.insert(DatabaseManager.TABLE_TEACHER, teacherList);
                         isSuccess.setValue(true);
                         loading.setValue(false);
                     }

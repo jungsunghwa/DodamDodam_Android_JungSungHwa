@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.PlaceItemBinding;
 
 public class PlaceViewHolder extends RecyclerView.ViewHolder {

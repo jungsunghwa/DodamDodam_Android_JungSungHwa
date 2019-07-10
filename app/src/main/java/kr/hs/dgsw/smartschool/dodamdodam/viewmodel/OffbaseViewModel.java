@@ -16,7 +16,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Leaves;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Offbase;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Pass;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Passes;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.OffbaseClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.OffbaseRequest;
 
@@ -36,13 +36,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     private OffbaseClient client;
     private CompositeDisposable disposable;
-    private DatabaseHelper helper;
+    private TokenManager manager;
 
     public OffbaseViewModel(Context context) {
         super(context);
         client = new OffbaseClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public MutableLiveData<Throwable> getError() {
@@ -79,12 +79,12 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void list() {
         loading.setValue(true);
-        addDisposable(client.getOffbase(helper.getToken()), dataObserver);
+        addDisposable(client.getOffbase(manager.getToken()), dataObserver);
     }
 
     public void listAllow() {
         loading.setValue(true);
-        disposable.add(client.getOffbaseAllow(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getOffbaseAllow(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Offbase>() {
                             @Override
@@ -103,7 +103,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void listCancel() {
         loading.setValue(true);
-        disposable.add(client.getOffbaseCancel(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getOffbaseCancel(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Offbase>() {
                             @Override
@@ -122,7 +122,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void leaves() {
         loading.setValue(true);
-        disposable.add(client.getLeaves(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getLeaves(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Leaves>() {
                             @Override
@@ -141,7 +141,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void leaveAllows() {
         loading.setValue(true);
-        disposable.add(client.getLeaveAllows(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getLeaveAllows(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Leaves>() {
                             @Override
@@ -160,7 +160,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void leaveCancels() {
         loading.setValue(true);
-        disposable.add(client.getLeaveCancels(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getLeaveCancels(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Leaves>() {
                             @Override
@@ -179,7 +179,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void leaveById(int leaveId) {
         loading.setValue(true);
-        disposable.add(client.getLeaveById(helper.getToken(), leaveId).subscribeOn(Schedulers.io())
+        disposable.add(client.getLeaveById(manager.getToken(), leaveId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Leave>() {
                             @Override
@@ -198,7 +198,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void passes() {
         loading.setValue(true);
-        disposable.add(client.getPasses(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getPasses(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Passes>() {
                             @Override
@@ -217,7 +217,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void passAllows() {
         loading.setValue(true);
-        disposable.add(client.getPassAllows(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getPassAllows(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Passes>() {
                             @Override
@@ -236,7 +236,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void passCancels() {
         loading.setValue(true);
-        disposable.add(client.getPassCancels(helper.getToken()).subscribeOn(Schedulers.io())
+        disposable.add(client.getPassCancels(manager.getToken()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Passes>() {
                             @Override
@@ -255,7 +255,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void passById(int passId) {
         loading.setValue(true);
-        disposable.add(client.getPassById(helper.getToken(), passId).subscribeOn(Schedulers.io())
+        disposable.add(client.getPassById(manager.getToken(), passId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<Pass>() {
                             @Override
@@ -274,7 +274,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void postLeave(OffbaseRequest request) {
         loading.setValue(true);
-        disposable.add(client.postLeave(helper.getToken(), request).subscribeOn(Schedulers.io())
+        disposable.add(client.postLeave(manager.getToken(), request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
@@ -293,7 +293,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void postPass(OffbaseRequest request) {
         loading.setValue(true);
-        disposable.add(client.postPass(helper.getToken(), request).subscribeOn(Schedulers.io())
+        disposable.add(client.postPass(manager.getToken(), request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
@@ -312,7 +312,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void updateLeave(int leaveId, OffbaseRequest request) {
         loading.setValue(true);
-        disposable.add(client.putLeave(helper.getToken(), leaveId, request).subscribeOn(Schedulers.io())
+        disposable.add(client.putLeave(manager.getToken(), leaveId, request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
@@ -331,7 +331,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void updatePass(int passId, OffbaseRequest request) {
         loading.setValue(true);
-        disposable.add(client.putPass(helper.getToken(), passId, request).subscribeOn(Schedulers.io())
+        disposable.add(client.putPass(manager.getToken(), passId, request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
@@ -350,7 +350,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void deleteLeave(int leaveId) {
         loading.setValue(true);
-        disposable.add(client.deleteLeave(helper.getToken(), leaveId).subscribeOn(Schedulers.io())
+        disposable.add(client.deleteLeave(manager.getToken(), leaveId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override
@@ -369,7 +369,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void deletePass(int passId) {
         loading.setValue(true);
-        disposable.add(client.deletePass(helper.getToken(), passId).subscribeOn(Schedulers.io())
+        disposable.add(client.deletePass(manager.getToken(), passId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
                         new DisposableSingleObserver<String>() {
                             @Override

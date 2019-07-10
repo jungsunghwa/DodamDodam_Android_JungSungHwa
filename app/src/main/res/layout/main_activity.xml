@@ -23,12 +23,11 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleY="-1"
-                app:mwhCloseColor="#FFF"
+                app:mwhCloseColor="@color/colorBackground"
                 app:mwhColorAlpha=".3"
                 app:mwhGradientAngle="320"
-                app:mwhIsRunning="false"
                 app:mwhProgress=".7"
-                app:mwhStartColor="#FFF"
+                app:mwhStartColor="@color/colorBackground"
                 app:mwhVelocity="2"
                 app:mwhWaveHeight="45dp"
                 app:mwhWaves="220,0,1,1,-15\n100,5,1.4,1.2,15\n420,0,1.15,1,-7" />
@@ -37,9 +36,7 @@
                 android:id="@+id/root_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="?actionBarSize"
-                android:alpha="0"
-                tools:alpha="1">
+                android:layout_marginTop="?actionBarSize">
 
                 <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamTextDate
                     android:id="@+id/text_date"
@@ -116,14 +113,6 @@
                         app:tint="?colorControlNormal" />
                 </LinearLayout>
 
-                <!--<androidx.viewpager.widget.ViewPager
-                    android:id="@+id/meal_pager"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/date_select_layout" />-->
                 <include
                     android:id="@+id/meal_items"
                     layout="@layout/meal_items"

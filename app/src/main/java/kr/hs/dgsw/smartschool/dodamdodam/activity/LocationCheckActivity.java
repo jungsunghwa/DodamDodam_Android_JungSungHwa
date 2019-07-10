@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -18,12 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.angmarch.views.NiceSpinner;
 import org.angmarch.views.OnSpinnerItemSelectedListener;
-
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.ListType;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.ListType;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -39,9 +40,9 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
 
     ListType listType = ListType.CLASS;
 
-    ArrayList<Place> placeList = new ArrayList<>();
-    ArrayList<ClassInfo> classInfos = new ArrayList<>();
-    ArrayList<Time> timeList = new ArrayList<>();
+    List<Place> placeList = new ArrayList<>();
+    List<ClassInfo> classInfos = new ArrayList<>();
+    List<Time> timeList = new ArrayList<>();
     List spinnerList = new ArrayList();
 
     PlaceViewModel placeViewModel;
@@ -76,7 +77,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         timeTableViewModel.getTimeTable();
         locationViewModel.getLocation();
 
-        locationViewModel.getData().observe(this, location->{
+        locationViewModel.getData().observe(this, location -> {
             this.location = location;
 
             locationListAdapter = new LocationListAdapter(this, location, listType, selectItem, selectedTime);
@@ -91,15 +92,15 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             });
         });
 
-        studentViewModel.getClassInfos().observe(this, classInfoList->{
-            classInfos = classInfoList;
+        studentViewModel.getData().observe(this, classInfoList -> {
+            classInfos = (ArrayList<ClassInfo>) classInfoList;
 
             binding.classSpinner.setItems(classInfos);
             selectItem = classInfos.get(0);
         });
 
         timeTableViewModel.getData().observe(this, times -> {
-            timeList = (ArrayList<Time>) times;
+            timeList = times;
 
             binding.timeSpinner.setItems(timeList);
 
@@ -108,7 +109,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
 
 
         placeViewModel.getData().observe(this, data -> {
-            placeList = (ArrayList<Place>) data;
+            placeList = data;
         });
 
         binding.toggle.setOnCheckedChangeListener((view, checkedId) -> {
@@ -130,13 +131,13 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         });
 
         binding.classSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Object>)
-                (view, position, id, item) ->{
+                (view, position, id, item) -> {
                     selectItem = item;
                     showSelectOptionSnackbar(view);
         });
 
         binding.timeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Time>)
-                (view, position, id, item) ->{
+                (view, position, id, item) -> {
                     selectedTime = item;
                     showSelectOptionSnackbar(view);
                 });
@@ -145,12 +146,13 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             locationViewModel.getLocation();
         });
     }
+
     private void showSelectOptionSnackbar(View v) {
         a();
         Snackbar.make(binding.locationList, selectedTime.toString()+"에 "+ selectItem.toString()+"의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
     }
 
-    private void a(){
+    private void a() {
         if (listType == ListType.CLASS) {
             binding.listTypeClass.setTextColor(Color.WHITE);
             binding.listTypePlace.setTextColor(Color.BLACK);

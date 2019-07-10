@@ -1,10 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
+import java.util.List;
+
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
-import kr.hs.dgsw.b1nd.service.retrofit2.response.member.MemberData;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsels;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Teachers;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;

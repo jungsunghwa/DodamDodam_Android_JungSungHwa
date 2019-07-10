@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 
@@ -38,7 +39,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.task.OnTaskListener;
 import kr.hs.dgsw.smartschool.dodamdodam.network.task.YoutubeMusicSearchTask;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.SongViewModel;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.SoftKeyboardManager;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.InputMethodHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OnItemSelectedListener;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongSearchAdapter;
 
@@ -52,7 +53,7 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
     private static final String PREF_ACCOUNT_NAME = "account";
 
     private SongViewModel viewModel;
-    private SoftKeyboardManager keyboardManager;
+    private InputMethodHelper keyboardManager;
     private List<YoutubeData> results;
 
     private SongSearchAdapter adapter;
@@ -69,7 +70,7 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        keyboardManager = new SoftKeyboardManager(this);
+        keyboardManager = new InputMethodHelper(this);
 
         viewModel = new SongViewModel(this);
         viewModel.getSuccessMessage().observe(this, message -> {
@@ -260,11 +261,5 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
     @Override
     public void onItemSelected(YoutubeData youtubeData, boolean selected) {
         viewModel.select(youtubeData, selected);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        keyboardManager.unregisterSoftKeyboardCallback();
     }
 }

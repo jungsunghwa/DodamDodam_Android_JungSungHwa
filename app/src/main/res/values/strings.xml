@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
     <string name="app_name">도담도담</string>
 
     <string name="title_point_list">상벌점 기준</string>
@@ -10,8 +11,14 @@
     <string name="title_offbase_apply_pass">외출 신청</string>
     <string name="title_offbase_detail">상세 정보</string>
     <string name="title_lostfound">분실물</string>
+    <string name="title_counsel">상담</string>
+    <string name="title_counsel_apply">상담 신청</string>
 
-    <string name="subtitle_point_list">2019.3.</string>
+
+    <!-- TODO 개정일 -->
+    <string name="subtitle_point_list" translatable="false">2019.3.</string>
+
+    <string name="shortcut_bus_apply">버스 신청</string>
 
     <string name="text_login">로그인</string>
     <string name="text_meal_empty">급식이 없습니다</string>
@@ -54,11 +61,13 @@
     <string name="menu_bus_apply">셔틀 버스</string>
     <string name="menu_lost_found">분실물</string>
     <string name="menu_counsel_apply">상담 신청</string>
+    <string name="title_lostfound_writing">글쓰기</string>
 
-    <!--TODO '+' to format-->
     <string name="desc_select_place">에 있을 장소를 선택해 주세요!</string>
     <string name="desc_offbase_apply">신청하고 싶은 날짜와 시간, 사유를 작성해 주세요</string>
     <string name="desc_drawer_open">열기</string>
     <string name="desc_drawer_close">닫기</string>
     <string name="menu_location_check">위치 확인</string>
+
+    <string name="b1nd" translatable="false">B1ND</string>
 </resources>

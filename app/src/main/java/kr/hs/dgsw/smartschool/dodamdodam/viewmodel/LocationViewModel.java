@@ -20,7 +20,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
@@ -31,24 +30,18 @@ import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
-import okhttp3.ResponseBody;
-import retrofit2.HttpException;
 
-public class LocationViewModel extends BaseViewModel {
+public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationInfo>>> {
     private LocationClient locationClient;
-    private LocationRequest<LocationInfo> locationRequest;
+    private LocationRequest locationRequest;
     private CompositeDisposable disposable;
-    private DatabaseHelper helper;
     private ArrayList<Locations> locations;
-
-
-    private final MutableLiveData<String> successMessage = new MutableLiveData<>();
-    private final MutableLiveData<Map<Student, List<LocationInfo>>> data = new MutableLiveData<>();
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private TokenManager manager;
+    private Boolean isPost = false;
 
     private Map<Student, List<LocationInfo>> result = new HashMap<>();
 
@@ -56,29 +49,13 @@ public class LocationViewModel extends BaseViewModel {
         super(context);
         locationClient = new LocationClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getDatabaseHelper(context);
-    }
-
-    public LiveData<String> getSuccessMessage() {
-        return successMessage;
-    }
-
-    public LiveData<Map<Student, List<LocationInfo>>> getData() {
-        return data;
-    }
-
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
-    }
-
-    public LiveData<Boolean> getLoading() {
-        return loading;
+        manager = TokenManager.getInstance(context);
     }
 
     public void putLocation(LocationInfo locationInfo) {
         loading.setValue(true);
 
-        addDisposable(locationClient.putLocation(locationInfo, helper.getToken()), baseObserver);
+        addDisposable(locationClient.putLocation(locationInfo, manager.getToken()), baseObserver);
     }
 
     public void postLocation() {
@@ -107,14 +84,14 @@ public class LocationViewModel extends BaseViewModel {
 
         for (Time time : times) timeTable.add(new LocationInfo(time, null));
 
-        locationRequest = new LocationRequest<>(timeTable, ((Student) helper.getMyInfo()).getClassInfo());
+        locationRequest = new LocationRequest(timeTable, ((Student) helper.getMyInfo()).getClassInfo());
         //-------------------------------------------------------------------------------------------------------------------//
-        addDisposable(locationClient.postLocation(locationRequest, helper.getToken()), observer);
+        addDisposable(locationClient.postLocation(locationRequest, manager.getToken()), observer);
     }
 
     public void checkLocation(int idx) {
         loading.setValue(true);
-        addDisposable(locationClient.checkLocation(helper.getToken(), idx), baseObserver);
+        addDisposable(locationClient.checkLocation(manager.getToken(), idx), baseObserver);
     }
 
     public void getLocation() {
@@ -135,7 +112,7 @@ public class LocationViewModel extends BaseViewModel {
             }
         };
         //client는 존재 해야되는데 onError로 호출 하는 방법을 찾아야 됨
-        addDisposable(locationClient.getLocation(helper.getToken()), observer);
+        addDisposable(locationClient.getLocation(manager.getToken()), observer);
     }
 
     public void getMyLocation() {
@@ -161,7 +138,7 @@ public class LocationViewModel extends BaseViewModel {
             }
         };
 
-        addDisposable(locationClient.getMyLocation(helper.getToken()), observer);
+        addDisposable(locationClient.getMyLocation(manager.getToken()), observer);
     }
 
     private Map<Student, List<LocationInfo>> convertLocationsToMap(List<Locations> locations) {

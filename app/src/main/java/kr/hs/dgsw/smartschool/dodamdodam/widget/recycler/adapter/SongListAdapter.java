@@ -21,11 +21,11 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.SongViewHolder;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongViewHolder> {
 
-    private final RequestManager glide;
+    private RequestManager glide;
     private List<YoutubeData> list;
 
     public SongListAdapter(Context context, List<Video> list) {
-        glide = Glide.with(context);
+        glide = Glide.with(context.getApplicationContext());
         this.list = convertToYoutube(list);
     }
 
@@ -47,6 +47,12 @@ public class SongListAdapter extends RecyclerView.Adapter<SongViewHolder> {
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        glide = null;
     }
 
     private List<YoutubeData> convertToYoutube(List<Video> videos) {

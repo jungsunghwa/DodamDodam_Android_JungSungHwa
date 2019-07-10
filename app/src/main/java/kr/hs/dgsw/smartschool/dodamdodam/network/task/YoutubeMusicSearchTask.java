@@ -19,8 +19,8 @@ import com.google.api.services.youtube.model.Thumbnail;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.song.YoutubeData;
+import kr.hs.dgsw.smartschool.dodamdodam.R;
 
 public class YoutubeMusicSearchTask extends AsyncTask<String, Void, List<YoutubeData>> {
 
@@ -61,7 +61,7 @@ public class YoutubeMusicSearchTask extends AsyncTask<String, Void, List<Youtube
                     if (mediumThumb != null) {
                         results.add(new YoutubeData(videoId, mediumThumb.getUrl(), videoTitle, channelTitle));
                     } else
-                        results.add(new YoutubeData(videoId, videoTitle,  channelTitle));
+                        results.add(new YoutubeData(videoId, videoTitle, channelTitle));
                 }
             }
             return results;

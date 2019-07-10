@@ -1,20 +1,19 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.annotation.ColorInt;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -25,12 +24,9 @@ import kr.hs.dgsw.smartschool.dodamdodam.R;
 
 public class MealCardView extends MaterialCardView {
 
-    private LinearLayoutCompat errorLayout;
-
     private AppCompatTextView mealTypeView;
     private AppCompatTextView mealTextView;
     private View divider;
-    private AppCompatImageView errorImage;
     private AppCompatTextView errorTextView;
     private ProgressBar progress;
 
@@ -57,7 +53,9 @@ public class MealCardView extends MaterialCardView {
         init(context, attrs);
     }
 
+    @SuppressLint("PrivateResource")
     private void init(Context context, AttributeSet attrs) {
+        setMinimumWidth(ViewUtils.dpToPx(getContext(), 480));
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MealCardView);
 
@@ -75,16 +73,9 @@ public class MealCardView extends MaterialCardView {
         ConstraintLayout layout = new ConstraintLayout(getContext());
         layout.setMinimumHeight(ViewUtils.dpToPx(getContext(), 90));
 
-        errorLayout = new LinearLayoutCompat(getContext());
-        errorLayout.setId(generateViewId());
-        errorLayout.setOrientation(LinearLayoutCompat.HORIZONTAL);
-        errorLayout.setGravity(Gravity.CENTER);
-        errorLayout.setVisibility(isError ? VISIBLE : GONE);
-
         mealTypeView = new AppCompatTextView(getContext());
         mealTextView = new AppCompatTextView(getContext());
         divider = new View(getContext());
-        errorImage = new AppCompatImageView(getContext());
         errorTextView = new AppCompatTextView(getContext());
         progress = new ProgressBar(getContext());
 
@@ -92,16 +83,17 @@ public class MealCardView extends MaterialCardView {
         mealTextView.setId(generateViewId());
         errorTextView.setId(generateViewId());
         divider.setId(generateViewId());
-        errorImage.setId(generateViewId());
         progress.setId(generateViewId());
 
         try {
             Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nanum_square_round);
             mealTypeView.setTypeface(typeface);
             mealTextView.setTypeface(typeface);
+            errorTextView.setTypeface(typeface);
         } catch (Resources.NotFoundException e) {
             mealTypeView.setTypeface(mealTypeView.getTypeface());
             mealTextView.setTypeface(mealTextView.getTypeface());
+            errorTextView.setTypeface(errorTextView.getTypeface());
         }
 
         mealTypeView.setTextSize(20);
@@ -115,9 +107,13 @@ public class MealCardView extends MaterialCardView {
 
         mealTypeView.setText(typeText);
         mealTextView.setText(mealText);
+        errorTextView.setText(errorText);
 
-        errorImage.setImageResource(R.drawable.ic_warning);
+        errorTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_warning, 0, 0, 0);
+        errorTextView.setCompoundDrawablePadding(ViewUtils.dpToPx(getContext(), 8));
+        errorTextView.setSupportCompoundDrawablesTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), com.google.android.material.R.color.mtrl_btn_text_color_selector)));
 
+        errorTextView.setVisibility(isError ? VISIBLE : GONE);
         progress.setVisibility(isLoading ? VISIBLE : GONE);
 
         ConstraintLayout.LayoutParams mealTypeLayoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -139,25 +135,29 @@ public class MealCardView extends MaterialCardView {
         dividerLayoutParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
         dividerLayoutParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
 
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.topToBottom = mealTypeView.getId();
-        params.bottomToBottom = divider.getId();
-        params.startToEnd = divider.getId();
-        params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
+        ConstraintLayout.LayoutParams progressParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        progressParams.topToBottom = mealTypeView.getId();
+        progressParams.bottomToBottom = divider.getId();
+        progressParams.startToEnd = divider.getId();
+        progressParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
 
-        LinearLayoutCompat.LayoutParams errorTextViewParam = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        errorTextViewParam.setMarginStart(ViewUtils.dpToPx(getContext(), 8));
-        
-        errorLayout.addView(errorImage);
-        errorLayout.addView(errorTextView, errorTextViewParam);
+        ConstraintLayout.LayoutParams errorTextParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        errorTextParams.topToBottom = mealTypeView.getId();
+        errorTextParams.bottomToBottom = divider.getId();
+        errorTextParams.startToEnd = divider.getId();
+        errorTextParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
 
         layout.addView(divider, dividerLayoutParams);
         layout.addView(mealTypeView, mealTypeLayoutParams);
         layout.addView(mealTextView, mealTextLayoutParams);
-        layout.addView(errorLayout, params);
-        layout.addView(progress, params);
+        layout.addView(errorTextView, errorTextParams);
+        layout.addView(progress, progressParams);
 
         addView(layout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
+    public CharSequence getMeal() {
+        return mealText;
     }
 
     public void setMeal(CharSequence text) {
@@ -165,17 +165,13 @@ public class MealCardView extends MaterialCardView {
         mealTextView.setText(text);
     }
 
-    public CharSequence getMeal() {
-        return mealText;
+    public CharSequence getType() {
+        return typeText;
     }
 
     public void setType(CharSequence text) {
         typeText = text;
         mealTypeView.setText(typeText);
-    }
-
-    public CharSequence getType() {
-        return typeText;
     }
 
     public int getDividerColor() {
@@ -191,27 +187,27 @@ public class MealCardView extends MaterialCardView {
         return isError;
     }
 
-    public CharSequence getErrorText() {
-        return errorText;
-    }
-
     public void setError(boolean error) {
         isError = error;
-        errorLayout.setVisibility(isError ? VISIBLE : GONE);
+        errorTextView.setVisibility(isError ? VISIBLE : GONE);
+        if (isError)
+            mealTextView.setText(null);
     }
 
     public void setError(CharSequence text) {
         errorText = text;
-        isError = !TextUtils.isEmpty(text);
-        errorLayout.setVisibility(isError ? VISIBLE : GONE);
         errorTextView.setText(errorText);
+        setError(!TextUtils.isEmpty(text));
+    }
+
+    public CharSequence getErrorText() {
+        return errorText;
     }
 
     public void setError(boolean error, CharSequence text) {
-        isError = error;
         errorText = text;
-        errorLayout.setVisibility(isError ? VISIBLE : GONE);
         errorTextView.setText(errorText);
+        setError(error);
     }
 
     public boolean isLoading() {

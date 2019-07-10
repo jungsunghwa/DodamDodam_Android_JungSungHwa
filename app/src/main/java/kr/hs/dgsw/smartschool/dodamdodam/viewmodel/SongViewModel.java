@@ -14,7 +14,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.song.Video;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.song.YoutubeData;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.SongClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongCheckRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongRequest;
@@ -26,13 +26,13 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
 
     private SongClient client;
     private CompositeDisposable disposable;
-    private DatabaseHelper helper;
+    private TokenManager manager;
 
     public SongViewModel(Context context) {
         super(context);
         client = new SongClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getDatabaseHelper(context);
+        manager = TokenManager.getInstance(context);
     }
 
     public MutableLiveData<List<Video>> getSongsData() {
@@ -45,23 +45,23 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
 
     public void list() {
         loading.setValue(true);
-        addDisposable(client.getSongs(helper.getToken()), dataObserver);
+        addDisposable(client.getSongs(manager.getToken()), dataObserver);
     }
 
     public void listMy() {
         loading.setValue(true);
-        addDisposable(client.getMySongs(helper.getToken()), dataObserver);
+        addDisposable(client.getMySongs(manager.getToken()), dataObserver);
     }
 
     public void listMyAllow() {
         loading.setValue(true);
-        addDisposable(client.getMyAllowSongs(helper.getToken()), dataObserver);
+        addDisposable(client.getMyAllowSongs(manager.getToken()), dataObserver);
     }
 
     public void apply(SongRequest request) {
         loading.setValue(true);
-        addDisposable(client.postSong(helper.getToken(), request), baseObserver);
-//        disposable.add(client.postSong(helper.getToken(), request).subscribeOn(Schedulers.io())
+        addDisposable(client.postSong(manager.getToken(), request), baseObserver);
+//        disposable.add(client.postSong(manager.getToken(), request).subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
 //                        new DisposableSingleObserver<String>() {
 //                            @Override
@@ -80,8 +80,8 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
 
     public void allow(SongCheckRequest request) {
         loading.setValue(true);
-        addDisposable(client.postAllowSong(helper.getToken(), request), baseObserver);
-//        disposable.add(client.postAllowSong(helper.getToken(), request).subscribeOn(Schedulers.io())
+        addDisposable(client.postAllowSong(manager.getToken(), request), baseObserver);
+//        disposable.add(client.postAllowSong(manager.getToken(), request).subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
 //                        new DisposableSingleObserver<String>() {
 //                            @Override
@@ -100,8 +100,8 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
 
     public void deny(SongCheckRequest request) {
         loading.setValue(true);
-        addDisposable(client.postDenySong(helper.getToken(), request), baseObserver);
-//        disposable.add(client.postDenySong(helper.getToken(), request).subscribeOn(Schedulers.io())
+        addDisposable(client.postDenySong(manager.getToken(), request), baseObserver);
+//        disposable.add(client.postDenySong(manager.getToken(), request).subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
 //                        new DisposableSingleObserver<String>() {
 //                            @Override
@@ -132,7 +132,8 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
                     }
 
                     @Override
-                    public void onError(Throwable e) {}
+                    public void onError(Throwable e) {
+                    }
                 }
         ));
     }

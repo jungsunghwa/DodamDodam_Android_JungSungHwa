@@ -9,6 +9,6 @@
         <attr name="showError" format="boolean" />
     </declare-styleable>
     <declare-styleable name="FloatingActionButton">
-        <attr name="fabDrawable" format="reference"/>
+        <attr name="fabDrawable" format="reference" />
     </declare-styleable>
 </resources>

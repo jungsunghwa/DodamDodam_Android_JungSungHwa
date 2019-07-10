@@ -1,6 +1,5 @@
 package kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LostFounds {

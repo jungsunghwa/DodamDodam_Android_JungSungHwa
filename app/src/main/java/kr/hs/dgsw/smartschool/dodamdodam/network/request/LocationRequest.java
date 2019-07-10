@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Location;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 
+@SuppressWarnings("unchecked")
 public class LocationRequest<L extends Location> {
     private List<LocationInfo> locations = new ArrayList<>();
 
@@ -32,6 +33,7 @@ public class LocationRequest<L extends Location> {
         return  locations;
     }
 
+    @SuppressWarnings("SuspiciousMethodCalls")
     public void setLocations(List<LocationInfo> timePlaceMap, ClassInfo classInfo) {
         Stream.of(timePlaceMap).forEach(locationInfo -> {
             Time time = locationInfo.getTime();
@@ -61,7 +63,7 @@ public class LocationRequest<L extends Location> {
         });
     }
 
-    public LocationInfo findLocationByTimeIdx(Integer timeIdx,ClassInfo classInfo) {
+    public LocationInfo findLocationByTimeIdx(Integer timeIdx, ClassInfo classInfo) {
         for (Location location : locations) {
             LocationInfo locationInfo = (LocationInfo) location;
             if (locationInfo.getTimetableIdx() == timeIdx) {

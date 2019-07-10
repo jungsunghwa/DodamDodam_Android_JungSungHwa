@@ -7,8 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.OffbaseItemBinding;
 
 public class OffbaseViewHolder extends RecyclerView.ViewHolder {

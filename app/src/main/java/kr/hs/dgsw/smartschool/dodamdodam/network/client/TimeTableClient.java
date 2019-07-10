@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Single;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.TimeTables;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.TimeTableService;
@@ -21,7 +21,7 @@ import retrofit2.internal.EverythingIsNonNull;
 public class TimeTableClient extends NetworkClient{
     private TimeTableService timeTableService;
 
-    public TimeTableClient(){
+    public TimeTableClient() {
         timeTableService = Utils.RETROFIT.create(TimeTableService.class);
     }
 

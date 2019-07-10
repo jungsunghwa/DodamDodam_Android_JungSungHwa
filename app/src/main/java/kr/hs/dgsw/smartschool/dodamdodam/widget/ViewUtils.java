@@ -11,8 +11,6 @@ import android.view.WindowInsets;
 import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 public final class ViewUtils {
