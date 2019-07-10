@@ -43,7 +43,9 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
 
         viewModel = new OffbaseViewModel(this);
 
-        viewModel.getData().observe(this, offbase -> adapter.setOffbaseItems(offbase));
+        viewModel.getData().observe(this, offbase -> {
+            adapter.setOffbaseItems(offbase);
+        });
 
         viewModel.list();
 

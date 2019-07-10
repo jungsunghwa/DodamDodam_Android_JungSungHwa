@@ -55,7 +55,7 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
     public void putLocation(LocationInfo locationInfo) {
         loading.setValue(true);
 
-        addDisposable(locationClient.putLocation(locationInfo, manager.getToken()), baseObserver);
+        addDisposable(locationClient.putLocation(locationInfo, manager.getToken()), getBaseObserver());
     }
 
     public void postLocation() {

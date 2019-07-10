@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;

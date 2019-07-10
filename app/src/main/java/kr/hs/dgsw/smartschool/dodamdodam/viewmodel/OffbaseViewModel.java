@@ -74,6 +74,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void list() {
         loading.setValue(true);
+
         addDisposable(client.getOffbase(manager.getToken()), dataObserver);
     }
 

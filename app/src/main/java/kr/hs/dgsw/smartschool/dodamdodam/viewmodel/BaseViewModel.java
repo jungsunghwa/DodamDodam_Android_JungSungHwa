@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -67,6 +68,22 @@ abstract class BaseViewModel<T> extends ViewModel {
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribeWith(observer);
+    }
+
+    public DisposableSingleObserver<String> getBaseObserver(){
+        return new DisposableSingleObserver<String>() {
+            @Override
+            public void onSuccess(String s) {
+                successMessage.setValue(s);
+                loading.setValue(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                errorMessage.setValue(e.getMessage());
+                loading.setValue(false);
+            }
+        };
     }
 
     DisposableSingleObserver<String> baseObserver = new DisposableSingleObserver<String>() {

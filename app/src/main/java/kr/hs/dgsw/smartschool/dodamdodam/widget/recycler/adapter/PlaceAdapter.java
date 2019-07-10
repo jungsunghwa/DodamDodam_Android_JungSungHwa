@@ -36,6 +36,10 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
         placePosition.setValue(position);
     }
 
+    public MutableLiveData<Integer> getPutLocation(){
+        return putLocation;
+    }
+
     public PlaceAdapter(Context context, List<Place> placeList, LocationViewModel locationViewModel) {
         this.context = context;
         this.placeList = placeList;

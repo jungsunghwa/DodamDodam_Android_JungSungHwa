@@ -148,7 +148,6 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
 
         // 서버로부터 값이 들어올때마다 lostFoundList 에 넣어줌
         lostFoundViewModel.getData().observe(this, data -> {
-            Log.d("Tag", data.size() + "");
             for (int i = 0; i < data.size(); i++) {
                 lostFoundList.add(index, data.get(i));
                 lostFoundAdapter.notifyItemInserted(index);
