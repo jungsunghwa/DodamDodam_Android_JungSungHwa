@@ -26,7 +26,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.OffbaseRequest;
 public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private final MutableLiveData<String> message = new MutableLiveData<>();
     private final MutableLiveData<List<Leave>> leavesData = new MutableLiveData<>();
     private final MutableLiveData<List<Pass>> passesData = new MutableLiveData<>();
@@ -46,10 +45,6 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public MutableLiveData<Throwable> getError() {
         return error;
-    }
-
-    public MutableLiveData<Boolean> getLoading() {
-        return loading;
     }
 
     public MutableLiveData<String> getMessage() {
@@ -74,7 +69,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public void list() {
         loading.setValue(true);
-        addDisposable(client.getOffbase(manager.getToken()), dataObserver);
+        addDisposable(client.getOffbase(manager.getToken()), getDataObserver());
     }
 
     public void listAllow() {

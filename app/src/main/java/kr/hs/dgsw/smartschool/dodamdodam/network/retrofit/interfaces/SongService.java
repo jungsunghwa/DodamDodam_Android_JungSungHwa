@@ -36,6 +36,11 @@ public interface SongService {
             @Header("x-access-token") String token
     );
 
+    @GET("wake-song/allow/now")
+    Single<retrofit2.Response<Response<List<Video>>>> getAllowSongs(
+            @Header("x-access-token") String token
+    );
+
     @POST("wake-song/allow")
     Single<Response> postAllowSong(
             @Header("x-access-token") String token,

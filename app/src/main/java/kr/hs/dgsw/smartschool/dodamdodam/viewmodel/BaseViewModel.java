@@ -6,12 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.Objects;
-import java.util.function.Function;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -22,18 +17,23 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import okhttp3.ResponseBody;
-import retrofit2.Response;
 
 abstract class BaseViewModel<T> extends ViewModel {
-    private CompositeDisposable disposable;
-    DatabaseHelper helper;
-    private SingleObserver subscription;
-
+    public final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     final MutableLiveData<String> successMessage = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     final MutableLiveData<Throwable> error = new MutableLiveData<>();
-    public final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     final MutableLiveData<T> data = new MutableLiveData<>();
+    DatabaseHelper helper;
+    DisposableSingleObserver<String> baseObserver = new BaseDisposableSingleObserver();
+    DisposableSingleObserver<T> dataObserver = new DataDisposableSingleObserver();
+    private CompositeDisposable disposable;
+    private SingleObserver subscription;
+
+    BaseViewModel(Context context) {
+        disposable = new CompositeDisposable();
+        helper = DatabaseHelper.getInstance(context);
+    }
 
     public LiveData<String> getSuccessMessage() {
         return successMessage;
@@ -46,17 +46,13 @@ abstract class BaseViewModel<T> extends ViewModel {
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
+
     public LiveData<Throwable> getError() {
         return error;
     }
 
     public LiveData<Boolean> getLoading() {
         return loading;
-    }
-
-    BaseViewModel(Context context) {
-        disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getInstance(context);
     }
 
     void addDisposable(Single single, DisposableSingleObserver observer) {
@@ -69,7 +65,34 @@ abstract class BaseViewModel<T> extends ViewModel {
 //                .subscribeWith(observer);
     }
 
-    DisposableSingleObserver<String> baseObserver = new DisposableSingleObserver<String>() {
+    DisposableSingleObserver<String> getBaseObserver() {
+        if (baseObserver.isDisposed())
+            synchronized (BaseViewModel.class) {
+                if (baseObserver.isDisposed())
+                    baseObserver = new BaseDisposableSingleObserver();
+            }
+        return baseObserver;
+    }
+
+    DisposableSingleObserver<T> getDataObserver() {
+        if (dataObserver.isDisposed())
+            synchronized (BaseViewModel.class) {
+                if (dataObserver.isDisposed())
+                    dataObserver = new DataDisposableSingleObserver();
+            }
+        return dataObserver;
+    }
+
+    private String getErrorMessage(ResponseBody responseBody) {
+        try {
+            JSONObject jsonObject = new JSONObject(responseBody.string());
+            return jsonObject.getString("message");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    class BaseDisposableSingleObserver extends DisposableSingleObserver<String> {
         @Override
         public void onSuccess(String s) {
             successMessage.setValue(s);
@@ -83,9 +106,9 @@ abstract class BaseViewModel<T> extends ViewModel {
             loading.setValue(false);
             baseObserver.dispose();
         }
-    };
+    }
 
-    DisposableSingleObserver<T> dataObserver = new DisposableSingleObserver<T>() {
+    class DataDisposableSingleObserver extends DisposableSingleObserver<T> {
         @Override
         public void onSuccess(T t) {
             data.setValue(t);
@@ -99,15 +122,6 @@ abstract class BaseViewModel<T> extends ViewModel {
             error.setValue(e);
             loading.setValue(false);
             dataObserver.dispose();
-        }
-    };
-
-    private String getErrorMessage(ResponseBody responseBody) {
-        try {
-            JSONObject jsonObject = new JSONObject(responseBody.string());
-            return jsonObject.getString("message");
-        } catch (Exception e) {
-            return e.getMessage();
         }
     }
 }

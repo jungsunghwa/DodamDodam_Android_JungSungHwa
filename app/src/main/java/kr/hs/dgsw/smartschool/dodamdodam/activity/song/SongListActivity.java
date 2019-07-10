@@ -3,6 +3,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity.song;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
@@ -31,6 +32,8 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
     private SongViewModel viewModel;
     private SongListAdapter adapter;
 
+    private MenuItem showOnlyItem;
+
     @Override
     protected int layoutId() {
         return R.layout.song_list_activity;
@@ -43,7 +46,10 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
 
         viewModel = new SongViewModel(this);
 
-        viewModel.getData().observe(this, songs -> adapter.setList(songs));
+        viewModel.getData().observe(this, songs -> {
+            adapter.setList(songs);
+            binding.songList.smoothScrollToPosition(0);
+        });
         viewModel.getError().observe(this, error -> {
             Snackbar.make(binding.rootLayout, error.getMessage(), Snackbar.LENGTH_SHORT).show();
         });
@@ -64,14 +70,34 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
 
     @Override
     public void onRefresh() {
-        viewModel.list();
+        if (showOnlyItem.isChecked())
+            viewModel.listAllow();
+        else
+            viewModel.list();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_song, menu);
+        showOnlyItem = menu.findItem(R.id.menu_only_allowed);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.menu_only_allowed:
+                if (!item.isChecked()) {
+                    item.setChecked(true);
+                    viewModel.listAllow();
+                } else {
+                    item.setChecked(false);
+                    viewModel.list();
+                }
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

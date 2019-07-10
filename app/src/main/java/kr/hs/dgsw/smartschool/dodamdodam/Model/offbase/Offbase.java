@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.Model.offbase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Offbase {
@@ -19,6 +20,7 @@ public class Offbase {
         List<OffbaseItem> list = new ArrayList<>();
         list.addAll(leaves);
         list.addAll(passes);
+        Collections.sort(list, (o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()));
         return list;
     }
 }

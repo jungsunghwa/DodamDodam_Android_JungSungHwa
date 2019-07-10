@@ -40,22 +40,27 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
 
     public void list() {
         loading.setValue(true);
-        addDisposable(client.getSongs(manager.getToken()), dataObserver);
+        addDisposable(client.getSongs(manager.getToken()), getDataObserver());
     }
 
     public void listMy() {
         loading.setValue(true);
-        addDisposable(client.getMySongs(manager.getToken()), dataObserver);
+        addDisposable(client.getMySongs(manager.getToken()), getDataObserver());
     }
 
     public void listMyAllow() {
         loading.setValue(true);
-        addDisposable(client.getMyAllowSongs(manager.getToken()), dataObserver);
+        addDisposable(client.getMyAllowSongs(manager.getToken()), getDataObserver());
+    }
+
+    public void listAllow() {
+        loading.setValue(true);
+        addDisposable(client.getAllowSongs(manager.getToken()), getDataObserver());
     }
 
     public void apply(SongRequest request) {
         loading.setValue(true);
-        addDisposable(client.postSong(manager.getToken(), request), baseObserver);
+        addDisposable(client.postSong(manager.getToken(), request), getBaseObserver());
 //        disposable.add(client.postSong(manager.getToken(), request).subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
 //                        new DisposableSingleObserver<String>() {
@@ -75,7 +80,7 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
 
     public void allow(SongCheckRequest request) {
         loading.setValue(true);
-        addDisposable(client.postAllowSong(manager.getToken(), request), baseObserver);
+        addDisposable(client.postAllowSong(manager.getToken(), request), getBaseObserver());
 //        disposable.add(client.postAllowSong(manager.getToken(), request).subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
 //                        new DisposableSingleObserver<String>() {
@@ -95,7 +100,7 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
 
     public void deny(SongCheckRequest request) {
         loading.setValue(true);
-        addDisposable(client.postDenySong(manager.getToken(), request), baseObserver);
+        addDisposable(client.postDenySong(manager.getToken(), request), getBaseObserver());
 //        disposable.add(client.postDenySong(manager.getToken(), request).subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(
 //                        new DisposableSingleObserver<String>() {

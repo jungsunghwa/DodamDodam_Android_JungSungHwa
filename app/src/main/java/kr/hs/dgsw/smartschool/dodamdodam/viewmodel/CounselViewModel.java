@@ -55,7 +55,7 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
         loading.setValue(true);
 
         addDisposable(counselClient.getAllCounsel(
-                manager.getToken()), dataObserver);
+                manager.getToken()), getDataObserver());
     }
 
     @SuppressLint("CheckResult")
@@ -63,14 +63,14 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
         loading.setValue(true);
 
         addDisposable(counselClient.postCounsel(
-                manager.getToken(), request), baseObserver);
+                manager.getToken(), request), getBaseObserver());
     }
 
     public void getCertainCounsel(int counselIdx) {
         loading.setValue(true);
 
         addDisposable(counselClient.getCertainCounsel(
-                manager.getToken(), counselIdx), dataObserver);
+                manager.getToken(), counselIdx), getDataObserver());
     }
 
     @SuppressLint("CheckResult")
@@ -78,7 +78,7 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
         loading.setValue(true);
 
         addDisposable(counselClient.deleteCounsel(
-                manager.getToken(), counselIdx), baseObserver);
+                manager.getToken(), counselIdx), getBaseObserver());
     }
 
     @SuppressLint("CheckResult")
@@ -86,7 +86,7 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
         loading.setValue(true);
 
         addDisposable(counselClient.postCounselAllow(
-                manager.getToken(), request), baseObserver);
+                manager.getToken(), request), getBaseObserver());
     }
 
     @SuppressLint("CheckResult")
@@ -94,7 +94,7 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
         loading.setValue(true);
 
         addDisposable(counselClient.postCounselCancel(
-                manager.getToken(), request), baseObserver);
+                manager.getToken(), request), getBaseObserver());
     }
 
 

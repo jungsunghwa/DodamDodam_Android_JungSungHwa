@@ -14,11 +14,14 @@
     <string name="title_lostfound_writing">글쓰기</string>
     <string name="title_counsel">상담</string>
     <string name="title_counsel_apply">상담 신청</string>
+    <string name="title_settings">설정</string>
 
     <!-- TODO 개정일 -->
     <string name="subtitle_point_list" translatable="false">2019.3.</string>
 
     <string name="shortcut_bus_apply">버스 신청</string>
+
+    <string name="show_only_allowed">승인된 항목만 보기</string>
 
     <string name="text_login">로그인</string>
     <string name="text_meal_empty">급식이 없습니다</string>
@@ -85,5 +88,4 @@
     <string name="pref_key_thumbnail" translatable="false">pref_thumbnail</string>
     <string name="pref_key_frame" translatable="false">pref_frame</string>
     <string name="pref_info_thumbnail">썸네일 품질에 따라 부과되는 데이터 요금이 달라질 수 있습니다.</string>
-    <string name="title_settings">설정</string>
 </resources>

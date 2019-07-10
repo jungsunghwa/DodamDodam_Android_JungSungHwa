@@ -38,34 +38,34 @@ public class LostFoundViewModel extends BaseViewModel<List<LostFound>>{
         loading.setValue(true);
 
         addDisposable(lostFoundClient.getLostFound(
-                manager.getToken(), page, type), dataObserver);
+                manager.getToken(), page, type), getDataObserver());
     }
 
     public void postCreateLostFound(LostFoundRequest request) {
         loading.setValue(true);
 
         addDisposable(lostFoundClient.postCreateLostFound(
-                manager.getToken(), request), baseObserver);
+                manager.getToken(), request), getBaseObserver());
     }
 
     public void putLostFound(LostFoundRequest request) {
         loading.setValue(true);
 
         addDisposable(lostFoundClient.postCreateLostFound(
-                manager.getToken(), request), baseObserver);
+                manager.getToken(), request), getBaseObserver());
     }
 
     public void deleteLostFound(Integer idx) {
         loading.setValue(true);
 
         addDisposable(lostFoundClient.deleteLostFound(
-                manager.getToken(), idx), baseObserver);
+                manager.getToken(), idx), getBaseObserver());
     }
 
     public void getLostFoundSearch(String search) {
         loading.setValue(true);
 
         addDisposable(lostFoundClient.getLostFoundSearch(
-                manager.getToken(), search), dataObserver);
+                manager.getToken(), search), getDataObserver());
     }
 }

@@ -39,7 +39,7 @@ public class TeacherViewModel extends BaseViewModel<Teachers> {
         loading.setValue(true);
         Token token = manager.getToken();
 
-        addDisposable(teacherClient.getTeacher(token),dataObserver);
+        addDisposable(teacherClient.getTeacher(token),getDataObserver());
     }
 }
 

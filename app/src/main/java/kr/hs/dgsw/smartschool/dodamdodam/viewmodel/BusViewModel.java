@@ -24,7 +24,6 @@ public class BusViewModel extends BaseViewModel<Bus> {
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private BusClient busClient;
-    private CompositeDisposable disposable;
     private TokenManager manager;
 
     public BusViewModel(Context context) {
@@ -41,25 +40,25 @@ public class BusViewModel extends BaseViewModel<Bus> {
         loading.setValue(true);
 
         addDisposable(busClient.postBusApply(
-                manager.getToken(), request),baseObserver);
+                manager.getToken(), request), getBaseObserver());
     }
 
     public void deleteBusApply(int idx) {
         loading.setValue(true);
-        addDisposable(busClient.deleteBusApply(manager.getToken(), idx), baseObserver);
+        addDisposable(busClient.deleteBusApply(manager.getToken(), idx), getBaseObserver());
     }
 
     public void getMyBusApply() {
         loading.setValue(true);
 
-        addDisposable(busClient.getMyBusApply(manager.getToken()), dataObserver);
+        addDisposable(busClient.getMyBusApply(manager.getToken()), getDataObserver());
     }
 
     public void putModifyBusApply(int idx, BusRequest request) {
         loading.setValue(true);
 
         addDisposable(busClient.putModifyBusApply(
-                manager.getToken(), idx, request), baseObserver);
+                manager.getToken(), idx, request), getBaseObserver());
     }
 
     public void getBusTypes() {

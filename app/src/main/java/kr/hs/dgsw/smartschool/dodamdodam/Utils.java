@@ -1,7 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam;
 
 import com.google.gson.GsonBuilder;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,6 +10,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class Utils {

@@ -56,8 +56,8 @@ public class MainViewModel extends BaseViewModel<Meal> {
 
         if (meals == null) {
             Single single = client.getTodayMeal(manager.getToken());
-            addDisposable(single, dataObserver);
-        } else dataObserver.onSuccess(meals.get(day));
+            addDisposable(single, getDataObserver());
+        } else getDataObserver().onSuccess(meals.get(day));
     }
 
     public void date(int year, int month, int day) {

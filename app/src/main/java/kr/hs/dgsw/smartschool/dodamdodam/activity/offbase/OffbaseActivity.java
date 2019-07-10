@@ -2,9 +2,11 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity.offbase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -17,7 +19,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OffbaseAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OnItemClickListener;
 
-public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implements OnItemClickListener<OffbaseItem> {
+public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implements SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<OffbaseItem> {
 
     private static final int REQ_APPLY = 1000;
 
@@ -43,19 +45,31 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
 
         viewModel = new OffbaseViewModel(this);
 
-        viewModel.getData().observe(this, offbase -> adapter.setOffbaseItems(offbase));
+        viewModel.getData().observe(this, offbase -> {
+            adapter.setOffbaseItems(offbase);
+            binding.listOffbase.smoothScrollToPosition(adapter.getItemCount() - 1);
+        });
+
+        viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
 
         viewModel.list();
 
         binding.listOffbase.setAdapter(adapter);
         binding.fabOffbaseApply.setOnClickListener(v -> ((FloatingActionButton) v).setExpanded(true));
         binding.scrim.setOnClickListener(v -> binding.fabOffbaseApply.setExpanded(false));
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
+        binding.swipeRefreshLayout.setOnRefreshListener(this);
         binding.fabMenu.fabMenuLeave.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE_TYPE, OffbaseApplyActivity.TYPE_LEAVE), REQ_APPLY);
         });
         binding.fabMenu.fabMenuPass.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE_TYPE, OffbaseApplyActivity.TYPE_PASS), REQ_APPLY);
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        viewModel.list();
     }
 
     @Override

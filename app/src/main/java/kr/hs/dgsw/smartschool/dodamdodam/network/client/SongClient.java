@@ -1,11 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
@@ -15,9 +10,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongCheckRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.SongRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.SongService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.internal.EverythingIsNonNull;
 
 public class SongClient extends NetworkClient {
 
@@ -29,7 +21,7 @@ public class SongClient extends NetworkClient {
 
     public Single<List<Video>> getSongs(Token token) {
         return song.getSongs(token.getToken()).map(getResponseObjectsFunction());
-        
+
 //        return Single.create(observer -> song.getSongs(token.getToken()).enqueue(new Callback<Response<List<Video>>>() {
 //            @Override
 //            @EverythingIsNonNull
@@ -80,6 +72,10 @@ public class SongClient extends NetworkClient {
 //                observer.onError(t);
 //            }
 //        }));
+    }
+
+    public Single<List<Video>> getAllowSongs(Token token) {
+        return song.getAllowSongs(token.getToken()).map(getResponseObjectsFunction());
     }
 
     public Single<List<Video>> getMyAllowSongs(Token token) {
