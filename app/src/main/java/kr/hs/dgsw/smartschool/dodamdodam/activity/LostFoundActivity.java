@@ -83,18 +83,6 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
 
                 lostFoundViewModel.getLostFound(page, type);
 
-                // 내 글 표시
-                binding.myWritingCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (!isChecked) {
-                            binding.myWritingCheckbox.setText("전체 글");
-                        } else {
-                            binding.myWritingCheckbox.setText("내 글만");
-                        }
-                    }
-                });
-
                 setRecyclerViewManager();
                 initScrollListener();
             }
@@ -102,6 +90,15 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        // 내 글 표시
+        binding.myWritingCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                binding.myWritingCheckbox.setText("전체 글");
+            } else {
+                binding.myWritingCheckbox.setText("내 글만");
             }
         });
 

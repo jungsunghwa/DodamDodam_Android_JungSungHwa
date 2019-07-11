@@ -36,7 +36,7 @@ public class LocationClient extends NetworkClient {
 
     public Single<String> putLocation(LocationInfo request, Token token) {
         request.setTimetableIdx(null);
-//        addDisposable(location.putLocation(token.getToken(), request.getIdx(), request), baseObserver);
+//        addDisposable(location.putLocation(token.getToken(), request.getIdx(), request), getBaseObserver());
         return location.putLocation(token.getToken(), request.getIdx(), request).map(Response::getMessage);
     }
 

@@ -48,11 +48,5 @@ public interface LostFoundService {
             @Query("query") String search
     );
 
-    @Multipart
-    @POST("/upload/image")
-    Single<Response> multiPartLostFoundImage(
-            @Header("x-access-token") String token,
-            @Part("name") String name,
-            @Part("image") MultipartBody.Part body
-    );
+
 }

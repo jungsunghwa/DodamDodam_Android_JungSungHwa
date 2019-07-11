@@ -33,10 +33,10 @@ public class LostFoundClient extends NetworkClient {
             if (!response.isSuccessful()) {
                 JSONObject errorBody = new JSONObject(Objects
                         .requireNonNull(
-                                response.errorBody()).string());
-                Log.e("aaa", errorBody.getString("message"));
-                throw new Exception(errorBody.getString("message"));
-            }
+                    response.errorBody()).string());
+                    Log.e("aaa", errorBody.getString("message"));
+                    throw new Exception(errorBody.getString("message"));
+                }
             Log.e("aaa", response.body().getStatus() + "");
             return response.body().getData().getLostFounds();
         });
