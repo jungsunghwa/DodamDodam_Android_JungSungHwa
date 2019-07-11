@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.OffbaseItem;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -41,16 +42,22 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        adapter = new OffbaseAdapter(this);
 
         viewModel = new OffbaseViewModel(this);
 
         viewModel.getData().observe(this, offbase -> {
             adapter.setOffbaseItems(offbase);
+            if (!adapter.isEmpty())
             binding.listOffbase.smoothScrollToPosition(adapter.getItemCount() - 1);
         });
 
+        viewModel.getMessage().observe(this, message -> {
+            Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).setAnchorView(binding.fabOffbaseApply).show();
+        });
+
         viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
+
+        adapter = new OffbaseAdapter(viewModel, this);
 
         viewModel.list();
 

@@ -33,10 +33,12 @@ public final class ViewUtils {
         }));
     }
 
-    public static void marginSystemWindows(@NonNull Window window, @NonNull View topView, @NonNull View bottomView) {
+    public static void marginSystemWindows(@NonNull Window window, @NonNull View topView, @NonNull View bottomView, @NonNull View leftView, @NonNull View rightView) {
         window.getDecorView().setOnApplyWindowInsetsListener((v, insets) -> {
             marginTopSystemWindow(topView, insets);
             marginBottomSystemWindow(bottomView, insets);
+            marginLeftSystemWindow(leftView, insets);
+            marginRightSystemWindow(rightView, insets);
             v.setOnApplyWindowInsetsListener(null);
             return insets;
         });
@@ -52,6 +54,20 @@ public final class ViewUtils {
     public static void marginBottomSystemWindow(@NonNull final View view) {
         listeners.push(((v, insets) -> {
             marginBottomSystemWindow(view, insets);
+            return insets;
+        }));
+    }
+
+    public static void marginLeftSystemWindow(@NonNull final View view) {
+        listeners.push(((v, insets) -> {
+            marginLeftSystemWindow(view, insets);
+            return insets;
+        }));
+    }
+
+    public static void marginRightSystemWindow(@NonNull final View view) {
+        listeners.push(((v, insets) -> {
+            marginRightSystemWindow(view, insets);
             return insets;
         }));
     }
@@ -77,6 +93,30 @@ public final class ViewUtils {
             marginLayoutParams = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
         }
         marginLayoutParams.bottomMargin += insets.getSystemWindowInsetBottom();
+        view.setLayoutParams(layoutParams);
+    }
+
+    private static void marginLeftSystemWindow(View view, WindowInsets insets) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.MarginLayoutParams marginLayoutParams;
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            marginLayoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        } else {
+            marginLayoutParams = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
+        }
+        marginLayoutParams.leftMargin += insets.getSystemWindowInsetLeft();
+        view.setLayoutParams(layoutParams);
+    }
+
+    private static void marginRightSystemWindow(View view, WindowInsets insets) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.MarginLayoutParams marginLayoutParams;
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            marginLayoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        } else {
+            marginLayoutParams = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
+        }
+        marginLayoutParams.rightMargin += insets.getSystemWindowInsetRight();
         view.setLayoutParams(layoutParams);
     }
 

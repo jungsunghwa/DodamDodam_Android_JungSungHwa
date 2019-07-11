@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="thumbnail_type_text">
+        <item>@string/pref_thumbnail_low</item>
+        <item>@string/pref_thumbnail_middle</item>
+        <item>@string/pref_thumbnail_high</item>
+        <item>@string/pref_thumbnail_standard</item>
+        <item>@string/pref_thumbnail_max</item>
+        <item>@string/pref_thumbnail_frame</item>
+        <item>@string/pref_thumbnail_background</item>
+    </string-array>
+
+    <string-array name="thumbnail_type">
+        <item>default</item>
+        <item>mqdefault</item>
+        <item>hqdefault</item>
+        <item>sddefault</item>
+        <item>maxresdefault</item>
+        <item>frame</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="thumbnail_frame_type_text">
+        <item>@string/pref_frame_start</item>
+        <item>@string/pref_frame_middle</item>
+        <item>@string/pref_frame_end</item>
+    </string-array>
+
+    <string-array name="thumbnail_frame_type">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="daynight_text" tools:ignore="InconsistentArrays">
+        <item>@string/pref_daynight_auto_battery</item>
+        <item>@string/pref_daynight_yes</item>
+        <item>@string/pref_daynight_no</item>
+    </string-array>
+
+    <string-array name="daynight" tools:ignore="InconsistentArrays">
+        <item>auto_battery</item>
+        <item>yes</item>
+        <item>no</item>
+    </string-array>
+</resources>

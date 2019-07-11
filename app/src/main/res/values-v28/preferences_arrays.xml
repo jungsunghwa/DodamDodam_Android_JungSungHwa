@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="daynight_text" tools:ignore="InconsistentArrays">
+        <item>@string/pref_daynight_follow_system</item>
+        <item>@string/pref_daynight_auto_battery</item>
+        <item>@string/pref_daynight_yes</item>
+        <item>@string/pref_daynight_no</item>
+    </string-array>
+
+    <string-array name="daynight" tools:ignore="InconsistentArrays">
+        <item>system</item>
+        <item>auto_battery</item>
+        <item>yes</item>
+        <item>no</item>
+    </string-array>
+</resources>

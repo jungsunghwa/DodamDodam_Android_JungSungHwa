@@ -25,8 +25,8 @@ abstract class BaseViewModel<T> extends ViewModel {
     final MutableLiveData<Throwable> error = new MutableLiveData<>();
     final MutableLiveData<T> data = new MutableLiveData<>();
     DatabaseHelper helper;
-    DisposableSingleObserver<String> baseObserver = new BaseDisposableSingleObserver();
-    DisposableSingleObserver<T> dataObserver = new DataDisposableSingleObserver();
+    private DisposableSingleObserver<String> baseObserver = new BaseDisposableSingleObserver();
+    private DisposableSingleObserver<T> dataObserver = new DataDisposableSingleObserver();
     private CompositeDisposable disposable;
     private SingleObserver subscription;
 
@@ -58,11 +58,6 @@ abstract class BaseViewModel<T> extends ViewModel {
     void addDisposable(Single single, DisposableSingleObserver observer) {
         disposable.add((Disposable) single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
-
-//        subscription = single
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(observer);
     }
 
     DisposableSingleObserver<String> getBaseObserver() {
@@ -92,7 +87,7 @@ abstract class BaseViewModel<T> extends ViewModel {
         }
     }
 
-    class BaseDisposableSingleObserver extends DisposableSingleObserver<String> {
+    private class BaseDisposableSingleObserver extends DisposableSingleObserver<String> {
         @Override
         public void onSuccess(String s) {
             successMessage.setValue(s);
@@ -108,7 +103,7 @@ abstract class BaseViewModel<T> extends ViewModel {
         }
     }
 
-    class DataDisposableSingleObserver extends DisposableSingleObserver<T> {
+    private class DataDisposableSingleObserver extends DisposableSingleObserver<T> {
         @Override
         public void onSuccess(T t) {
             data.setValue(t);

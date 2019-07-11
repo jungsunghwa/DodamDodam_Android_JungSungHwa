@@ -2,10 +2,16 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatDelegate;
+
+import com.annimon.stream.Optional;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SplashActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
@@ -60,6 +66,7 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
         }
         handler.postDelayed(runnableLogin, 2000);
     }
+
 
     @Override
     public void onBackPressed() {

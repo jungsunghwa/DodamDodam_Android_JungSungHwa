@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
-import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.PreferenceActivityBinding;
-import kr.hs.dgsw.smartschool.dodamdodam.fragment.preference.ThumbnailPreferenceFragment;
+import kr.hs.dgsw.smartschool.dodamdodam.fragment.preference.PreferenceFragment;
 
 public class PreferenceActivity extends BaseActivity<PreferenceActivityBinding> {
 
@@ -23,7 +22,7 @@ public class PreferenceActivity extends BaseActivity<PreferenceActivityBinding> 
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.root_layout, new ThumbnailPreferenceFragment())
+                .replace(R.id.root_layout, new PreferenceFragment())
                 .commit();
     }
 

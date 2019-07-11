@@ -16,5 +16,7 @@
     <color name="buttonColorEnd">#7b2bfc</color>
 
     <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="ic_shortcuts_background">#F5F5F5</color>
+
 
 </resources>
