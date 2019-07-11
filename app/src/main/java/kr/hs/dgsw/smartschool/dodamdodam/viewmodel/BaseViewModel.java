@@ -20,6 +20,7 @@ import okhttp3.ResponseBody;
 
 abstract class BaseViewModel<T> extends ViewModel {
     public final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> success = new MutableLiveData<>();
     final MutableLiveData<String> successMessage = new MutableLiveData<>();
     final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     final MutableLiveData<Throwable> error = new MutableLiveData<>();
@@ -53,6 +54,10 @@ abstract class BaseViewModel<T> extends ViewModel {
 
     public LiveData<Boolean> getLoading() {
         return loading;
+    }
+
+    public MutableLiveData<Boolean> getSuccess() {
+        return success;
     }
 
     void addDisposable(Single single, DisposableSingleObserver observer) {
@@ -93,6 +98,7 @@ abstract class BaseViewModel<T> extends ViewModel {
             successMessage.setValue(s);
             loading.setValue(false);
             baseObserver.dispose();
+            success.setValue(true);
         }
 
         @Override
@@ -100,6 +106,7 @@ abstract class BaseViewModel<T> extends ViewModel {
             errorMessage.setValue(e.getMessage());
             loading.setValue(false);
             baseObserver.dispose();
+            success.setValue(false);
         }
     }
 
@@ -109,6 +116,7 @@ abstract class BaseViewModel<T> extends ViewModel {
             data.setValue(t);
             loading.setValue(false);
             dataObserver.dispose();
+            success.setValue(true);
         }
 
         @Override
@@ -117,6 +125,7 @@ abstract class BaseViewModel<T> extends ViewModel {
             error.setValue(e);
             loading.setValue(false);
             dataObserver.dispose();
+            success.setValue(false);
         }
     }
 }

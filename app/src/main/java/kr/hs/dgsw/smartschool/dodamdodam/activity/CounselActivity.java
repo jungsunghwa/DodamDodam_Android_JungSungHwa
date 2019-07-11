@@ -2,12 +2,14 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.databinding.CounselActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.CounselViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.CounselAdapter;
 
-public class CounselActivity extends BaseActivity<CounselActivityBinding> {
+public class CounselActivity extends BaseActivity<CounselActivityBinding> implements SwipeRefreshLayout.OnRefreshListener {
 
     CounselViewModel counselViewModel;
     CounselAdapter counselAdapter;
@@ -61,14 +63,19 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> {
             Log.d("Tag", data.size() + "");
             for (int i = 0; i<data.size(); i++) {
                 counselList.add(index, data.get(i));
-                counselAdapter.notifyItemInserted(1);
+                counselAdapter.notifyItemInserted(index);
                 index++;
             }
         });
 
+        counselViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
+
         counselViewModel.getError().observe(this, Throwable::printStackTrace);
 
         counselViewModel.getErrorMessage().observe(this, errorMessage -> Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show());
+
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
+        binding.swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void setRecyclerView() {
@@ -88,4 +95,8 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRefresh() {
+        counselViewModel.getAllCounsel();
+    }
 }

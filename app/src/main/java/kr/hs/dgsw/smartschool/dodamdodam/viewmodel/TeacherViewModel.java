@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -22,16 +23,23 @@ public class TeacherViewModel extends BaseViewModel<Teachers> {
 
     private TeacherClient teacherClient;
     private TokenManager manager;
+    private CompositeDisposable disposable;
 
     private final MutableLiveData<Teachers> response = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private final MutableLiveData<Teacher> selectedTeacher = new MutableLiveData<>();
 
     public TeacherViewModel(Context context) {
         super(context);
         teacherClient = new TeacherClient();
         manager = TokenManager.getInstance(context);
+        disposable = new CompositeDisposable();
+    }
+
+    public MutableLiveData<Teacher> getSelectedTeacher() {
+        return selectedTeacher;
     }
 
     @SuppressLint("CheckResult")
@@ -39,7 +47,27 @@ public class TeacherViewModel extends BaseViewModel<Teachers> {
         loading.setValue(true);
         Token token = manager.getToken();
 
-        addDisposable(teacherClient.getTeacher(token),getDataObserver());
+        addDisposable(teacherClient.getTeacher(token), getDataObserver());
+    }
+
+    public void select(Teacher teacher, boolean selected) {
+        disposable.add(Single.<Teacher>create(observer -> {
+            if (selected)
+                observer.onSuccess(teacher);
+            else
+                observer.onSuccess(new Teacher());
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(
+                new DisposableSingleObserver<Teacher>() {
+                    @Override
+                    public void onSuccess(Teacher teacher) {
+                        selectedTeacher.setValue(teacher);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                }
+        ));
     }
 }
 

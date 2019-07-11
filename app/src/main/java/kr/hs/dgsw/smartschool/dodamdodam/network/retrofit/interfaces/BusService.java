@@ -41,8 +41,8 @@ public interface BusService {
             @Body BusRequest request
     );
 
-    @GET("/bus/type")
-    Single<retrofit2.Response<Response<Types>>> getBusType(
+    @GET("/bus/type/current")
+    Single<retrofit2.Response<Response<Types>>> getCurrentBusType(
             @Header("x-access-token") String token
     );
 }
