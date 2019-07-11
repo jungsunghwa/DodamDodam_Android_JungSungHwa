@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -27,7 +28,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.SongListAdapter
 public class SongListActivity extends BaseActivity<SongListActivityBinding> implements SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<VideoYoutubeData> {
 
     public static final String REQ_SONG_APPLY_RESULT_MESSAGE = "message";
-    private static final String TAG = "SongListActivity";
+    private static final String KEY_SHOW_ONLY_ALLOWED = "show_only_allowed";
     private static final int REQ_SONG_APPLY = 1000;
     private SongViewModel viewModel;
     private SongListAdapter adapter;
@@ -55,7 +56,10 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
         });
         viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
 
-        viewModel.list();
+        if (savedInstanceState != null && savedInstanceState.getBoolean(KEY_SHOW_ONLY_ALLOWED))
+            viewModel.listAllow();
+        else
+            viewModel.list();
 
         binding.songList.setAdapter(adapter = new SongListAdapter(this, this));
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
@@ -74,6 +78,18 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
             viewModel.listAllow();
         else
             viewModel.list();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_SHOW_ONLY_ALLOWED, showOnlyItem.isChecked());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        showOnlyItem.setChecked(savedInstanceState.getBoolean(KEY_SHOW_ONLY_ALLOWED));
     }
 
     @Override

@@ -72,24 +72,9 @@
     <string name="desc_drawer_close">닫기</string>
 
     <string name="b1nd" translatable="false">B1ND</string>
+    <string name="warn_delete_sure">삭제하시겠습니까?</string>
+    <string name="warning">주의</string>
 
-    <string name="thumbnail_low">낮음 (90p)</string>
-    <string name="thumbnail_middle">보통 (180p)</string>
-    <string name="thumbnail_high">높음 (360p)</string>
-    <string name="thumbnail_standard">표준 (480p)</string>
-    <string name="thumbnail_max">원본</string>
-    <string name="thumbnail_frame">영상 내부 프레임 (90p)</string>
-    <string name="thumbnail_background">버퍼링 배경 (360dp)</string>
-
-    <string name="frame_start">처음</string>
-    <string name="frame_middle">중간</string>
-    <string name="frame_end">끝</string>
-
-    <string name="pref_key_thumbnail" translatable="false">pref_thumbnail</string>
-    <string name="pref_key_frame" translatable="false">pref_frame</string>
-    <string name="pref_info_thumbnail">썸네일 품질에 따라 부과되는 데이터 요금이 달라질 수 있습니다.</string>
-
-    <!-- Ted Permission -->
     <string name="permission_1">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
     <string name="permission_2">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
 </resources>

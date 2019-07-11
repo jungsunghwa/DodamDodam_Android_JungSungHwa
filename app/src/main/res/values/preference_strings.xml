@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="pref_thumbnail_low">낮음 (90p)</string>
+    <string name="pref_thumbnail_middle">보통 (180p)</string>
+    <string name="pref_thumbnail_high">높음 (360p)</string>
+    <string name="pref_thumbnail_standard">표준 (480p)</string>
+    <string name="pref_thumbnail_max">원본</string>
+    <string name="pref_thumbnail_frame">영상 프레임 (90p)</string>
+    <string name="pref_thumbnail_background">버퍼링 배경 (360dp)</string>
+
+    <string name="pref_frame_start">처음</string>
+    <string name="pref_frame_middle">중간</string>
+    <string name="pref_frame_end">끝</string>
+
+    <string name="pref_daynight_follow_system">시스템 설정</string>
+    <string name="pref_daynight_auto_battery">자동 (배터리 절약)</string>
+    <string name="pref_daynight_yes">사용</string>
+    <string name="pref_daynight_no">사용 안함</string>
+
+    <string name="pref_cate_display">화면</string>
+    <string name="pref_cate_thumbnail">YouTube 썸네일</string>
+
+    <string name="pref_key_daynight" translatable="false">pref_daylight</string>
+    <string name="pref_key_frame" translatable="false">pref_frame</string>
+    <string name="pref_key_thumbnail" translatable="false">pref_thumbnail</string>
+    <string name="pref_key_wave_animation" translatable="false">pref_wave_animation</string>
+
+    <string name="pref_daylight">다크 모드</string>
+    <string name="pref_frame">프레임 위치</string>
+    <string name="pref_info_thumbnail">썸네일 품질에 따라 부과되는 데이터 요금이 달라질 수 있습니다.</string>
+    <string name="pref_thumbnail">썸네일 품질</string>
+    <string name="pref_wave_animation">흐름 효과</string>
+
+    <string name="pref_wave_animation_summary_on">흐름 효과 사용</string>
+    <string name="pref_wave_animation_summary_off">흐름 효과 사용 안함</string>
+</resources>

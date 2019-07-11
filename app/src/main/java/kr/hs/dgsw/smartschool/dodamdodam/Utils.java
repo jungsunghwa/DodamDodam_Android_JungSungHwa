@@ -1,5 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam;
 
+import android.os.Build;
+
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.google.gson.GsonBuilder;
 
 import java.util.Calendar;
@@ -44,6 +48,26 @@ public final class Utils {
         }
 
         return isWeekEnd;
+    }
+
+    public static void settingDayNight(String value) {
+        switch (value) {
+            case "system":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case "auto_battery":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+                break;
+            case "yes":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "no":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    public static String getDefaultDayNightSetting() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? "system" : "auto_battery";
     }
 
     private static OkHttpClient getClient() {

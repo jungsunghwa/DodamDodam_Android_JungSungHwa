@@ -46,7 +46,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
  * android:fitsSystemWindows="true"> <!-- !BaseLayout --> <!-- System UI 와 Navigation Bar 와 겹쳐도 문제 없는 View 를 위한 Layout. -->
  * <SomeView
  * android:id="@+id/background"
- * android:fitsSystemWindows="true"/> <!-- !배경 (ex. MultiWaveHeader {@link com.scwang.wave.MultiWaveHeader}) -->
+ * android:fitsSystemWindows="true"/> <!-- !배경 (ex. MultiWaveHeader {@link kr.hs.dgsw.smartschool.dodamdodam.widget.DodamMultiWaveHeader}) -->
  * <include
  * android:id="@+id/app_bar_layout"
  * layout="@layout/app_bar"/> <!-- !AppBar --> <!-- ID 를 'app_bar_layout' 로 설정할 경우 자동으로 System UI 와의 Margin 이 설정 됨. -->
@@ -76,6 +76,8 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
                 Field appBarField = binding.getClass().getField("appbarLayout");
                 AppBarBinding appBarBinding = (AppBarBinding) appBarField.get(binding);
                 ViewUtils.marginTopSystemWindow(appBarBinding.toolbar);
+                ViewUtils.marginLeftSystemWindow(appBarBinding.toolbar);
+                ViewUtils.marginRightSystemWindow(appBarBinding.toolbar);
                 setSupportActionBar(appBarBinding.toolbar);
 
                 appBarBinding.wave.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -151,7 +153,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
             버전이 Oreo 미만일때, 네비바를 어둡게 설정하지 않음
          */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            flags ^= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
             getWindow().getDecorView().setSystemUiVisibility(flags);
         } else
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -184,7 +186,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
             버전이 Marshmallow 미만일때, 상태바를 어둡게 설정하지 않음
          */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            flags ^= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             getWindow().getDecorView().setSystemUiVisibility(flags);
         } else
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

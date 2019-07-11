@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/pref_cate_display">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_wave"
+            android:key="@string/pref_key_wave_animation"
+            android:summaryOff="@string/pref_wave_animation_summary_off"
+            android:summaryOn="@string/pref_wave_animation_summary_on"
+            android:title="@string/pref_wave_animation" />
+        <ListPreference
+            android:defaultValue="@string/pref_default_daynight"
+            android:entries="@array/daynight_text"
+            android:entryValues="@array/daynight"
+            android:icon="@drawable/ic_daylight"
+            android:key="@string/pref_key_daynight"
+            android:title="@string/pref_daylight"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cate_thumbnail">
+        <ListPreference
+            android:defaultValue="@string/pref_default_thumbnail"
+            android:entries="@array/thumbnail_type_text"
+            android:entryValues="@array/thumbnail_type"
+            android:icon="@drawable/ic_thumbnail_quality"
+            android:key="@string/pref_key_thumbnail"
+            android:title="@string/pref_thumbnail"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="@string/pref_default_frame"
+            android:enabled="false"
+            android:entries="@array/thumbnail_frame_type_text"
+            android:entryValues="@array/thumbnail_frame_type"
+            android:key="@string/pref_key_frame"
+            android:title="@string/pref_frame"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+    <Preference
+        android:icon="@drawable/ic_info_settings"
+        android:selectable="false"
+        android:summary="@string/pref_info_thumbnail" />
+</PreferenceScreen>

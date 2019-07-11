@@ -17,6 +17,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.annimon.stream.Optional;
+import com.google.android.material.internal.NavigationMenuView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -93,6 +94,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
 
         binding.navView.setNavigationItemSelectedListener(this::onOptionsItemSelected);
         binding.navView.getMenu().getItem(3).setVisible(Utils.identity == Identity.STUDENT);
+        binding.navView.getChildAt(0).setVerticalScrollBarEnabled(false);
 
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -133,9 +135,9 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     }
 
     @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (!isTablet() && drawerToggle != null) drawerToggle.onConfigurationChanged(newConfig);
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (!isTablet() && drawerToggle != null) drawerToggle.onConfigurationChanged(null);
     }
 
     @Override
