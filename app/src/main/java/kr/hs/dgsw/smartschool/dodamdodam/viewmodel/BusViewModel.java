@@ -61,7 +61,7 @@ public class BusViewModel extends BaseViewModel<Bus> {
                 manager.getToken(), idx, request), getBaseObserver());
     }
 
-    public void getBusTypes() {
+    public void getCurrentBusTypes() {
         loading.setValue(true);
 
         DisposableSingleObserver<Types> observer = new DisposableSingleObserver<Types>() {
@@ -80,7 +80,7 @@ public class BusViewModel extends BaseViewModel<Bus> {
             }
         };
 
-        addDisposable(busClient.getBusType(
+        addDisposable(busClient.getCurrentBusType(
                 manager.getToken()), observer);
     }
 

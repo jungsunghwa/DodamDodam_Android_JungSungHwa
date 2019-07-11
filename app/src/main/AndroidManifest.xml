@@ -72,7 +72,8 @@
             android:theme="@style/Theme.App.Offbase.Detail" />
         <activity
             android:name=".activity.LostFoundActivity"
-            android:label="@string/title_lostfound" />
+            android:label="@string/title_lostfound"
+            android:theme="@style/Theme.App.LostFound"/>
         <activity
             android:name=".activity.LostFoundWritingActivity"
             android:label="@string/title_lostfound_writing" />

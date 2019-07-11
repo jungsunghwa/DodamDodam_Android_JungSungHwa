@@ -40,6 +40,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         initViewModel();
 
         busViewModel.getResponseTypes().observe(this, types -> {
+
             for (int i = 0; i < types.getTypes().size(); i++) {
                 typeArrayList.add(types.getTypes().get(i));
             }
@@ -61,15 +62,18 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             //Toast.makeText(this, bus.toString(), Toast.LENGTH_SHORT).show();
             idx = bus.getIdx();
 
-            Log.e("response", bus.getType().toString());
+            if (typeArrayList.isEmpty()) {
+                Toast.makeText(this, "서버 오류 다시 시도해주세요", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                applyStatus =  (bus.getType().equals(typeArrayList.get(0).getIdx()) || bus.getType().equals(typeArrayList.get(1).getIdx())  || bus.getType().equals(typeArrayList.get(2).getIdx()) || bus.getType() == 0);
+                busType = bus.getType();
 
-            applyStatus =  (bus.getType().equals(typeArrayList.get(0).getIdx()) || bus.getType().equals(typeArrayList.get(1).getIdx())  || bus.getType().equals(typeArrayList.get(2).getIdx()) || bus.getType() == 0);
-            busType = bus.getType();
-
-            initCheckbox(bus.getType());
+                initCheckbox(bus.getType());
 
 
-            Toast.makeText(this, "이미 신청되어있습니다. 다른 역을 신청할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "이미 신청되어있는 역이 있습니다. 다른 역을 신청할 수 있습니다.", Toast.LENGTH_SHORT).show();
+            }
         });
 
         busViewModel.getSuccessMessage().observe(this, successMessage -> {
@@ -201,7 +205,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
     private void initViewModel() {
         busViewModel = new BusViewModel(this);
 
-        busViewModel.getBusTypes();
+        busViewModel.getCurrentBusTypes();
         busViewModel.getMyBusApply();
     }
 }

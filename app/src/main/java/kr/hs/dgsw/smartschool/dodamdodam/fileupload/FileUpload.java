@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.fileupload;
 
+import android.content.Context;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
@@ -28,8 +29,9 @@ public class FileUpload {
     private String fileType;
     private String fileExt;
 
-    public FileUpload() {
+    public FileUpload(Context context) {
         fileUploadService = Utils.RETROFIT.create(FileUploadService.class);
+        manager = TokenManager.getInstance(context);
     }
 
     public String FileUpload(byte[] imageBytes, String originalName, String uploadName) {
