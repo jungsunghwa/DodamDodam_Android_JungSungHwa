@@ -35,10 +35,10 @@
             app:layout_constraintVertical_bias="0.11">
 
 
-            <com.google.android.material.card.MaterialCardView
+            <ImageView
                 android:id="@+id/lostfound_card_image_view"
-                android:layout_width="378dp"
-                android:layout_height="169dp"
+                android:layout_width="380dp"
+                android:layout_height="170dp"
                 android:layout_margin="8dp"
                 android:checkable="true"
                 android:clickable="true"
@@ -50,7 +50,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/appbar_layout"
                 app:layout_constraintVertical_bias="0.11">
 
-            </com.google.android.material.card.MaterialCardView>
+            </ImageView>
 
             <CheckBox
                 android:id="@+id/kindof_checkbox"

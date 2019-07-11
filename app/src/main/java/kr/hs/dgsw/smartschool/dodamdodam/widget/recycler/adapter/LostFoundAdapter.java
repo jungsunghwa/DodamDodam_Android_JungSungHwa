@@ -70,7 +70,7 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         viewHolder.binding.lostfoundName.setText(lostFound.getMemberId());
         viewHolder.binding.lostfoundUploadTime.setText(lostFound.getUpload_time());
         if (lostFound.getPicture() == null) {
-            Glide.with(context).load(R.drawable.ic_error).into(viewHolder.binding.lostfoundImageview);
+            Glide.with(context).load(R.drawable.ic_lost_found).into(viewHolder.binding.lostfoundImageview);
         } else {
             Log.d("TAG", lostFound.getPicture().get(0).getUrl());
             Glide.with(context).load(lostFound.getPicture().get(0).getUrl()).into(viewHolder.binding.lostfoundImageview);

@@ -31,10 +31,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="?actionBarSize"
-            android:alpha="0"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/nav_view"
-            tools:alpha="1">
+            app:layout_constraintStart_toEndOf="@+id/nav_view">
 
             <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamTextDate
                 android:id="@+id/text_date"
