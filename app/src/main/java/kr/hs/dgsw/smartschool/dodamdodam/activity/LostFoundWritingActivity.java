@@ -82,6 +82,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
             setLostFoundRequestData(request);
 
             lostFoundViewModel.postCreateLostFound(request);
+            Toast.makeText(this, "신청 성공!", Toast.LENGTH_SHORT).show();
         });
 
         tedPermission();
