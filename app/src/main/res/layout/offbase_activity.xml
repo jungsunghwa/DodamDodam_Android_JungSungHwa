@@ -65,7 +65,6 @@
             app:srcCompat="@drawable/background_fab"
             app:tint="@null" />
 
-
         <include
             android:id="@+id/fab_menu"
             layout="@layout/fab_offbase_menu_item" />

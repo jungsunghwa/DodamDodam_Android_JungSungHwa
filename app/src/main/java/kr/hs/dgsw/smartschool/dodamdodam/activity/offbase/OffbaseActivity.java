@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,7 +54,12 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
         });
 
         viewModel.getMessage().observe(this, message -> {
-            Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).setAnchorView(binding.fabOffbaseApply).show();
+            //FIXME Margin Bottom
+            Snackbar snackbar = Snackbar.make(binding.swipeRefreshLayout, message, Snackbar.LENGTH_SHORT);
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackbar.getView().getLayoutParams();
+            params.setMargins(100, 0, 100, ((ViewGroup.MarginLayoutParams) binding.rootLayout.getLayoutParams()).bottomMargin);
+            snackbar.getView().setLayoutParams(params);
+            snackbar.show();
         });
 
         viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
