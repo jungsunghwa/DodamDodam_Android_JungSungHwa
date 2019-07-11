@@ -56,7 +56,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
  * <!-- Inner View... -->
  * </SomeInnerLayout>
  * </SomeLayout>
- * </layout>
+ * </layout>ㅠ무
  */
 public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity {
 

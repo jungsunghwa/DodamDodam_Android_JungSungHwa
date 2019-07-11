@@ -145,6 +145,8 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         binding.busCheckBtnThree.setChecked(false);
         binding.busCheckBtnFour.setChecked(false);
 
+        if(typeArrayList.isEmpty()) return;
+
         if (busType == typeArrayList.get(0).getIdx()) {
             binding.busCheckBtnOne.setChecked(true);
         } else if (busType == typeArrayList.get(1).getIdx()) {
