@@ -135,6 +135,8 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
     private void setBindingValue() {
         bindingValue.clear();
 
+        if (selectItem == null || selectTime == null) return;
+
         if (listType == ListType.CLASS) {
             int idx = ((ClassInfo) selectItem).getIdx();
 

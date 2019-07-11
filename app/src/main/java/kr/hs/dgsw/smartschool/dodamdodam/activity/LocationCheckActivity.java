@@ -93,7 +93,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         });
 
         studentViewModel.getData().observe(this, classInfoList -> {
-            classInfos = (ArrayList<ClassInfo>) classInfoList;
+            classInfos = classInfoList;
 
             binding.classSpinner.setItems(classInfos);
             selectItem = classInfos.get(0);

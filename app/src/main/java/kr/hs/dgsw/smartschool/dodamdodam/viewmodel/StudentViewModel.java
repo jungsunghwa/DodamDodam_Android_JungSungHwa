@@ -68,7 +68,7 @@ public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
 
         if (!classes.isEmpty()) {
             loading.setValue(false);
-            classInfos.setValue(classes);
+            data.setValue(classes);
             return;
         }
 
