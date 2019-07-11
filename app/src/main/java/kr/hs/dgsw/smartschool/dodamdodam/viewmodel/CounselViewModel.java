@@ -35,7 +35,6 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
     private DatabaseHelper helper;
 
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> success = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
@@ -44,10 +43,6 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
         counselClient = new CounselClient();
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(context);
-    }
-
-    public MutableLiveData<Boolean> getSuccess() {
-        return success;
     }
 
     @SuppressLint("CheckResult")

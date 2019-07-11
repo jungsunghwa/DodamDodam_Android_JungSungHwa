@@ -10,6 +10,7 @@ import java.util.Objects;
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Teachers;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.CounselService;
@@ -23,7 +24,7 @@ public class TeacherClient extends NetworkClient {
         counsel = Utils.RETROFIT.create(CounselService.class);
     }
 
-    public Single<Teacher> getTeacher(Token token) {
+    public Single<Teachers> getTeacher(Token token) {
         return counsel.getTeacher(token.getToken()).map(getResponseObjectsFunction());
 //        return Single.create(observer -> {
 //            counsel.getTeacher(token).enqueue(new Callback<Response<Teacher>>() {

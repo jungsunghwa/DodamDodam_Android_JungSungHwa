@@ -8,27 +8,22 @@ public class CounselRequest {
 
     private String reason;
 
-    @SerializedName("request_date")
-    private Date requestDate;
-
     @SerializedName("manage_teacher_id")
-    private Date manageTeacherId;
+    private String manageTeacherId;
 
-    public CounselRequest(String reason, Date requestDate, Date manageTeacherId) {
-        this.reason = reason;
-        this.requestDate = requestDate;
-        this.manageTeacherId = manageTeacherId;
-    }
-
-    public String getReason() {
+    public String getReason(String reason) {
         return reason;
     }
 
-    public Date getRequestDate() {
-        return requestDate;
+    public String getManageTeacherId(String manageTeacherId) {
+        return manageTeacherId;
     }
 
-    public Date getManageTeacherId() {
-        return manageTeacherId;
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public void setManageTeacherId(String manageTeacherId) {
+        this.manageTeacherId = manageTeacherId;
     }
 }
