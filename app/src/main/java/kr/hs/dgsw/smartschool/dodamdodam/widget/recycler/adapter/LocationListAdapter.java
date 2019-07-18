@@ -30,24 +30,29 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LocationViewHold
 
 public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
+    private final MutableLiveData<Integer> selectLocationIdx = new MutableLiveData<>();
     Map<Student, List<LocationInfo>> location;
     Map<Student, List<LocationInfo>> bindingValue;
-
     Object selectItem;
     Time selectTime;
-
     ListType listType;
-
     Context context;
+    private List<Student> students;
 
-    private final MutableLiveData<Integer> selectLocationIdx = new MutableLiveData<>();
-
+    public LocationListAdapter(Context context, Map<Student, List<LocationInfo>> location,
+                               ListType listType, Object selectItem, Time selectTime) {
+        this.context = context;
+        this.location = location;
+        this.bindingValue = new HashMap<>();
+        this.listType = listType;
+        this.selectItem = selectItem;
+        this.selectTime = selectTime;
+        setBindingValue();
+    }
 
     public LiveData<Integer> getSelectLocationIdx() {
         return selectLocationIdx;
     }
-
-    private List<Student> students;
 
     public void setListType(ListType listType) {
         this.listType = listType;
@@ -59,17 +64,6 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
     }
 
     public void setSelectTime(Time selectTime) {
-        this.selectTime = selectTime;
-        setBindingValue();
-    }
-
-    public LocationListAdapter(Context context, Map<Student, List<LocationInfo>> location,
-                               ListType listType, Object selectItem, Time selectTime) {
-        this.context = context;
-        this.location = location;
-        this.bindingValue = new HashMap<>();
-        this.listType = listType;
-        this.selectItem = selectItem;
         this.selectTime = selectTime;
         setBindingValue();
     }
@@ -116,7 +110,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         LocationInfo finalLocationInfo = locationInfo;
 
         if (locationInfo.getChecked() != null)
-                holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
+            holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
         else holder.binding.checkLocationCb.setChecked(false);
 
         holder.binding.checkLocationCb.setOnCheckedChangeListener((view, isChecked) -> {

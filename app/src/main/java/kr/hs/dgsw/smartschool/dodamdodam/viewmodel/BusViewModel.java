@@ -1,17 +1,11 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.Application;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.BusClient;
@@ -26,10 +20,10 @@ public class BusViewModel extends BaseViewModel<Bus> {
     private BusClient busClient;
     private TokenManager manager;
 
-    public BusViewModel(Context context) {
-        super(context);
+    public BusViewModel(Application application) {
+        super(application);
         busClient = new BusClient();
-        manager = TokenManager.getInstance(context);
+        manager = TokenManager.getInstance(application);
     }
 
     public MutableLiveData<Types> getResponseTypes() {

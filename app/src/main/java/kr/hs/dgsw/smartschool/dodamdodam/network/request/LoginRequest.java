@@ -42,8 +42,7 @@ public class LoginRequest {
         this.device = device;
     }
 
-    public String encryptSHA512(String target) throws NoSuchAlgorithmException {
-
+    private String encryptSHA512(String target) throws NoSuchAlgorithmException {
         final MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
         final StringBuilder encryptedPassword = new StringBuilder();
 

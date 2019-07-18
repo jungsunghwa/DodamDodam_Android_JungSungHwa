@@ -1,9 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
@@ -25,7 +25,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.OffbaseRequest;
  */
 public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
-    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
     private final MutableLiveData<String> message = new MutableLiveData<>();
     private final MutableLiveData<List<Leave>> leavesData = new MutableLiveData<>();
     private final MutableLiveData<List<Pass>> passesData = new MutableLiveData<>();
@@ -36,11 +35,11 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
     private CompositeDisposable disposable;
     private TokenManager manager;
 
-    public OffbaseViewModel(Context context) {
-        super(context);
+    public OffbaseViewModel(Application application) {
+        super(application);
         client = new OffbaseClient();
         disposable = new CompositeDisposable();
-        manager = TokenManager.getInstance(context);
+        manager = TokenManager.getInstance(application);
     }
 
     public MutableLiveData<Throwable> getError() {

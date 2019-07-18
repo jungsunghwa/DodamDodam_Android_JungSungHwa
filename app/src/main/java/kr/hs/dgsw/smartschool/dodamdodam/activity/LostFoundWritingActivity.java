@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -156,7 +157,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
     }
 
     private void initViewModel() {
-        lostFoundViewModel = new LostFoundViewModel(this);
+        lostFoundViewModel = ViewModelProviders.of(this).get(LostFoundViewModel.class);
     }
 
     private void editTextEmptyCheck() {

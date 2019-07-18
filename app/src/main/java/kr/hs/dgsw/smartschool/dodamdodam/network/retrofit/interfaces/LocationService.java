@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post;
+package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 import java.util.List;
 

@@ -1,38 +1,29 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.content.Context;
-import android.os.Build;
-import android.util.Log;
+import android.app.Application;
 
-import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LostFoundClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 
-public class LostFoundViewModel extends BaseViewModel<List<LostFound>>{
-    private LostFoundClient lostFoundClient;
-
+public class LostFoundViewModel extends BaseViewModel<List<LostFound>> {
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
-
+    private LostFoundClient lostFoundClient;
     private CompositeDisposable disposable;
     private TokenManager manager;
 
-    public LostFoundViewModel(Context context) {
-        super(context);
+    public LostFoundViewModel(Application application) {
+        super(application);
         lostFoundClient = new LostFoundClient();
         disposable = new CompositeDisposable();
-        manager = TokenManager.getInstance(context);
+        manager = TokenManager.getInstance(application);
     }
 
     public void getLostFound(Integer page, Integer type) {

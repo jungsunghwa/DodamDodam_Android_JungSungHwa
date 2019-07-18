@@ -1,13 +1,15 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity.offbase;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,10 +20,12 @@ import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.OffbaseActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.OffbaseViewModel;
-import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OffbaseAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.OnItemClickListener;
 
+/**
+ * TODO Scroll to Hide FAB
+ */
 public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implements SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<OffbaseItem> {
 
     private static final int REQ_APPLY = 1000;
@@ -38,28 +42,25 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 음영처리를 위해 R.id.container 를 사용하지 않음
-        ViewUtils.marginBottomSystemWindow(binding.fabOffbaseApply);
-        ViewUtils.marginBottomSystemWindow(binding.fabMenu.getRoot());
+        setLayoutNoLimits(true);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        viewModel = new OffbaseViewModel(this);
+        viewModel = ViewModelProviders.of(this).get(OffbaseViewModel.class);
 
         viewModel.getData().observe(this, offbase -> {
             adapter.setOffbaseItems(offbase);
             if (!adapter.isEmpty())
-            binding.listOffbase.smoothScrollToPosition(adapter.getItemCount() - 1);
+                binding.listOffbase.smoothScrollToPosition(adapter.getItemCount() - 1);
         });
 
         viewModel.getMessage().observe(this, message -> {
-            //FIXME Margin Bottom
-            Snackbar snackbar = Snackbar.make(binding.swipeRefreshLayout, message, Snackbar.LENGTH_SHORT);
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackbar.getView().getLayoutParams();
-            params.setMargins(100, 0, 100, ((ViewGroup.MarginLayoutParams) binding.rootLayout.getLayoutParams()).bottomMargin);
-            snackbar.getView().setLayoutParams(params);
-            snackbar.show();
+            Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show();
+        });
+
+        viewModel.getError().observe(this, throwable -> {
+            Snackbar.make(binding.swipeRefreshLayout, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
         });
 
         viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
@@ -68,8 +69,19 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
 
         viewModel.list();
 
+        binding.listOffbase.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) binding.fabOffbaseApply.hide();
+                else binding.fabOffbaseApply.show();
+            }
+        });
         binding.listOffbase.setAdapter(adapter);
-        binding.fabOffbaseApply.setOnClickListener(v -> ((FloatingActionButton) v).setExpanded(true));
+        binding.fabOffbaseApply.setOnClickListener(v -> {
+            ((FloatingActionButton) v).setExpanded(true);
+            getWindow().setNavigationBarColor(Color.RED);
+        });
         binding.scrim.setOnClickListener(v -> binding.fabOffbaseApply.setExpanded(false));
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
         binding.swipeRefreshLayout.setOnRefreshListener(this);

@@ -1,6 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.content.Context;
+import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,7 +12,6 @@ import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.meal.Meal;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.TimeTables;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
@@ -24,20 +23,19 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
 public class TimeTableViewModel extends BaseViewModel<List<Time>> {
 
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private TimeTableClient timeTableClient;
     private CompositeDisposable disposable;
     private DatabaseHelper helper;
-
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private TokenManager manager;
 
-    public TimeTableViewModel(Context context) {
-        super(context);
+    public TimeTableViewModel(Application application) {
+        super(application);
         timeTableClient = new TimeTableClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getInstance(context);
-        manager = TokenManager.getInstance(context);
+        helper = DatabaseHelper.getInstance(application);
+        manager = TokenManager.getInstance(application);
     }
 
     public LiveData<Boolean> getLoading() {

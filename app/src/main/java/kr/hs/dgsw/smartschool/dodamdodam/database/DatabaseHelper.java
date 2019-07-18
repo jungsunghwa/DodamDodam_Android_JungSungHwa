@@ -44,10 +44,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static DatabaseHelper getInstance(Context context) {
         if (INSTANCE == null) {
             synchronized (DatabaseHelper.class) {
+                //noinspection DanglingJavadoc
                 if (INSTANCE == null)
-                    /*
-                        램 누수 방지를 위해 context 대신 {@link Context#getApplicationContext()} 를 사용.
-                    */
+                    /**
+                     *  램 누수 방지를 위해 context 대신 {@link Context#getApplicationContext()} 를 사용.
+                     */
                     INSTANCE = new DatabaseHelper(context.getApplicationContext());
             }
         }

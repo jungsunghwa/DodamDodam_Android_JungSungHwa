@@ -2,9 +2,11 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -15,12 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.angmarch.views.NiceSpinner;
-import org.angmarch.views.OnSpinnerItemSelectedListener;
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.ListType;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
@@ -66,10 +62,12 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     protected void onCreateTablet(@Nullable Bundle savedInstanceState) {
         super.onCreateTablet(savedInstanceState);
 
-        placeViewModel = new PlaceViewModel(this);
-        studentViewModel = new StudentViewModel(this);
-        timeTableViewModel = new TimeTableViewModel(this);
-        locationViewModel = new LocationViewModel(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        placeViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
+        studentViewModel = ViewModelProviders.of(this).get(StudentViewModel.class);
+        timeTableViewModel = ViewModelProviders.of(this).get(TimeTableViewModel.class);
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
         location = new HashMap<>();
 
         placeViewModel.getAllPlace();
@@ -134,7 +132,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                 (view, position, id, item) -> {
                     selectItem = item;
                     showSelectOptionSnackbar(view);
-        });
+                });
 
         binding.timeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Time>)
                 (view, position, id, item) -> {
@@ -147,9 +145,19 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void showSelectOptionSnackbar(View v) {
         a();
-        Snackbar.make(binding.locationList, selectedTime.toString()+"에 "+ selectItem.toString()+"의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.locationList, selectedTime.toString() + "에 " + selectItem.toString() + "의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
     }
 
     private void a() {
@@ -159,7 +167,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             binding.listHeaderLayout.studentClassTv.setVisibility(View.GONE);
             binding.classSpinner.setItems(classInfos);
 //            selectItem = classInfos.get(binding.classSpinner.getSelectedIndex());
-        }else {
+        } else {
             binding.listTypeClass.setTextColor(Color.BLACK);
             binding.listTypePlace.setTextColor(Color.WHITE);
             binding.listHeaderLayout.studentClassTv.setVisibility(View.VISIBLE);

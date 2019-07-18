@@ -1,27 +1,18 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
-import android.util.Log;
-
-import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
-import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
-import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.post.LocationService;
-import retrofit2.Call;
-import retrofit2.HttpException;
+import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.LocationService;
 
 public class LocationClient extends NetworkClient {
     private LocationService location;

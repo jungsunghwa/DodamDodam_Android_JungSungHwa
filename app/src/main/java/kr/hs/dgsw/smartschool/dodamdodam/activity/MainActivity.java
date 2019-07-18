@@ -2,7 +2,6 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +14,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.annimon.stream.Optional;
-import com.google.android.material.internal.NavigationMenuView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -55,7 +54,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = new MainViewModel(this);
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         viewModel.getData().observe(this, meal -> {
             binding.mealItems.mealLunch.setLoading(false);

@@ -15,9 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+
+import com.annimon.stream.Optional;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -175,6 +178,11 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
                 getWindow().getDecorView().setSystemUiVisibility(flags);
             } else
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
+
+    @NonNull
+    public ActionBar requireSupportActionBar() {
+        return Optional.ofNullable(super.getSupportActionBar()).orElseThrow(NullPointerException::new);
     }
 
     /**

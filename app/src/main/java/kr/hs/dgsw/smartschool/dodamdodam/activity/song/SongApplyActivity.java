@@ -15,9 +15,12 @@ import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -72,7 +75,7 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
         super.onCreate(savedInstanceState);
         keyboardManager = new InputMethodHelper(this);
 
-        viewModel = new SongViewModel(this);
+        viewModel = ViewModelProviders.of(this).get(SongViewModel.class);
         viewModel.getSuccessMessage().observe(this, message -> {
             hideProgress();
             setResult(RESULT_OK, new Intent().putExtra(SongListActivity.REQ_SONG_APPLY_RESULT_MESSAGE, message));
@@ -90,7 +93,11 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
         progressDrawable.setStyle(CircularProgressDrawable.LARGE);
         progressDrawable.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         TooltipCompat.setTooltipText(binding.searchButton, getString(R.string.text_song_search));
         binding.searchList.setAdapter(adapter = new SongSearchAdapter(this, this));
@@ -99,6 +106,14 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
             results = list;
             adapter.setList(list);
         }
+        binding.searchList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) binding.songApplyFab.hide();
+                else binding.songApplyFab.show();
+            }
+        });
 
         binding.searchText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {

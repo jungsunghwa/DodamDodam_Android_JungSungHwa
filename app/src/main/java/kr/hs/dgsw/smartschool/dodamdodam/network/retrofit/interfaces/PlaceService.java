@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get;
+package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.PlaceList;

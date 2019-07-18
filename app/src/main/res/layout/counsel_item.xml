@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/counsel_card_view"
@@ -37,9 +38,9 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/nanum_square_round"
-                android:text="Title"
+                tools:text="Title"
                 android:textColor="#000000"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/counsel_imageview"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,9 +51,9 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="35dp"
                 android:fontFamily="@font/nanum_square_regular"
-                android:text="Name"
+                tools:text="Name"
                 android:textColor="#000000"
-                android:textSize="11dp"
+                android:textSize="13sp"
                 app:layout_constraintStart_toEndOf="@+id/counsel_imageview"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,9 +64,9 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="60dp"
                 android:fontFamily="@font/nanum_square_regular"
-                android:text="UploadTime"
+                tools:text="UploadTime"
                 android:textColor="#000000"
-                android:textSize="9dp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/counsel_imageview"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,7 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
+import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,7 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import okhttp3.ResponseBody;
 
-abstract class BaseViewModel<T> extends ViewModel {
+abstract class BaseViewModel<T> extends AndroidViewModel {
     public final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private final MutableLiveData<Boolean> success = new MutableLiveData<>();
     final MutableLiveData<String> successMessage = new MutableLiveData<>();
@@ -26,14 +28,13 @@ abstract class BaseViewModel<T> extends ViewModel {
     final MutableLiveData<Throwable> error = new MutableLiveData<>();
     final MutableLiveData<T> data = new MutableLiveData<>();
     DatabaseHelper helper;
-    private DisposableSingleObserver<String> baseObserver = new BaseDisposableSingleObserver();
-    private DisposableSingleObserver<T> dataObserver = new DataDisposableSingleObserver();
     private CompositeDisposable disposable;
     private SingleObserver subscription;
 
-    BaseViewModel(Context context) {
+    BaseViewModel(Application application) {
+        super(application);
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getInstance(context);
+        helper = DatabaseHelper.getInstance(application);
     }
 
     public LiveData<String> getSuccessMessage() {
@@ -66,21 +67,11 @@ abstract class BaseViewModel<T> extends ViewModel {
     }
 
     DisposableSingleObserver<String> getBaseObserver() {
-        if (baseObserver.isDisposed())
-            synchronized (BaseViewModel.class) {
-                if (baseObserver.isDisposed())
-                    baseObserver = new BaseDisposableSingleObserver();
-            }
-        return baseObserver;
+        return new BaseDisposableSingleObserver();
     }
 
     DisposableSingleObserver<T> getDataObserver() {
-        if (dataObserver.isDisposed())
-            synchronized (BaseViewModel.class) {
-                if (dataObserver.isDisposed())
-                    dataObserver = new DataDisposableSingleObserver();
-            }
-        return dataObserver;
+        return new DataDisposableSingleObserver();
     }
 
     private String getErrorMessage(ResponseBody responseBody) {
@@ -97,16 +88,16 @@ abstract class BaseViewModel<T> extends ViewModel {
         public void onSuccess(String s) {
             successMessage.setValue(s);
             loading.setValue(false);
-            baseObserver.dispose();
             success.setValue(true);
+            dispose();
         }
 
         @Override
         public void onError(Throwable e) {
             errorMessage.setValue(e.getMessage());
             loading.setValue(false);
-            baseObserver.dispose();
             success.setValue(false);
+            dispose();
         }
     }
 
@@ -115,8 +106,8 @@ abstract class BaseViewModel<T> extends ViewModel {
         public void onSuccess(T t) {
             data.setValue(t);
             loading.setValue(false);
-            dataObserver.dispose();
             success.setValue(true);
+            dispose();
         }
 
         @Override
@@ -124,8 +115,8 @@ abstract class BaseViewModel<T> extends ViewModel {
             errorMessage.setValue(e.getMessage());
             error.setValue(e);
             loading.setValue(false);
-            dataObserver.dispose();
             success.setValue(false);
+            dispose();
         }
     }
 }

@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.lifecycle.ViewModelProviders;
+
 import com.annimon.stream.Optional;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -55,7 +57,7 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = new OffbaseViewModel(this);
+        viewModel = ViewModelProviders.of(this).get(OffbaseViewModel.class);
 
         viewModel.getMessage().observe(this, msg -> {
             setResult(RESULT_OK);

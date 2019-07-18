@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.annimon.stream.Optional;
 
@@ -38,7 +39,7 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lightNavMode();
-        studentViewModel = new StudentViewModel(this);
+        studentViewModel = ViewModelProviders.of(this).get(StudentViewModel.class);
         manager = TokenManager.getInstance(this);
         Token token = manager.getToken();
         if (!token.isEmpty()) {

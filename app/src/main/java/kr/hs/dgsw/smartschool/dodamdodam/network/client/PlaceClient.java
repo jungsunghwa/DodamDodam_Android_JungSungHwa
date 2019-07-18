@@ -4,9 +4,7 @@ import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.PlaceList;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
-import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
-import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get.PlaceService;
-import retrofit2.Call;
+import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.PlaceService;
 
 public class PlaceClient extends NetworkClient{
     private PlaceService place;

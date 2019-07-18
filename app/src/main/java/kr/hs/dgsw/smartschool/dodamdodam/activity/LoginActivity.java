@@ -7,6 +7,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProviders;
+
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.text.SimpleTextWatcher;
@@ -35,8 +37,8 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
         keyboardManager = new InputMethodHelper(this);
 
-        loginViewModel = new LoginViewModel(this);
-        studentViewModel = new StudentViewModel(this);
+        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        studentViewModel = ViewModelProviders.of(this).get(StudentViewModel.class);
 
         studentViewModel.getLoading().observe(this, isLoading -> {
             if (isLoading) {

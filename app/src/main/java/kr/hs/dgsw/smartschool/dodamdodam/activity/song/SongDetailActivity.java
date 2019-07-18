@@ -3,17 +3,23 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity.song;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.bumptech.glide.Glide;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.song.Video;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.SongDetailActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.MemberViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
 
 public class SongDetailActivity extends BaseActivity<SongDetailActivityBinding> {
 
     public static final String EXTRA_VIDEO = "video";
+
+    private MemberViewModel viewModel;
 
     @Override
     protected int layoutId() {
@@ -25,12 +31,23 @@ public class SongDetailActivity extends BaseActivity<SongDetailActivityBinding> 
         super.onCreate(savedInstanceState);
         lightNavMode();
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         ViewUtils.marginTopSystemWindow(binding.toolbar);
+
+        viewModel = ViewModelProviders.of(this).get(MemberViewModel.class);
 
         Video source = getIntent().getParcelableExtra(EXTRA_VIDEO);
         setTitle(source.getVideoTitle());
         binding.textChannelTitle.setText(source.getChannelTitle());
+        viewModel.search(source.getApplyMemberId());
+        viewModel.getData().observe(this, member -> binding.textUser.setText(member.getName()));
+        binding.textAllowed.setText(source.getIsAllow() + "");
         Glide.with(this).load(source.getThumbnail()).into(binding.imageThumbnail);
     }
 

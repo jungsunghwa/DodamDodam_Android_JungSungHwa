@@ -1,9 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.content.Context;
+import android.app.Application;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
@@ -27,11 +26,11 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
     private CompositeDisposable disposable;
     private TokenManager manager;
 
-    public SongViewModel(Context context) {
-        super(context);
+    public SongViewModel(Application application) {
+        super(application);
         client = new SongClient();
         disposable = new CompositeDisposable();
-        manager = TokenManager.getInstance(context);
+        manager = TokenManager.getInstance(application);
     }
 
     public MutableLiveData<YoutubeData> getSelectedYoutubeData() {

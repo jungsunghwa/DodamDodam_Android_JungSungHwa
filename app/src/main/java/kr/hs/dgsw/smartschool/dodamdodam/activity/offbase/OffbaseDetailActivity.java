@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -53,7 +54,7 @@ public class OffbaseDetailActivity extends BaseActivity<OffbaseDetailActivityBin
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ViewUtils.marginTopSystemWindow(binding.toolbar);
 
-        viewModel = new OffbaseViewModel(this);
+        viewModel = ViewModelProviders.of(this).get(OffbaseViewModel.class);
 
         viewModel.getLeave().observe(this, leave -> {
             binding.textDate.setText(formatDate.format(leave.getStartTime()));

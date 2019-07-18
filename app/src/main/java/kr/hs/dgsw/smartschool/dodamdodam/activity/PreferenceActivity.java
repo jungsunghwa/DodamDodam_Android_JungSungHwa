@@ -3,6 +3,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.ActionBar;
+
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.PreferenceActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.fragment.preference.PreferenceFragment;
@@ -18,7 +20,11 @@ public class PreferenceActivity extends BaseActivity<PreferenceActivityBinding> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         getSupportFragmentManager()
                 .beginTransaction()

@@ -20,6 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public final class Utils {
 
     public static boolean isWeekEnd = isWeekEnd(new Date());
+
+    //FIXME
     public static Identity identity = Identity.TEACHER;
 
     public static Retrofit RETROFIT =
@@ -72,8 +74,11 @@ public final class Utils {
 
     private static OkHttpClient getClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        if (BuildConfig.DEBUG)
-            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.level(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
         return builder.build();
     }
 }

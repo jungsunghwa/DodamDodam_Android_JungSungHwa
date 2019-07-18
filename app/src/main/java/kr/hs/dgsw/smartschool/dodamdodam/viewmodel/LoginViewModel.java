@@ -1,10 +1,10 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.content.Context;
+import android.app.Application;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -15,7 +15,7 @@ import kr.hs.dgsw.b1nd.service.retrofit2.response.login.LoginRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LoginClient;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends AndroidViewModel {
 
     private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -24,10 +24,11 @@ public class LoginViewModel extends ViewModel {
     private CompositeDisposable disposable;
     private TokenManager manager;
 
-    public LoginViewModel(Context context) {
+    public LoginViewModel(Application application) {
+        super(application);
         loginClient = new LoginClient();
         disposable = new CompositeDisposable();
-        manager = TokenManager.getInstance(context);
+        manager = TokenManager.getInstance(application);
     }
 
     public LiveData<Boolean> isSuccess() {

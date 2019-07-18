@@ -17,6 +17,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -138,7 +139,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
     }
 
     private void initViewModel() {
-        lostFoundViewModel = new LostFoundViewModel(this);
+        lostFoundViewModel = ViewModelProviders.of(this).get(LostFoundViewModel.class);
     }
 
     private void observableLostFoundViewModel() {

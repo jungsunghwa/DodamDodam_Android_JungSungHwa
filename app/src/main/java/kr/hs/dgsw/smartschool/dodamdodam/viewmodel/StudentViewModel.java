@@ -1,10 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.content.Context;
+import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.annimon.stream.Stream;
 
@@ -40,13 +39,13 @@ public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
     private DatabaseHelper helper;
     private TokenManager manager;
 
-    public StudentViewModel(Context context) {
-        super(context);
+    public StudentViewModel(Application application) {
+        super(application);
         classClient = new ClassClient();
         studentClient = new StudentClient();
         disposable = new CompositeDisposable();
-        helper = DatabaseHelper.getInstance(context);
-        manager = TokenManager.getInstance(context);
+        helper = DatabaseHelper.getInstance(application);
+        manager = TokenManager.getInstance(application);
     }
 
     public LiveData<List<ClassInfo>> getClassInfos() {

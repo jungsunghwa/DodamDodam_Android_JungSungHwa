@@ -6,6 +6,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
+
 import java.util.ArrayList;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -205,7 +207,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
     }
 
     private void initViewModel() {
-        busViewModel = new BusViewModel(this);
+        busViewModel = ViewModelProviders.of(this).get(BusViewModel.class);
 
         busViewModel.getCurrentBusTypes();
         busViewModel.getMyBusApply();

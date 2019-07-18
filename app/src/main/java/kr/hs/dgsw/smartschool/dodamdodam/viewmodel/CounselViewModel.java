@@ -1,51 +1,35 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.Build;
+import android.app.Application;
 
-import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.b1nd.service.model.Member;
-import kr.hs.dgsw.b1nd.service.model.Teacher;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
-import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.CounselClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 
 public class CounselViewModel extends BaseViewModel<List<Counsel>> {
+    private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private CounselClient counselClient;
     private CompositeDisposable disposable;
     private TokenManager manager;
     private DatabaseHelper helper;
 
-    private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
-
-    public CounselViewModel(Context context) {
-        super(context);
+    public CounselViewModel(Application application) {
+        super(application);
         counselClient = new CounselClient();
         disposable = new CompositeDisposable();
-        manager = TokenManager.getInstance(context);
+        manager = TokenManager.getInstance(application);
     }
 
-    @SuppressLint("CheckResult")
     public void getAllCounsel() {
         loading.setValue(true);
 
@@ -53,7 +37,6 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
                 manager.getToken()), getDataObserver());
     }
 
-    @SuppressLint("CheckResult")
     public void postCounsel(CounselRequest request) {
         loading.setValue(true);
 
@@ -68,7 +51,6 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
                 manager.getToken(), counselIdx), getDataObserver());
     }
 
-    @SuppressLint("CheckResult")
     public void deleteCounsel(int counselIdx) {
         loading.setValue(true);
 

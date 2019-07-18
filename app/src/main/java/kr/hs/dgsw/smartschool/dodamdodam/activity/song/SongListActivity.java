@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -43,9 +45,14 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewModel = new SongViewModel(this);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        viewModel = ViewModelProviders.of(this).get(SongViewModel.class);
 
         viewModel.getData().observe(this, songs -> {
             adapter.setList(songs);

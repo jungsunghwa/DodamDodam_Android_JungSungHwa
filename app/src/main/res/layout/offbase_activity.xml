@@ -5,6 +5,7 @@
     tools:context=".activity.offbase.OffbaseActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -60,7 +61,7 @@
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            app:backgroundTint="@null"
+            app:backgroundTint="?colorPrimary"
             app:maxImageSize="56dp"
             app:srcCompat="@drawable/background_fab"
             app:tint="@null" />

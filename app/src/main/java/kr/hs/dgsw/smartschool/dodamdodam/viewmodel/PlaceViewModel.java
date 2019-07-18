@@ -1,9 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.content.Context;
+import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -12,7 +11,6 @@ import io.reactivex.observers.DisposableSingleObserver;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.PlaceList;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.PlaceClient;
@@ -23,11 +21,11 @@ public class PlaceViewModel extends BaseViewModel {
 
     private TokenManager manager;
 
-    public PlaceViewModel(Context context) {
-        super(context);
+    public PlaceViewModel(Application application) {
+        super(application);
         placeClient = new PlaceClient();
         disposable = new CompositeDisposable();
-        manager = TokenManager.getInstance(context);
+        manager = TokenManager.getInstance(application);
     }
 
     @Override

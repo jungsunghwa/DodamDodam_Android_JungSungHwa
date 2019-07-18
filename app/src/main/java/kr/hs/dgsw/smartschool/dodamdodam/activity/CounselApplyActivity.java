@@ -1,13 +1,13 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,6 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
     CounselViewModel counselViewModel;
     TeacherAdapter teacherAdapter;
     List<Teacher> teacherList = new ArrayList<>();
-    Context context;
     int index = 0;
 
     @Override
@@ -51,17 +50,17 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
     }
 
     private void initViewModel() {
-        teacherViewModel = new TeacherViewModel(this);
-        counselViewModel = new CounselViewModel(context);
+        teacherViewModel = ViewModelProviders.of(this).get(TeacherViewModel.class);
+        counselViewModel = ViewModelProviders.of(this).get(CounselViewModel.class);
 
         teacherViewModel.getTeacher();
 
-        Log.d("TAG", teacherList.size()+"");
+        Log.d("TAG", teacherList.size() + "");
     }
 
     private void observableTeacherViewModel() {
         teacherViewModel.getData().observe(this, data -> {
-            for (int i = 0; i<data.getTeachers().size(); i++) {
+            for (int i = 0; i < data.getTeachers().size(); i++) {
                 teacherList.add(index, data.getTeachers().get(i));
                 teacherAdapter.notifyItemInserted(index);
                 index++;
@@ -81,7 +80,7 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
         });
 
         counselViewModel.getSuccess().observe(this, success -> {
-            if(success)
+            if (success)
                 finish();
         });
 

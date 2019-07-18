@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.get;
+package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 
 import java.util.function.Function;
 

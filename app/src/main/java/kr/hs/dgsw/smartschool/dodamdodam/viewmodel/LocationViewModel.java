@@ -1,11 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
-import android.content.Context;
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -15,25 +10,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.Locations;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseGetDataType;
-import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseManager;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.LocationClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
-import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 
 public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationInfo>>> {
     private LocationClient locationClient;
@@ -45,11 +34,11 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
 
     private Map<Student, List<LocationInfo>> result = new HashMap<>();
 
-    public LocationViewModel(Context context) {
-        super(context);
+    public LocationViewModel(Application application) {
+        super(application);
         locationClient = new LocationClient();
         disposable = new CompositeDisposable();
-        manager = TokenManager.getInstance(context);
+        manager = TokenManager.getInstance(application);
     }
 
     public void putLocation(LocationInfo locationInfo) {

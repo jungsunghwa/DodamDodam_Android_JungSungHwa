@@ -44,6 +44,13 @@ public final class ViewUtils {
         });
     }
 
+    public static void paddingBottomSystemWindow(@NonNull final View view) {
+        listeners.push((v, insets) -> {
+            paddingBottomSystemWindow(view, insets);
+            return insets;
+        });
+    }
+
     public static void marginTopSystemWindow(@NonNull final View view) {
         listeners.push((v, insets) -> {
             marginTopSystemWindow(view, insets);
@@ -70,6 +77,10 @@ public final class ViewUtils {
             marginRightSystemWindow(view, insets);
             return insets;
         }));
+    }
+
+    private static void paddingBottomSystemWindow(View view, WindowInsets insets) {
+        view.setPaddingRelative(0, 0, 0, insets.getSystemWindowInsetBottom());
     }
 
     private static void marginTopSystemWindow(View view, WindowInsets insets) {

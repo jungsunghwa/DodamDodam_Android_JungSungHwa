@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -223,9 +224,9 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void initViewModel() {
-        timeTableViewModel = new TimeTableViewModel(this);
-        placeViewModel = new PlaceViewModel(this);
-        locationViewModel = new LocationViewModel(this);
+        timeTableViewModel = ViewModelProviders.of(this).get(TimeTableViewModel.class);
+        placeViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
 
         timeTableViewModel.getTimeTable();
         placeViewModel.getAllPlace();

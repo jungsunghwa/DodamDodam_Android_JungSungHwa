@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -54,7 +55,7 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
     }
 
     private void initViewModel() {
-        counselViewModel = new CounselViewModel(this);
+        counselViewModel = ViewModelProviders.of(this).get(CounselViewModel.class);
         counselViewModel.getAllCounsel();
     }
 
