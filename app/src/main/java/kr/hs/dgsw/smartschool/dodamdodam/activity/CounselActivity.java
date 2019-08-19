@@ -70,6 +70,8 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
             if (counselList.size() == 0) {
                 Toast.makeText(getApplicationContext(), "신청된 상담이 없습니다", Toast.LENGTH_SHORT).show();
             }
+//            this.counselList.clear();
+//            this.counselList.addAll(data);
         });
 
         counselViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
