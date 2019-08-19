@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -100,5 +101,15 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
     @Override
     public void onItemSelected(Teacher teacher, boolean selected) {
         teacherViewModel.select(teacher, selected);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

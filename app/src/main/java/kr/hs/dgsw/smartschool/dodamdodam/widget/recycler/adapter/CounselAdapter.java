@@ -42,16 +42,10 @@ public class CounselAdapter extends RecyclerView.Adapter<CounselViewHolder> {
         Teacher teacher = (Teacher) databaseHelper.getTeacherByIdx(counsel.getManageTeacherIdx());
         String name = teacher.getName();
 
-        CounselViewHolder counselViewHolder = (CounselViewHolder) holder;
-
-        holder.itemView.setOnLongClickListener(v -> {
-            MaterialCardView cardView = counselViewHolder.binding.counselCardView;
-            return false;
-        });
-
         holder.binding.counselTitle.setText(name);
         holder.binding.counselName.setText("사유 : " + counsel.getReason());
         holder.binding.counselUploadTime.setText("신청일: " + dateFormatDate.format(counsel.getRequestDate()));
+
     }
 
     @Override
