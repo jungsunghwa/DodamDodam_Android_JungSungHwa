@@ -15,6 +15,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 public class LostFoundViewModel extends BaseViewModel<List<LostFound>> {
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    public LostFoundRequest request = new LostFoundRequest();
     private LostFoundClient lostFoundClient;
     private CompositeDisposable disposable;
     private TokenManager manager;
@@ -33,14 +34,14 @@ public class LostFoundViewModel extends BaseViewModel<List<LostFound>> {
                 manager.getToken(), page, type), getDataObserver());
     }
 
-    public void postCreateLostFound(LostFoundRequest request) {
+    public void postCreateLostFound() {
         loading.setValue(true);
 
         addDisposable(lostFoundClient.postCreateLostFound(
                 manager.getToken(), request), getBaseObserver());
     }
 
-    public void putLostFound(LostFoundRequest request) {
+    public void putLostFound() {
         loading.setValue(true);
 
         addDisposable(lostFoundClient.postCreateLostFound(

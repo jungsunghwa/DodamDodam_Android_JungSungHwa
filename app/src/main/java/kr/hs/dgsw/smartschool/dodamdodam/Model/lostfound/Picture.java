@@ -11,11 +11,17 @@ public class Picture implements Parcelable {
     private String type;
     private String url;
 
-    protected Picture(Parcel in) {
+    public Picture(Parcel in) {
         original_name = in.readString();
         upload_name = in.readString();
         type = in.readString();
         url = in.readString();
+    }
+
+    public Picture(String original_name, String upload_name, String type) {
+        this.original_name = original_name;
+        this.upload_name = upload_name;
+        this.type = type;
     }
 
     public static final Creator<Picture> CREATOR = new Creator<Picture>() {

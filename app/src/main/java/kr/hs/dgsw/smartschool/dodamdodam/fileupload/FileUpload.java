@@ -49,16 +49,16 @@ public class FileUpload {
 
         RequestBody fileNameBody = RequestBody.create(MediaType.parse("text/plain"), fileName);
 
-        Call<Response> uploadRequest = fileUploadService.uploadFile(manager.getToken().toString(), fileNameBody.toString(), body);
-
-        new NetworkFileUpload(fileName)
-                .setOnTaskFinishListener(
-                        string -> {
-                            if (onFinishUploadListener != null) {
-                                onFinishUploadListener.onFinish(string);
-                            }
-                        })
-                .execute(uploadRequest);
+//        Call<Response> uploadRequest = fileUploadService.uploadFile(manager.getToken().toString(), fileNameBody.toString(), body);
+//
+//        new NetworkFileUpload(fileName)
+//                .setOnTaskFinishListener(
+//                        string -> {
+//                            if (onFinishUploadListener != null) {
+//                                onFinishUploadListener.onFinish(string);
+//                            }
+//                        })
+//                .execute(uploadRequest);
 
         return fileName;
     }

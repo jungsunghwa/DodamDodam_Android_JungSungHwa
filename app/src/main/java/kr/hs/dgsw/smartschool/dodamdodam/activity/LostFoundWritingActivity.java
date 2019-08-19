@@ -2,15 +2,19 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.MimeTypeMap;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,11 +27,15 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LostfoundWritingActivityBinding;
+import kr.hs.dgsw.smartschool.dodamdodam.fileupload.ImgUpload;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LostFoundViewModel;
 
@@ -77,12 +85,11 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         });
 
         binding.postWritingLostfound.setOnClickListener(v -> {
-            LostFoundRequest request = new LostFoundRequest();
 
             editTextEmptyCheck();
-            setLostFoundRequestData(request);
+            setLostFoundRequestData();
 
-            lostFoundViewModel.postCreateLostFound(request);
+            lostFoundViewModel.postCreateLostFound();
             Toast.makeText(this, "신청 성공!", Toast.LENGTH_SHORT).show();
         });
 
@@ -141,6 +148,9 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
                 }
             }
 
+            lostFoundViewModel.request.setPicture(new ImgUpload(this).ImgUpload(tempFile));
+            lostFoundViewModel.request.setUpload_time(new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss").format(new Date()));
+
             setImage();
 
         }
@@ -179,21 +189,18 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         }
     }
 
-    private LostFoundRequest setLostFoundRequestData(LostFoundRequest request) {
+    private void setLostFoundRequestData() {
 
-        request.setPlace(binding.writingPlaceEdittext.getText().toString());
-        request.setTitle(binding.writingTitleEdittext.getText().toString());
-        request.setContent(binding.writingContentEdittext.getText().toString());
-        request.setContact(binding.writingContactEdittext.getText().toString());
+        lostFoundViewModel.request.setPlace(binding.writingPlaceEdittext.getText().toString());
+        lostFoundViewModel.request.setTitle(binding.writingTitleEdittext.getText().toString());
+        lostFoundViewModel.request.setContent(binding.writingContentEdittext.getText().toString());
+        lostFoundViewModel.request.setContact(binding.writingContactEdittext.getText().toString());
+        lostFoundViewModel.request.setModify_time(new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss").format(new Date()));
         if (type > 0) {
-            request.setType(type);
+            lostFoundViewModel.request.setType(type);
         } else {
             Toast.makeText(this, "타입 오류", Toast.LENGTH_SHORT).show();
-            return null;
         }
-
-
-        return request;
     }
 
     private void tedPermission() {
