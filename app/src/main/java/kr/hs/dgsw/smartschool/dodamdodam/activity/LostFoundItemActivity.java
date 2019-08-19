@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class LostFoundItemActivity extends BaseActivity<LostfoundWritingActivity
     }
 
     private void initViewModel() {
-        lostFoundViewModel = new LostFoundViewModel(this);
+        lostFoundViewModel = ViewModelProviders.of(this).get(LostFoundViewModel.class);;
     }
 
     private void writingSetText() {
