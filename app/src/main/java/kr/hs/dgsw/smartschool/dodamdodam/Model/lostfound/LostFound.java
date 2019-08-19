@@ -1,9 +1,13 @@
 package kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LostFound {
+public class LostFound implements Parcelable {
     private Integer idx;
     private String member_id;
     private Integer type;
@@ -14,6 +18,39 @@ public class LostFound {
     private ArrayList<Picture> picture;
     private String content;
     private String contact;
+
+    protected LostFound(Parcel in) {
+        if (in.readByte() == 0) {
+            idx = null;
+        } else {
+            idx = in.readInt();
+        }
+        member_id = in.readString();
+        if (in.readByte() == 0) {
+            type = null;
+        } else {
+            type = in.readInt();
+        }
+        title = in.readString();
+        upload_time = in.readString();
+        modify_time = in.readString();
+        place = in.readString();
+        picture = in.createTypedArrayList(Picture.CREATOR);
+        content = in.readString();
+        contact = in.readString();
+    }
+
+    public static final Creator<LostFound> CREATOR = new Creator<LostFound>() {
+        @Override
+        public LostFound createFromParcel(Parcel in) {
+            return new LostFound(in);
+        }
+
+        @Override
+        public LostFound[] newArray(int size) {
+            return new LostFound[size];
+        }
+    };
 
     public Integer getIdx() {
         return idx;
@@ -93,5 +130,24 @@ public class LostFound {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(idx);
+        dest.writeString(member_id);
+        dest.writeInt(type);
+        dest.writeString(title);
+        dest.writeString(upload_time);
+        dest.writeString(modify_time);
+        dest.writeString(place);
+        dest.writeList(picture);
+        dest.writeString(content);
+        dest.writeString(contact);
     }
 }
