@@ -4,15 +4,71 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.StringRes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import kr.hs.dgsw.smartschool.dodamdodam.R;
+
 public class Video implements Parcelable {
-    public static final int VIDEO_ALLOW = 1;
-    public static final int VIDEO_NONE = 0;
-    public static final int VIDEO_DISALLOW = -1;
+    public enum Status implements Parcelable {
+        VIDEO_ALLOW(1),
+        VIDEO_NONE(0),
+        VIDEO_DISALLOW(-1);
+
+        private int status;
+
+        Status(int status) {
+            this.status = status;
+        }
+
+        public static final Creator<Status> CREATOR = new Creator<Status>() {
+            @Override
+            public Status createFromParcel(Parcel in) {
+                switch (in.readInt()) {
+                    case 1:
+                        return VIDEO_ALLOW;
+                    case 0:
+                        return VIDEO_NONE;
+                    case -1:
+                        return VIDEO_DISALLOW;
+                }
+                return null;
+            }
+
+            @Override
+            public Status[] newArray(int size) {
+                return new Status[size];
+            }
+        };
+
+        @StringRes
+        public int toStringRes() {
+            switch (status) {
+                case 1:
+                    return R.string.text_status_ok;
+                case 0:
+                    return R.string.text_status_wait;
+                case -1:
+                    return R.string.text_status_refuse;
+                default:
+                    return -1;
+            }
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(status);
+        }
+    }
 
     private int idx;
     @SerializedName("apply_member_id")
@@ -26,8 +82,7 @@ public class Video implements Parcelable {
     private String videoUrl;
     @SerializedName("channel_title")
     private String channelTitle;
-    @AllowType
-    private int isAllow;
+    private Status isAllow;
     @SerializedName("allow_teacher_idx")
     private int allowTeacherIdx;
     @SerializedName("submit_date")
@@ -44,7 +99,7 @@ public class Video implements Parcelable {
         videoId = in.readString();
         videoUrl = in.readString();
         channelTitle = in.readString();
-        isAllow = in.readInt();
+        isAllow = in.readParcelable(Status.class.getClassLoader());
         allowTeacherIdx = in.readInt();
         submitDate = (Date) in.readSerializable();
         checkDate = (Date) in.readSerializable();
@@ -90,7 +145,7 @@ public class Video implements Parcelable {
         return channelTitle;
     }
 
-    public int getIsAllow() {
+    public Status getIsAllow() {
         return isAllow;
     }
 
@@ -120,13 +175,9 @@ public class Video implements Parcelable {
         dest.writeString(videoId);
         dest.writeString(videoUrl);
         dest.writeString(channelTitle);
-        dest.writeInt(isAllow);
+        dest.writeParcelable(isAllow, flags);
         dest.writeInt(allowTeacherIdx);
         dest.writeSerializable(submitDate);
         dest.writeSerializable(checkDate);
-    }
-
-    @IntDef(value = {VIDEO_ALLOW, VIDEO_NONE, VIDEO_DISALLOW})
-    private @interface AllowType {
     }
 }

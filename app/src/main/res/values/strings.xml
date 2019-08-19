@@ -39,10 +39,10 @@
     <string name="text_apply">신청</string>
     <string name="text_offbase_leave">외박</string>
     <string name="text_offbase_pass">외출</string>
-    <string name="text_offbase_status_ok">승인됨</string>
-    <string name="text_offbase_status_wait">대기중</string>
-    <string name="text_offbase_status_refuse">거부됨</string>
     <string name="text_refresh">새로고침</string>
+    <string name="text_status_ok">승인됨</string>
+    <string name="text_status_wait">대기중</string>
+    <string name="text_status_refuse">거부됨</string>
 
     <string name="hint_email">이메일</string>
     <string name="hint_pw">비밀번호</string>

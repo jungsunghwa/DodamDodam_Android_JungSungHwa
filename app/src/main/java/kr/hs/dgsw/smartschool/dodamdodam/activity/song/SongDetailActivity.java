@@ -47,7 +47,7 @@ public class SongDetailActivity extends BaseActivity<SongDetailActivityBinding> 
         binding.textChannelTitle.setText(source.getChannelTitle());
         viewModel.search(source.getApplyMemberId());
         viewModel.getData().observe(this, member -> binding.textUser.setText(member.getName()));
-        binding.textAllowed.setText(source.getIsAllow() + "");
+        binding.textAllowed.setText(source.getIsAllow().toStringRes());
         Glide.with(this).load(source.getThumbnail()).into(binding.imageThumbnail);
     }
 

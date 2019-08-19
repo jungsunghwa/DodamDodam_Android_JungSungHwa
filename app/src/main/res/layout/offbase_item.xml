@@ -39,7 +39,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/image_status"
                 app:layout_constraintEnd_toStartOf="@+id/image_status"
                 app:layout_constraintTop_toTopOf="@+id/image_status"
-                tools:text="@string/text_offbase_status_wait" />
+                tools:text="@string/text_status_wait" />
 
             <ImageView
                 android:id="@+id/image_status"

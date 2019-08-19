@@ -115,15 +115,15 @@ public class OffbaseAdapter extends RecyclerView.Adapter<OffbaseViewHolder> {
 
         switch (item.getIsAllow()) {
             case -1:
-                stringRes = R.string.text_offbase_status_refuse;
+                stringRes = R.string.text_status_refuse;
                 imageRes = R.drawable.ic_offbase_refuse;
                 break;
             case 0:
-                stringRes = R.string.text_offbase_status_wait;
+                stringRes = R.string.text_status_wait;
                 imageRes = R.drawable.ic_offbase_unknown;
                 break;
             case 1:
-                stringRes = R.string.text_offbase_status_ok;
+                stringRes = R.string.text_status_ok;
                 imageRes = R.drawable.ic_offbase_ok;
                 break;
             default:
