@@ -61,11 +61,14 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
 
     private void observableCounselViewModel() {
         counselViewModel.getData().observe(this, data -> {
-            Log.d("Tag", data.size() + "");
+//            Log.d("Tag", data.size() + "");
             for (int i = 0; i<data.size(); i++) {
                 counselList.add(index, data.get(i));
                 counselAdapter.notifyItemInserted(index);
                 index++;
+            }
+            if (counselList.size() == 0) {
+                Toast.makeText(getApplicationContext(), "신청된 상담이 없습니다", Toast.LENGTH_SHORT).show();
             }
         });
 

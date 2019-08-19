@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -15,6 +17,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.counsel.Counsel;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.CounselActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.CounselViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.CounselViewHolder;
 
 public class CounselAdapter extends RecyclerView.Adapter<CounselViewHolder> {
@@ -36,11 +39,15 @@ public class CounselAdapter extends RecyclerView.Adapter<CounselViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CounselViewHolder holder, int position) {
         Counsel counsel = counselList.get(position);
-
         Teacher teacher = (Teacher) databaseHelper.getTeacherByIdx(counsel.getManageTeacherIdx());
         String name = teacher.getName();
 
-//        DepartmentLog[] logs =  teacher.getDepartmentsLogs();
+        CounselViewHolder counselViewHolder = (CounselViewHolder) holder;
+
+        holder.itemView.setOnLongClickListener(v -> {
+            MaterialCardView cardView = counselViewHolder.binding.counselCardView;
+            return false;
+        });
 
         holder.binding.counselTitle.setText(name);
         holder.binding.counselName.setText("사유 : " + counsel.getReason());

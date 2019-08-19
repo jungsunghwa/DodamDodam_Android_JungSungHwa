@@ -32,6 +32,9 @@
         <item name="fabDrawable">@drawable/ic_create</item>
     </style>
 
+    <style name="Theme.App.Counsel">
+        <item name="fabDrawable">@drawable/ic_add</item>
+    </style>
 
     <style name="TextAppearance.App.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/nanum_square_regular</item>

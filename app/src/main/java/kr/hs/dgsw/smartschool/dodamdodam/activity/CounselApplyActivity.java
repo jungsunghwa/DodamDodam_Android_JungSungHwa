@@ -85,13 +85,8 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
         });
 
         binding.btnApply.setOnClickListener(v -> {
-            CounselRequest request = new CounselRequest();
             Teacher teacher = (Teacher) v.getTag();
-
-            request.setManageTeacherId(teacher.getId());
-            request.setReason(binding.reasonText.getText().toString());
-
-            counselViewModel.postCounsel(request);
+            counselViewModel.postCounsel(new CounselRequest(binding.reasonText.getText().toString(), teacher.getId()));
         });
     }
 

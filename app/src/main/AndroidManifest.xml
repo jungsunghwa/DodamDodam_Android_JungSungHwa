@@ -83,7 +83,8 @@
             android:label="@string/title_lostfound_writing" />
         <activity
             android:name=".activity.CounselActivity"
-            android:label="@string/title_counsel" />
+            android:label="@string/title_counsel"
+            android:theme="@style/Theme.App.Counsel"/>
         <activity
             android:name=".activity.CounselApplyActivity"
             android:label="@string/title_counsel_apply" />

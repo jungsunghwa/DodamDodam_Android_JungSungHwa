@@ -11,6 +11,11 @@ public class CounselRequest {
     @SerializedName("manage_teacher_id")
     private String manageTeacherId;
 
+    public CounselRequest(String reason, String manageTeacherId) {
+        this.reason = reason;
+        this.manageTeacherId = manageTeacherId;
+    }
+
     public String getReason(String reason) {
         return reason;
     }
