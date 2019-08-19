@@ -84,9 +84,14 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             binding.locationList.setLayoutManager(layoutManager);
             binding.locationList.setAdapter(locationListAdapter);
 
-            locationListAdapter.getSelectLocationIdx().observe(this, idx -> {
+            locationListAdapter.getcheckSelectLocationIdx().observe(this, idx -> {
                 if (idx != null)
                     locationViewModel.checkLocation(idx);
+            });
+
+            locationListAdapter.getUnCheckSelectLocationIdx().observe(this, idx -> {
+                if (idx != null)
+                    locationViewModel.unCheckLocation(idx);
             });
         });
 
@@ -132,12 +137,14 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                 (view, position, id, item) -> {
                     selectItem = item;
                     showSelectOptionSnackbar(view);
+                    locationViewModel.getLocation();
                 });
 
         binding.timeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Time>)
                 (view, position, id, item) -> {
                     selectedTime = item;
                     showSelectOptionSnackbar(view);
+                    locationViewModel.getLocation();
                 });
 
         binding.locationListRefreshBtn.setOnClickListener(view -> {

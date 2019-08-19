@@ -30,13 +30,16 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LocationViewHold
 
 public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
-    private final MutableLiveData<Integer> selectLocationIdx = new MutableLiveData<>();
+    private final MutableLiveData<Integer> checkSelectLocationIdx = new MutableLiveData<>();
+    private final MutableLiveData<Integer> unCheckSelectLocationIdx = new MutableLiveData<>();
+
     Map<Student, List<LocationInfo>> location;
     Map<Student, List<LocationInfo>> bindingValue;
     Object selectItem;
     Time selectTime;
     ListType listType;
     Context context;
+
     private List<Student> students;
 
     public LocationListAdapter(Context context, Map<Student, List<LocationInfo>> location,
@@ -50,8 +53,12 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         setBindingValue();
     }
 
-    public LiveData<Integer> getSelectLocationIdx() {
-        return selectLocationIdx;
+    public LiveData<Integer> getcheckSelectLocationIdx() {
+        return checkSelectLocationIdx;
+    }
+
+    public MutableLiveData<Integer> getUnCheckSelectLocationIdx() {
+        return unCheckSelectLocationIdx;
     }
 
     public void setListType(ListType listType) {
@@ -109,13 +116,17 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         }
         LocationInfo finalLocationInfo = locationInfo;
 
-        if (locationInfo.getChecked() != null)
+        if (locationInfo.getChecked() != null) {
             holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
-        else holder.binding.checkLocationCb.setChecked(false);
+        } else {
+            holder.binding.checkLocationCb.setChecked(false);
+        }
 
         holder.binding.checkLocationCb.setOnCheckedChangeListener((view, isChecked) -> {
             if (isChecked) {
-                selectLocationIdx.setValue(finalLocationInfo.getIdx());
+                checkSelectLocationIdx.setValue(finalLocationInfo.getIdx());
+            } else {
+                unCheckSelectLocationIdx.setValue(finalLocationInfo.getIdx());
             }
         });
 

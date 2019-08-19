@@ -47,4 +47,8 @@ public class LocationClient extends NetworkClient {
         return location.checkLocation(token.getToken(), idx).map(Response::getMessage);
     }
 
+    public Single<String> unCheckLocation(Token token, int idx) {
+        return location.unCheckLocation(token.getToken(), idx).map(Response::getMessage);
+    }
+
 }

@@ -56,5 +56,10 @@ public interface LocationService {
             @Path("idx") int idx
     );
 
+    @PUT("location/uncheck/{idx}")
+    Single<Response> unCheckLocation(
+            @Header("x-access-token") String token,
+            @Path("idx") int idx
+    );
 
 }
