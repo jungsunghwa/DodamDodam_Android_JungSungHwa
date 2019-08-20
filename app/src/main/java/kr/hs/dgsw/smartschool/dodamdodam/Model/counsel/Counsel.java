@@ -2,7 +2,9 @@ package kr.hs.dgsw.smartschool.dodamdodam.Model.counsel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Counsel {
     private Integer idx;
@@ -90,4 +92,5 @@ public class Counsel {
     public void setMangeTeacherId(String mangeTeacherId) {
         this.mangeTeacherId = mangeTeacherId;
     }
+
 }

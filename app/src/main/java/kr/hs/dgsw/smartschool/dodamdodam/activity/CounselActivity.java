@@ -3,7 +3,6 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -27,7 +26,6 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
     CounselViewModel counselViewModel;
     CounselAdapter counselAdapter;
     List<Counsel> counselList = new ArrayList<>();
-    int index = 0;
 
     @Override
     protected int layoutId() {
@@ -60,18 +58,9 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
     }
 
     private void observableCounselViewModel() {
-        counselViewModel.getData().observe(this, data -> {
-//            Log.d("Tag", data.size() + "");
-            for (int i = 0; i<data.size(); i++) {
-                counselList.add(index, data.get(i));
-                counselAdapter.notifyItemInserted(index);
-                index++;
-            }
-            if (counselList.size() == 0) {
-                Toast.makeText(getApplicationContext(), "신청된 상담이 없습니다", Toast.LENGTH_SHORT).show();
-            }
-//            this.counselList.clear();
-//            this.counselList.addAll(data);
+        counselViewModel.getData().observe(this, counsel -> {
+                    counselAdapter.setList(counsel);
+                    binding.counselRecycler.smoothScrollToPosition(0);
         });
 
         counselViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
@@ -80,12 +69,13 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
 
         counselViewModel.getErrorMessage().observe(this, errorMessage -> Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show());
 
+        counselAdapter =  new CounselAdapter(counselViewModel, this, counselList);
+
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
         binding.swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void setRecyclerView() {
-        counselAdapter = new CounselAdapter(this, counselList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.counselRecycler.setAdapter(counselAdapter);
         binding.counselRecycler.setLayoutManager(linearLayoutManager);

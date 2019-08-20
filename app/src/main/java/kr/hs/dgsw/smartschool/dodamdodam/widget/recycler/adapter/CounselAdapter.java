@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -23,10 +24,13 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.CounselViewHolde
 public class CounselAdapter extends RecyclerView.Adapter<CounselViewHolder> {
     List<Counsel> counselList;
     private DatabaseHelper databaseHelper;
+    CounselViewModel counselViewModel;
 
     private final SimpleDateFormat dateFormatDate = new SimpleDateFormat("yyyy-MM-dd H:mm ", Locale.getDefault());
-    public CounselAdapter(CounselActivity counselActivity, List<Counsel> counselList) {
+
+    public CounselAdapter(CounselViewModel counselViewModel, CounselActivity counselActivity, List<Counsel> counselList) {
         this.counselList = counselList;
+        this.counselViewModel = counselViewModel;
         databaseHelper = DatabaseHelper.getInstance(counselActivity);
     }
 
@@ -45,7 +49,24 @@ public class CounselAdapter extends RecyclerView.Adapter<CounselViewHolder> {
         holder.binding.counselTitle.setText(name);
         holder.binding.counselName.setText("사유 : " + counsel.getReason());
         holder.binding.counselUploadTime.setText("신청일: " + dateFormatDate.format(counsel.getRequestDate()));
+        holder.binding.deleteBtn.setOnClickListener(v ->
+                new AlertDialog.Builder(v.getContext())
+                        .setIcon(R.drawable.ic_warning)
+                        .setTitle("주의")
+                        .setMessage("삭제하시겠습니다?")
+                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                            counselViewModel.deleteCounsel(counsel.getIdx());
+                            counselList.remove(counsel);
+                            notifyItemRemoved(holder.getAdapterPosition());
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .create()
+                        .show());
+    }
 
+    public void setList(List<Counsel> counselList) {
+        this.counselList = counselList;
+        notifyDataSetChanged();
     }
 
     @Override
