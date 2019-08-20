@@ -41,14 +41,12 @@
                 android:layout_height="47dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="120dp"
-                android:layout_marginEnd="8dp"
                 android:background="@drawable/lostfound_item_box_background"
                 android:button="@null"
                 android:fontFamily="@font/nanum_square_round"
                 android:text="전체 글"
                 android:textAlignment="center"
                 android:textColor="#5C5FE1"
-                app:layout_constraintEnd_toStartOf="@+id/lostfound_spinner"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,15 +54,15 @@
                 android:id="@+id/lostfound_spinner"
                 android:layout_width="112dp"
                 android:layout_height="41dp"
-                android:layout_marginStart="110dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="120dp"
                 android:entries="@array/lostfound_type"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/my_writing_checkbox"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/searchEditText"
-                android:layout_width="169dp"
+                android:layout_width="0dp"
                 android:layout_height="41dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="120dp"
