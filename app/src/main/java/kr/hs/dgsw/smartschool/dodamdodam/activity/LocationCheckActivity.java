@@ -84,7 +84,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             binding.locationList.setLayoutManager(layoutManager);
             binding.locationList.setAdapter(locationListAdapter);
 
-            locationListAdapter.getcheckSelectLocationIdx().observe(this, idx -> {
+            locationListAdapter.getCheckSelectLocationIdx().observe(this, idx -> {
                 if (idx != null)
                     locationViewModel.checkLocation(idx);
             });

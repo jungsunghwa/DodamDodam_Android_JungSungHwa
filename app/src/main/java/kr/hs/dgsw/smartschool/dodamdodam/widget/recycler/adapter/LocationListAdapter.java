@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -26,6 +27,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.Place;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.Time;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LocationViewHolder;
 
 public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder> {
@@ -39,6 +41,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
     Time selectTime;
     ListType listType;
     Context context;
+    private DatabaseHelper helper;
 
     private List<Student> students;
 
@@ -51,9 +54,10 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         this.selectItem = selectItem;
         this.selectTime = selectTime;
         setBindingValue();
+        helper = DatabaseHelper.getInstance(context);
     }
 
-    public LiveData<Integer> getcheckSelectLocationIdx() {
+    public MutableLiveData<Integer> getCheckSelectLocationIdx() {
         return checkSelectLocationIdx;
     }
 
@@ -115,11 +119,20 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
             }
         }
         LocationInfo finalLocationInfo = locationInfo;
+        Log.d("LocationInfo", finalLocationInfo.getIdx()+"");
 
         if (locationInfo.getChecked() != null) {
             holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
         } else {
             holder.binding.checkLocationCb.setChecked(false);
+        }
+
+        if (finalLocationInfo.getIdx() == null) {
+            holder.binding.checkLocationCb.setClickable(false);
+        } else {
+            ClassInfo classInfo = helper.getClassByClassIdx(finalLocationInfo.getIdx());
+            Log.d("Tag", classInfo.getGrade() + classInfo.getRoom() + classInfo.getIdx() + "");
+            holder.binding.studentClassTv.setText(classInfo.getGrade()+"학년 " + classInfo.getRoom()+"반");
         }
 
         holder.binding.checkLocationCb.setOnCheckedChangeListener((view, isChecked) -> {
@@ -174,4 +187,5 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
 
         notifyDataSetChanged();
     }
+
 }
