@@ -106,14 +106,11 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             timeList = times;
 
             binding.timeSpinner.setItems(timeList);
-
             selectedTime = timeList.get(0);
         });
 
 
-        placeViewModel.getData().observe(this, data -> {
-            placeList = data;
-        });
+        placeViewModel.getData().observe(this, data -> placeList = data);
 
         binding.toggle.setOnCheckedChangeListener((view, checkedId) -> {
             selectedTime = timeList.get(0);
@@ -147,9 +144,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                     locationViewModel.getLocation();
                 });
 
-        binding.locationListRefreshBtn.setOnClickListener(view -> {
-            locationViewModel.getLocation();
-        });
+        binding.locationListRefreshBtn.setOnClickListener(view -> locationViewModel.getLocation());
     }
 
     @Override

@@ -130,9 +130,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         if (finalLocationInfo.getIdx() == null) {
             holder.binding.checkLocationCb.setClickable(false);
         } else {
-            ClassInfo classInfo = helper.getClassByClassIdx(finalLocationInfo.getIdx());
-            Log.d("Tag", classInfo.getGrade() + classInfo.getRoom() + classInfo.getIdx() + "");
-            holder.binding.studentClassTv.setText(classInfo.getGrade()+"학년 " + classInfo.getRoom()+"반");
+            holder.binding.studentClassTv.setText(student.getClassInfo().getGrade()+"학년 " + student.getClassInfo().getRoom()+"반");
         }
 
         holder.binding.checkLocationCb.setOnCheckedChangeListener((view, isChecked) -> {

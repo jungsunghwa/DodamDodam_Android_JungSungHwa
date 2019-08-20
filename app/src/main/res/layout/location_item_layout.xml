@@ -10,20 +10,25 @@
             android:id="@+id/student_class_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:padding="10dp"
             android:text="학년 반"
+            ellipsize = "marquee"
+            marqueeRepeatLimit = "marquee_forever"
+            singleLine="true"
+            android:visibility="gone"
+            android:inputType="text"
             android:background="@drawable/border"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <TextView
+            android:inputType="text"
             android:id="@+id/student_number_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="번호"
             android:padding="10dp"
             android:background="@drawable/border"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <TextView
             android:id="@+id/student_name_tv"
@@ -41,9 +46,10 @@
             android:text="위치"
             android:padding="10dp"
             android:background="@drawable/border"
-            android:layout_weight="3" />
+            android:layout_weight="2" />
 
         <TextView
+            android:inputType="text"
             android:id="@+id/check_location_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

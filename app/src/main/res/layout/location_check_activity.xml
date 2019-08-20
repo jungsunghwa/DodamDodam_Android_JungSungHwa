@@ -18,49 +18,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioGroup
-            android:id="@+id/toggle"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/pink_out_line"
-            android:checkedButton="@+id/list_type_class"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appbar_layout">
-
-            <RadioButton
-                android:id="@+id/list_type_class"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/toggle_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="학반으로 보기"
-                android:textColor="#fff" />
-
-            <RadioButton
-                android:id="@+id/list_type_place"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/toggle_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="장소별로 보기"
-                android:textColor="#000" />
-        </RadioGroup>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -71,7 +28,27 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toggle">
+            app:layout_constraintTop_toBottomOf="@id/appbar_layout">
+
+            <CheckBox
+                android:id="@+id/my_writing_checkbox"
+                android:layout_width="95dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/lostfound_item_box_background"
+                android:button="@null"
+                android:fontFamily="@font/nanum_square_round"
+                android:text="장소별"
+                android:shadowColor="@color/design_default_color_on_secondary"
+                android:shadowDy="2"
+                android:shadowRadius="4"
+                android:elevation="5dp"
+                android:textAlignment="center"
+                android:textColor="#5C5FE1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <LinearLayout
                 android:id="@+id/class_spinner_layout"
@@ -103,23 +80,12 @@
                 android:id="@+id/location_list_refresh_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/text_refresh"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/list_header_layout"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <include
-                android:id="@+id/list_header_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/location_item_layout"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:text="@string/text_refresh"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/class_spinner_layout" />
+                app:layout_constraintTop_toTopOf="@+id/class_spinner_layout" />
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/location_list"
@@ -128,10 +94,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/list_header_layout">
+                app:layout_constraintTop_toBottomOf="@id/class_spinner_layout">
 
             </androidx.recyclerview.widget.RecyclerView>
 

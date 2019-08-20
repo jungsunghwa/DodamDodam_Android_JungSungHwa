@@ -15,5 +15,6 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
     public LocationViewHolder(@NonNull View itemView) {
         super(itemView);
         binding = DataBindingUtil.bind(itemView);
+        binding.studentClassTv.setSelected(true);
     }
 }
