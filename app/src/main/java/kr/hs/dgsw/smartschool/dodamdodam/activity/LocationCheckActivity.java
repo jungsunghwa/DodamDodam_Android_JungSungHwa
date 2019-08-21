@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
@@ -116,16 +117,14 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             selectedTime = timeList.get(0);
             binding.timeSpinner.setSelectedIndex(0);
             binding.classSpinner.setSelectedIndex(0);
-            switch (checkedId) {
-                case R.id.list_type_class:
-                    listType = ListType.CLASS;
-                    selectItem = classInfos.get(0);
-                    break;
-
-                case R.id.list_type_place:
-                    listType = ListType.PLACE;
-                    selectItem = placeList.get(0);
-                    break;
+            if (!checkedId) {
+                listType = ListType.CLASS;
+                selectItem = classInfos.get(0);
+                binding.toggle.setText("학반별");
+            } else {
+                listType = ListType.PLACE;
+                selectItem = placeList.get(0);
+                binding.toggle.setText("장소별");
             }
             showSelectOptionSnackbar(view);
         });
@@ -158,28 +157,33 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     }
 
     private void showSelectOptionSnackbar(View v) {
-        a();
+        typeOfSetItems();
         Snackbar.make(binding.locationList, selectedTime.toString() + "에 " + selectItem.toString() + "의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
     }
 
-    private void a() {
+    private void typeOfSetItems() {
         if (listType == ListType.CLASS) {
-            binding.listTypeClass.setTextColor(Color.WHITE);
-            binding.listTypePlace.setTextColor(Color.BLACK);
-            binding.listHeaderLayout.studentClassTv.setVisibility(View.GONE);
+//            binding.listTypeClass.setTextColor(Color.WHITE);
+//            binding.listTypePlace.setTextColor(Color.BLACK);
+
+//            binding.listHeaderLayout.studentClassTv.setVisibility(View.GONE);
             binding.classSpinner.setItems(classInfos);
-//            selectItem = classInfos.get(binding.classSpinner.getSelectedIndex());
+            selectItem = classInfos.get(binding.classSpinner.getSelectedIndex());
         } else {
-            binding.listTypeClass.setTextColor(Color.BLACK);
-            binding.listTypePlace.setTextColor(Color.WHITE);
-            binding.listHeaderLayout.studentClassTv.setVisibility(View.VISIBLE);
+//            binding.listTypeClass.setTextColor(Color.BLACK);
+//            binding.listTypePlace.setTextColor(Color.WHITE);
+
+//            binding.listHeaderLayout.studentClassTv.setVisibility(View.VISIBLE);
             binding.classSpinner.setItems(placeList);
-//            selectItem = placeList.get(binding.classSpinner.getSelectedIndex());
+            selectItem = placeList.get(binding.classSpinner.getSelectedIndex());
         }
+        setListAdapter();
+    }
+
+    private void setListAdapter() {
         locationListAdapter.setListType(listType);
         locationListAdapter.setSelectItem(selectItem);
         locationListAdapter.setSelectTime(selectedTime);
     }
-
 }
 
