@@ -15,6 +15,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 public class LostFoundViewModel extends BaseViewModel<List<LostFound>> {
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    public MutableLiveData<Integer> checkMy = new MutableLiveData<>();
     public LostFoundRequest request = new LostFoundRequest();
     private LostFoundClient lostFoundClient;
     private CompositeDisposable disposable;

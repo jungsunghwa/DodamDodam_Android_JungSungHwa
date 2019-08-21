@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LostfoundActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LostFoundViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.LostFoundAdapter;
@@ -37,7 +39,10 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
     Integer page = 1;
 
     // 분실인지=1 습득인지=2 판단하는 타입
-    Integer type;
+    Integer type = 1;
+
+    private final Integer ALL = 0;
+    private final Integer MY = 1;
 
     // List 에 넣기 위한 index 선언
     int index = 0;
@@ -65,6 +70,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         }
 
         initViewModel();
+        initScrollListener();
         observableLostFoundViewModel();
 
         // spinner 선택된 item (분실물, 습득물)에 따른 recyclerview 표시
@@ -75,6 +81,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
 
                 lostFoundList.clear();
                 index = 0;
+                page = 1;
 
                 if (position == 0) {
                     type = 1;
@@ -85,7 +92,6 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
                 lostFoundViewModel.getLostFound(page, type);
 
                 setRecyclerViewManager();
-                initScrollListener();
             }
 
             @Override
@@ -98,27 +104,27 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         binding.myWritingCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
                 binding.myWritingCheckbox.setText("전체 글");
+                lostFoundViewModel.checkMy.setValue(ALL);
             } else {
                 binding.myWritingCheckbox.setText("내 글만");
+                lostFoundViewModel.checkMy.setValue(MY);
             }
         });
 
         // 검색 기능 (엔터키 누를 시 검색)
-        binding.searchEditText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    lostFoundList.clear();
-                    index = 0;
+        binding.searchEditText.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                lostFoundList.clear();
+                index = 0;
+                page = 1;
 
-                    lostFoundViewModel.getLostFoundSearch(binding.searchEditText.getText().toString());
+                lostFoundViewModel.getLostFoundSearch(binding.searchEditText.getText().toString());
 
-                    setRecyclerViewManager();
+                setRecyclerViewManager();
 
-                    return true;
-                }
-                return false;
+                return true;
             }
+            return false;
         });
 
         binding.lostfoundWritingBtn.setOnClickListener(v -> {
@@ -154,10 +160,40 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
             if (lostFoundList.size() == 0) {
                 Toast.makeText(getApplicationContext(), "검색된 내용이 없습니다.", Toast.LENGTH_SHORT).show();
             }
+            if (lostFoundViewModel.checkMy.getValue() == MY) {
+                List<LostFound> lostFounds = new CopyOnWriteArrayList<>(lostFoundList);
+
+                for (LostFound lostFound: lostFounds) {
+                    if (!lostFound.getMemberId().equals(DatabaseHelper.getInstance(this).getMyInfo().getId())) {
+                        lostFoundList.remove(lostFound);
+                    }
+                }
+            }
         });
 
         lostFoundViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        });
+
+        lostFoundViewModel.checkMy.observe(this, check -> {
+            index = 0;
+            if (check == ALL) {
+                page = 1;
+
+                lostFoundList.clear();
+                lostFoundViewModel.getLostFound(page, type);
+            }
+            else if (check == MY) {
+                List<LostFound> lostFounds = new CopyOnWriteArrayList<>(lostFoundList);
+
+                for (LostFound lostFound: lostFounds) {
+                    if (!lostFound.getMemberId().equals(DatabaseHelper.getInstance(this).getMyInfo().getId())) {
+                        lostFoundList.remove(lostFound);
+                    }
+                }
+            }
+
+            setRecyclerViewManager();
         });
 
     }
