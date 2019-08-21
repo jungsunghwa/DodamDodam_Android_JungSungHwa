@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -34,6 +36,7 @@ import java.util.UUID;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LostfoundWritingActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.fileupload.ImgUpload;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
@@ -47,6 +50,9 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
     private File tempFile;
     private String currentFileName;
 
+    private final Integer WRITE = 0;
+    private final Integer UPDATE = 1;
+    private final Integer SHOW = 2;
 
     @Override
     protected int layoutId() {
@@ -65,6 +71,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         }
 
         initViewModel();
+        initViewType();
 
         binding.lostfoundCardImageView.setOnClickListener(v -> {
             if (isPermission)
@@ -91,6 +98,13 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
 
             lostFoundViewModel.postCreateLostFound();
             Toast.makeText(this, "신청 성공!", Toast.LENGTH_SHORT).show();
+        });
+
+        binding.updateBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LostFoundWritingActivity.class);
+            intent.putExtra("viewType", lostFoundViewModel.viewType.getValue());
+            intent.putExtra("lostFound", lostFoundViewModel.request);
+            startActivity(intent);
         });
 
         tedPermission();
@@ -168,6 +182,59 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
 
     private void initViewModel() {
         lostFoundViewModel = ViewModelProviders.of(this).get(LostFoundViewModel.class);
+    }
+
+    private void initViewType() {
+
+        if (getIntent().getExtras() != null) {
+            lostFoundViewModel.viewType.setValue(getIntent().getExtras().getInt("viewType"));
+            lostFoundViewModel.request = (LostFoundRequest) getIntent().getSerializableExtra("lostFound");
+            if (lostFoundViewModel.viewType.getValue() == UPDATE) {
+                initUpdateView();
+            }
+            else if (lostFoundViewModel.viewType.getValue() == SHOW) {
+                initShowView();
+            }
+            initContents();
+        }
+    }
+
+    private void initUpdateView() {
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_lostfound_update));
+        binding.lostfoundCardImageView.setEnabled(false);
+        binding.kindofCheckbox.setEnabled(false);
+        binding.writingPlaceEdittext.setFocusableInTouchMode(false);
+        binding.writingTitleEdittext.setFocusableInTouchMode(false);
+        binding.writingContentEdittext.setFocusableInTouchMode(false);
+        binding.writingContactEdittext.setFocusableInTouchMode(false);
+    }
+
+    private void initShowView() {
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_lostfound));
+        if (lostFoundViewModel.request.getMemberId().equals(DatabaseHelper.getInstance(this).getMyInfo().getId())) {
+            binding.deleteBtn.setVisibility(View.VISIBLE);
+            binding.updateBtn.setVisibility(View.VISIBLE);
+            binding.postWritingLostfound.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void initContents() {
+        if (lostFoundViewModel.request.getPicture() == null) {
+            binding.lostfoundCardImageView.setImageResource(R.drawable.add_picture);
+        }
+        else {
+            Glide.with(this).load(lostFoundViewModel.request.getPicture().get(0)).into(binding.lostfoundCardImageView);
+        }
+        if (lostFoundViewModel.request.getType() == 1) {
+            binding.kindofCheckbox.setChecked(false);
+        }
+        else {
+            binding.kindofCheckbox.setChecked(true);
+        }
+        binding.writingPlaceEdittext.setText(lostFoundViewModel.request.getPlace());
+        binding.writingTitleEdittext.setText(lostFoundViewModel.request.getTitle());
+        binding.writingContentEdittext.setText(lostFoundViewModel.request.getContent());
+        binding.writingContactEdittext.setText(lostFoundViewModel.request.getContact());
     }
 
     private void editTextEmptyCheck() {

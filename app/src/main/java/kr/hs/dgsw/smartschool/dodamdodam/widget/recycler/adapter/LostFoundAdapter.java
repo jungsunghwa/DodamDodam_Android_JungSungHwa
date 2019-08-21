@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import java.util.List;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.LostFoundWritingActivity;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound.ItemViewHolder;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound.LoadingViewHolder;
 
@@ -75,6 +78,13 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Log.d("TAG", lostFound.getPicture().get(0).getUrl());
             Glide.with(context).load(lostFound.getPicture().get(0).getUrl()).into(viewHolder.binding.lostfoundImageview);
         }
+
+        viewHolder.binding.lostfoundCardView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, LostFoundWritingActivity.class);
+            intent.putExtra("viewType", 2); //SHOW == 2
+            intent.putExtra("lostFound", new LostFoundRequest(lostFound));
+            context.startActivity(intent);
+        });
     }
 
     private void showLoadingView(LoadingViewHolder viewHolder, int position) {

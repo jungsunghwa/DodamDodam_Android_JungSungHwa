@@ -1,10 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.request;
 
+import java.io.Serializable;
 import java.util.List;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.Picture;
 
-public class LostFoundRequest {
+public class LostFoundRequest implements Serializable {
     private Integer idx;
     private Integer type;
     private String title;
@@ -14,6 +16,24 @@ public class LostFoundRequest {
     private List<Picture> picture;
     private String content;
     private String contact;
+    private String memberId;
+
+    public LostFoundRequest() {
+
+    }
+
+    public LostFoundRequest(LostFound lostFound) {
+        idx = lostFound.getIdx();
+        type = lostFound.getType();
+        title = lostFound.getTitle();
+        upload_time = lostFound.getUpload_time();
+        modify_time = lostFound.getModify_time();
+        place = lostFound.getPlace();
+        picture = lostFound.getPicture();
+        content = lostFound.getContent();
+        contact = lostFound.getContact();
+        memberId = lostFound.getMemberId();
+    }
 
     public Integer getIdx() {
         return idx;
@@ -85,5 +105,13 @@ public class LostFoundRequest {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 }
