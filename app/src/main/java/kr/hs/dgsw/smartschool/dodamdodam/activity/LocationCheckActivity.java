@@ -110,13 +110,14 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             selectedTime = timeList.get(0);
         });
 
-
         placeViewModel.getData().observe(this, data -> placeList = data);
 
         binding.toggle.setOnCheckedChangeListener((view, checkedId) -> {
             selectedTime = timeList.get(0);
+            selectItem = placeList.get(0);
             binding.timeSpinner.setSelectedIndex(0);
             binding.classSpinner.setSelectedIndex(0);
+
             if (!checkedId) {
                 listType = ListType.CLASS;
                 selectItem = classInfos.get(0);
@@ -126,21 +127,22 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                 selectItem = placeList.get(0);
                 binding.toggle.setText("장소별");
             }
+
             showSelectOptionSnackbar(view);
         });
 
         binding.classSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Object>)
                 (view, position, id, item) -> {
                     selectItem = item;
-                    showSelectOptionSnackbar(view);
                     locationViewModel.getLocation();
+                    showSelectOptionSnackbar(view);
                 });
 
         binding.timeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Time>)
                 (view, position, id, item) -> {
                     selectedTime = item;
-                    showSelectOptionSnackbar(view);
                     locationViewModel.getLocation();
+                    showSelectOptionSnackbar(view);
                 });
 
         binding.locationListRefreshBtn.setOnClickListener(view -> locationViewModel.getLocation());
@@ -184,6 +186,8 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         locationListAdapter.setListType(listType);
         locationListAdapter.setSelectItem(selectItem);
         locationListAdapter.setSelectTime(selectedTime);
+
+        binding.locationList.setAdapter(locationListAdapter);
     }
 }
 

@@ -31,48 +31,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appbar_layout">
 
-            <LinearLayout
-                android:id="@+id/class_spinner_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
+
+            <CheckBox
+                android:id="@+id/toggle"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/lostfound_item_box_background"
+                android:button="@null"
+                android:fontFamily="@font/nanum_square_round"
+                android:text="학반별"
+                android:textAlignment="center"
+                android:textColor="#5C5FE1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <CheckBox
-                    android:id="@+id/toggle"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/lostfound_item_box_background"
-                    android:button="@null"
-                    android:fontFamily="@font/nanum_square_round"
-                    android:text="학반별"
-                    android:textAlignment="center"
-                    android:textColor="#5C5FE1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                    android:id="@+id/class_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/lostfound_item_box_background" />
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/class_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/lostfound_item_box_background"
+                app:layout_constraintStart_toEndOf="@+id/toggle"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                    android:id="@+id/time_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/lostfound_item_box_background" />
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/time_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/lostfound_item_box_background"
+                app:layout_constraintStart_toEndOf="@+id/class_spinner"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-            </LinearLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -86,7 +83,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/class_spinner_layout">
+                app:layout_constraintTop_toBottomOf="@id/class_spinner">
 
             </androidx.recyclerview.widget.RecyclerView>
 

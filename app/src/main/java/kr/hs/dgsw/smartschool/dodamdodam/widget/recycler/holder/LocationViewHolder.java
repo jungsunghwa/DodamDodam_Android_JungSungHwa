@@ -6,15 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationCheckItemBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LocationItemLayoutBinding;
 
 public class LocationViewHolder extends RecyclerView.ViewHolder {
 
-    public LocationItemLayoutBinding binding;
+    public LocationCheckItemBinding binding;
 
     public LocationViewHolder(@NonNull View itemView) {
         super(itemView);
         binding = DataBindingUtil.bind(itemView);
-        binding.studentClassTv.setSelected(true);
+        binding.locationName.setSelected(true);
     }
 }

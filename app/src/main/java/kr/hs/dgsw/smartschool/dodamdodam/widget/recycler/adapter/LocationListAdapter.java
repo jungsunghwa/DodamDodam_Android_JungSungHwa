@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.annimon.stream.Stream;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +46,8 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
     private DatabaseHelper helper;
 
     private List<Student> students;
+
+
 
     public LocationListAdapter(Context context, Map<Student, List<LocationInfo>> location,
                                ListType listType, Object selectItem, Time selectTime) {
@@ -82,16 +86,18 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
     @NonNull
     @Override
     public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new LocationViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.location_item_layout, parent, false));
+        return new LocationViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.location_check_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
-        holder.binding.checkLocationCb.setVisibility(View.VISIBLE);
-        holder.binding.checkLocationTv.setVisibility(View.GONE);
+//        holder.binding.checkLocationCb.setVisibility(View.VISIBLE);
+//        holder.binding.checkLocationTv.setVisibility(View.GONE);
+        Integer index = 0;
 
         Student student = students.get(position);
         Place place = null;
+        String classInfo;
 
         for (int i = 0; i < bindingValue.get(student).size(); i++) {
             if (bindingValue.get(student).get(i).getTimetableIdx() == selectTime.getIdx()) {
@@ -99,21 +105,27 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
             }
         }
 
-        holder.binding.studentNumberTv.setText(String.valueOf(student.getNumber()));
-        holder.binding.studentNameTv.setText(student.getName());
+        classInfo = setclassInfo(student);
 
-        if (place == null) holder.binding.locationNameTv.setText("교실");
-        else holder.binding.locationNameTv.setText(place.getName());
+        holder.binding.locationName.setText(classInfo);
 
-        if (listType == ListType.PLACE) {
-            holder.binding.studentClassTv.setVisibility(View.VISIBLE);
-        } else if (listType == ListType.CLASS) {
-            holder.binding.studentClassTv.setVisibility(View.GONE);
+        if (student.getProfileImage() != null) {
+            Log.d("ProfileImg", student.getProfileImage());
+            Glide.with(context).load(student.getProfileImage()).into(holder.binding.locationImageview);
         }
+
+        if (place == null) holder.binding.locationInfo.setText("장소 - 교실");
+        else holder.binding.locationInfo.setText("장소 - " + place.getName());
+
+//        if (listType == ListType.PLACE) {
+//            holder.binding.studentClassTv.setVisibility(View.VISIBLE);
+//        } else if (listType == ListType.CLASS) {
+//            holder.binding.studentClassTv.setVisibility(View.GONE);
+//        }
 
         LocationInfo locationInfo = new LocationInfo();
 
-        for (LocationInfo info : bindingValue.get(students.get(position))) {
+        for (LocationInfo info : bindingValue.get(students.get(position+index))) {
             if (info.getTimetableIdx() == selectTime.getIdx()) {
                 locationInfo = info;
             }
@@ -122,18 +134,17 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         Log.d("LocationInfo", finalLocationInfo.getIdx()+"");
 
         if (locationInfo.getChecked() != null) {
-            holder.binding.checkLocationCb.setChecked(locationInfo.getChecked() == 1);
-        } else {
-            holder.binding.checkLocationCb.setChecked(false);
+            holder.binding.locationCheckBox.setChecked(locationInfo.getChecked() == 1);
         }
 
         if (finalLocationInfo.getIdx() == null) {
-            holder.binding.checkLocationCb.setClickable(false);
+            holder.binding.locationCheckBox.setClickable(false);
         } else {
-            holder.binding.studentClassTv.setText(student.getClassInfo().getGrade()+"학년 " + student.getClassInfo().getRoom()+"반");
+//            holder.binding.locationName.setText(student.getClassInfo().getGrade() + "학년 " + student.getClassInfo().getRoom() + "반 " + student.getNumber() + "번 " + student.getName());
+            holder.binding.locationName.setText(classInfo);
         }
 
-        holder.binding.checkLocationCb.setOnCheckedChangeListener((view, isChecked) -> {
+        holder.binding.locationCheckBox.setOnCheckedChangeListener((view, isChecked) -> {
             if (isChecked) {
                 checkSelectLocationIdx.setValue(finalLocationInfo.getIdx());
             } else {
@@ -184,6 +195,18 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         this.students = Stream.of(students).sortBy(kr.hs.dgsw.b1nd.service.model.Student::getNumber).toList();
 
         notifyDataSetChanged();
+    }
+
+    private String setclassInfo(Student student) {
+        String classInfo;
+        
+        if (student.getNumber() < 10) {
+            classInfo = student.getClassInfo().getGrade() + "" + student.getClassInfo().getRoom() + "0" + student.getNumber() + " " + student.getName();
+        } else {
+            classInfo = student.getClassInfo().getGrade() + "" + student.getClassInfo().getRoom() + "" + student.getNumber() + " " + student.getName();
+        }
+        
+        return classInfo;
     }
 
 }
