@@ -26,6 +26,6 @@ public interface FileUploadService {
     Call<retrofit2.Response<Response>> uploadImg(
             @Header("x-access-token") String token,
             @Part MultipartBody.Part file,
-            @Part("name") String name
+            @Part("name") RequestBody name
     );
 }

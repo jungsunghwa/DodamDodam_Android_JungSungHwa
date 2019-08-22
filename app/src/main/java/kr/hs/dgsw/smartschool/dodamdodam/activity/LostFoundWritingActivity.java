@@ -31,7 +31,11 @@ import com.bumptech.glide.Glide;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,8 +75,6 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         initViewModel();
         initViewType();
@@ -122,6 +124,8 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         });
 
         binding.deleteBtn.setOnClickListener(v -> lostFoundViewModel.deleteLostFound(lostFoundViewModel.request.getIdx()));
+
+        binding.writingContactEdittext.setOnClickListener(v -> startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + lostFoundViewModel.request.getContact()))));
 
         tedPermission();
 
@@ -178,12 +182,27 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
                 }
             }
 
-            lostFoundViewModel.request.setPicture(new ImgUpload(this).ImgUpload(tempFile));
+            lostFoundViewModel.request.setPicture(new ImgUpload(this).ImgUpload(changeToBytes(),tempFile.getName()));
             lostFoundViewModel.request.setUpload_time(new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss").format(new Date()));
 
             setImage();
 
         }
+    }
+
+    private byte[] changeToBytes() {
+        int size = (int) tempFile.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(tempFile));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bytes;
     }
 
     @Override
@@ -233,6 +252,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         binding.writingTitleEdittext.setFocusableInTouchMode(false);
         binding.writingContentEdittext.setFocusableInTouchMode(false);
         binding.writingContactEdittext.setFocusableInTouchMode(false);
+        binding.writingContactEdittext.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void initContents() {

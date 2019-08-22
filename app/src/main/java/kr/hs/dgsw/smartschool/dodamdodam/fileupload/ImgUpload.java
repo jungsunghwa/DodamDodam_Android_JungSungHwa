@@ -28,6 +28,7 @@ public class ImgUpload {
     private FileUploadService fileUploadService;
     private OnFinishUploadListener onFinishUploadListener;
     private TokenManager manager;
+    private String fileExt;
     private String fileType;
     private String uploadName;
 
@@ -36,19 +37,28 @@ public class ImgUpload {
         manager = TokenManager.getInstance(context);
     }
 
-    public List<Picture> ImgUpload(File file) {
+    public List<Picture> ImgUpload(byte[] imageBytes, String originalName) {
 
-        String[] filenameArray = file.getName().split("\\.");
-        fileType = filenameArray[filenameArray.length - 1];
+        String[] filenameArray = originalName.split("\\.");
+        String extension = filenameArray[filenameArray.length - 1];
 
-        uploadName = new Random().nextInt(999999999) + "." + fileType;
+        fileType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        fileExt = "." + extension;
 
-        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part imgToUpload = MultipartBody.Part.createFormData("image", uploadName, mFile);
+        uploadName = Integer.toString(new Random().nextInt(999999999));
 
-        Call<retrofit2.Response<Response>> uploadRequest = fileUploadService.uploadImg(manager.getToken().getToken(), imgToUpload, uploadName);
+        RequestBody requestFile = RequestBody.create(MediaType.parse(Objects.requireNonNull(fileType)), imageBytes);
 
-        new NetworkFileUpload(file.getName())
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", uploadName + fileExt, requestFile);
+
+        RequestBody fileNameBody = RequestBody.create(MediaType.parse("text/plain"), uploadName);
+
+//        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+//        MultipartBody.Part imgToUpload = MultipartBody.Part.createFormData("image", uploadName, mFile);
+
+        Call<retrofit2.Response<Response>> uploadRequest = fileUploadService.uploadImg(manager.getToken().getToken(), body, fileNameBody);
+
+        new NetworkFileUpload(uploadName)
                 .setOnTaskFinishListener(
                         string -> {
                             if (onFinishUploadListener != null) {
@@ -57,7 +67,7 @@ public class ImgUpload {
                         })
                 .execute(uploadRequest);
 
-        Picture picture = new Picture(file.getName(), uploadName, fileType);
+        Picture picture = new Picture(originalName, uploadName + fileExt, fileExt);
 
         List<Picture> pictures = new ArrayList<>();
         pictures.add(picture);
