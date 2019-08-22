@@ -31,7 +31,7 @@ public class MyInfoActivity extends BaseActivity {
 
         initViewModel();
 
-        myinfo_bus = findViewById(R.id.bus_type);
+//        myinfo_bus = findViewById(R.id.bus_type);
 
         busViewModel.getData().observe(this, bus -> {
 
@@ -61,9 +61,6 @@ public class MyInfoActivity extends BaseActivity {
     }
 
     private void initViewModel() {
-        offbaseViewModel = new OffbaseViewModel(this);
-        locationViewModel = new LocationViewModel(this);
-        busViewModel = new BusViewModel(this);
 
         offbaseViewModel.list();
         busViewModel.getMyBusApply();
