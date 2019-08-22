@@ -39,15 +39,14 @@ public class ImgUpload {
     public List<Picture> ImgUpload(File file) {
 
         String[] filenameArray = file.getName().split("\\.");
-        String extension = filenameArray[filenameArray.length - 1];
+        fileType = filenameArray[filenameArray.length - 1];
 
-        fileType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        uploadName = new Random().nextInt(999999999) + fileType;
+        uploadName = new Random().nextInt(999999999) + "." + fileType;
 
         RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part imgToUpload = MultipartBody.Part.createFormData("image", uploadName, mFile);
 
-        Call<retrofit2.Response<Response>> uploadRequest = fileUploadService.uploadImg(manager.getToken().getToken(), imgToUpload);
+        Call<retrofit2.Response<Response>> uploadRequest = fileUploadService.uploadImg(manager.getToken().getToken(), imgToUpload, uploadName);
 
         new NetworkFileUpload(file.getName())
                 .setOnTaskFinishListener(

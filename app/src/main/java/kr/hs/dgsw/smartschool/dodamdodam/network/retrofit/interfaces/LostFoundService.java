@@ -14,6 +14,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface LostFoundService {
@@ -39,7 +40,7 @@ public interface LostFoundService {
     @DELETE("/lostfound")
     Single<Response> deleteLostFound(
             @Header("x-access-token") String token,
-            @Body Integer idx
+            @Query("idx") Integer idx
     );
 
     @GET("/lostfound/find")

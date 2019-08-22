@@ -50,7 +50,6 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
     private File tempFile;
     private String currentFileName;
 
-    private final Integer WRITE = 0;
     private final Integer UPDATE = 1;
     private final Integer SHOW = 2;
 
@@ -73,6 +72,11 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         initViewModel();
         initViewType();
 
+        lostFoundViewModel.getSuccessMessage().observe(this, message -> {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LostFoundActivity.class));
+            finish();
+        });
         binding.lostfoundCardImageView.setOnClickListener(v -> {
             if (isPermission)
                 gotoAlbum();
@@ -96,16 +100,23 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
             editTextEmptyCheck();
             setLostFoundRequestData();
 
-            lostFoundViewModel.postCreateLostFound();
-            Toast.makeText(this, "신청 성공!", Toast.LENGTH_SHORT).show();
+            if (lostFoundViewModel.viewType.getValue() == UPDATE) {
+                lostFoundViewModel.putLostFound();
+            }
+            else {
+                lostFoundViewModel.postCreateLostFound();
+            }
         });
 
         binding.updateBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, LostFoundWritingActivity.class);
-            intent.putExtra("viewType", lostFoundViewModel.viewType.getValue());
+            intent.putExtra("viewType", UPDATE);
             intent.putExtra("lostFound", lostFoundViewModel.request);
             startActivity(intent);
+            finish();
         });
+
+        binding.deleteBtn.setOnClickListener(v -> lostFoundViewModel.deleteLostFound(lostFoundViewModel.request.getIdx()));
 
         tedPermission();
 
@@ -173,6 +184,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(this,LostFoundActivity.class));
             finish();
             return true;
         }
@@ -201,6 +213,15 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
 
     private void initUpdateView() {
         getSupportActionBar().setTitle(getResources().getString(R.string.title_lostfound_update));
+    }
+
+    private void initShowView() {
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_lostfound));
+        binding.postWritingLostfound.setVisibility(View.INVISIBLE);
+        if (lostFoundViewModel.request.getMemberId().equals(DatabaseHelper.getInstance(this).getMyInfo().getId())) {
+            binding.deleteBtn.setVisibility(View.VISIBLE);
+            binding.updateBtn.setVisibility(View.VISIBLE);
+        }
         binding.lostfoundCardImageView.setEnabled(false);
         binding.kindofCheckbox.setEnabled(false);
         binding.writingPlaceEdittext.setFocusableInTouchMode(false);
@@ -209,21 +230,12 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         binding.writingContactEdittext.setFocusableInTouchMode(false);
     }
 
-    private void initShowView() {
-        getSupportActionBar().setTitle(getResources().getString(R.string.title_lostfound));
-        if (lostFoundViewModel.request.getMemberId().equals(DatabaseHelper.getInstance(this).getMyInfo().getId())) {
-            binding.deleteBtn.setVisibility(View.VISIBLE);
-            binding.updateBtn.setVisibility(View.VISIBLE);
-            binding.postWritingLostfound.setVisibility(View.INVISIBLE);
-        }
-    }
-
     private void initContents() {
         if (lostFoundViewModel.request.getPicture() == null) {
             binding.lostfoundCardImageView.setImageResource(R.drawable.add_picture);
         }
         else {
-            Glide.with(this).load(lostFoundViewModel.request.getPicture().get(0)).into(binding.lostfoundCardImageView);
+            Glide.with(this).load(lostFoundViewModel.request.getPicture().get(0).getUrl()).into(binding.lostfoundCardImageView);
         }
         if (lostFoundViewModel.request.getType() == 1) {
             binding.kindofCheckbox.setChecked(false);
@@ -262,7 +274,6 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         lostFoundViewModel.request.setTitle(binding.writingTitleEdittext.getText().toString());
         lostFoundViewModel.request.setContent(binding.writingContentEdittext.getText().toString());
         lostFoundViewModel.request.setContact(binding.writingContactEdittext.getText().toString());
-        lostFoundViewModel.request.setModify_time(new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss").format(new Date()));
         if (type > 0) {
             lostFoundViewModel.request.setType(type);
         } else {

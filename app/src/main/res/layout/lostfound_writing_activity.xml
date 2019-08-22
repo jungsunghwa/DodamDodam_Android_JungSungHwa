@@ -71,6 +71,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/lostfound_card_image_view" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/writing_place_edittext"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -88,6 +89,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/lostfound_card_image_view" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/writing_title_edittext"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -105,6 +107,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/writing_place_edittext" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/writing_content_edittext"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -124,6 +127,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/writing_title_edittext" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/writing_contact_edittext"
                     android:layout_width="0dp"
                     android:layout_height="40dp"

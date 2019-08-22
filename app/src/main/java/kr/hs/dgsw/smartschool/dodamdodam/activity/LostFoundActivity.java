@@ -41,16 +41,14 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
     // 분실인지=1 습득인지=2 판단하는 타입
     Integer type = 1;
 
+    // 전체 리스트 인지, 내 리스트 인지
+    Integer myCheck = 0;
+
     private final Integer ALL = 0;
     private final Integer MY = 1;
 
     // List 에 넣기 위한 index 선언
     int index = 0;
-
-    // 검색시 파라미터에 따로 페이지와 타입이 없어 전부 불러오기 때문에
-    // 따로 무한스크롤이 필요가 없다. 따라서 boolean 변수를 따로 선언해
-    // 검색이 아닐시 true, 검색일시 false 로 무한스크롤 여부를 판단해주는 변수
-//    boolean ready = false;
 
     boolean isLoading = false;
 
@@ -77,7 +75,6 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         binding.lostfoundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                ready = true;
 
                 lostFoundList.clear();
                 index = 0;
@@ -90,7 +87,6 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
                 }
 
                 lostFoundViewModel.getLostFound(page, type);
-
                 setRecyclerViewManager();
             }
 
@@ -104,11 +100,16 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         binding.myWritingCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
                 binding.myWritingCheckbox.setText("전체 글");
-                lostFoundViewModel.checkMy.setValue(ALL);
+                myCheck = ALL;
             } else {
                 binding.myWritingCheckbox.setText("내 글만");
-                lostFoundViewModel.checkMy.setValue(MY);
+                myCheck = MY;
             }
+            index = 0;
+            page = 1;
+            lostFoundList.clear();
+            lostFoundViewModel.getLostFound(page, type);
+            setRecyclerViewManager();
         });
 
         // 검색 기능 (엔터키 누를 시 검색)
@@ -130,6 +131,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         binding.lostfoundWritingBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), LostFoundWritingActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 
@@ -153,47 +155,26 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         // 서버로부터 값이 들어올때마다 lostFoundList 에 넣어줌
         lostFoundViewModel.getData().observe(this, data -> {
             for (int i = 0; i < data.size(); i++) {
-                lostFoundList.add(index, data.get(i));
-                lostFoundAdapter.notifyItemInserted(index);
-                index++;
+                if (myCheck == MY) {
+                    if (data.get(i).getMemberId().equals(DatabaseHelper.getInstance(this).getMyInfo().getId())) {
+                        lostFoundList.add(index, data.get(i));
+                        lostFoundAdapter.notifyItemInserted(index);
+                        index++;
+                    }
+                }
+                else {
+                    lostFoundList.add(index, data.get(i));
+                    lostFoundAdapter.notifyItemInserted(index);
+                    index++;
+                }
             }
             if (lostFoundList.size() == 0) {
                 Toast.makeText(getApplicationContext(), "검색된 내용이 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            if (lostFoundViewModel.checkMy.getValue() == MY) {
-                List<LostFound> lostFounds = new CopyOnWriteArrayList<>(lostFoundList);
-
-                for (LostFound lostFound: lostFounds) {
-                    if (!lostFound.getMemberId().equals(DatabaseHelper.getInstance(this).getMyInfo().getId())) {
-                        lostFoundList.remove(lostFound);
-                    }
-                }
             }
         });
 
         lostFoundViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
-        });
-
-        lostFoundViewModel.checkMy.observe(this, check -> {
-            index = 0;
-            if (check == ALL) {
-                page = 1;
-
-                lostFoundList.clear();
-                lostFoundViewModel.getLostFound(page, type);
-            }
-            else if (check == MY) {
-                List<LostFound> lostFounds = new CopyOnWriteArrayList<>(lostFoundList);
-
-                for (LostFound lostFound: lostFounds) {
-                    if (!lostFound.getMemberId().equals(DatabaseHelper.getInstance(this).getMyInfo().getId())) {
-                        lostFoundList.remove(lostFound);
-                    }
-                }
-            }
-
-            setRecyclerViewManager();
         });
 
     }

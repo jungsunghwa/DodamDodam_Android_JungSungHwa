@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -84,6 +86,7 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             intent.putExtra("viewType", 2); //SHOW == 2
             intent.putExtra("lostFound", new LostFoundRequest(lostFound));
             context.startActivity(intent);
+            ((Activity)context).finish();
         });
     }
 
