@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,11 +28,13 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private List<LostFound> lostFounds;
+    private EditText search;
     Context context;
 
-    public LostFoundAdapter(Context context, List<LostFound> lostFounds) {
+    public LostFoundAdapter(Context context, List<LostFound> lostFounds, EditText search) {
         this.context = context;
         this.lostFounds = lostFounds;
+        this.search = search;
     }
 
     @NonNull
@@ -82,6 +86,8 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         viewHolder.binding.lostfoundCardView.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
             Intent intent = new Intent(context, LostFoundWritingActivity.class);
             intent.putExtra("viewType", 2); //SHOW == 2
             intent.putExtra("lostFound", new LostFoundRequest(lostFound));

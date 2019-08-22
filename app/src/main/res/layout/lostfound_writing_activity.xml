@@ -83,6 +83,7 @@
                     android:fontFamily="@font/nanum_square_round"
                     android:hint="장소입력"
                     android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:textSize="6pt"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/kindof_checkbox"
@@ -100,6 +101,7 @@
                     android:ems="10"
                     android:fontFamily="@font/nanum_square_round"
                     android:hint="제목"
+                    android:paddingRight="20dp"
                     android:paddingLeft="20dp"
                     android:textSize="6pt"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +109,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/writing_place_edittext" />
 
                 <EditText
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:id="@+id/writing_content_edittext"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -117,6 +119,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/lostfound_item_box_background"
                     android:ems="10"
+                    android:paddingRight="20dp"
                     android:fontFamily="@font/nanum_square_round"
                     android:hint="내용"
                     android:paddingLeft="20dp"
@@ -134,6 +137,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:paddingRight="20dp"
                     android:background="@drawable/lostfound_item_box_background"
                     android:ems="10"
                     android:fontFamily="@font/nanum_square_round"

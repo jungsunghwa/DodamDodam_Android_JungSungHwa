@@ -31,7 +31,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.LostFoundAdapte
 
 public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
     List<LostFound> lostFoundList = new ArrayList<>();
-    LostFoundAdapter lostFoundAdapter = new LostFoundAdapter(this, lostFoundList);
+    LostFoundAdapter lostFoundAdapter;
 
     LostFoundViewModel lostFoundViewModel;
 
@@ -187,6 +187,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
 
     private void initScrollListener() {
 
+        lostFoundAdapter = new LostFoundAdapter(this, lostFoundList, binding.searchEditText);
         // 무한 스크롤 기능을 구현하기 위해서 마지막으로 1개 남는 걸 계산
         binding.lostfoundRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
