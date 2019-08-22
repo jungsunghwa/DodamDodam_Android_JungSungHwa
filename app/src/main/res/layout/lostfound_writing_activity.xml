@@ -130,7 +130,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/writing_title_edittext" />
 
                 <EditText
-                    android:inputType="text"
+                    android:inputType="phone"
                     android:id="@+id/writing_contact_edittext"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
