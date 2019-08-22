@@ -12,6 +12,7 @@
     <string name="title_offbase_detail">상세 정보</string>
     <string name="title_lostfound">분실물</string>
     <string name="title_lostfound_writing">글쓰기</string>
+    <string name="title_lostfound_update">글수정</string>
     <string name="title_counsel">상담</string>
     <string name="title_counsel_apply">상담 신청</string>
     <string name="title_settings">설정</string>

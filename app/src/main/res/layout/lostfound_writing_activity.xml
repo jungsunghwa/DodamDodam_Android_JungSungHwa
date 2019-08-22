@@ -71,6 +71,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/lostfound_card_image_view" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/writing_place_edittext"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -82,12 +83,14 @@
                     android:fontFamily="@font/nanum_square_round"
                     android:hint="장소입력"
                     android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:textSize="6pt"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/kindof_checkbox"
                     app:layout_constraintTop_toBottomOf="@+id/lostfound_card_image_view" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/writing_title_edittext"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -98,6 +101,7 @@
                     android:ems="10"
                     android:fontFamily="@font/nanum_square_round"
                     android:hint="제목"
+                    android:paddingRight="20dp"
                     android:paddingLeft="20dp"
                     android:textSize="6pt"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -105,6 +109,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/writing_place_edittext" />
 
                 <EditText
+                    android:inputType="textMultiLine"
                     android:id="@+id/writing_content_edittext"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -114,6 +119,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/lostfound_item_box_background"
                     android:ems="10"
+                    android:paddingRight="20dp"
                     android:fontFamily="@font/nanum_square_round"
                     android:hint="내용"
                     android:paddingLeft="20dp"
@@ -124,12 +130,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/writing_title_edittext" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/writing_contact_edittext"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:paddingRight="20dp"
                     android:background="@drawable/lostfound_item_box_background"
                     android:ems="10"
                     android:fontFamily="@font/nanum_square_round"
@@ -168,6 +176,7 @@
             android:text="삭제"
             android:textColor="#fff"
             android:backgroundTint="#6B48F7"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lostfound_card_view" />
@@ -181,6 +190,7 @@
             android:layout_marginBottom="8dp"
             android:backgroundTint="#35A6FF"
             android:fontFamily="@font/nanum_square_round"
+            android:visibility="gone"
             android:text="수정"
             android:textColor="#fff"
             app:layout_constraintBottom_toBottomOf="parent"

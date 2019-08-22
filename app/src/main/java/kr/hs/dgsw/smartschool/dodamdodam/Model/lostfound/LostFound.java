@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LostFound implements Parcelable {
+public class LostFound implements Parcelable, Serializable {
     private Integer idx;
     private String member_id;
     private Integer type;

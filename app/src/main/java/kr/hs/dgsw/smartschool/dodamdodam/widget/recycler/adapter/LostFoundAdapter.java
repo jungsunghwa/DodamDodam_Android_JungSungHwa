@@ -1,9 +1,14 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +19,8 @@ import java.util.List;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.LostFoundWritingActivity;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound.ItemViewHolder;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound.LoadingViewHolder;
 
@@ -21,11 +28,13 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private List<LostFound> lostFounds;
+    private EditText search;
     Context context;
 
-    public LostFoundAdapter(Context context, List<LostFound> lostFounds) {
+    public LostFoundAdapter(Context context, List<LostFound> lostFounds, EditText search) {
         this.context = context;
         this.lostFounds = lostFounds;
+        this.search = search;
     }
 
     @NonNull
@@ -75,6 +84,16 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Log.d("TAG", lostFound.getPicture().get(0).getUrl());
             Glide.with(context).load(lostFound.getPicture().get(0).getUrl()).into(viewHolder.binding.lostfoundImageview);
         }
+
+        viewHolder.binding.lostfoundCardView.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+            Intent intent = new Intent(context, LostFoundWritingActivity.class);
+            intent.putExtra("viewType", 2); //SHOW == 2
+            intent.putExtra("lostFound", new LostFoundRequest(lostFound));
+            context.startActivity(intent);
+            ((Activity)context).finish();
+        });
     }
 
     private void showLoadingView(LoadingViewHolder viewHolder, int position) {

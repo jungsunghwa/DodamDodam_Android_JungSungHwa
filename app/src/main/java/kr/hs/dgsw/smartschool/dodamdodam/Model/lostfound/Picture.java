@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
-public class Picture implements Parcelable {
+public class Picture implements Parcelable, Serializable {
     private String original_name;
     private String upload_name;
     private String type;
