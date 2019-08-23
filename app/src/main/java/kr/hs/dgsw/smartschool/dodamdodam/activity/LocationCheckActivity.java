@@ -141,7 +141,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                 typeOfSelected = true;
             }
 
-            showSelectOptionSnackbar(0);
+            classSelected(0);
         });
 
 //        binding.classSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Object>)
@@ -166,7 +166,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                         selectItem = placeList.get(position);
                     }
                     locationViewModel.getLocation();
-                    showSelectOptionSnackbar(position);
+                    classSelected(position);
                     placeInitializedView = false;
                 }
             }
@@ -192,9 +192,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                 }
                 else {
                     selectedTime = timeList.get(position);
-                    locationViewModel.getLocation();
-                    showSelectOptionSnackbar(position);
-                    timeInitializedView = false;
+                    timeSelected(position);
                 }
             }
 
@@ -216,34 +214,40 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         return super.onOptionsItemSelected(item);
     }
 
-    private void showSelectOptionSnackbar(int position) {
-        typeOfSetItems(position);
-        Snackbar.make(binding.locationList, selectedTime.toString() + "에 " + selectItem.toString() + "의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
+    private void timeSelected(int position) {
+//        adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , timeList);
+//        binding.timeSpinner.setAdapter(adapter);
+        selectedTime = timeList.get(position);
+        binding.timeSpinner.setSelection(position);
+        showSelectOptionSnackbar();
+        setListAdapter();
     }
 
-    private void typeOfSetItems(int position) {
+    private void classSelected(int position) {
         if (listType == ListType.CLASS) {
             adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , classInfos);
             binding.classSpinner.setAdapter(adapter);
             selectItem = classInfos.get(position);
-            binding.classSpinner.setSelection(position);
         } else {
             adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , placeList);
             binding.classSpinner.setAdapter(adapter);
-//            selectItem = timeList.get(position);
             selectItem = placeList.get(position);
-            binding.classSpinner.setSelection(position);
         }
+        binding.classSpinner.setSelection(position);
+        showSelectOptionSnackbar();
         setListAdapter();
     }
 
     private void setListAdapter() {
-
         locationListAdapter.setListType(listType);
 
         locationListAdapter.setSelectItem(selectItem);
         locationListAdapter.setSelectTime(selectedTime);
         binding.locationList.setAdapter(locationListAdapter);
+    }
+
+    private void showSelectOptionSnackbar() {
+        Snackbar.make(binding.locationList, selectedTime.toString() + "에 " + selectItem.toString() + "의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
     }
 }
 
