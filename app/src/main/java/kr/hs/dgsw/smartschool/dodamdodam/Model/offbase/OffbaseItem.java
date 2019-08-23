@@ -40,6 +40,18 @@ public class OffbaseItem implements Parcelable {
         createdAt = (Date) in.readSerializable();
     }
 
+    public OffbaseItem(int idx, int studentIdx, Date startTime, Date endTime, int isAllow, String reason, int allowTeacherIdx, Date allowTeacherTime, Date createdAt) {
+        this.idx = idx;
+        this.studentIdx = studentIdx;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isAllow = isAllow;
+        this.reason = reason;
+        this.allowTeacherIdx = allowTeacherIdx;
+        this.allowTeacherTime = allowTeacherTime;
+        this.createdAt = createdAt;
+    }
+
     public static final Creator<OffbaseItem> CREATOR = new Creator<OffbaseItem>() {
         @Override
         public OffbaseItem createFromParcel(Parcel in) {

@@ -21,6 +21,13 @@ public class Leave extends OffbaseItem {
         arrivedTime = (Date) in.readSerializable();
     }
 
+    public Leave(int idx, int studentIdx, Date startTime, Date endTime, int isAllow, String reason, int allowTeacherIdx, Date allowTeacherTime, Date createdAt, int allowParentIdx, Date allowParentTime, Date arrivedTime) {
+        super(idx, studentIdx, startTime, endTime, isAllow, reason, allowTeacherIdx, allowTeacherTime, createdAt);
+        this.allowParentIdx = allowParentIdx;
+        this.allowParentTime = allowParentTime;
+        this.arrivedTime = arrivedTime;
+    }
+
     public int getAllowParentIdx() {
         return allowParentIdx;
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import io.reactivex.observers.DisposableSingleObserver;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.BusClient;
@@ -14,6 +15,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 public class BusViewModel extends BaseViewModel<Bus> {
 
     private final MutableLiveData<Types> responseTypes = new MutableLiveData<>();
+    private final MutableLiveData<Type> responseType = new MutableLiveData<>();
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
@@ -28,6 +30,10 @@ public class BusViewModel extends BaseViewModel<Bus> {
 
     public MutableLiveData<Types> getResponseTypes() {
         return responseTypes;
+    }
+
+    public MutableLiveData<Type> getResponseType() {
+        return responseType;
     }
 
     public void postBusApply(BusRequest request) {
@@ -51,7 +57,21 @@ public class BusViewModel extends BaseViewModel<Bus> {
     public void getBusType(int idx) {
         loading.setValue(true);
 
-        addDisposable(busClient.getBusType(manager.getToken(),idx), getDataObserver());
+        DisposableSingleObserver<Type> observer = new DisposableSingleObserver<Type>() {
+            @Override
+            public void onSuccess(Type type) {
+                responseType.setValue(type);
+                loading.setValue(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                errorMessage.setValue(e.getMessage());
+                loading.setValue(false);
+            }
+        };
+
+        addDisposable(busClient.getBusType(manager.getToken(),idx), observer);
     }
 
     public void putModifyBusApply(int idx, BusRequest request) {

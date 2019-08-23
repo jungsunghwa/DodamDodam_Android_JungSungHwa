@@ -12,6 +12,7 @@
     <color name="textColorLight">#5C5C5C</color>
     <color name="mealTextColor">#596b8c</color>
     <color name="loginBoxColor">#b0ffffff</color>
+    <color name="colorBlack">#000</color>
 
     <color name="buttonColorStart">#5196e9</color>
     <color name="buttonColorEnd">#7b2bfc</color>
