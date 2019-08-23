@@ -4,7 +4,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.SpinnerAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
@@ -40,7 +43,6 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     List<Place> placeList = new ArrayList<>();
     List<ClassInfo> classInfos = new ArrayList<>();
     List<Time> timeList = new ArrayList<>();
-    List spinnerList = new ArrayList();
 
     PlaceViewModel placeViewModel;
     StudentViewModel studentViewModel;
@@ -53,6 +55,12 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
 
     Object selectItem;
     Time selectedTime;
+
+    ArrayAdapter<String> adapter;
+
+    private boolean placeInitializedView = false;
+    private boolean timeInitializedView = false;
+    private boolean typeOfSelected = false;
 
     @Override
     protected int layoutId() {
@@ -99,14 +107,17 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         studentViewModel.getData().observe(this, classInfoList -> {
             classInfos = classInfoList;
 
-            binding.classSpinner.setItems(classInfos);
+//            binding.classSpinner.setItems(classInfos);
+            adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item ,classInfos);
+            binding.classSpinner.setAdapter(adapter);
             selectItem = classInfos.get(0);
         });
 
         timeTableViewModel.getData().observe(this, times -> {
             timeList = times;
 
-            binding.timeSpinner.setItems(timeList);
+            adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item ,timeList);
+            binding.timeSpinner.setAdapter(adapter);
             selectedTime = timeList.get(0);
         });
 
@@ -115,35 +126,82 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         binding.toggle.setOnCheckedChangeListener((view, checkedId) -> {
             selectedTime = timeList.get(0);
             selectItem = placeList.get(0);
-            binding.timeSpinner.setSelectedIndex(0);
-            binding.classSpinner.setSelectedIndex(0);
+            binding.timeSpinner.setSelection(0);
+            binding.classSpinner.setSelection(0);
 
             if (!checkedId) {
                 listType = ListType.CLASS;
                 selectItem = classInfos.get(0);
                 binding.toggle.setText("학반별");
+                typeOfSelected = false;
             } else {
                 listType = ListType.PLACE;
                 selectItem = placeList.get(0);
                 binding.toggle.setText("장소별");
+                typeOfSelected = true;
             }
 
-            showSelectOptionSnackbar(view);
+            showSelectOptionSnackbar(0);
         });
 
-        binding.classSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Object>)
-                (view, position, id, item) -> {
-                    selectItem = item;
-                    locationViewModel.getLocation();
-                    showSelectOptionSnackbar(view);
-                });
+//        binding.classSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Object>)
+//                (view, position, id, item) -> {
+//                    selectItem = item;
+//                    locationViewModel.getLocation();
+//                    showSelectOptionSnackbar();
+//                });
 
-        binding.timeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Time>)
-                (view, position, id, item) -> {
-                    selectedTime = item;
+
+        binding.classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!placeInitializedView) {
+                    placeInitializedView = true;
+                }
+                else {
+                    if (!typeOfSelected) {
+                        selectItem = classInfos.get(position);
+                    }
+                    else {
+                        selectItem = placeList.get(position);
+                    }
                     locationViewModel.getLocation();
-                    showSelectOptionSnackbar(view);
-                });
+                    showSelectOptionSnackbar(position);
+                    placeInitializedView = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+//        binding.timeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Time>)
+//                (view, position, id, item) -> {
+//                    selectedTime = item;
+//                    locationViewModel.getLocation();
+//                    showSelectOptionSnackbar();
+//                });
+
+
+        binding.timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!timeInitializedView) {
+                    timeInitializedView = true;
+                }
+                else {
+                    selectedTime = timeList.get(position);
+                    locationViewModel.getLocation();
+                    showSelectOptionSnackbar(position);
+                    timeInitializedView = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         binding.locationListRefreshBtn.setOnClickListener(view -> locationViewModel.getLocation());
     }
@@ -158,35 +216,33 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         return super.onOptionsItemSelected(item);
     }
 
-    private void showSelectOptionSnackbar(View v) {
-        typeOfSetItems();
+    private void showSelectOptionSnackbar(int position) {
+        typeOfSetItems(position);
         Snackbar.make(binding.locationList, selectedTime.toString() + "에 " + selectItem.toString() + "의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
     }
 
-    private void typeOfSetItems() {
+    private void typeOfSetItems(int position) {
         if (listType == ListType.CLASS) {
-//            binding.listTypeClass.setTextColor(Color.WHITE);
-//            binding.listTypePlace.setTextColor(Color.BLACK);
-
-//            binding.listHeaderLayout.studentClassTv.setVisibility(View.GONE);
-            binding.classSpinner.setItems(classInfos);
-            selectItem = classInfos.get(binding.classSpinner.getSelectedIndex());
+            adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , classInfos);
+            binding.classSpinner.setAdapter(adapter);
+            selectItem = classInfos.get(position);
+            binding.classSpinner.setSelection(position);
         } else {
-//            binding.listTypeClass.setTextColor(Color.BLACK);
-//            binding.listTypePlace.setTextColor(Color.WHITE);
-
-//            binding.listHeaderLayout.studentClassTv.setVisibility(View.VISIBLE);
-            binding.classSpinner.setItems(placeList);
-            selectItem = placeList.get(binding.classSpinner.getSelectedIndex());
+            adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , placeList);
+            binding.classSpinner.setAdapter(adapter);
+//            selectItem = timeList.get(position);
+            selectItem = placeList.get(position);
+            binding.classSpinner.setSelection(position);
         }
         setListAdapter();
     }
 
     private void setListAdapter() {
+
         locationListAdapter.setListType(listType);
+
         locationListAdapter.setSelectItem(selectItem);
         locationListAdapter.setSelectTime(selectedTime);
-
         binding.locationList.setAdapter(locationListAdapter);
     }
 }
