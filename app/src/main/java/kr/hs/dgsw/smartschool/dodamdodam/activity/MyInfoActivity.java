@@ -54,21 +54,6 @@ public class MyInfoActivity extends BaseActivity<MyinfoActivityBinding> {
         initViewModel();
         initData();
 
-        Pass offbaseItem = new Pass(1,1,new Date(),new Date(),-1,"안녕",1,new Date(), new Date());
-        Leave offbaseItem2 = new Leave(1,1,new Date(),new Date(),0,"안녕",1,new Date(), new Date(),1,new Date(), new Date());
-        offbaseItems.add(0,offbaseItem);
-        offbaseItems.add(1,offbaseItem2);
-        offbaseItems.add(2,offbaseItem);
-        offbaseItems.add(3,offbaseItem);
-        offbaseItems.add(4,offbaseItem2);
-        offbaseItems.add(5,offbaseItem2);
-        offbaseItems.add(6,offbaseItem2);
-        offbaseItems.add(6,offbaseItem);
-
-        myinfoOffBaseAdapter = new MyinfoOffBaseAdapter(this);
-        myinfoOffBaseAdapter.setList(offbaseItems);
-        setRecyclerView();
-
         offbaseViewModel.getData().observe(this, offbase -> {
             offbaseItems.clear();
             for (Leave leave: offbase.getLeaves()) {
@@ -77,6 +62,7 @@ public class MyInfoActivity extends BaseActivity<MyinfoActivityBinding> {
             for (Pass pass: offbase.getPasses()) {
                 offbaseItems.add(pass);
             }
+            myinfoOffBaseAdapter = new MyinfoOffBaseAdapter(this);
             myinfoOffBaseAdapter.setList(offbaseItems);
             setRecyclerView();
         });
@@ -107,21 +93,21 @@ public class MyInfoActivity extends BaseActivity<MyinfoActivityBinding> {
         busViewModel.getData().observe(this, bus -> busViewModel.getBusType(bus.getType()));
 
         busViewModel.getResponseType().observe(this, type -> {
-            binding.bus.setText(type.getName());
+            binding.bus.setText(type.getName() + "역");
 
-            switch (type.getIdx()) {
-                case 1:
+            switch (type.getName()) {
+                case "동대구":
                     binding.busUseTime.setText("1시간");
                     break;
-                case 2:
+                case "용산":
                     binding.busUseTime.setText("35분");
                     break;
-                case 3:
-                    binding.bus.setText("30분");
+                case "대곡":
+                    binding.busUseTime.setText("30분");
                     break;
             }
 
-            String arriveTIme = type.getArrive_time().split(":")[2];
+            String arriveTIme = type.getArrive_time().split(":")[0] + ":" + type.getArrive_time().split(":")[1];
             binding.busRideTime.setText(arriveTIme);
         });
     }
