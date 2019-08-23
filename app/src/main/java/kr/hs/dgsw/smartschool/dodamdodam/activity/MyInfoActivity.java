@@ -121,7 +121,8 @@ public class MyInfoActivity extends BaseActivity<MyinfoActivityBinding> {
                     break;
             }
 
-            binding.busRideTime.setText(type.getArrive_time());
+            String arriveTIme = type.getArrive_time().split(":")[2];
+            binding.busRideTime.setText(arriveTIme);
         });
     }
 
