@@ -16,6 +16,7 @@
     <string name="title_counsel">상담</string>
     <string name="title_counsel_apply">상담 신청</string>
     <string name="title_settings">설정</string>
+    <string name="title_my_info">내정보</string>
 
     <!-- TODO 개정일 -->
     <string name="subtitle_point_list" translatable="false">2019.3.</string>

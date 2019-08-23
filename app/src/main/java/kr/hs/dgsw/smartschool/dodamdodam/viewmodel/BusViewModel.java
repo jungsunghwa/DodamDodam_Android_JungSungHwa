@@ -48,6 +48,12 @@ public class BusViewModel extends BaseViewModel<Bus> {
         addDisposable(busClient.getMyBusApply(manager.getToken()), getDataObserver());
     }
 
+    public void getBusType(int idx) {
+        loading.setValue(true);
+
+        addDisposable(busClient.getBusType(manager.getToken(),idx), getDataObserver());
+    }
+
     public void putModifyBusApply(int idx, BusRequest request) {
         loading.setValue(true);
 

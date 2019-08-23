@@ -34,6 +34,12 @@ public interface BusService {
             @Header("x-access-token") String token
     );
 
+    @GET("/bus/type/{type_idx}")
+    Single<retrofit2.Response<Response<Type>>> getBusType(
+            @Header("x-access-token") String token,
+            @Path("type_idx") int idx
+    );
+
     @PUT("/bus/{idx}")
     Single<Response> putModifyBusApply(
             @Header("x-access-token") String token,

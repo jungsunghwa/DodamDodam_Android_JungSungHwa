@@ -64,6 +64,10 @@ public class BusClient extends NetworkClient {
 //        });
     }
 
+    public Single<Type> getBusType(Token token, int idx) {
+        return bus.getBusType(token.getToken(), idx).map(getResponseObjectsFunction());
+    }
+
     public Single<String> putModifyBusApply(Token token, int idx, BusRequest request) {
         return bus.putModifyBusApply(token.getToken(), idx, request).map(Response::getMessage);
     }
