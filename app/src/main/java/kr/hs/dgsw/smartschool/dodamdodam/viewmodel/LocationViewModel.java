@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;

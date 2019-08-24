@@ -171,7 +171,6 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
                 if (student.getClassIdx() == idx)
                     bindingValue.put(student, Objects.requireNonNull(location.get(student)));
             }
-
         }
         if (listType == ListType.PLACE) {
             int idx = ((Place) selectItem).getIdx();
