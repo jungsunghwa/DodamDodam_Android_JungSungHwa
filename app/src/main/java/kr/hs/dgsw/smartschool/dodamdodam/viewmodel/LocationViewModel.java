@@ -160,11 +160,6 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
 
         List<Time> times = helper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));
 
-        if (Utils.isWeekEnd)
-            times = Stream.of(times).filter(time -> time.getType() == 2).collect(Collectors.toList());
-        else
-            times = Stream.of(times).filter(time -> time.getType() == 1).collect(Collectors.toList());
-
         if (locations.isEmpty()) {
             for (Time time : times) {
                 locations.add(new LocationInfo(time, null));
