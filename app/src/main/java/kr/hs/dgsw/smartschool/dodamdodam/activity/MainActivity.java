@@ -169,8 +169,12 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 startActivity(new Intent(this, PreferenceActivity.class));
                 break;
             case R.id.menu_profile:
-                startActivity(new Intent(this, MyInfoActivity.class));
-                break;
+                if (Utils.identity == Identity.STUDENT) {
+                    startActivity(new Intent(this, MyInfoActivity.class));
+                } else {
+                    notSupportToast();
+                    break;
+                }
             case R.id.menu_song_apply:
                 if (Utils.identity == Identity.STUDENT)
                     intent = new Intent(this, SongListActivity.class);
@@ -183,7 +187,10 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
             case R.id.menu_location_apply:
                 if (Utils.identity == Identity.STUDENT)
                     intent = new Intent(this, LocationApplyActivity.class);
-                else intent = new Intent(this, LocationCheckActivity.class);
+                else {
+                    // todo 선생님일시 랩실 신청 -> 랩실 체크
+                    intent = new Intent(this, LocationCheckActivity.class);
+                }
                 startActivity(intent);
                 break;
             case R.id.menu_offbase:

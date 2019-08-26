@@ -1,12 +1,17 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.ListPopupWindow;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import androidx.annotation.Nullable;
@@ -16,6 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import org.angmarch.views.NiceSpinner;
+import org.angmarch.views.OnSpinnerItemSelectedListener;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +42,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.widget.VisibleScrollbarSpinner;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.LocationListAdapter;
 
 
@@ -126,8 +136,8 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         binding.toggle.setOnCheckedChangeListener((view, checkedId) -> {
             selectedTime = timeList.get(0);
             selectItem = placeList.get(0);
-            binding.timeSpinner.setSelection(0);
-            binding.classSpinner.setSelection(0);
+            binding.timeSpinner.setSelectedIndex(0);
+            binding.classSpinner.setSelectedIndex(0);
 
             if (!checkedId) {
                 listType = ListType.CLASS;
@@ -152,13 +162,13 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
 //                });
 
 
-        binding.classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.classSpinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!placeInitializedView) {
-                    placeInitializedView = true;
-                }
-                else {
+            public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
+//                if (!placeInitializedView) {
+//                    placeInitializedView = true;
+//                }
+//                else {
                     if (!typeOfSelected) {
                         selectItem = classInfos.get(position);
                     }
@@ -169,11 +179,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                     classSelected(position);
                     placeInitializedView = false;
                 }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
         });
 
 //        binding.timeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<Time>)
@@ -184,21 +190,14 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
 //                });
 
 
-        binding.timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!timeInitializedView) {
-                    timeInitializedView = true;
-                }
-                else {
-                    selectedTime = timeList.get(position);
-                    timeSelected(position);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+        binding.timeSpinner.setOnSpinnerItemSelectedListener((parent, view, position, id) -> {
+//            if (!timeInitializedView) {
+//                timeInitializedView = true;
+//            }
+//            else {
+                selectedTime = timeList.get(position);
+                timeSelected(position);
+//            }
         });
 
         binding.locationListRefreshBtn.setOnClickListener(view -> locationViewModel.getLocation());
@@ -218,7 +217,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
 //        adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , timeList);
 //        binding.timeSpinner.setAdapter(adapter);
         selectedTime = timeList.get(position);
-        binding.timeSpinner.setSelection(position);
+        binding.timeSpinner.setSelectedIndex(position);
         showSelectOptionSnackbar();
         setListAdapter();
     }
@@ -233,7 +232,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             binding.classSpinner.setAdapter(adapter);
             selectItem = placeList.get(position);
         }
-        binding.classSpinner.setSelection(position);
+        binding.classSpinner.setSelectedIndex(position);
         showSelectOptionSnackbar();
         setListAdapter();
     }
@@ -250,4 +249,3 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         Snackbar.make(binding.locationList, selectedTime.toString() + "에 " + selectItem.toString() + "의 학생을 조회합니다", Snackbar.LENGTH_LONG).show();
     }
 }
-
