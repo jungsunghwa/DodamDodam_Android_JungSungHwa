@@ -60,7 +60,7 @@
     <string name="empty_search_song">검색 된 음악이 없습니다</string>
 
     <string name="menu_song">기상송</string>
-    <string name="menu_location_apply">랩실 신청</string>
+    <string name="menu_location_apply">랩실 신청/체크</string>
     <string name="menu_profile">내 정보</string>
     <string name="menu_offbase">외출/외박 신청</string>
     <string name="menu_bus_apply">셔틀 버스</string>

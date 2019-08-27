@@ -74,9 +74,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 binding.mealItems.mealDinner.setMeal(null);
             }
         });
-        viewModel.getLoading().observe(this, loading -> {
-            binding.mealItems.mealLunch.setLoading(loading);
-        });
+        viewModel.getLoading().observe(this, loading -> binding.mealItems.mealLunch.setLoading(loading));
 
         viewModel.getError().observe(this, error -> {
             binding.mealItems.mealBreakfast.setMeal(null);
@@ -164,6 +162,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         Intent intent;
+
         switch (id) {
             case R.id.menu_settings:
                 startActivity(new Intent(this, PreferenceActivity.class));

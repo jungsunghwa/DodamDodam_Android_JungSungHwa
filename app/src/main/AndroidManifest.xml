@@ -82,16 +82,19 @@
         <activity
             android:name=".activity.CounselActivity"
             android:label="@string/title_counsel"
-            android:theme="@style/Theme.App.Counsel"/>
+            android:theme="@style/Theme.App.Counsel"
+            />
         <activity
             android:name=".activity.CounselApplyActivity"
-            android:label="@string/title_counsel_apply" />
+            android:label="@string/title_counsel_apply"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            />
         <activity
             android:name=".activity.PreferenceActivity"
             android:label="@string/title_settings" />
         <activity
             android:name=".activity.MyInfoActivity"
-            android:label="@string/title_my_info"/>
+            android:label="@string/title_my_info" />
 
     </application>
 

@@ -73,7 +73,6 @@
                 android:text="@string/text_apply" />
 
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
