@@ -47,7 +47,7 @@ public class MyinfoOffBaseAdapter<T extends OffbaseItem> extends RecyclerView.Ad
 
         holder.binding.date.setText(date);
         holder.binding.time.setText(time);
-        holder.binding.endDate.setText(end);
+        holder.binding.endDate.setText("~" + end);
 
         if (offbaseItems.get(position) instanceof Leave) {
             holder.binding.textView.setText("외박");

@@ -125,7 +125,11 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
 
         binding.deleteBtn.setOnClickListener(v -> lostFoundViewModel.deleteLostFound(lostFoundViewModel.request.getIdx()));
 
-        binding.writingContactEdittext.setOnClickListener(v -> startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + lostFoundViewModel.request.getContact()))));
+        binding.writingContactEdittext.setOnClickListener(v -> {
+            if (lostFoundViewModel.viewType.getValue() == SHOW) {
+                startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + lostFoundViewModel.request.getContact())));
+            }
+        });
 
         tedPermission();
 

@@ -56,7 +56,7 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
                 if (shortcut != null) {
                     switch (shortcut) {
                         case SHORTCUT_BUS:
-                            startActivitiesWithFinish(MainActivity.class, BusApplyActivity.class);
+                            startActivitiesWithFinish(MainActivity.class);
                             break;
                     }
                     return;

@@ -218,18 +218,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             timeTable.clear();
             for (Time time : timeList) {
-                if (time.getName().equals("1Q")) {
-                    time.setName("8교시");
-                }
-                else if (time.getName().equals("2Q")) {
-                    time.setName("9교시");
-                }
-                else if (time.getName().equals("3Q")) {
-                    time.setName("야자1");
-                }
-                else if (time.getName().equals("4Q")) {
-                    time.setName("야자2");
-                }
                 timeTable.add(new LocationInfo(time, null));
             }
         });

@@ -12,19 +12,13 @@
             android:id="@+id/appbar_layout"
             layout="@layout/app_bar" />
 
-        <View
-            android:id="@+id/scrim"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/scrimBackground"
-            android:visibility="invisible"
-            app:layout_behavior="@string/fab_transformation_scrim_behavior" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_offbase"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_marginTop="10dp"
+            android:requiresFadingEdge="horizontal"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbar_layout"
@@ -139,7 +133,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
                     <TextView
-                        android:layout_width="40dp"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
@@ -151,7 +145,7 @@
                         android:gravity="center"/>
 
                     <TextView
-                        android:layout_width="40dp"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
@@ -163,7 +157,7 @@
                         android:gravity="center"/>
 
                     <TextView
-                        android:layout_width="40dp"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
@@ -175,7 +169,7 @@
                         android:gravity="center"/>
 
                     <TextView
-                        android:layout_width="40dp"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"

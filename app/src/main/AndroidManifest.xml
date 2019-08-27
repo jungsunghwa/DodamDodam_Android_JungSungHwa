@@ -48,11 +48,7 @@
             android:label="@string/title_location_apply" />
         <activity
             android:name=".activity.BusApplyActivity"
-            android:label="@string/title_bus_apply"
-            android:parentActivityName=".activity.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+            android:label="@string/title_bus_apply">
         </activity>
         <activity
             android:name=".activity.song.SongApplyActivity"
