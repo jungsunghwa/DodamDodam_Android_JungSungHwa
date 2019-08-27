@@ -17,9 +17,12 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.LostFoundWritingActivity;
+import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.LostFoundRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound.ItemViewHolder;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.holder.LostFound.LoadingViewHolder;
@@ -29,12 +32,14 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_TYPE_LOADING = 1;
     private List<LostFound> lostFounds;
     private EditText search;
+    private DatabaseHelper databaseHelper;
     Context context;
 
     public LostFoundAdapter(Context context, List<LostFound> lostFounds, EditText search) {
         this.context = context;
         this.lostFounds = lostFounds;
         this.search = search;
+        databaseHelper = DatabaseHelper.getInstance(context);
     }
 
     @NonNull
@@ -76,7 +81,10 @@ public class LostFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private void populateItemRows(ItemViewHolder viewHolder, int position, LostFound lostFound) {
         viewHolder.binding.lostfoundTitle.setText(lostFound.getTitle());
-        viewHolder.binding.lostfoundName.setText(lostFound.getMemberId());
+
+        Member member = databaseHelper.getStudentInfo(lostFound.getMemberId());
+
+        viewHolder.binding.lostfoundName.setText(member.getName());
         viewHolder.binding.lostfoundUploadTime.setText(lostFound.getUpload_time());
         if (lostFound.getPicture() == null) {
             Glide.with(context).load(R.drawable.ic_lost_found).into(viewHolder.binding.lostfoundImageview);

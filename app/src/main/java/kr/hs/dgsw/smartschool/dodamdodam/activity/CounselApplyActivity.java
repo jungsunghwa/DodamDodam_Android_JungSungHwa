@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -44,6 +45,7 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
 
         initViewModel();
         observableTeacherViewModel();

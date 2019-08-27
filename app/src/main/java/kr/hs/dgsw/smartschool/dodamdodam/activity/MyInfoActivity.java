@@ -51,6 +51,8 @@ public class MyInfoActivity extends BaseActivity<MyinfoActivityBinding> {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+
+
         initViewModel();
         initData();
 
