@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +18,9 @@ import kr.hs.dgsw.smartschool.dodamdodam.Constants;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 
 public class StudentClient extends NetworkClient {
-    public StudentClient() {
+
+    public StudentClient(Context context) {
+        super(context);
         B1ndService.setHostURL(Constants.DEFAULT_HOST);
     }
 

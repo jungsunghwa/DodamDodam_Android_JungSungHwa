@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import java.util.List;
 
 import io.reactivex.Single;
@@ -15,7 +17,8 @@ public class SongClient extends NetworkClient {
 
     private SongService song;
 
-    public SongClient() {
+    public SongClient(Context context) {
+        super(context);
         song = Utils.RETROFIT.create(SongService.class);
     }
 

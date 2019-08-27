@@ -1,10 +1,13 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import io.reactivex.Single;
@@ -21,9 +24,11 @@ import retrofit2.Callback;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class BusClient extends NetworkClient {
+
     private BusService bus;
 
-    public BusClient() {
+    public BusClient(Context context) {
+        super(context);
         bus = Utils.RETROFIT.create(BusService.class);
     }
 
@@ -37,31 +42,6 @@ public class BusClient extends NetworkClient {
 
     public Single<Bus> getMyBusApply(Token token) {
         return bus.getMyBusApply(token.getToken()).map(getResponseObjectsFunction());
-
-//        return Single.create(observer -> {
-//            bus.getMyBusApply(token).enqueue(new Callback<Response<Bus>>() {
-//                @Override
-//                public void onResponse(Call<Response<Bus>> call, retrofit2.Response<Response<Bus>> response) {
-//                    if (response.isSuccessful()) {
-//                        observer.onSuccess(response.body().getData());
-//                    } else {
-//                        try {
-//                            JSONObject errorBody = new JSONObject(Objects
-//                                    .requireNonNull(
-//                                            response.errorBody()).string());
-//                            observer.onError(new Throwable(errorBody.getString("message")));
-//                        } catch (JSONException | IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Response<Bus>> call, Throwable t) {
-//                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-//                }
-//            });
-//        });
     }
 
     public Single<Type> getBusType(Token token, int idx) {

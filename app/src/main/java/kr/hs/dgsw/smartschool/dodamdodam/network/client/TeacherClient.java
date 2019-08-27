@@ -1,6 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,36 +20,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TeacherClient extends NetworkClient {
+
     private CounselService counsel;
 
-    public TeacherClient() {
+    public TeacherClient(Context context) {
+        super(context);
         counsel = Utils.RETROFIT.create(CounselService.class);
     }
 
     public Single<Teachers> getTeacher(Token token) {
         return counsel.getTeacher(token.getToken()).map(getResponseObjectsFunction());
-//        return Single.create(observer -> {
-//            counsel.getTeacher(token).enqueue(new Callback<Response<Teacher>>() {
-//                @Override
-//                public void onResponse(Call<Response<Teacher>> call, retrofit2.Response<Response<Teacher>> response) {
-//                    if (response.isSuccessful()) {
-//                        observer.onSuccess(response.body().getData());
-//                    } else {
-//                        try {
-//                            JSONObject errorBody = new JSONObject(Objects
-//                                    .requireNonNull(response.errorBody()).string());
-//                            observer.onError(new Throwable(errorBody.getString("message")));
-//                        } catch (JSONException | IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Response<Teacher>> call, Throwable t) {
-//                    observer.onError(new Throwable("네트워크상태를 확인하세요"));
-//                }
-//            });
-//        });
     }
 }

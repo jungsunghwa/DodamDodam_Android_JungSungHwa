@@ -26,7 +26,7 @@ public class LoginViewModel extends AndroidViewModel {
 
     public LoginViewModel(Application application) {
         super(application);
-        loginClient = new LoginClient();
+        loginClient = new LoginClient(application);
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(application);
     }

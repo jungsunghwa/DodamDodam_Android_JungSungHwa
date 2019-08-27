@@ -25,7 +25,7 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
 
     public CounselViewModel(Application application) {
         super(application);
-        counselClient = new CounselClient();
+        counselClient = new CounselClient(application);
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(application);
     }

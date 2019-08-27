@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -17,7 +18,8 @@ public class MealClient extends NetworkClient {
 
     private MealService meal;
 
-    public MealClient() {
+    public MealClient(Context context) {
+        super(context);
         meal = Utils.RETROFIT.create(MealService.class);
     }
 

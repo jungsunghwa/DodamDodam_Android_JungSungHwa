@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.PlaceList;
@@ -9,7 +11,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.PlaceServic
 public class PlaceClient extends NetworkClient{
     private PlaceService place;
 
-    public PlaceClient() {
+    public PlaceClient(Context context) {
+        super(context);
         place = Utils.RETROFIT.create(PlaceService.class);
     }
 

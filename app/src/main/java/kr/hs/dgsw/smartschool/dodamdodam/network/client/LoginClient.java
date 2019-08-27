@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.B1ndService;
 import kr.hs.dgsw.b1nd.service.interfaces.OnLoginSuccessListener;
@@ -11,7 +13,8 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class LoginClient extends NetworkClient {
 
-    public LoginClient() {
+    public LoginClient(Context context) {
+        super(context);
         B1ndService.setHostURL(Constants.DEFAULT_HOST);
     }
 

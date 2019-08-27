@@ -37,7 +37,7 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
 
     public LocationViewModel(Application application) {
         super(application);
-        locationClient = new LocationClient();
+        locationClient = new LocationClient(application);
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(application);
     }
