@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +27,8 @@ public class OffbaseClient extends NetworkClient {
 
     private OffbaseService offbase;
 
-    public OffbaseClient() {
+    public OffbaseClient(Context context) {
+        super(context);
         offbase = Utils.RETROFIT.create(OffbaseService.class);
     }
 

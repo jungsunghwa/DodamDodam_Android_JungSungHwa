@@ -24,7 +24,7 @@ public class BusViewModel extends BaseViewModel<Bus> {
 
     public BusViewModel(Application application) {
         super(application);
-        busClient = new BusClient();
+        busClient = new BusClient(application);
         manager = TokenManager.getInstance(application);
     }
 

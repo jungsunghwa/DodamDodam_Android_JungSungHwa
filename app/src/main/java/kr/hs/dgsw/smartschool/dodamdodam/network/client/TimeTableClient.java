@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.timetable.TimeTables;
@@ -9,7 +11,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.TimeTableSe
 public class TimeTableClient extends NetworkClient{
     private TimeTableService timeTableService;
 
-    public TimeTableClient() {
+    public TimeTableClient(Context context) {
+        super(context);
         timeTableService = Utils.RETROFIT.create(TimeTableService.class);
     }
 

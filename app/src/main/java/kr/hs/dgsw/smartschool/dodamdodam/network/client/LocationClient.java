@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +21,8 @@ public class LocationClient extends NetworkClient {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     String date;
 
-    public LocationClient() {
-        super();
+    public LocationClient(Context context) {
+        super(context);
         location = Utils.RETROFIT.create(LocationService.class);
         date = sdf.format(new Date());
     }

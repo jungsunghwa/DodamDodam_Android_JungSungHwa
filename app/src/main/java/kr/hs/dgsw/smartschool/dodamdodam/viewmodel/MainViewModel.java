@@ -29,7 +29,7 @@ public class MainViewModel extends BaseViewModel<Meal> {
 
     public MainViewModel(Application application) {
         super(application);
-        client = new MealClient();
+        client = new MealClient(application);
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(application);
     }

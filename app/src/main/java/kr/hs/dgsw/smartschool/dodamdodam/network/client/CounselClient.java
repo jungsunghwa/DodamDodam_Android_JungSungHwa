@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import java.util.List;
 
 import io.reactivex.Single;
@@ -13,7 +15,10 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.CounselServ
 public class CounselClient extends NetworkClient {
     private CounselService counsel;
 
-    public CounselClient() { counsel = Utils.RETROFIT.create(CounselService.class); }
+    public CounselClient(Context context) {
+        super(context);
+        counsel = Utils.RETROFIT.create(CounselService.class);
+    }
 
     public Single<List<Counsel>> getAllCounsel(Token token) {
         return counsel.getAllCounsel(token.getToken()).map(getResponseObjectsFunction());

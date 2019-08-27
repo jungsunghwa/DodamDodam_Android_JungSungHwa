@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
+
 import io.reactivex.Single;
 import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
@@ -9,7 +11,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.MemberServi
 public class MemberClient extends NetworkClient {
     private MemberService member;
 
-    public MemberClient() {
+    public MemberClient(Context context) {
+        super(context);
         member = Utils.RETROFIT.create(MemberService.class);
     }
 

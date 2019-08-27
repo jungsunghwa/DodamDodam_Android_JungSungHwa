@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -24,7 +25,8 @@ import retrofit2.internal.EverythingIsNonNull;
 public class LostFoundClient extends NetworkClient {
     private LostFoundService lostFound;
 
-    public LostFoundClient() {
+    public LostFoundClient(Context context) {
+        super(context);
         lostFound = Utils.RETROFIT.create(LostFoundService.class);
     }
 

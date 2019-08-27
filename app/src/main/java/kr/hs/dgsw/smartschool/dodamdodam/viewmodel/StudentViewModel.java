@@ -41,8 +41,8 @@ public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
 
     public StudentViewModel(Application application) {
         super(application);
-        classClient = new ClassClient();
-        studentClient = new StudentClient();
+        classClient = new ClassClient(application);
+        studentClient = new StudentClient(application);
         disposable = new CompositeDisposable();
         helper = DatabaseHelper.getInstance(application);
         manager = TokenManager.getInstance(application);

@@ -23,7 +23,7 @@ public class PlaceViewModel extends BaseViewModel {
 
     public PlaceViewModel(Application application) {
         super(application);
-        placeClient = new PlaceClient();
+        placeClient = new PlaceClient(application);
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(application);
     }
