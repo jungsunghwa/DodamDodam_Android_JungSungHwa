@@ -169,12 +169,14 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 startActivity(new Intent(this, PreferenceActivity.class));
                 break;
             case R.id.menu_profile:
-                if (Utils.identity == Identity.STUDENT) {
-                    startActivity(new Intent(this, MyInfoActivity.class));
-                } else {
+                if (Utils.identity == Identity.STUDENT)
+                    intent = new Intent(this, MyInfoActivity.class);
+                else {
                     notSupportToast();
                     break;
                 }
+                startActivity(intent);
+                break;
             case R.id.menu_song_apply:
                 if (Utils.identity == Identity.STUDENT)
                     intent = new Intent(this, SongListActivity.class);
