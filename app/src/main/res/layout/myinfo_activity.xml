@@ -133,7 +133,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
                     <TextView
-                        android:layout_width="50dp"
+                        android:textSize="12dp"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
@@ -145,7 +146,8 @@
                         android:gravity="center"/>
 
                     <TextView
-                        android:layout_width="50dp"
+                        android:textSize="12dp"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
@@ -157,19 +159,21 @@
                         android:gravity="center"/>
 
                     <TextView
-                        android:layout_width="50dp"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:id="@+id/three_time"
                         android:layout_marginStart="25dp"
+                        android:textSize="12dp"
                         android:fontFamily="@font/nanum_square_regular"
-                        android:text="위치3"
+                        android:text="위치 3"
                         android:textColor="@color/textColor"
                         android:gravity="center"/>
 
                     <TextView
-                        android:layout_width="50dp"
+                        android:textSize="12dp"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"

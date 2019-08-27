@@ -15,5 +15,6 @@ public class PlaceViewHolder extends RecyclerView.ViewHolder {
     public PlaceViewHolder(@NonNull View itemView) {
         super(itemView);
         binding = DataBindingUtil.bind(itemView);
+        binding.placeCheckBox.setSelected(true);
     }
 }

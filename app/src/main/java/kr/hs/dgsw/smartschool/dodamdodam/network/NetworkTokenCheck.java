@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -17,6 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.place.PlaceList;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.LoginActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.PlaceService;
@@ -27,8 +29,10 @@ public class NetworkTokenCheck {
     private TokenService tokenService;
     private TokenManager tokenManager;
     private CompositeDisposable disposable;
+    private Context context;
 
     public NetworkTokenCheck(Context context) {
+        this.context = context;
         tokenService = Utils.RETROFIT.create(TokenService.class);
         tokenManager = TokenManager.getInstance(context);
         disposable = new CompositeDisposable();
@@ -55,11 +59,7 @@ public class NetworkTokenCheck {
         @Override
         public void onError(Throwable e) {
             Log.e("tokenError",  e.getMessage());
-            try {
-                throw new Exception(e.getMessage());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            context.startActivity(new Intent(context, LoginActivity.class));
             dispose();
         }
     }
