@@ -204,9 +204,9 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
                 if (!isLoading) {
                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == lostFoundList.size() - 1) {
                         if (index % 10 == 0) {
+                            isLoading = true;
                             loadMore();
                         }
-                        isLoading = true;
                     }
                 }
             }
