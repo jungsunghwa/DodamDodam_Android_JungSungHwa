@@ -50,6 +50,7 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
         binding.counselApplyFab.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), CounselApplyActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 
