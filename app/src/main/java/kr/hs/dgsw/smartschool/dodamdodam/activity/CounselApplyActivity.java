@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -83,8 +84,10 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
         });
 
         counselViewModel.getSuccess().observe(this, success -> {
-            if (success)
+            if (success) {
+                startActivity(new Intent(this, CounselActivity.class));
                 finish();
+            }
         });
 
         binding.btnApply.setOnClickListener(v -> {

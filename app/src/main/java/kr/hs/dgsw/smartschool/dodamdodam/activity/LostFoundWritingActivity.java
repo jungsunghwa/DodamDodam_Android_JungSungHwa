@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -355,6 +356,5 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
          *  기존에 데이터가 남아 있게 되면 원치 않은 삭제가 이뤄집니다.
          */
         tempFile = null;
-
     }
 }
