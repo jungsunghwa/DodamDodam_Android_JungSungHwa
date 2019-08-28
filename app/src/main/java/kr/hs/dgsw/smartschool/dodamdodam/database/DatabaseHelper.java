@@ -219,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return childrenLogs.toArray(new ChildrenLog[0]);
     }
 
-    private Student getStudentByMember(Member member) {
+    public Student getStudentByMember(Member member) {
         Student student = new Student(member);
         final SQLiteDatabase db = this.getWritableDatabase();
         final Cursor res =

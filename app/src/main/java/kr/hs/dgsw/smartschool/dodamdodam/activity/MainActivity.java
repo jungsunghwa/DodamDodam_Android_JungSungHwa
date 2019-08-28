@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 break;
             case R.id.menu_profile:
                 if (Utils.identity == Identity.STUDENT)
-                    intent = new Intent(this, MyInfoActivity.class);
+                    intent = new Intent(this, MyinfoActivity.class);
                 else {
                     notSupportToast();
                     break;
