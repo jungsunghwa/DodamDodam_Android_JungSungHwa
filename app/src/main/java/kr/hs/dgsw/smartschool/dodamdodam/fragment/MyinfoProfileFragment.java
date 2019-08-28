@@ -1,6 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -10,7 +13,9 @@ import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.b1nd.service.model.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.LoginActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
+import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MyinfoProfileFragmentBinding;
 
 public class MyinfoProfileFragment extends BaseFragment<MyinfoProfileFragmentBinding> {
@@ -19,6 +24,11 @@ public class MyinfoProfileFragment extends BaseFragment<MyinfoProfileFragmentBin
     private Member member;
     private Student student;
     private ClassInfo classInfo;
+    private TokenManager manager;
+
+    public MyinfoProfileFragment() {
+        manager = TokenManager.getInstance(getContext());
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -28,8 +38,13 @@ public class MyinfoProfileFragment extends BaseFragment<MyinfoProfileFragmentBin
 
         initData();
         initView();
-    }
 
+        binding.logoutLayout.setOnClickListener(v -> {
+            manager.setToken(null, null);
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            Toast.makeText(getActivity(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
+        });
+    }
     private void initData() {
         member = databaseHelper.getMyInfo();
         student = databaseHelper.getStudentByMember(member);

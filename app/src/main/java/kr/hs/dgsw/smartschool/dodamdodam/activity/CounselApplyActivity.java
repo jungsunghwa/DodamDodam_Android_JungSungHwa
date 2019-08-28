@@ -1,6 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -41,12 +43,16 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        // todo BUG setLayoutNoLimits(false) 시 레이아웃 밑으로 내려감
+        setLayoutNoLimits(false);
+
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
 
         initViewModel();
         observableTeacherViewModel();

@@ -21,7 +21,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
     private LoginViewModel loginViewModel;
     private StudentViewModel studentViewModel;
 
-    private InputMethodHelper keyboardManager;
 
     @Override
     protected int layoutId() {
@@ -35,7 +34,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         setLayoutNoLimits(false);
         lightNavMode();
 
-        keyboardManager = new InputMethodHelper(this);
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         studentViewModel = ViewModelProviders.of(this).get(StudentViewModel.class);
@@ -89,12 +87,14 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
             return false;
         });
-        binding.btnLogin.setOnClickListener(view -> login());
+        binding.btnLogin.setOnClickListener(view -> {
+            login();
+        });
         binding.inputId.requestFocus();
     }
 
     private void login() {
-        keyboardManager.closeSoftKeyboard();
+//        keyboardManager.closeSoftKeyboard();
         boolean hasError = false;
         if (binding.inputId.getText().toString().isEmpty()) {
             binding.inputLayoutId.setError(getString(R.string.error_empty_id));

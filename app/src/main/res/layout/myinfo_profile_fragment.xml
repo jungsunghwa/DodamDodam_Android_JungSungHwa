@@ -192,8 +192,48 @@
                     android:paddingEnd="20dp"
                     android:textColor="@color/textColor"
                     android:textSize="20dp" />
+
+
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/logout_layout"
+                android:background="@drawable/background_profile_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingVertical="10dp"
+                    android:textColor="@android:color/black"
+                    android:text="로그아웃"
+                    android:fontFamily="@font/nanum_square_round"
+                    android:textSize="17dp"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/logout_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:src="@drawable/ic_foreground"
+                    android:layout_gravity="center"
+                    android:paddingEnd="20dp"
+                    android:textColor="@color/textColor"
+                    android:textSize="20dp" />
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
