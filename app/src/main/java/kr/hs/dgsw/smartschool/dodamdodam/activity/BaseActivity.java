@@ -40,26 +40,25 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.ViewUtils;
  * @apiNote Layout 구조
  * </p>
  * <p>
- * ! ->  필요할 때
- * !! ->  필수
+ * ※ System UI 와 Navigation Bar 와의 Margin 및 AppBar 자동 추가 위해 'root_layout' ID 필요. 그렇지 않으면 System UI 또는 Navigation Bar 와 View 가 겹쳐보일 것.
  * </p>
  *
- * <layout> <!-- !!For DataBinding -->
+ * <layout> <!-- For DataBinding -->
  * <SomeLayout
- * android:fitsSystemWindows="true"> <!-- !BaseLayout --> <!-- System UI 와 Navigation Bar 와 겹쳐도 문제 없는 View 를 위한 Layout. -->
+ * android:fitsSystemWindows="true"> <!-- BaseLayout --> <!-- System UI 와 Navigation Bar 와 겹쳐도 문제 없는 View 를 위한 Layout. -->
  * <SomeView
  * android:id="@+id/background"
- * android:fitsSystemWindows="true"/> <!-- !배경 (ex. MultiWaveHeader {@link kr.hs.dgsw.smartschool.dodamdodam.widget.DodamMultiWaveHeader}) -->
- * <include
- * android:id="@+id/app_bar_layout"
- * layout="@layout/app_bar"/> <!-- !AppBar --> <!-- ID 를 'app_bar_layout' 로 설정할 경우 자동으로 System UI 와의 Margin 이 설정 됨. -->
+ * android:fitsSystemWindows="true"/> <!-- 배경 (ex. MultiWaveHeader {@link kr.hs.dgsw.smartschool.dodamdodam.widget.DodamMultiWaveHeader}) -->
  * <SomeInnerLayout
  * android:id="@+id/root_layout"
- * android:layout_marginTop="88dp"> <!-- !!Root Layout --> <!-- System UI 와 Navigation Bar 와의 Margin 을 위해 'root_layout' ID 필요. 그렇지 않으면 System UI 또는 Navigation Bar 와 View 가 겹쳐보일 것. -->
+ * android:layout_marginTop="88dp"> <!-- Root Layout -->
+ * <include
+ * android:id="@+id/app_bar_layout"
+ * layout="@layout/app_bar"/> <!-- AppBar --> <!-- ID 를 'app_bar_layout' 로 설정할 경우 자동으로 System UI 와의 Margin 이 설정 됨. -->
  * <!-- Inner View... -->
  * </SomeInnerLayout>
  * </SomeLayout>
- * </layout>ㅠ무
+ * </layout>
  */
 public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity {
 
@@ -72,10 +71,11 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         binding = DataBindingUtil.setContentView(this, layoutId());
         ViewUtils.setOnApplyWindowInsetsListenerToWindow(getWindow());
         try {
-            Field rootField = binding.getClass().getField("rootLayout");
+            Field rootField = binding.getClass().getField("rootLayout"); //ID 가 root_layout 인 View 를 찾음 (root_layout 에서 rootLayout 으로 변환 됨)
             View rootView = (View) rootField.get(binding);
 
             try {
+                //AppBar 자동 추가
                 Field appBarField = binding.getClass().getField("appbarLayout");
                 AppBarBinding appBarBinding = (AppBarBinding) appBarField.get(binding);
                 ViewUtils.marginTopSystemWindow(appBarBinding.toolbar);
@@ -96,6 +96,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
                 ViewUtils.marginTopSystemWindow(rootView);
             } catch (ClassCastException e) {
                 try {
+                    //AppBarTab 일 경우
                     Field appBarField = binding.getClass().getField("appbarLayout");
                     AppBarTabBinding appBarBinding = (AppBarTabBinding) appBarField.get(binding);
                     ViewUtils.marginTopSystemWindow(appBarBinding.toolbar);
@@ -180,6 +181,12 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
+    /**
+     * {@link #getSupportActionBar()} 의 null 확인 회피
+     *
+     * @return ActionBar
+     * @throws NullPointerException ActionBar 없을 경우
+     */
     @NonNull
     public ActionBar requireSupportActionBar() {
         return Optional.ofNullable(super.getSupportActionBar()).orElseThrow(NullPointerException::new);
@@ -202,7 +209,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
 
     /**
      * 폰 용 onCreate
-     * <p>
+     *
      * 폰과 태블릿의 작업이 다를 경우 사용
      * 단독 또는 같을 경우 사용하지 않아도 됨
      */
@@ -212,7 +219,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
 
     /**
      * 태블릿 용 onCreate
-     * <p>
+     *
      * 폰과 태블릿의 작업이 다를 경우 사용
      * 단독 또는 같을 경우 사용하지 않아도 됨
      */

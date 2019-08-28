@@ -51,19 +51,13 @@ public class MyInfoActivity extends BaseActivity<MyinfoActivityBinding> {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-
-
         initViewModel();
         initData();
 
         offbaseViewModel.getData().observe(this, offbase -> {
             offbaseItems.clear();
-            for (Leave leave: offbase.getLeaves()) {
-                offbaseItems.add(leave);
-            }
-            for (Pass pass: offbase.getPasses()) {
-                offbaseItems.add(pass);
-            }
+            offbaseItems.addAll(offbase.getLeaves());
+            offbaseItems.addAll(offbase.getPasses());
             myinfoOffBaseAdapter = new MyinfoOffBaseAdapter(this);
             myinfoOffBaseAdapter.setList(offbaseItems);
             setRecyclerView();

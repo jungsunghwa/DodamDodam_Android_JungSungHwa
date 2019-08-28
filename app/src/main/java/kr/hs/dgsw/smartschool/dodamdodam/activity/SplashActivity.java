@@ -56,7 +56,7 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
                 if (shortcut != null) {
                     switch (shortcut) {
                         case SHORTCUT_BUS:
-                            startActivitiesWithFinish(MainActivity.class);
+                            startActivitiesWithFinish(MainActivity.class, BusApplyActivity.class);
                             break;
                     }
                     return;
@@ -67,7 +67,6 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
         }
         handler.postDelayed(runnableLogin, 2000);
     }
-
 
     @Override
     public void onBackPressed() {
