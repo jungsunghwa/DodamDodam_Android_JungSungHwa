@@ -13,15 +13,18 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -108,11 +111,18 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
             editTextEmptyCheck();
             setLostFoundRequestData();
 
-            if (lostFoundViewModel.viewType.getValue() == UPDATE) {
-                lostFoundViewModel.putLostFound();
+            try {
+                lostFoundViewModel.request.getPicture().get(0);
+
+                if (lostFoundViewModel.viewType.getValue() == UPDATE) {
+                    lostFoundViewModel.putLostFound();
+                }
+                else {
+                    lostFoundViewModel.postCreateLostFound();
+                }
             }
-            else {
-                lostFoundViewModel.postCreateLostFound();
+            catch (NullPointerException e) {
+                Toast.makeText(this, "사진을 등록해 주세요", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -130,6 +140,22 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
             if (lostFoundViewModel.viewType.getValue() == SHOW) {
                 startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + lostFoundViewModel.request.getContact())));
             }
+        });
+
+        binding.writingContactEdittext.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                    actionId == EditorInfo.IME_ACTION_DONE ||
+                    event != null &&
+                            event.getAction() == KeyEvent.ACTION_DOWN &&
+                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                if (event == null || !event.isShiftPressed()) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(binding.writingContactEdittext.getWindowToken(), 0);
+
+                    return true;
+                }
+            }
+            return false;
         });
 
         tedPermission();
