@@ -44,10 +44,12 @@ public class SongDetailActivity extends BaseActivity<SongDetailActivityBinding> 
 
         Video source = getIntent().getParcelableExtra(EXTRA_VIDEO);
         setTitle(source.getVideoTitle());
-        binding.textChannelTitle.setText(source.getChannelTitle());
+        binding.textChannelTitle.setText("채널 이름 - " + source.getChannelTitle());
+        binding.textSubmitdate.setText("신청날짜 - " + source.getSubmitDate());
+        binding.textPlaydate.setText(String.valueOf(source.getSubmitDate()));
         viewModel.search(source.getApplyMemberId());
         viewModel.getData().observe(this, member -> binding.textUser.setText(member.getName()));
-        binding.textAllowed.setText(source.getIsAllow().toStringRes());
+        binding.textAllowed.setText(isAllowTypeConversion(source.getIsAllow()));
         Glide.with(this).load(source.getThumbnail()).into(binding.imageThumbnail);
     }
 
@@ -66,5 +68,15 @@ public class SongDetailActivity extends BaseActivity<SongDetailActivityBinding> 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String isAllowTypeConversion(int isAllow) {
+        if (isAllow == 0) {
+            return "대기중";
+        } else if (isAllow == 1) {
+            return "승인됨";
+        } else {
+            return "거절됨";
+        }
     }
 }

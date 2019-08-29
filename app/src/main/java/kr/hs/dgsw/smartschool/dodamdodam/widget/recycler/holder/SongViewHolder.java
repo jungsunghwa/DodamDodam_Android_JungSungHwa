@@ -24,5 +24,6 @@ public class SongViewHolder extends RecyclerView.ViewHolder {
         binding.textVideoTitle.setSelected(true);
         binding.textVideoTitle.setTypeface(ResourcesCompat.getFont(itemView.getContext(), R.font.nanum_square_regular), Typeface.BOLD);
         binding.textChannelTitle.setTypeface(ResourcesCompat.getFont(itemView.getContext(), R.font.nanum_square_round));
+
     }
 }
