@@ -28,5 +28,6 @@ public class RegisterActivity extends BaseActivity<RegisterActivityBinding>{
 
         binding.registerViewPager.setOffscreenPageLimit(PAGE_COUNT);
         binding.registerViewPager.setAdapter(adapter);
+        // todo viewpager 간 데이터 전달, 버튼으로 viewpager 넘김, register_profile_activity.xml 작업 필요
     }
 }
