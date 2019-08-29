@@ -21,6 +21,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -29,7 +30,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.databinding.LostfoundActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LostFoundViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.LostFoundAdapter;
 
-public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
+public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> implements SwipeRefreshLayout.OnRefreshListener {
     List<LostFound> lostFoundList = new ArrayList<>();
     LostFoundAdapter lostFoundAdapter;
 
@@ -69,6 +70,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
 
         initViewModel();
         initScrollListener();
+        initSwipeRefresh();
         observableLostFoundViewModel();
 
         // spinner 선택된 item (분실물, 습득물)에 따른 recyclerview 표시
@@ -135,6 +137,11 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         });
     }
 
+    private void initSwipeRefresh() {
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
+        binding.swipeRefreshLayout.setOnRefreshListener(this);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -176,6 +183,8 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
         lostFoundViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });
+
+        lostFoundViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
 
     }
 
@@ -231,5 +240,14 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> {
             isLoading = false;
 
         }, 1000);
+    }
+
+    @Override
+    public void onRefresh() {
+        index = 0;
+        page = 1;
+        lostFoundList.clear();
+        lostFoundViewModel.getLostFound(page, type);
+        setRecyclerViewManager();
     }
 }

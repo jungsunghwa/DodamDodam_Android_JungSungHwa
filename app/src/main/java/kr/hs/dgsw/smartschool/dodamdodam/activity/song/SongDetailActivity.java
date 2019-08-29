@@ -1,5 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity.song;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -47,8 +49,14 @@ public class SongDetailActivity extends BaseActivity<SongDetailActivityBinding> 
         binding.textChannelTitle.setText(source.getChannelTitle());
         viewModel.search(source.getApplyMemberId());
         viewModel.getData().observe(this, member -> binding.textUser.setText(member.getName()));
-        binding.textAllowed.setText(source.getIsAllow().toStringRes());
+//        binding.textAllowed.setText(source.getIsAllow().toStringRes());
         Glide.with(this).load(source.getThumbnail()).into(binding.imageThumbnail);
+        binding.imageThumbnail.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(source.getVideoUrl()));
+            startActivity(intent);
+        });
     }
 
     @Override
