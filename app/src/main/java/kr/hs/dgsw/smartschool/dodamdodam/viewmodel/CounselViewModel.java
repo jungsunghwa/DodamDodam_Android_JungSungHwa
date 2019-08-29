@@ -15,18 +15,12 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.client.CounselClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.CounselRequest;
 
 public class CounselViewModel extends BaseViewModel<List<Counsel>> {
-    private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private CounselClient counselClient;
-    private CompositeDisposable disposable;
     private TokenManager manager;
-    private DatabaseHelper helper;
 
     public CounselViewModel(Application application) {
         super(application);
         counselClient = new CounselClient(application);
-        disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(application);
     }
 
