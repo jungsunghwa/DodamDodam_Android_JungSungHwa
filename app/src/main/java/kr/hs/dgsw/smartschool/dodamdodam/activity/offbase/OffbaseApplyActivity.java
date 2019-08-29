@@ -56,7 +56,7 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setLayoutNoLimits(false);
         viewModel = ViewModelProviders.of(this).get(OffbaseViewModel.class);
 
         viewModel.getMessage().observe(this, msg -> {

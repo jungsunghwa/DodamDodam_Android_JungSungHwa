@@ -25,7 +25,7 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="#4a4a4a"
-            android:textSize="12sp"
+            android:textSize="10sp"
             tools:text="랩1" />
     </FrameLayout>
 </layout>

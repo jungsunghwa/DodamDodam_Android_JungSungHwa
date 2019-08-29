@@ -91,14 +91,14 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
         counselViewModel.getSuccess().observe(this, success -> {
             if (success) {
                 Toast.makeText(this, "신청을 했습니다", Toast.LENGTH_SHORT).show();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(binding.reasonText.getWindowToken(), 0);
                 startActivity(new Intent(this, CounselActivity.class));
                 finish();
             }
         });
 
         binding.btnApply.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(binding.reasonText.getWindowToken(), 0);
             Teacher teacher = (Teacher) v.getTag();
             counselViewModel.postCounsel(new CounselRequest(binding.reasonText.getText().toString(), teacher.getId()));
         });
