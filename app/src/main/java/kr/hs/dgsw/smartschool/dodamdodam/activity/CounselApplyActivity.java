@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -43,9 +45,6 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
-        // todo BUG setLayoutNoLimits(false) 시 레이아웃 밑으로 내려감
         setLayoutNoLimits(false);
 
         ActionBar actionBar = getSupportActionBar();
@@ -91,6 +90,9 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
 
         counselViewModel.getSuccess().observe(this, success -> {
             if (success) {
+                Toast.makeText(this, "신청을 했습니다", Toast.LENGTH_SHORT).show();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.reasonText.getWindowToken(), 0);
                 startActivity(new Intent(this, CounselActivity.class));
                 finish();
             }

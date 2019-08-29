@@ -70,7 +70,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding.lostfoundCardImageView.setImageResource(R.drawable.add_picture);
-
+        setLayoutNoLimits(false);
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {

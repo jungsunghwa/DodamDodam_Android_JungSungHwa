@@ -42,6 +42,7 @@ public class MyinfoProfileFragment extends BaseFragment<MyinfoProfileFragmentBin
         binding.logoutLayout.setOnClickListener(v -> {
             manager.setToken(null, null);
             startActivity(new Intent(getActivity(), LoginActivity.class));
+            getActivity().finish();
             Toast.makeText(getActivity(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
         });
     }

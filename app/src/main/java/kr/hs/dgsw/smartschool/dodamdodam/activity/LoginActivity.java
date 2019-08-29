@@ -30,7 +30,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //EditText 가 키보드 위에 표시되기 위해 설정
         setLayoutNoLimits(false);
         lightNavMode();
 

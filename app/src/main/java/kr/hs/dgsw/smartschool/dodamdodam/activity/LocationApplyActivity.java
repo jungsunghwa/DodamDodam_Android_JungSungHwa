@@ -75,11 +75,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
     }
 
     private void observableLocationViewModel() {
-//        locationViewModel.getSuccessMessage().observe(this, successMessage -> {
-//            Intent intent = new Intent(getApplicationContext(), ApplySuccessActivity.class);
-//            startActivity(intent);
-//            finish();
-//        });
 
         locationViewModel.getData().observe(this, data -> {
             List<LocationInfo> location = new ArrayList<>();
