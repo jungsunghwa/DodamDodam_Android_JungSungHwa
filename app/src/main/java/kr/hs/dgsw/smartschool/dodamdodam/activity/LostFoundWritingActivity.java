@@ -94,7 +94,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
 
         // 분실/습득물 체크시 변환
         binding.kindofCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isChecked) {
+            if (type == 2) {
                 binding.kindofCheckbox.setText("분실물");
                 type = 1;
             } else {
@@ -268,10 +268,12 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
             Glide.with(this).load(lostFoundViewModel.request.getPicture().get(0).getUrl()).into(binding.lostfoundCardImageView);
         }
         if (lostFoundViewModel.request.getType() == 1) {
-            binding.kindofCheckbox.setChecked(false);
+            binding.kindofCheckbox.setText("분실물");
+            type = 1;
         }
         else {
-            binding.kindofCheckbox.setChecked(true);
+            binding.kindofCheckbox.setText("습득물");
+            type = 2;
         }
         binding.writingPlaceEdittext.setText(lostFoundViewModel.request.getPlace());
         binding.writingTitleEdittext.setText(lostFoundViewModel.request.getTitle());

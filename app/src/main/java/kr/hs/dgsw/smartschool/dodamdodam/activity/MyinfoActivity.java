@@ -8,6 +8,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +52,8 @@ public class MyinfoActivity extends BaseActivity<MyinfoActivityBinding> {
 
         binding.viewPager.setAdapter(pagerAdapter);
         binding.viewPager.setOffscreenPageLimit(2);
+
+        viewPagerEvent();
     }
 
     @Override
@@ -60,6 +65,33 @@ public class MyinfoActivity extends BaseActivity<MyinfoActivityBinding> {
         }
 
         return false;
+    }
+
+    private void viewPagerEvent() {
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if(position == 0) {
+                    Glide.with(getApplicationContext()).load(R.drawable.ic_myinfo_page_ok).into(binding.pageProfile);
+                    Glide.with(getApplicationContext()).load(R.drawable.ic_myinfo_page_no).into(binding.pageStatus);
+                }
+                else if(position == 1) {
+                    Glide.with(getApplicationContext()).load(R.drawable.ic_myinfo_page_no).into(binding.pageProfile);
+                    Glide.with(getApplicationContext()).load(R.drawable.ic_myinfo_page_ok).into(binding.pageStatus);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 }
