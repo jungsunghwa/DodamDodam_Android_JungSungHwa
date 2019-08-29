@@ -96,6 +96,8 @@
             android:name=".activity.MyinfoActivity"
             android:label="@string/title_my_info" />
 
+        <activity android:name=".activity.RegisterActivity"/>
+
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@
 
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="ic_shortcuts_background">#F5F5F5</color>
+    <color name="splash_subtitle_color">#CCDDFF</color>
 
 
 </resources>

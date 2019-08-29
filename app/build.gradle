@@ -44,6 +44,7 @@ dependencies {
     }
     implementation 'kr.hs.dgsw.b1nd:service:1.2.12'
     implementation 'kr.hs.dgsw.b1nd:bottomsheet:1.0.0'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.guava:guava:27.1-android'
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'

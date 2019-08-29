@@ -46,7 +46,7 @@
     <string name="text_status_wait">대기중</string>
     <string name="text_status_refuse">거부됨</string>
 
-    <string name="hint_email">이메일</string>
+    <string name="hint_email">아이디</string>
     <string name="hint_pw">비밀번호</string>
     <string name="hint_search_song">제목 입력</string>
     <string name="hint_search_song_desc">제목을 입력하여 검색</string>
@@ -79,4 +79,7 @@
 
     <string name="permission_1">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
     <string name="permission_2">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
+    <string name="splash_subtitle">[부사] 어린아이가 탈 없이 잘 놀며 자라는 모양</string>
+    <string name="ask_donthave_id">계정이 없으신가요?</string>
+    <string name="do_signup">가입하기</string>
 </resources>

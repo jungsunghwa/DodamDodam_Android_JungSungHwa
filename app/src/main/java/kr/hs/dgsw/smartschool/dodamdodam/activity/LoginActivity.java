@@ -86,9 +86,8 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
             return false;
         });
-        binding.btnLogin.setOnClickListener(view -> {
-            login();
-        });
+        binding.goSignupText.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
+        binding.btnLogin.setOnClickListener(view -> login());
         binding.inputId.requestFocus();
     }
 

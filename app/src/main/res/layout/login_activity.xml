@@ -6,7 +6,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@mipmap/login_up">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -16,45 +17,56 @@
             android:minWidth="420dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
 
             <FrameLayout
                 android:id="@+id/button_sets"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="150dp"
+                android:layout_marginEnd="150dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/input_layout">
 
-                <com.google.android.material.button.MaterialButton
+                <Button
                     android:id="@+id/btn_login"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:text="@string/text_login" />
-
-                <ProgressBar
-                    android:id="@+id/progress"
-                    style="?android:progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:indeterminate="true"
-                    android:indeterminateTint="@android:color/white"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:background="@drawable/background_login_btn"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:text="Login"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="20dp" />
 
             </FrameLayout>
+
+            <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="70dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.08"
+                app:srcCompat="@mipmap/bind_logo"
+                tools:ignore="ContentDescription" />
 
             <LinearLayout
                 android:id="@+id/input_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginEnd="24dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/button_sets"
@@ -107,21 +119,34 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/image_logo"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.25"
-                app:srcCompat="@drawable/ic_bind_logo"
-                tools:ignore="ContentDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/button_sets">
+
+                <TextView
+                    android:id="@+id/ask_have_id_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:text="@string/ask_donthave_id"
+                    android:textColor="#6b6b6b" />
+
+                <TextView
+                    android:id="@+id/go_signup_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:text="@string/do_signup"
+                    android:textColor="@color/colorBlack"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
