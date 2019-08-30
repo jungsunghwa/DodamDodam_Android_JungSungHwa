@@ -28,6 +28,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
 
     private final MutableLiveData<Integer> placePosition = new MutableLiveData<>();
     private final MutableLiveData<Integer> putLocation = new MutableLiveData<>();
+    private final MutableLiveData<Integer> deleteLocation = new MutableLiveData<>();
 
     public LiveData<Integer> getPlacePosition() {
         return placePosition;
@@ -38,6 +39,10 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
 
     public MutableLiveData<Integer> getPutLocation(){
         return putLocation;
+    }
+
+    public MutableLiveData<Integer> getDeleteLocation() {
+        return deleteLocation;
     }
 
     public PlaceAdapter(Context context, List<Place> placeList, LocationViewModel locationViewModel) {
@@ -92,6 +97,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
                 placePosition.setValue(null);
                 beforePosition = null;
                 view.setTextColor(ContextCompat.getColor(context, R.color.textColor));
+                deleteLocation.setValue(place.getIdx());
             }
         });
         holder.binding.placeCheckBox.setOnLongClickListener(view -> {

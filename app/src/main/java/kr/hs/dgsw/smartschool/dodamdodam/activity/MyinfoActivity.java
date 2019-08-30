@@ -54,6 +54,8 @@ public class MyinfoActivity extends BaseActivity<MyinfoActivityBinding> {
         binding.viewPager.setOffscreenPageLimit(2);
 
         viewPagerEvent();
+
+        clickEvent();
     }
 
     @Override
@@ -92,6 +94,12 @@ public class MyinfoActivity extends BaseActivity<MyinfoActivityBinding> {
 
             }
         });
+    }
+
+    private void clickEvent() {
+        binding.pageProfile.setOnClickListener(v -> binding.viewPager.setCurrentItem(0, true));
+
+        binding.pageStatus.setOnClickListener(v -> binding.viewPager.setCurrentItem(1, true));
     }
 
 }

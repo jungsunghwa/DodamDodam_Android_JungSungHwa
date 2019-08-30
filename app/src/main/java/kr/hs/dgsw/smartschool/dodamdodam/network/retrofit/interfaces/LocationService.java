@@ -10,6 +10,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.LocationRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -48,6 +49,12 @@ public interface LocationService {
             @Header("x-access-token") String token,
             @Path("idx") int idx,
             @Body Location placeIdx
+    );
+
+    @DELETE("location/{idx}")
+    Single<Response> deleteLocation(
+            @Header("x-access-token") String token,
+            @Path("idx") int idx
     );
 
     @PUT("location/check/{idx}")

@@ -38,11 +38,11 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
         studentViewModel = ViewModelProviders.of(this).get(StudentViewModel.class);
 
         studentViewModel.getLoading().observe(this, isLoading -> {
-            if (isLoading) {
-                binding.progress.setVisibility(View.VISIBLE);
-            } else {
-                binding.progress.setVisibility(View.GONE);
-            }
+//            if (isLoading) {
+//                binding.progress.setVisibility(View.VISIBLE);
+//            } else {
+//                binding.progress.setVisibility(View.GONE);
+//            }
         });
 
         loginViewModel.getError().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
