@@ -1,5 +1,6 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -7,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +27,7 @@ public class CounselAdapter extends RecyclerView.Adapter<CounselViewHolder> {
     List<Counsel> counselList;
     private DatabaseHelper databaseHelper;
     CounselViewModel counselViewModel;
+    private CounselActivity counselActivity;
 
     private final SimpleDateFormat dateFormatDate = new SimpleDateFormat("yyyy-MM-dd H:mm ", Locale.getDefault());
 
@@ -32,6 +35,7 @@ public class CounselAdapter extends RecyclerView.Adapter<CounselViewHolder> {
         this.counselList = counselList;
         this.counselViewModel = counselViewModel;
         databaseHelper = DatabaseHelper.getInstance(counselActivity);
+        this.counselActivity = counselActivity;
     }
 
     @NonNull
@@ -62,6 +66,9 @@ public class CounselAdapter extends RecyclerView.Adapter<CounselViewHolder> {
                         .setNegativeButton(android.R.string.no, null)
                         .create()
                         .show());
+        if (teacher.getProfileImage() != null) {
+            Glide.with(counselActivity).load(teacher.getProfileImage()).into(holder.binding.counselImageview);
+        }
     }
 
     public void setList(List<Counsel> counselList) {

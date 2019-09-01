@@ -137,7 +137,6 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/nanum_square_regular"
                         android:gravity="center"
-                        android:text="위치1"
                         android:textColor="@color/textColor"
                         android:textSize="12dp" />
 
@@ -150,7 +149,6 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/nanum_square_regular"
                         android:gravity="center"
-                        android:text="위치2"
                         android:textColor="@color/textColor"
                         android:textSize="12dp" />
 
@@ -163,7 +161,6 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/nanum_square_regular"
                         android:gravity="center"
-                        android:text="위치 3"
                         android:textColor="@color/textColor"
                         android:textSize="12dp" />
 
@@ -176,7 +173,6 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/nanum_square_regular"
                         android:gravity="center"
-                        android:text="위치4"
                         android:textColor="@color/textColor"
                         android:textSize="12dp" />
                 </LinearLayout>

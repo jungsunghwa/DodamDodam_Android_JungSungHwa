@@ -20,6 +20,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.place.PlaceList;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.LoginActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.TokenRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.PlaceService;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.TokenService;
@@ -39,7 +40,7 @@ public class NetworkTokenCheck {
     }
 
     public void getNewToken() {
-        Single<String> getNewToken = tokenService.getNewToken(tokenManager.getToken().getRefreshToken()).map(getResponseObjectsFunction());
+        Single<String> getNewToken = tokenService.getNewToken(new TokenRequest(tokenManager.getToken().getRefreshToken())).map(getResponseObjectsFunction());
 
         addDisposable(getNewToken, new TokenDisposableSingleObserver());
     }

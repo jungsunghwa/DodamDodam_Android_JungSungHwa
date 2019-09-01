@@ -33,6 +33,10 @@ public class LocationClient extends NetworkClient {
         return location.putLocation(token.getToken(), request.getIdx(), request).map(Response::getMessage);
     }
 
+    public Single<String> deleteLocation(Token token, int idx) {
+        return location.deleteLocation(token.getToken(), idx).map(Response::getMessage);
+    }
+
     public Single<String> postLocation(LocationRequest<LocationInfo> request, Token token) {
         return location.postLocation(token.getToken(), request).map(Response::getMessage);
     }

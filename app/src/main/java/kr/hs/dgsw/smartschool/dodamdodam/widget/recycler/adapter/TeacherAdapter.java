@@ -62,7 +62,9 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherViewHolder> {
 
         });
 
-//        glide.load(teacher.getProfileImage()).into(holder.binding.teacherImageview);
+        if (teacher.getProfileImage() != null) {
+            glide.load(teacher.getProfileImage()).into(holder.binding.teacherImageview);
+        }
         holder.binding.teacherName.setText(teacher.getName());
         holder.binding.teacherPart.setText(teacher.getDepartmentsLogs()[0].getPosition());
     }

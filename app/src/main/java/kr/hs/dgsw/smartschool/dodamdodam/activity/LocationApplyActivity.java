@@ -91,7 +91,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
                 }
             }
 
-            setPlaceRecyclerView();
             setTimeTableRecyclerView();
         });
 
@@ -154,7 +153,17 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             locationInfo.setPlaceIdx(placeIdx);
 
-            locationViewModel.putLocation(locationInfo);
+            if (locationInfo.getIdx() == null) {
+                locationViewModel.postLocation(timePosition);
+            }
+            else {
+                locationViewModel.putLocation(locationInfo);
+            }
+        });
+
+        placeAdapter.getDeleteLocation().observe(this, placeIdx -> {
+            LocationInfo locationInfo = timeTable.get(timePosition);
+            locationViewModel.deleteLocation(locationInfo.getIdx());
         });
     }
 
@@ -194,6 +203,8 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             this.placeList.clear();
             this.placeList.addAll(placeList);
+
+            setPlaceRecyclerView();
         });
     }
 
