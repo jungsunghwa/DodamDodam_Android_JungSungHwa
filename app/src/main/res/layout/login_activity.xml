@@ -93,6 +93,7 @@
                         android:imeOptions="flagNoExtractUi|flagNoFullscreen|flagNoAccessoryAction"
                         android:inputType="textEmailAddress"
                         android:privateImeOptions="nm" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -117,6 +118,7 @@
                         android:privateImeOptions="nm" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -147,6 +149,9 @@
 
 
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
