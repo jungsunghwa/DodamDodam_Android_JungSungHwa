@@ -53,7 +53,9 @@ public class NetworkTokenCheck {
     private class TokenDisposableSingleObserver extends DisposableSingleObserver<String> {
         @Override
         public void onSuccess(String s) {
-            tokenManager.setToken(s, tokenManager.getToken().getRefreshToken());
+            String refresh = tokenManager.getToken().getRefreshToken();
+            tokenManager.setToken(null, null);
+            tokenManager.setToken(s, refresh);
             dispose();
         }
 

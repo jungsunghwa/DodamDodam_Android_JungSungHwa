@@ -27,15 +27,32 @@ public class NetworkClient {
                         .requireNonNull(
                                 response.errorBody()).string());
                 Log.e("Status", errorBody.getString("message"));
+                if (errorBody.getInt("status") == 410) {
+                    tokenClient.getNewToken();
+                }
                 throw new Exception(errorBody.getString("message"));
             }
             Log.e("Status", response.body().getStatus() + "");
-            if (response.body().getStatus() == 410) {
-                tokenClient.getNewToken();
-                throw new Exception(response.body().getMessage());
-            }
             return response.body().getData();
         };
     }
+
+//    Function<Response, String> getResponseMessageFunction() {
+//        return response -> {
+//            if (!response.isSuccessful()) {
+//                JSONObject errorBody = new JSONObject(Objects
+//                        .requireNonNull(
+//                                response.errorBody()).string());
+//                Log.e("Status", errorBody.getString("message"));
+//                throw new Exception(errorBody.getString("message"));
+//            }
+//            Log.e("Status", response.body().getStatus() + "");
+//            if (response.body().getStatus() == 410) {
+//                tokenClient.getNewToken();
+//                throw new Exception(response.body().getMessage());
+//            }
+//            return response.getMessage();
+//        };
+//    }
 
 }
