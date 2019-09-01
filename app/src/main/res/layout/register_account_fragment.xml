@@ -84,10 +84,12 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <LinearLayout
+            android:id="@+id/next_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:layout_marginRight="20dp"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -100,12 +102,16 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
                 android:layout_marginRight="2dp"
+                android:duplicateParentState="true"
+                android:clickable="false"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/next_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:duplicateParentState="true"
+                android:clickable="false"
                 app:srcCompat="@drawable/ic_arrow_forward_blue" />
 
         </LinearLayout>

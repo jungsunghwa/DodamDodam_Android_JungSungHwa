@@ -39,145 +39,154 @@
 
         </LinearLayout>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/register_name_edittext"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_name"
-            android:fontFamily="@font/nanum_square_round"
-            android:inputType="textPersonName"
-            app:met_baseColor="@color/cardview_dark_background"
-            app:met_maxCharacters="10"
-            app:met_floatingLabel="highlight"
-            app:layout_constraintBottom_toTopOf="@+id/register_phone_edittext"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/register_phone_edittext"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_phone"
-            android:fontFamily="@font/nanum_square_round"
-            android:inputType="phone"
-            app:met_baseColor="@color/cardview_dark_background"
-            app:met_maxCharacters="10"
-            app:met_floatingLabel="highlight"
-            app:layout_constraintBottom_toTopOf="@+id/register_email_edittext"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/register_email_edittext"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
-            android:hint="@string/hint_email"
-            android:fontFamily="@font/nanum_square_round"
-            android:inputType="textEmailAddress"
-            app:met_baseColor="@color/cardview_dark_background"
-            app:met_maxCharacters="10"
-            app:met_floatingLabel="highlight"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"/>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="90dp"
             android:orientation="vertical"
-            android:layout_marginTop="280dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/class_of_info_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round"
-                android:text="학반 정보"
-                android:textSize="18dp"
-                android:textColor="@color/cardview_dark_background"
-                />
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/grade_info_edittext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="2"
-                    android:inputType="number"
-                    android:textCursorDrawable="@color/cardview_dark_background"
-                    tools:layout_editor_absoluteX="81dp"
-                    tools:layout_editor_absoluteY="288dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/grade_info_text"
+                    android:id="@+id/class_of_info_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
                     android:fontFamily="@font/nanum_square_round"
-                    android:text="학년"
-                    android:textSize="16dp"
+                    android:text="학반 정보"
                     android:textColor="@color/cardview_dark_background"
-                    />
+                    android:textSize="18dp" />
 
-                <EditText
-                    android:id="@+id/class_info_edittext"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="2"
-                    android:inputType="number"
-                    android:textCursorDrawable="@color/cardview_dark_background"
-                    />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/class_info_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:fontFamily="@font/nanum_square_round"
-                    android:text="반"
-                    android:textSize="16dp"
-                    android:textColor="@color/cardview_dark_background"
-                    />
+                    <EditText
+                        android:id="@+id/grade_info_edittext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:gravity="center_horizontal"
+                        android:inputType="number"
+                        android:textCursorDrawable="@color/cardview_dark_background"
+                        tools:layout_editor_absoluteX="81dp"
+                        tools:layout_editor_absoluteY="288dp" />
 
-                <EditText
-                    android:id="@+id/number_info_edittext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="2"
-                    android:inputType="number"
-                    android:textCursorDrawable="@color/cardview_dark_background"
-                    />
+                    <TextView
+                        android:id="@+id/grade_info_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:fontFamily="@font/nanum_square_round"
+                        android:text="학년"
+                        android:textColor="@color/cardview_dark_background"
+                        android:textSize="16dp" />
 
-                <TextView
-                    android:id="@+id/number_info_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:fontFamily="@font/nanum_square_round"
-                    android:text="번호"
-                    android:textSize="16dp"
-                    android:textColor="@color/cardview_dark_background"
-                    />
+                    <EditText
+                        android:id="@+id/class_info_edittext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:gravity="center_horizontal"
+                        android:inputType="number"
+                        android:textCursorDrawable="@color/cardview_dark_background" />
+
+                    <TextView
+                        android:id="@+id/class_info_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:fontFamily="@font/nanum_square_round"
+                        android:text="반"
+                        android:textColor="@color/cardview_dark_background"
+                        android:textSize="16dp" />
+
+                    <EditText
+                        android:id="@+id/number_info_edittext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:gravity="center_horizontal"
+                        android:inputType="number"
+                        android:textCursorDrawable="@color/cardview_dark_background" />
+
+                    <TextView
+                        android:id="@+id/number_info_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:fontFamily="@font/nanum_square_round"
+                        android:text="번호"
+                        android:textColor="@color/cardview_dark_background"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/register_name_edittext"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round"
+                android:hint="@string/hint_name"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/register_phone_edittext"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:met_baseColor="@color/cardview_dark_background"
+                app:met_floatingLabel="highlight"
+                app:met_maxCharacters="10" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/register_phone_edittext"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round"
+                android:hint="@string/hint_phone"
+                android:inputType="phone"
+                app:layout_constraintBottom_toTopOf="@+id/register_email_edittext"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:met_baseColor="@color/cardview_dark_background"
+                app:met_floatingLabel="highlight"
+                app:met_maxCharacters="10" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/register_email_edittext"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:met_baseColor="@color/cardview_dark_background"
+                app:met_floatingLabel="highlight"
+                app:met_maxCharacters="10" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fin_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:layout_marginBottom="30dp"
             android:layout_marginRight="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -192,12 +201,16 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
                 android:layout_marginRight="2dp"
+                android:duplicateParentState="true"
+                android:clickable="false"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/check_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:duplicateParentState="true"
+                android:clickable="false"
                 app:srcCompat="@drawable/ic_check_blue" />
 
         </LinearLayout>
