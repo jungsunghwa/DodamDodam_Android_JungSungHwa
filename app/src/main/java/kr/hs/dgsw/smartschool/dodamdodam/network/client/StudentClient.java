@@ -19,8 +19,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
 
 public class StudentClient extends NetworkClient {
 
-    public StudentClient(Context context) {
-        super(context);
+    public StudentClient() {
         B1ndService.setHostURL(Constants.DEFAULT_HOST);
     }
 

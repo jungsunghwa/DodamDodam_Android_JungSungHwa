@@ -14,8 +14,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 
 public class RegisterClient extends NetworkClient {
 
-    public RegisterClient(Context context) {
-        super(context);
+    public RegisterClient() {
         B1ndService.setHostURL(Constants.DEFAULT_HOST);
     }
 

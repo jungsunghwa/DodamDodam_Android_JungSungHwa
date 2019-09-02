@@ -15,8 +15,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.CounselServ
 public class CounselClient extends NetworkClient {
     private CounselService counsel;
 
-    public CounselClient(Context context) {
-        super(context);
+    public CounselClient() {
         counsel = Utils.RETROFIT.create(CounselService.class);
     }
 

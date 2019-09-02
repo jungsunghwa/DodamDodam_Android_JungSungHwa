@@ -23,8 +23,7 @@ public class TeacherClient extends NetworkClient {
 
     private CounselService counsel;
 
-    public TeacherClient(Context context) {
-        super(context);
+    public TeacherClient() {
         counsel = Utils.RETROFIT.create(CounselService.class);
     }
 

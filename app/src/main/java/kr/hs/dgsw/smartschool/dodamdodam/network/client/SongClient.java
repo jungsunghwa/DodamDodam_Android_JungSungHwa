@@ -17,8 +17,7 @@ public class SongClient extends NetworkClient {
 
     private SongService song;
 
-    public SongClient(Context context) {
-        super(context);
+    public SongClient() {
         song = Utils.RETROFIT.create(SongService.class);
     }
 

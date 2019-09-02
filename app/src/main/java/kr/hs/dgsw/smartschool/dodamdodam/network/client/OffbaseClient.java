@@ -27,8 +27,7 @@ public class OffbaseClient extends NetworkClient {
 
     private OffbaseService offbase;
 
-    public OffbaseClient(Context context) {
-        super(context);
+    public OffbaseClient() {
         offbase = Utils.RETROFIT.create(OffbaseService.class);
     }
 

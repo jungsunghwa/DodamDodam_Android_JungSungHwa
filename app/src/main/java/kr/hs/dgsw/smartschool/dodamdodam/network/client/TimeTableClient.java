@@ -11,8 +11,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.TimeTableSe
 public class TimeTableClient extends NetworkClient{
     private TimeTableService timeTableService;
 
-    public TimeTableClient(Context context) {
-        super(context);
+    public TimeTableClient() {
         timeTableService = Utils.RETROFIT.create(TimeTableService.class);
     }
 

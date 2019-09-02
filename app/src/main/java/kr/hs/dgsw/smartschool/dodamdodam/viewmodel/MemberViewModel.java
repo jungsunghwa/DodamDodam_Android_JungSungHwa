@@ -13,7 +13,7 @@ public class MemberViewModel extends BaseViewModel<Member> {
 
     public MemberViewModel(Application application) {
         super(application);
-        client = new MemberClient(application);
+        client = new MemberClient();
         manager = TokenManager.getInstance(application);
     }
 

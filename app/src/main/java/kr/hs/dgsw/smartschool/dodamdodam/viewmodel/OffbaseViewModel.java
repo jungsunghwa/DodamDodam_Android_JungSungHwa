@@ -37,7 +37,7 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
 
     public OffbaseViewModel(Application application) {
         super(application);
-        client = new OffbaseClient(application);
+        client = new OffbaseClient();
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(application);
     }

@@ -29,7 +29,7 @@ public class TeacherViewModel extends BaseViewModel<Teachers> {
 
     public TeacherViewModel(Application application) {
         super(application);
-        teacherClient = new TeacherClient(application);
+        teacherClient = new TeacherClient();
         manager = TokenManager.getInstance(application);
         disposable = new CompositeDisposable();
     }

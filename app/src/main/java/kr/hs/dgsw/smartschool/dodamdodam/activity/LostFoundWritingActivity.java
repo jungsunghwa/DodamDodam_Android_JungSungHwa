@@ -88,6 +88,11 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
             startActivity(new Intent(this, LostFoundActivity.class));
             finish();
         });
+
+        lostFoundViewModel.getErrorMessage().observe(this, message -> {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        });
+
         binding.lostfoundCardImageView.setOnClickListener(v -> {
             if (isPermission)
                 gotoAlbum();

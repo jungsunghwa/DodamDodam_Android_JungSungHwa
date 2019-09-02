@@ -27,8 +27,7 @@ public class BusClient extends NetworkClient {
 
     private BusService bus;
 
-    public BusClient(Context context) {
-        super(context);
+    public BusClient() {
         bus = Utils.RETROFIT.create(BusService.class);
     }
 

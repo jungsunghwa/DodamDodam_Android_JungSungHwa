@@ -11,8 +11,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.PlaceServic
 public class PlaceClient extends NetworkClient{
     private PlaceService place;
 
-    public PlaceClient(Context context) {
-        super(context);
+    public PlaceClient() {
         place = Utils.RETROFIT.create(PlaceService.class);
     }
 

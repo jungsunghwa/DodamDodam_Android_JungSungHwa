@@ -28,7 +28,7 @@ public class SongViewModel extends BaseViewModel<List<Video>> {
 
     public SongViewModel(Application application) {
         super(application);
-        client = new SongClient(application);
+        client = new SongClient();
         disposable = new CompositeDisposable();
         manager = TokenManager.getInstance(application);
     }

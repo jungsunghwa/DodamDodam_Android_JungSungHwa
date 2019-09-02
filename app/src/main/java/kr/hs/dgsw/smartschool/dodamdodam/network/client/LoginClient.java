@@ -13,8 +13,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class LoginClient extends NetworkClient {
 
-    public LoginClient(Context context) {
-        super(context);
+    public LoginClient() {
         B1ndService.setHostURL(Constants.DEFAULT_HOST);
     }
 

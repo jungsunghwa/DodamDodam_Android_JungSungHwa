@@ -22,7 +22,7 @@ public class LostFoundViewModel extends BaseViewModel<List<LostFound>> {
 
     public LostFoundViewModel(Application application) {
         super(application);
-        lostFoundClient = new LostFoundClient(application);
+        lostFoundClient = new LostFoundClient();
         manager = TokenManager.getInstance(application);
     }
 

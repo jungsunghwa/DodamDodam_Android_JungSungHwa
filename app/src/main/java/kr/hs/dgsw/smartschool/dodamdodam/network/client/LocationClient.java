@@ -21,8 +21,7 @@ public class LocationClient extends NetworkClient {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     String date;
 
-    public LocationClient(Context context) {
-        super(context);
+    public LocationClient() {
         location = Utils.RETROFIT.create(LocationService.class);
         date = sdf.format(new Date());
     }

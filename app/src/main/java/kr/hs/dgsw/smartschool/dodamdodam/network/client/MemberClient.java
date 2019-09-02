@@ -11,8 +11,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.MemberServi
 public class MemberClient extends NetworkClient {
     private MemberService member;
 
-    public MemberClient(Context context) {
-        super(context);
+    public MemberClient() {
         member = Utils.RETROFIT.create(MemberService.class);
     }
 

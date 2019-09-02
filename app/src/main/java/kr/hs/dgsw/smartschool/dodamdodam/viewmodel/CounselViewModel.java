@@ -20,7 +20,7 @@ public class CounselViewModel extends BaseViewModel<List<Counsel>> {
 
     public CounselViewModel(Application application) {
         super(application);
-        counselClient = new CounselClient(application);
+        counselClient = new CounselClient();
         manager = TokenManager.getInstance(application);
     }
 

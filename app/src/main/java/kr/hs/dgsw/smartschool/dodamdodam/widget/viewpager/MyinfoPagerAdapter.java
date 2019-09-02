@@ -20,15 +20,14 @@ public class MyinfoPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
 
-
-            switch (i) {
-                case 0:
-                    return BaseFragment.newInstance(new MyinfoProfileFragment());
-                case 1:
-                    return BaseFragment.newInstance(new MyinfoStatusFragment());
-                default:
-                    return null;
-            }
+        switch (i) {
+            case 0:
+                return BaseFragment.newInstance(new MyinfoProfileFragment());
+            case 1:
+                return BaseFragment.newInstance(new MyinfoStatusFragment());
+            default:
+                return null;
+        }
 
     }
 

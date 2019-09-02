@@ -25,8 +25,7 @@ import retrofit2.internal.EverythingIsNonNull;
 public class LostFoundClient extends NetworkClient {
     private LostFoundService lostFound;
 
-    public LostFoundClient(Context context) {
-        super(context);
+    public LostFoundClient() {
         lostFound = Utils.RETROFIT.create(LostFoundService.class);
     }
 
@@ -37,9 +36,6 @@ public class LostFoundClient extends NetworkClient {
                         .requireNonNull(
                     response.errorBody()).string());
                     Log.e("aaa", errorBody.getString("message"));
-                    if (errorBody.getInt("status") == 410) {
-                        tokenClient.getNewToken();
-                    }
                     throw new Exception(errorBody.getString("message"));
                 }
             Log.e("aaa", response.body().getStatus() + "");
@@ -67,9 +63,6 @@ public class LostFoundClient extends NetworkClient {
                         .requireNonNull(
                                 response.errorBody()).string());
                 Log.e("aaa", errorBody.getString("message"));
-                if (errorBody.getInt("status") == 410) {
-                    tokenClient.getNewToken();
-                }
                 throw new Exception(errorBody.getString("message"));
             }
             Log.e("aaa", response.body().getStatus() + "");

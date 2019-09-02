@@ -32,7 +32,7 @@ public class TimeTableViewModel extends BaseViewModel<List<Time>> {
 
     public TimeTableViewModel(Application application) {
         super(application);
-        timeTableClient = new TimeTableClient(application);
+        timeTableClient = new TimeTableClient();
         disposable = new CompositeDisposable();
         helper = DatabaseHelper.getInstance(application);
         manager = TokenManager.getInstance(application);
