@@ -1,12 +1,25 @@
 package kr.hs.dgsw.smartschool.dodamdodam.Model.bus;
 
+import android.content.Intent;
+
+import com.google.gson.annotations.SerializedName;
+
 public class Type {
     private Integer idx;
-    private String name;
-    private Integer date;
-    private Integer people_limit;
-    private String arrive_time;
-    private Integer passengers_count;
+
+    @SerializedName("bus_name")
+    private String busName;
+
+    private String description;
+
+    @SerializedName("people_limit")
+    private Integer peopleLimit;
+
+    @SerializedName("start_date")
+    private String startDate;
+
+    @SerializedName("time_required")
+    private String timeRequired;
 
     public Integer getIdx() {
         return idx;
@@ -16,43 +29,43 @@ public class Type {
         this.idx = idx;
     }
 
-    public String getName() {
-        return name;
+    public String getBusName() {
+        return busName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBusName(String busName) {
+        this.busName = busName;
     }
 
-    public Integer getDate() {
-        return date;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDate(Integer date) {
-        this.date = date;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Integer getPeople_limit() {
-        return people_limit;
+    public Integer getPeopleLimit() {
+        return peopleLimit;
     }
 
-    public void setPeople_limit(Integer people_limit) {
-        this.people_limit = people_limit;
+    public void setPeopleLimit(Integer peopleLimit) {
+        this.peopleLimit = peopleLimit;
     }
 
-    public String getArrive_time() {
-        return arrive_time;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setArrive_time(String arrive_time) {
-        this.arrive_time = arrive_time;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public Integer getPassengers_count() {
-        return passengers_count;
+    public String getTimeRequired() {
+        return timeRequired;
     }
 
-    public void setPassengers_count(Integer passengers_count) {
-        this.passengers_count = passengers_count;
+    public void setTimeRequired(String timeRequired) {
+        this.timeRequired = timeRequired;
     }
 }

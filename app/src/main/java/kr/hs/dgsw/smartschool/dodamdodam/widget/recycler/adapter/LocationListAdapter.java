@@ -144,12 +144,14 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
             holder.binding.locationName.setText(classInfo);
         }
 
-        // todo
         holder.binding.locationItemRoot.setOnClickListener((view) -> {
+            Log.d("CheckItem", "Pass");
             if (holder.binding.locationCheckBox.isChecked()) {
-                checkSelectLocationIdx.setValue(finalLocationInfo.getIdx());
-            } else {
+                holder.binding.locationCheckBox.setChecked(false);
                 unCheckSelectLocationIdx.setValue(finalLocationInfo.getIdx());
+            } else {
+                holder.binding.locationCheckBox.setChecked(true);
+                checkSelectLocationIdx.setValue(finalLocationInfo.getIdx());
             }
         });
 

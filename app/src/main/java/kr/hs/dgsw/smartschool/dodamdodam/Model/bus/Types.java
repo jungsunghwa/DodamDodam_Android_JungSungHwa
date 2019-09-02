@@ -3,13 +3,13 @@ package kr.hs.dgsw.smartschool.dodamdodam.Model.bus;
 import java.util.List;
 
 public class Types {
-    private List<Type> types;
+    private List<Type> typeList;
 
-    public List<Type> getTypes() {
-        return types;
+    public List<Type> getTypeList() {
+        return typeList;
     }
 
-    public void setTypes(List<Type> types) {
-        this.types = types;
+    public void setTypeList(List<Type> typeList) {
+        this.typeList = typeList;
     }
 }

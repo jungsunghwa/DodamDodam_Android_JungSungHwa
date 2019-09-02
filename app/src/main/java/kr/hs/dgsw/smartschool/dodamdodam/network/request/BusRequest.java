@@ -1,13 +1,27 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.request;
 
-public class BusRequest {
-    private Integer type;
+import com.google.gson.annotations.SerializedName;
 
-    public Integer getType() {
-        return type;
+public class BusRequest {
+    @SerializedName("bus_idx")
+    private String busIdx;
+
+    @SerializedName("origin_bus_idx")
+    private String originBusIdx;
+
+    public String getBusIdx() {
+        return busIdx;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setBusIdx(String busIdx) {
+        this.busIdx = busIdx;
+    }
+
+    public String getOriginBusIdx() {
+        return originBusIdx;
+    }
+
+    public void setOriginBusIdx(String originBusIdx) {
+        this.originBusIdx = originBusIdx;
     }
 }
