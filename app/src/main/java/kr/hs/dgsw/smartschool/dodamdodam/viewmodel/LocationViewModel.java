@@ -54,7 +54,7 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
         addDisposable(locationClient.deleteLocation(manager.getToken(), idx), getBaseObserver());
     }
 
-    public void postLocation(int idx) {
+    public void postLocation() {
         loading.setValue(true);
         List<LocationInfo> timeTable = new ArrayList<>();
         DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
@@ -82,10 +82,10 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
             timeTable.add(new LocationInfo(time, null));
         }
 
-        List<LocationInfo> currentTimeTable = new ArrayList<>();
-        currentTimeTable.add(timeTable.get(idx));
+//        List<LocationInfo> currentTimeTable = new ArrayList<>();
+//        currentTimeTable.add(timeTable.get(idx));
 
-        locationRequest = new LocationRequest(currentTimeTable, ((Student) helper.getMyInfo()).getClassInfo());
+        locationRequest = new LocationRequest(timeTable, ((Student) helper.getMyInfo()).getClassInfo());
         //-------------------------------------------------------------------------------------------------------------------//
         addDisposable(locationClient.postLocation(locationRequest, manager.getToken()), observer);
     }
@@ -129,7 +129,7 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
             public void onSuccess(LocationRequest locationRequest) {
                 result.clear();
                 if (locationRequest.getLocationInfos().isEmpty()) {
-//                    postLocation();
+                    postLocation();
                 } else {
                     data.setValue(
                             convertLocationRequestToMap(locationRequest.getLocationInfos(), null));

@@ -10,10 +10,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import kr.hs.dgsw.smartschool.dodamdodam.fragment.RegisterAccountFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.fragment.RegisterProfileFragement;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.RegisterViewModel;
 
 public class RegisterPagerAdapter extends FragmentPagerAdapter {
 
     private final int PAGE_COUNT = 2;
+
+    public final RegisterAccountFragment registerAccountFragment = new RegisterAccountFragment();
+    public final RegisterProfileFragement registerProfileFragement = new RegisterProfileFragement();
 
     public RegisterPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
@@ -22,17 +26,14 @@ public class RegisterPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = new Fragment();
         switch (position) {
             case 0:
-                fragment = new RegisterAccountFragment();
-                break;
-
+                return registerAccountFragment;
             case 1:
-                fragment = new RegisterProfileFragement();
-                break;
+                return registerProfileFragement;
+            default:
+                return null;
         }
-        return fragment;
     }
 
     @Override

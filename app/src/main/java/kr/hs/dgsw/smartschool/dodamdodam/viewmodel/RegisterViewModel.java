@@ -19,6 +19,8 @@ public class RegisterViewModel extends AndroidViewModel {
     private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    public StudentRegisterRequest studentRegisterRequest = new StudentRegisterRequest();
+    public TeacherRegisterRequest teacherRegisterRequest = new TeacherRegisterRequest();
     private RegisterClient registerClient;
     private CompositeDisposable disposable;
 

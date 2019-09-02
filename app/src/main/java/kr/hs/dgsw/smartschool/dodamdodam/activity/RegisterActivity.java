@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import kr.hs.dgsw.b1nd.service.retrofit2.response.register.StudentRegisterRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
@@ -13,16 +14,14 @@ import kr.hs.dgsw.smartschool.dodamdodam.databinding.RegisterActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.RegisterProfileFragmentBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.fragment.RegisterAccountFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.fragment.RegisterProfileFragement;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.RegisterViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.viewpager.RegisterPagerAdapter;
 
 public class RegisterActivity extends BaseActivity<RegisterActivityBinding>{
 
-    private final int PAGE_COUNT = 2;
+    private RegisterViewModel registerViewModel;
 
-    RegisterAccountFragment registerAccountFragment;
-    RegisterProfileFragement registerProfileFragement;
-    private String id = "";
-    private String pw = "";
+    private final int PAGE_COUNT = 2;
 
     @Override
     protected int layoutId() {
@@ -36,11 +35,26 @@ public class RegisterActivity extends BaseActivity<RegisterActivityBinding>{
 
         setLayoutNoLimits(false);
 
+        initViewModel();
+
         RegisterPagerAdapter adapter = new RegisterPagerAdapter(getSupportFragmentManager());
 
         binding.registerViewPager.setOffscreenPageLimit(PAGE_COUNT);
         binding.registerViewPager.setAdapter(adapter);
+
+        adapter.registerAccountFragment.getRegisterId().observe(this, id -> {
+            registerViewModel.studentRegisterRequest.setId(id);
+            System.out.println(id);
+        });
+        adapter.registerAccountFragment.getRegisterPw().observe(this, pw -> {
+            registerViewModel.studentRegisterRequest.setPw(pw);
+            System.out.println(pw);
+        });
         // todo viewpager 간 데이터 전달, 버튼으로 viewpager 넘김, register_profile_activity.xml 작업 필요
+    }
+
+    private void initViewModel() {
+        registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
     }
 
     public void pageMove(int pageNum) {

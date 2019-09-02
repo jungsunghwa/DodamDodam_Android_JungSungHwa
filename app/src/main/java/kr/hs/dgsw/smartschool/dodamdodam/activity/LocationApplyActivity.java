@@ -154,7 +154,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
             locationInfo.setPlaceIdx(placeIdx);
 
             if (locationInfo.getIdx() == null) {
-                locationViewModel.postLocation(timePosition);
+                locationViewModel.postLocation();
             }
             else {
                 locationViewModel.putLocation(locationInfo);

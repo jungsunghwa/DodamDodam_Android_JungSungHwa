@@ -11,12 +11,24 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.RegisterActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.RegisterAccountFragmentBinding;
 
 public class RegisterAccountFragment extends BaseFragment<RegisterAccountFragmentBinding>{
+
+    private MutableLiveData<String> registerId = new MutableLiveData<>();
+    private MutableLiveData<String> registerPw = new MutableLiveData<>();
+
+    public MutableLiveData<String> getRegisterId() {
+        return registerId;
+    }
+
+    public MutableLiveData<String> getRegisterPw() {
+        return registerPw;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -29,11 +41,14 @@ public class RegisterAccountFragment extends BaseFragment<RegisterAccountFragmen
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 returnValue = false;
 
-                RegisterProfileFragement registerProfileFragement = new RegisterProfileFragement();
-                Bundle bundle = new Bundle();
-                bundle.putString("id", binding.registerIdEdittext.getText().toString());
-                bundle.putString("pw", binding.registerPwEdittext.getText().toString());
-                registerProfileFragement.setArguments(bundle);
+//                RegisterProfileFragement registerProfileFragement = new RegisterProfileFragement();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("id", binding.registerIdEdittext.getText().toString());
+//                bundle.putString("pw", binding.registerPwEdittext.getText().toString());
+//                registerProfileFragement.setArguments(bundle);
+
+                registerId.setValue(binding.registerIdEdittext.getText().toString());
+                registerPw.setValue(binding.registerPwEdittext.getText().toString());
 
                 RegisterActivity registerActivity = (RegisterActivity) RegisterAccountFragment.this.getActivity();
                 registerActivity.pageMove(1);
