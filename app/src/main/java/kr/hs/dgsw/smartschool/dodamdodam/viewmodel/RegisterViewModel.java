@@ -15,7 +15,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.client.RegisterClient;
 
 public class RegisterViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
+    private final MutableLiveData<String> successMessage = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private RegisterClient registerClient;
@@ -27,8 +28,12 @@ public class RegisterViewModel extends AndroidViewModel {
         disposable = new CompositeDisposable();
     }
 
-    public MutableLiveData<String> getIsSuccess() {
+    public MutableLiveData<Boolean> getIsSuccess() {
         return isSuccess;
+    }
+
+    public MutableLiveData<String> getSuccessMessage() {
+        return successMessage;
     }
 
     public MutableLiveData<String> getErrorMessage() {
@@ -44,7 +49,8 @@ public class RegisterViewModel extends AndroidViewModel {
         disposable.add(registerClient.studentRegister(request).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<String>(){
             @Override
             public void onSuccess(String s) {
-                isSuccess.setValue(s);
+                successMessage.setValue(s);
+                isSuccess.setValue(true);
                 loading.setValue(false);
             }
 
@@ -61,7 +67,8 @@ public class RegisterViewModel extends AndroidViewModel {
         disposable.add(registerClient.teacherRegister(request).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<String>(){
             @Override
             public void onSuccess(String s) {
-                isSuccess.setValue(s);
+                successMessage.setValue(s);
+                isSuccess.setValue(true);
                 loading.setValue(false);
             }
 

@@ -4,7 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import kr.hs.dgsw.b1nd.service.retrofit2.response.register.StudentRegisterRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.RegisterActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.RegisterProfileFragmentBinding;
@@ -18,6 +21,8 @@ public class RegisterActivity extends BaseActivity<RegisterActivityBinding>{
 
     RegisterAccountFragment registerAccountFragment;
     RegisterProfileFragement registerProfileFragement;
+    private String id = "";
+    private String pw = "";
 
     @Override
     protected int layoutId() {
