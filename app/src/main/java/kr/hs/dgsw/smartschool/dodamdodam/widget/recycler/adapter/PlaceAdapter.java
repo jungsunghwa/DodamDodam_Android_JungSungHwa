@@ -93,11 +93,13 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
                     view.setTextColor(Color.WHITE);
                     putLocation.setValue(place.getIdx());
                 }
-            } else {
-                placePosition.setValue(null);
-                beforePosition = null;
-                view.setTextColor(ContextCompat.getColor(context, R.color.textColor));
-                deleteLocation.setValue(place.getIdx());
+            }
+            else {
+                view.setChecked(true);
+//                placePosition.setValue(null);
+//                beforePosition = null;
+//                view.setTextColor(ContextCompat.getColor(context, R.color.textColor));
+//                deleteLocation.setValue(place.getIdx());
             }
         });
         holder.binding.placeCheckBox.setOnLongClickListener(view -> {

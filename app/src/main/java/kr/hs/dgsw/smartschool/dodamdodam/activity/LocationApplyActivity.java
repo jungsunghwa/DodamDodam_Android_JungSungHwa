@@ -153,12 +153,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
             locationInfo.setPlaceIdx(placeIdx);
 
-            if (locationInfo.getIdx() == null) {
-                locationViewModel.postLocation();
-            }
-            else {
-                locationViewModel.putLocation(locationInfo);
-            }
+            locationViewModel.putLocation(locationInfo);
         });
 
         placeAdapter.getDeleteLocation().observe(this, placeIdx -> {
