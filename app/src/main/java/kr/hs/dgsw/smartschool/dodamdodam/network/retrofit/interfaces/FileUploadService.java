@@ -15,7 +15,7 @@ public interface FileUploadService {
 
     @Multipart
     @POST("/upload/file")
-    Call<Response> uploadFile(
+    Call<retrofit2.Response<Response>> uploadFile(
             @Header("x-access-token") String token,
             @Part MultipartBody.Part file,
             @Part("name") String name

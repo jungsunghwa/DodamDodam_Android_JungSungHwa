@@ -26,19 +26,19 @@ public interface LostFoundService {
     );
 
     @POST("/lostfound")
-    Single<Response> postCreateLostFound(
+    Single<retrofit2.Response<Response>> postCreateLostFound(
             @Header("x-access-token") String token,
             @Body LostFoundRequest request
     );
 
     @PUT("/lostfound")
-    Single<Response> putLostFound(
+    Single<retrofit2.Response<Response>> putLostFound(
             @Header("x-access-token") String token,
             @Body LostFoundRequest request
     );
 
     @DELETE("/lostfound")
-    Single<Response> deleteLostFound(
+    Single<retrofit2.Response<Response>> deleteLostFound(
             @Header("x-access-token") String token,
             @Query("idx") Integer idx
     );

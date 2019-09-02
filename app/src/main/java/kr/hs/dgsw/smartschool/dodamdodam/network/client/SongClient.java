@@ -39,14 +39,14 @@ public class SongClient extends NetworkClient {
     }
 
     public Single<String> postSong(Token token, SongRequest request) {
-        return song.postSong(token.getToken(), request).map(Response::getMessage);
+        return song.postSong(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> postAllowSong(Token token, SongCheckRequest request) {
-        return song.postAllowSong(token.getToken(), request).map(Response::getMessage);
+        return song.postAllowSong(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> postDenySong(Token token, SongCheckRequest request) {
-        return song.postDenySong(token.getToken(), request).map(Response::getMessage);
+        return song.postDenySong(token.getToken(), request).map(getResponseMessageFunction());
     }
 }

@@ -30,6 +30,9 @@ public class MealClient extends NetworkClient {
                         .requireNonNull(
                                 response.errorBody()).string());
                 Log.e("aaa", errorBody.getString("message"));
+                if (errorBody.getInt("status") == 410) {
+                    tokenClient.getNewToken();
+                }
                 throw new Exception(errorBody.getString("message"));
             }
             Log.e("aaa", response.body().getStatus() + "");

@@ -33,11 +33,11 @@ public class BusClient extends NetworkClient {
     }
 
     public Single<String> postBusApply(Token token, BusRequest request) {
-        return bus.postBusApply(token.getToken(), request).map(Response::getMessage);
+        return bus.postBusApply(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> deleteBusApply(Token token, int idx) {
-        return bus.deleteBusApply(token.getToken(), idx).map(Response::getMessage);
+        return bus.deleteBusApply(token.getToken(), idx).map(getResponseMessageFunction());
     }
 
     public Single<Bus> getMyBusApply(Token token) {
@@ -49,7 +49,7 @@ public class BusClient extends NetworkClient {
     }
 
     public Single<String> putModifyBusApply(Token token, int idx, BusRequest request) {
-        return bus.putModifyBusApply(token.getToken(), idx, request).map(Response::getMessage);
+        return bus.putModifyBusApply(token.getToken(), idx, request).map(getResponseMessageFunction());
     }
 
     public Single<Types> getCurrentBusType(Token token) {

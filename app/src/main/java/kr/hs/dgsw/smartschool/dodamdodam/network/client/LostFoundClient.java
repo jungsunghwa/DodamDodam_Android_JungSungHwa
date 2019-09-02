@@ -37,6 +37,9 @@ public class LostFoundClient extends NetworkClient {
                         .requireNonNull(
                     response.errorBody()).string());
                     Log.e("aaa", errorBody.getString("message"));
+                    if (errorBody.getInt("status") == 410) {
+                        tokenClient.getNewToken();
+                    }
                     throw new Exception(errorBody.getString("message"));
                 }
             Log.e("aaa", response.body().getStatus() + "");
@@ -45,15 +48,15 @@ public class LostFoundClient extends NetworkClient {
     }
 
     public Single<String> postCreateLostFound(Token token, LostFoundRequest request) {
-        return lostFound.postCreateLostFound(token.getToken(), request).map(Response::getMessage);
+        return lostFound.postCreateLostFound(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> putLostFound(Token token, LostFoundRequest request) {
-        return lostFound.putLostFound(token.getToken(), request).map(Response::getMessage);
+        return lostFound.putLostFound(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> deleteLostFound(Token token, Integer idx) {
-        return lostFound.deleteLostFound(token.getToken(), idx).map(Response::getMessage);
+        return lostFound.deleteLostFound(token.getToken(), idx).map(getResponseMessageFunction());
     }
 
 
@@ -64,6 +67,9 @@ public class LostFoundClient extends NetworkClient {
                         .requireNonNull(
                                 response.errorBody()).string());
                 Log.e("aaa", errorBody.getString("message"));
+                if (errorBody.getInt("status") == 410) {
+                    tokenClient.getNewToken();
+                }
                 throw new Exception(errorBody.getString("message"));
             }
             Log.e("aaa", response.body().getStatus() + "");

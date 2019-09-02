@@ -29,16 +29,15 @@ public class LocationClient extends NetworkClient {
 
     public Single<String> putLocation(LocationInfo request, Token token) {
         request.setTimetableIdx(null);
-//        addDisposable(location.putLocation(token.getToken(), request.getIdx(), request), getBaseObserver());
-        return location.putLocation(token.getToken(), request.getIdx(), request).map(Response::getMessage);
+        return location.putLocation(token.getToken(), request.getIdx(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> deleteLocation(Token token, int idx) {
-        return location.deleteLocation(token.getToken(), idx).map(Response::getMessage);
+        return location.deleteLocation(token.getToken(), idx).map(getResponseMessageFunction());
     }
 
     public Single<String> postLocation(LocationRequest<LocationInfo> request, Token token) {
-        return location.postLocation(token.getToken(), request).map(Response::getMessage);
+        return location.postLocation(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<List<Locations>> getLocation(Token token) {
@@ -50,11 +49,11 @@ public class LocationClient extends NetworkClient {
     }
 
     public Single<String> checkLocation(Token token, int idx) {
-        return location.checkLocation(token.getToken(), idx).map(Response::getMessage);
+        return location.checkLocation(token.getToken(), idx).map(getResponseMessageFunction());
     }
 
     public Single<String> unCheckLocation(Token token, int idx) {
-        return location.unCheckLocation(token.getToken(), idx).map(Response::getMessage);
+        return location.unCheckLocation(token.getToken(), idx).map(getResponseMessageFunction());
     }
 
 }

@@ -21,7 +21,7 @@ import retrofit2.http.Query;
 public interface LocationService {
 
     @POST("location")
-    Single<Response> postLocation(
+    Single<retrofit2.Response<Response>> postLocation(
             @Header("x-access-token") String token,
             @Body LocationRequest<LocationInfo> locations
     );
@@ -39,32 +39,32 @@ public interface LocationService {
     );
 
     @PUT("location")
-    Call<Response> putAllLocation(
+    Call<retrofit2.Response<Response>> putAllLocation(
             @Header("x-access-token") String token,
             @Body LocationRequest<LocationInfo> request
     );
 
     @PUT("location/{idx}")
-    Single<Response> putLocation(
+    Single<retrofit2.Response<Response>> putLocation(
             @Header("x-access-token") String token,
             @Path("idx") int idx,
             @Body Location placeIdx
     );
 
     @DELETE("location/{idx}")
-    Single<Response> deleteLocation(
+    Single<retrofit2.Response<Response>> deleteLocation(
             @Header("x-access-token") String token,
             @Path("idx") int idx
     );
 
     @PUT("location/check/{idx}")
-    Single<Response> checkLocation(
+    Single<retrofit2.Response<Response>> checkLocation(
             @Header("x-access-token") String token,
             @Path("idx") int idx
     );
 
     @PUT("location/uncheck/{idx}")
-    Single<Response> unCheckLocation(
+    Single<retrofit2.Response<Response>> unCheckLocation(
             @Header("x-access-token") String token,
             @Path("idx") int idx
     );
