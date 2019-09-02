@@ -24,7 +24,7 @@ public class RegisterViewModel extends AndroidViewModel {
 
     public RegisterViewModel(Application application) {
         super(application);
-        registerClient = new RegisterClient(application);
+        registerClient = new RegisterClient();
         disposable = new CompositeDisposable();
     }
 
