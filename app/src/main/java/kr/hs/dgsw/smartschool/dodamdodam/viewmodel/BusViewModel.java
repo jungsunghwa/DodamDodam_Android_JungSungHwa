@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.MutableLiveData;
 
+import io.reactivex.observers.DisposableSingleObserver;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
@@ -37,13 +38,45 @@ public class BusViewModel extends BaseViewModel<Type> {
     public void getCurrentBus() {
         loading.setValue(true);
 
-        addDisposable(busClient.getCurrentBus(manager.getToken()), getBaseObserver());
+        DisposableSingleObserver<Types> observer = new DisposableSingleObserver<Types>() {
+            @Override
+            public void onSuccess(Types types) {
+                responseTypes.setValue(types);
+
+                loading.setValue(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                errorMessage.setValue(e.getMessage());
+
+                loading.setValue(false);
+            }
+        };
+
+        addDisposable(busClient.getCurrentBus(manager.getToken()), observer);
     }
 
     public void getMyBusApply() {
         loading.setValue(true);
 
-        addDisposable(busClient.getMyBusApply(manager.getToken()), getBaseObserver());
+        DisposableSingleObserver<Types> observer = new DisposableSingleObserver<Types>() {
+            @Override
+            public void onSuccess(Types types) {
+                responseTypes.setValue(types);
+
+                loading.setValue(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                errorMessage.setValue(e.getMessage());
+
+                loading.setValue(false);
+            }
+        };
+
+        addDisposable(busClient.getMyBusApply(manager.getToken()), observer);
     }
 
     public void postBusApply(BusRequest request) {
