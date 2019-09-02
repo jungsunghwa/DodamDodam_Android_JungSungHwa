@@ -46,9 +46,9 @@ public class RegisterViewModel extends AndroidViewModel {
         return loading;
     }
 
-    public void studentRegister(StudentRegisterRequest request) {
+    public void studentRegister() {
         loading.setValue(true);
-        disposable.add(registerClient.studentRegister(request).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<String>(){
+        disposable.add(registerClient.studentRegister(studentRegisterRequest).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<String>(){
             @Override
             public void onSuccess(String s) {
                 successMessage.setValue(s);

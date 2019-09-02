@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.viewpager.RegisterPagerAdapter;
 public class RegisterActivity extends BaseActivity<RegisterActivityBinding>{
 
     private RegisterViewModel registerViewModel;
+    private RegisterPagerAdapter adapter;
 
     private final int PAGE_COUNT = 2;
 
@@ -36,25 +38,44 @@ public class RegisterActivity extends BaseActivity<RegisterActivityBinding>{
         setLayoutNoLimits(false);
 
         initViewModel();
+        initViewPager();
 
-        RegisterPagerAdapter adapter = new RegisterPagerAdapter(getSupportFragmentManager());
+        observeRegisterViewPager();
+        observeRegisterViewModel();
+    }
+
+    private void initViewPager() {
+        adapter = new RegisterPagerAdapter(getSupportFragmentManager());
 
         binding.registerViewPager.setOffscreenPageLimit(PAGE_COUNT);
         binding.registerViewPager.setAdapter(adapter);
-
-        adapter.registerAccountFragment.getRegisterId().observe(this, id -> {
-            registerViewModel.studentRegisterRequest.setId(id);
-            System.out.println(id);
-        });
-        adapter.registerAccountFragment.getRegisterPw().observe(this, pw -> {
-            registerViewModel.studentRegisterRequest.setPw(pw);
-            System.out.println(pw);
-        });
-        // todo viewpager 간 데이터 전달, 버튼으로 viewpager 넘김, register_profile_activity.xml 작업 필요
     }
 
     private void initViewModel() {
         registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
+    }
+
+    private void observeRegisterViewModel() {
+        registerViewModel.getSuccessMessage().observe(this, message -> {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            startActivityWithFinish(LoginActivity.class);
+        });
+
+        registerViewModel.getErrorMessage().observe(this, message -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show());
+    }
+
+    private void observeRegisterViewPager() {
+        adapter.registerAccountFragment.getRegisterId().observe(this, id -> registerViewModel.studentRegisterRequest.setId(id));
+        adapter.registerAccountFragment.getRegisterPw().observe(this, pw -> registerViewModel.studentRegisterRequest.setPw(pw));
+        adapter.registerProfileFragement.getRegisterStudentInfo().observe(this, studentInfo -> registerViewModel.studentRegisterRequest.setStudent(studentInfo));
+        adapter.registerProfileFragement.getRegisterName().observe(this, name -> registerViewModel.studentRegisterRequest.setName(name));
+        adapter.registerProfileFragement.getRegisterPhone().observe(this, phone -> registerViewModel.studentRegisterRequest.setMobile(phone));
+        adapter.registerProfileFragement.getRegisterEmail().observe(this, email -> registerViewModel.studentRegisterRequest.setEmail(email));
+        adapter.registerProfileFragement.getRegister().observe(this, check -> {
+            if (check) {
+                registerViewModel.studentRegister();
+            }
+        });
     }
 
     public void pageMove(int pageNum) {
