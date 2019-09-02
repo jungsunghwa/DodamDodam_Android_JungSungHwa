@@ -30,116 +30,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbar_layout" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_marginTop="130dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal"
+            android:columnCount="2"
+            android:rowCount="10"
+            app:layout_constraintBottom_toTopOf="@+id/apply_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbar_layout">
+            app:layout_constraintTop_toBottomOf="@+id/selectbus_textview">
 
-            <CheckBox
-                android:id="@+id/bus_check_btn_one"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="5dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/busapply_check_box_background"
-                android:button="@null"
-                android:fontFamily="@font/nanum_square_round"
-                android:maxLines="1"
-                android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="10dp"
-                android:text="동대구역"
-                android:textAlignment="center"
-                android:textColor="@drawable/text_color_selector"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <CheckBox
-                android:id="@+id/bus_check_btn_two"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/busapply_check_box_background"
-                android:button="@null"
-                android:fontFamily="@font/nanum_square_round"
-                android:maxLines="1"
-                android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="10dp"
-                android:text="대곡역"
-                android:textAlignment="center"
-                android:textColor="@drawable/text_color_selector"
-                android:textSize="20sp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/bus_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:requiresFadingEdge="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-            <CheckBox
-                android:id="@+id/bus_check_btn_three"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/busapply_check_box_background"
-                android:button="@null"
-                android:fontFamily="@font/nanum_square_round"
-                android:maxLines="1"
-                android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="10dp"
-                android:text="용산역"
-                android:textAlignment="center"
-                android:textColor="@drawable/text_color_selector"
-                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:reverseLayout="true"
+                app:stackFromEnd="true"
+                tools:listitem="@layout/bus_item" />
 
-            <CheckBox
-                android:id="@+id/bus_check_btn_four"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/busapply_check_box_background"
-                android:button="@null"
-                android:fontFamily="@font/nanum_square_round"
-                android:maxLines="1"
-                android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="10dp"
-                android:text="미탑승"
-                android:textAlignment="center"
-                android:textColor="@drawable/text_color_selector"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </LinearLayout>
+        </GridLayout>
 
         <Button
             android:id="@+id/apply_btn"

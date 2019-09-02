@@ -37,6 +37,8 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
 
         initViewModel();
 
+
+
     }
 
     private void initViewModel() {
