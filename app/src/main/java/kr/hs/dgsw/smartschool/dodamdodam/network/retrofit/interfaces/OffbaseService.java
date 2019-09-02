@@ -75,32 +75,32 @@ public interface OffbaseService {
     );
 
     @POST("offbase/leave")
-    Single<Response> postLeave(
+    Single<retrofit2.Response<Response>> postLeave(
             @Header("x-access-token") String token, @Body OffbaseRequest request
     );
 
     @PUT("offbase/leave/{leave_idx}")
-    Single<Response> putLeave(
+    Single<retrofit2.Response<Response>> putLeave(
             @Header("x-access-token") String token, @Path("leave_idx") int leaveIdx, @Body OffbaseRequest request
     );
 
     @DELETE("offbase/leave/{leave_idx}")
-    Single<Response> deleteLeave(
+    Single<retrofit2.Response<Response>> deleteLeave(
             @Header("x-access-token") String token, @Path("leave_idx") int leaveIdx
     );
 
     @POST("offbase/pass")
-    Single<Response> postPass(
+    Single<retrofit2.Response<Response>> postPass(
             @Header("x-access-token") String token, @Body OffbaseRequest request
     );
 
     @PUT("offbase/pass/{pass_idx}")
-    Single<Response> putPass(
+    Single<retrofit2.Response<Response>> putPass(
             @Header("x-access-token") String token, @Path("pass_idx") int leaveIdx, @Body OffbaseRequest request
     );
 
     @DELETE("offbase/pass/{pass_idx}")
-    Single<Response> deletePass(
+    Single<retrofit2.Response<Response>> deletePass(
             @Header("x-access-token") String token, @Path("pass_idx") int leaveIdx
     );
 }

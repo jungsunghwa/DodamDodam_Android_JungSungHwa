@@ -78,26 +78,26 @@ public class OffbaseClient extends NetworkClient {
     }
 
     public Single<String> postLeave(Token token, OffbaseRequest request) {
-        return offbase.postLeave(token.getToken(), request).map(Response::getMessage);
+        return offbase.postLeave(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> putLeave(Token token, int leaveId, OffbaseRequest request) {
-        return offbase.putLeave(token.getToken(), leaveId, request).map(Response::getMessage);
+        return offbase.putLeave(token.getToken(), leaveId, request).map(getResponseMessageFunction());
     }
 
     public Single<String> postPass(Token token, OffbaseRequest request) {
-        return offbase.postPass(token.getToken(), request).map(Response::getMessage);
+        return offbase.postPass(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> putPass(Token token, int passId, OffbaseRequest request) {
-        return offbase.putPass(token.getToken(), passId, request).map(Response::getMessage);
+        return offbase.putPass(token.getToken(), passId, request).map(getResponseMessageFunction());
     }
 
     public Single<String> deleteLeave(Token token, int leaveId) {
-        return offbase.deleteLeave(token.getToken(), leaveId).map(Response::getMessage);
+        return offbase.deleteLeave(token.getToken(), leaveId).map(getResponseMessageFunction());
     }
 
     public Single<String> deletePass(Token token, int passId) {
-        return offbase.deletePass(token.getToken(), passId).map(Response::getMessage);
+        return offbase.deletePass(token.getToken(), passId).map(getResponseMessageFunction());
     }
 }

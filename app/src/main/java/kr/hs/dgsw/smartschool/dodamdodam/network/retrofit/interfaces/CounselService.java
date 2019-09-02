@@ -22,7 +22,7 @@ public interface CounselService {
     );
 
     @POST("/counsel")
-    Single<Response<Counsel>> postCounsel(
+    Single<retrofit2.Response<Response>> postCounsel(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
@@ -34,19 +34,19 @@ public interface CounselService {
     );
 
     @DELETE("/counsel/{counsel_idx}")
-    Single<Response> deleteCounsel(
+    Single<retrofit2.Response<Response>> deleteCounsel(
             @Header("x-access-token") String token,
             @Path("counsel_idx") int counselIdx
     );
 
     @POST("/counsel/allow")
-    Single<Response> postCounselAllow(
+    Single<retrofit2.Response<Response>> postCounselAllow(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );
 
     @POST("/counsel/cancel")
-    Single<Response> postCounselCancel(
+    Single<retrofit2.Response<Response>> postCounselCancel(
             @Header("x-access-token") String token,
             @Body CounselRequest request
     );

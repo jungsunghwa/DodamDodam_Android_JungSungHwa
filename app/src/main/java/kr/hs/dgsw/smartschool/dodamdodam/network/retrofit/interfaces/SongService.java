@@ -21,7 +21,7 @@ public interface SongService {
     );
 
     @POST("wake-song")
-    Single<Response> postSong(
+    Single<retrofit2.Response<Response>> postSong(
             @Header("x-access-token") String token,
             @Body SongRequest request
     );
@@ -42,13 +42,13 @@ public interface SongService {
     );
 
     @POST("wake-song/allow")
-    Single<Response> postAllowSong(
+    Single<retrofit2.Response<Response>> postAllowSong(
             @Header("x-access-token") String token,
             @Body SongCheckRequest request
     );
 
     @POST("wake-song/cancel")
-    Single<Response> postDenySong(
+    Single<retrofit2.Response<Response>> postDenySong(
             @Header("x-access-token") String token,
             @Body SongCheckRequest request
     );

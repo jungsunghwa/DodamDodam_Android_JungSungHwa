@@ -18,13 +18,13 @@ import retrofit2.http.Path;
 
 public interface BusService {
     @POST("/bus")
-    Single<Response> postBusApply(
+    Single<retrofit2.Response<Response>> postBusApply(
             @Header("x-access-token") String token,
             @Body BusRequest request
     );
 
     @DELETE("/bus/{idx}")
-    Single<Response> deleteBusApply(
+    Single<retrofit2.Response<Response>> deleteBusApply(
             @Header("x-access-token") String token,
             @Path("idx") int idx
     );
@@ -41,7 +41,7 @@ public interface BusService {
     );
 
     @PUT("/bus/{idx}")
-    Single<Response> putModifyBusApply(
+    Single<retrofit2.Response<Response>> putModifyBusApply(
             @Header("x-access-token") String token,
             @Path("idx") int idx,
             @Body BusRequest request

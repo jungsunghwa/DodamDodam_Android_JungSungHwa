@@ -25,7 +25,7 @@ public class CounselClient extends NetworkClient {
     }
 
     public Single<String> postCounsel(Token token, CounselRequest request) {
-        return counsel.postCounsel(token.getToken(), request).map(Response::getMessage);
+        return counsel.postCounsel(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<Counsel> getCertainCounsel(Token token, int counselIdx) {
@@ -33,14 +33,14 @@ public class CounselClient extends NetworkClient {
     }
 
     public Single<String> deleteCounsel(Token token, int counselIdx) {
-        return counsel.deleteCounsel(token.getToken(), counselIdx).map(Response::getMessage);
+        return counsel.deleteCounsel(token.getToken(), counselIdx).map(getResponseMessageFunction());
     }
 
     public Single<String> postCounselAllow(Token token, CounselRequest request) {
-        return counsel.postCounselAllow(token.getToken(), request).map(Response::getMessage);
+        return counsel.postCounselAllow(token.getToken(), request).map(getResponseMessageFunction());
     }
 
     public Single<String> postCounselCancel(Token token, CounselRequest request) {
-        return counsel.postCounselCancel(token.getToken(), request).map(Response::getMessage);
+        return counsel.postCounselCancel(token.getToken(), request).map(getResponseMessageFunction());
     }
 }

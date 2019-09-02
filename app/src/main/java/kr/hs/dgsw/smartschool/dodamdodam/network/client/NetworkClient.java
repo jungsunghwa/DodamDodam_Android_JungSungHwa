@@ -3,6 +3,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
@@ -14,7 +15,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 @SuppressWarnings("unchecked")
 public class NetworkClient {
 
-    private NetworkTokenCheck tokenClient;
+    protected NetworkTokenCheck tokenClient;
 
     NetworkClient(Context context) {
         tokenClient = new NetworkTokenCheck(context);
@@ -22,37 +23,31 @@ public class NetworkClient {
 
     <T> Function<retrofit2.Response<Response<T>>, T> getResponseObjectsFunction() {
         return response -> {
-            if (!response.isSuccessful()) {
-                JSONObject errorBody = new JSONObject(Objects
-                        .requireNonNull(
-                                response.errorBody()).string());
-                Log.e("Status", errorBody.getString("message"));
-                if (errorBody.getInt("status") == 410) {
-                    tokenClient.getNewToken();
-                }
-                throw new Exception(errorBody.getString("message"));
-            }
+            checkResponseErrorBody(response);
             Log.e("Status", response.body().getStatus() + "");
             return response.body().getData();
         };
     }
 
-//    Function<Response, String> getResponseMessageFunction() {
-//        return response -> {
-//            if (!response.isSuccessful()) {
-//                JSONObject errorBody = new JSONObject(Objects
-//                        .requireNonNull(
-//                                response.errorBody()).string());
-//                Log.e("Status", errorBody.getString("message"));
-//                throw new Exception(errorBody.getString("message"));
-//            }
-//            Log.e("Status", response.body().getStatus() + "");
-//            if (response.body().getStatus() == 410) {
-//                tokenClient.getNewToken();
-//                throw new Exception(response.body().getMessage());
-//            }
-//            return response.getMessage();
-//        };
-//    }
+    Function<retrofit2.Response<Response>, String> getResponseMessageFunction() {
+        return response -> {
+            checkResponseErrorBody(response);
+            Log.e("Status", response.body().getStatus() + "");
+            return response.body().getMessage();
+        };
+    }
+
+    private void checkResponseErrorBody(retrofit2.Response response) throws Exception {
+        if (!response.isSuccessful()) {
+            JSONObject errorBody = new JSONObject(Objects
+                    .requireNonNull(
+                            response.errorBody()).string());
+            Log.e("Status", errorBody.getInt("status") + "");
+            if (errorBody.getInt("status") == 410) {
+                tokenClient.getNewToken();
+            }
+            throw new Exception(errorBody.getString("message"));
+        }
+    }
 
 }
