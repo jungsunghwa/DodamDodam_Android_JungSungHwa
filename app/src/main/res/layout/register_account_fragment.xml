@@ -38,50 +38,60 @@
 
         </LinearLayout>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/register_name_edittext"
-            android:layout_width="250dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_id"
-            android:layout_marginBottom="30dp"
-            android:fontFamily="@font/nanum_square_round"
-            app:met_baseColor="@color/cardview_dark_background"
-            app:layout_constraintBottom_toTopOf="@+id/register_phone_edittext"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="10" />
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/register_phone_edittext"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_pw"
-            android:inputType="textPassword"
-            android:fontFamily="@font/nanum_square_round"
-            app:met_baseColor="@color/cardview_dark_background"
-            app:met_maxCharacters="10"
-            app:met_floatingLabel="highlight"
-            app:layout_constraintBottom_toTopOf="@+id/register_email_edittext"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/register_email_edittext"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="130dp"
-            android:hint="@string/hint_pw_check"
-            android:inputType="textPassword"
-            android:fontFamily="@font/nanum_square_round"
-            app:met_baseColor="@color/cardview_dark_background"
-            app:met_maxCharacters="10"
-            app:met_floatingLabel="highlight"
+            android:orientation="vertical"
+            android:layout_marginBottom="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/register_id_edittext"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/nanum_square_round"
+                android:hint="@string/hint_id"
+                app:layout_constraintBottom_toTopOf="@+id/register_phone_edittext"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:met_baseColor="@color/cardview_dark_background"
+                app:met_floatingLabel="highlight"
+                app:met_maxCharacters="10" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/register_pw_edittext"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round"
+                android:hint="@string/hint_pw"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toTopOf="@+id/register_email_edittext"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:met_baseColor="@color/cardview_dark_background"
+                app:met_floatingLabel="highlight"
+                app:met_maxCharacters="10" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/register_pw_check_edittext"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round"
+                android:hint="@string/hint_pw_check"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:met_baseColor="@color/cardview_dark_background"
+                app:met_floatingLabel="highlight"
+                app:met_maxCharacters="10" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/next_layout"

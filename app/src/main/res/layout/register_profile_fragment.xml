@@ -190,7 +190,8 @@
             android:layout_marginBottom="30dp"
             android:layout_marginRight="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true">
 
             <TextView
                 android:id="@+id/register_page_next"
@@ -201,7 +202,6 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
                 android:layout_marginRight="2dp"
-                android:duplicateParentState="true"
                 android:clickable="false"
                 android:textStyle="bold" />
 
@@ -209,7 +209,6 @@
                 android:id="@+id/check_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:duplicateParentState="true"
                 android:clickable="false"
                 app:srcCompat="@drawable/ic_check_blue" />
 
