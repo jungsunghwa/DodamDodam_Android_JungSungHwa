@@ -4,7 +4,10 @@ import android.app.Application;
 
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.List;
+
 import io.reactivex.observers.DisposableSingleObserver;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.ListType;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
@@ -14,7 +17,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 public class BusViewModel extends BaseViewModel<Type> {
 
     private final MutableLiveData<Types> responseTypes = new MutableLiveData<>();
-    private final MutableLiveData<Type> responseType = new MutableLiveData<>();
+    private final MutableLiveData<List<Type>> responseTypeList = new MutableLiveData<>();
+    private final MutableLiveData<List<Type>> responseAllTypeList = new MutableLiveData<>();
     private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
@@ -27,21 +31,21 @@ public class BusViewModel extends BaseViewModel<Type> {
         manager = TokenManager.getInstance(application);
     }
 
-    public MutableLiveData<Types> getResponseTypes() {
-        return responseTypes;
+    public MutableLiveData<List<Type>> getResponseAllTypeList() {
+        return responseAllTypeList;
     }
 
-    public MutableLiveData<Type> getResponseType() {
-        return responseType;
+    public MutableLiveData<List<Type>> getResponseTypeList() {
+        return responseTypeList;
     }
 
     public void getCurrentBus() {
         loading.setValue(true);
 
-        DisposableSingleObserver<Types> observer = new DisposableSingleObserver<Types>() {
+        DisposableSingleObserver<List<Type>> observer = new DisposableSingleObserver<List<Type>>() {
             @Override
-            public void onSuccess(Types types) {
-                responseTypes.setValue(types);
+            public void onSuccess(List<Type> types) {
+                responseAllTypeList.setValue(types);
 
                 loading.setValue(false);
             }
@@ -60,10 +64,10 @@ public class BusViewModel extends BaseViewModel<Type> {
     public void getMyBusApply() {
         loading.setValue(true);
 
-        DisposableSingleObserver<Types> observer = new DisposableSingleObserver<Types>() {
+        DisposableSingleObserver<List<Type>> observer = new DisposableSingleObserver<List<Type>>() {
             @Override
-            public void onSuccess(Types types) {
-                responseTypes.setValue(types);
+            public void onSuccess(List<Type> types) {
+                responseTypeList.setValue(types);
 
                 loading.setValue(false);
             }
