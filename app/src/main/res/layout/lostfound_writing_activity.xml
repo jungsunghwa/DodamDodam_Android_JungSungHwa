@@ -26,7 +26,7 @@
             android:checkable="true"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="#FFFFFF"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

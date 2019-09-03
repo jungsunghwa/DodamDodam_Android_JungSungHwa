@@ -17,6 +17,7 @@
             android:layout_height="match_parent">
 
             <com.mikhaellopez.circularimageview.CircularImageView
+                app:civ_border_color="@color/colorTransparent"
                 android:id="@+id/image_thumbnail"
                 android:layout_width="88dp"
                 android:layout_height="88dp"

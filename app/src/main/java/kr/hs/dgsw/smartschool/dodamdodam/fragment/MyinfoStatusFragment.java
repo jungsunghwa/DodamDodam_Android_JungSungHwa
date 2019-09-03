@@ -67,26 +67,26 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
             }
         });
 
-        busViewModel.getData().observe(this, bus -> busViewModel.getBusType(bus.getType()));
+//        busViewModel.getData().observe(this, bus -> busViewModel.getBusType(bus.getType()));
 
-        busViewModel.getResponseType().observe(this, type -> {
-            binding.bus.setText(type.getName() + "역");
-
-            switch (type.getName()) {
-                case "동대구":
-                    binding.busUseTime.setText("1시간");
-                    break;
-                case "용산":
-                    binding.busUseTime.setText("35분");
-                    break;
-                case "대곡":
-                    binding.busUseTime.setText("30분");
-                    break;
-            }
-
-            String arriveTIme = type.getArrive_time().split(":")[0] + ":" + type.getArrive_time().split(":")[1];
-            binding.busRideTime.setText(arriveTIme);
-        });
+//        busViewModel.getResponseType().observe(this, type -> {
+//            binding.bus.setText(type.getName() + "역");
+//
+//            switch (type.getName()) {
+//                case "동대구":
+//                    binding.busUseTime.setText("1시간");
+//                    break;
+//                case "용산":
+//                    binding.busUseTime.setText("35분");
+//                    break;
+//                case "대곡":
+//                    binding.busUseTime.setText("30분");
+//                    break;
+//            }
+//
+//            String arriveTIme = type.getArrive_time().split(":")[0] + ":" + type.getArrive_time().split(":")[1];
+//            binding.busRideTime.setText(arriveTIme);
+//        });
     }
 
     private void initViewModel() {
