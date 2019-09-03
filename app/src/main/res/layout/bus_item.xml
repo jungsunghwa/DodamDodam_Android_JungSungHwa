@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/counsel_item_root"
+        android:id="@+id/bus_item_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <CheckBox
+            android:id="@+id/check_item"
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_margin="5dp"
@@ -18,10 +20,12 @@
             android:maxLines="1"
             android:textColor="@drawable/text_color_selector"
             android:textSize="18sp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

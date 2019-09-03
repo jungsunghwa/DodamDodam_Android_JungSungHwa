@@ -1,8 +1,11 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.client;
 
 
+import java.util.List;
+
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
@@ -19,11 +22,11 @@ public class BusClient extends NetworkClient {
         bus = Utils.RETROFIT.create(BusService.class);
     }
 
-    public Single<Types> getCurrentBus(Token token) {
+    public Single<List<Type>> getCurrentBus(Token token) {
         return bus.getCurrentBus(token.getToken()).map(getResponseObjectsFunction());
     }
 
-    public Single<Types> getMyBusApply(Token token) {
+    public Single<List<Type>> getMyBusApply(Token token) {
         return bus.getMyBusApply(token.getToken()).map(getResponseObjectsFunction());
     }
 
