@@ -14,6 +14,7 @@ import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.b1nd.service.model.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.LoginActivity;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.MyinfoProfileChangeActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MyinfoProfileFragmentBinding;
@@ -45,6 +46,11 @@ public class MyinfoProfileFragment extends BaseFragment<MyinfoProfileFragmentBin
             getActivity().finish();
             Toast.makeText(getActivity(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
         });
+
+        binding.changeProfile.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), MyinfoProfileChangeActivity.class));
+            getActivity().finish();
+        });
     }
     private void initData() {
         member = databaseHelper.getMyInfo();
@@ -53,7 +59,7 @@ public class MyinfoProfileFragment extends BaseFragment<MyinfoProfileFragmentBin
     }
 
     private void initView() {
-        if (member.getProfileImage() == "") {
+        if (member.getProfileImage() == null) {
             Glide.with(this).load(R.drawable.noprofileimg).into(binding.profileImage);
         }
         else {

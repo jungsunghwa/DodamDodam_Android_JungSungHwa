@@ -17,6 +17,7 @@
     <string name="title_counsel_apply">상담 신청</string>
     <string name="title_settings">설정</string>
     <string name="title_my_info">내정보</string>
+    <string name="title_my_info_change">프로필 변경</string>
 
     <!-- TODO 개정일 -->
     <string name="subtitle_point_list" translatable="false">2019.3.</string>
@@ -87,4 +88,8 @@
     <string name="next">다음</string>
     <string name="hint_name">이름</string>
     <string name="hint_phone">휴대폰 번호 (- 제외)</string>
+    <string name="hint_grade">학년</string>
+    <string name="hint_class">반</string>
+    <string name="hint_number">번호</string>
+    <string name="hint_status_message">상태 메시지</string>
 </resources>
