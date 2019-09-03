@@ -66,7 +66,8 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
 
             @Override
             public void onError(Throwable e) {
-                errorMessage.setValue(e.getMessage());
+//                errorMessage.setValue(e.getMessage());
+                getMyLocation();
                 loading.setValue(false);
             }
         };
@@ -132,7 +133,7 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
                     postLocation();
                 } else {
                     data.setValue(
-                            convertLocationRequestToMap(locationRequest.getLocationInfos(), null));
+                            convertLocationRequestToMap(locationRequest.getLocationInfos(), null)); // 휴대폰에 맨 처음 깔고 실행했을 경우 여기에서 nullpoint 오류남
                     loading.setValue(false);
                 }
             }

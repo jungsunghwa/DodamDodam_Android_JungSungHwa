@@ -231,6 +231,6 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
         timeTableViewModel.getTimeTable();
         placeViewModel.getAllPlace();
-        locationViewModel.getMyLocation();
+        locationViewModel.postLocation();
     }
 }

@@ -12,16 +12,16 @@ import androidx.lifecycle.ViewModelProviders;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.text.SimpleTextWatcher;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LoginViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
-import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.InputMethodHelper;
 
 public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
     private LoginViewModel loginViewModel;
     private StudentViewModel studentViewModel;
-    private TimeTableViewModel timeTableViewModel;
+    private LocationViewModel locationViewModel;
 
 
     @Override
@@ -38,7 +38,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         studentViewModel = ViewModelProviders.of(this).get(StudentViewModel.class);
-        timeTableViewModel = ViewModelProviders.of(this).get(TimeTableViewModel.class);
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
 
         studentViewModel.getLoading().observe(this, isLoading -> {
 //            if (isLoading) {
@@ -54,7 +54,6 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             if (success) {
                 studentViewModel.getClasses();
                 studentViewModel.getStudent();
-                timeTableViewModel.getTimeTable();
             }
         });
 

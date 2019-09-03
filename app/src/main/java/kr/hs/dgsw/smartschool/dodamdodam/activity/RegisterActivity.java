@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.security.NoSuchAlgorithmException;
+
 import kr.hs.dgsw.b1nd.service.retrofit2.response.register.StudentRegisterRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.RegisterActivityBinding;
@@ -17,6 +19,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.fragment.RegisterAccountFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.fragment.RegisterProfileFragement;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.RegisterViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.viewpager.RegisterPagerAdapter;
+
+import static kr.hs.dgsw.b1nd.service.Utils.encryptSHA512;
 
 public class RegisterActivity extends BaseActivity<RegisterActivityBinding>{
 
@@ -66,7 +70,13 @@ public class RegisterActivity extends BaseActivity<RegisterActivityBinding>{
 
     private void observeRegisterViewPager() {
         adapter.registerAccountFragment.getRegisterId().observe(this, id -> registerViewModel.studentRegisterRequest.setId(id));
-        adapter.registerAccountFragment.getRegisterPw().observe(this, pw -> registerViewModel.studentRegisterRequest.setPw(pw));
+        adapter.registerAccountFragment.getRegisterPw().observe(this, pw -> {
+            try {
+                registerViewModel.studentRegisterRequest.setPw(encryptSHA512(pw));
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        });
         adapter.registerProfileFragement.getRegisterStudentInfo().observe(this, studentInfo -> registerViewModel.studentRegisterRequest.setStudent(studentInfo));
         adapter.registerProfileFragement.getRegisterName().observe(this, name -> registerViewModel.studentRegisterRequest.setName(name));
         adapter.registerProfileFragement.getRegisterPhone().observe(this, phone -> registerViewModel.studentRegisterRequest.setMobile(phone));
