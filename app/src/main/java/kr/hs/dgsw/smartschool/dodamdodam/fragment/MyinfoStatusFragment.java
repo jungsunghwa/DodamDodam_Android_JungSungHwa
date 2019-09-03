@@ -17,6 +17,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.databinding.MyinfoStatusFragmentBinding
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.BusViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.LocationViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.OffbaseViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.PlaceViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.MyinfoOffBaseAdapter;
 
 public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBinding> {
@@ -24,6 +26,8 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
     private MyinfoOffBaseAdapter myinfoOffBaseAdapter;
     private List<OffbaseItem> offbaseItems = new ArrayList<>();
 
+    private TimeTableViewModel timeTableViewModel;
+    private PlaceViewModel placeViewModel;
     private LocationViewModel locationViewModel;
     private OffbaseViewModel offbaseViewModel;
     private BusViewModel busViewModel;
@@ -93,11 +97,15 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
         offbaseViewModel = ViewModelProviders.of(this).get(OffbaseViewModel.class);
         locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
         busViewModel = ViewModelProviders.of(this).get(BusViewModel.class);
+        timeTableViewModel = ViewModelProviders.of(this).get(TimeTableViewModel.class);
+        placeViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
     }
 
     private void initData() {
         offbaseViewModel.list();
-        locationViewModel.getMyLocation();
+        timeTableViewModel.getTimeTable();
+        placeViewModel.getAllPlace();
+        locationViewModel.postLocation();
         busViewModel.getMyBusApply();
     }
 

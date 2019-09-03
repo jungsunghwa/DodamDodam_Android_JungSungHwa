@@ -16,6 +16,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.b1nd.service.model.Member;
+import kr.hs.dgsw.b1nd.service.model.Student;
 import kr.hs.dgsw.b1nd.service.model.Teacher;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Identity;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
@@ -65,12 +66,6 @@ public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
 
         List<ClassInfo> classes = helper.getData(DatabaseManager.TABLE_CLASS, new DatabaseGetDataType<>(ClassInfo.class));
 
-        if (!classes.isEmpty()) {
-            loading.setValue(false);
-            data.setValue(classes);
-            return;
-        }
-
         Token token = manager.getToken();
 
         disposable.add(
@@ -105,12 +100,6 @@ public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
             }
         }
 
-        if (!students.isEmpty()) {
-            loading.setValue(false);
-            isSuccess.setValue(true);
-            return;
-        }
-
         Token token = manager.getToken();
 
         disposable.add(studentClient.getMember(token)
@@ -135,7 +124,7 @@ public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
                         }
 
                         List<Member> studentList = Stream.of(response).filter(value -> value.getAuth() == 1).toList();
-                        List<Member> teacherList = Stream.of(response).filter(value -> value instanceof Teacher).toList();
+                        List<Member> teacherList = Stream.of(response).filter(value -> value.getAuth() == 2).toList();
 
                         for (int i = 0; i < studentList.size(); i++) {
                             ((kr.hs.dgsw.b1nd.service.model.Student) studentList.get(i)).setMemberID(studentList.get(i).getId());
