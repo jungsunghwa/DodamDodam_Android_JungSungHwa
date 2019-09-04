@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
@@ -25,9 +27,14 @@ import org.angmarch.views.NiceSpinner;
 import org.angmarch.views.OnSpinnerItemSelectedListener;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import kr.hs.dgsw.b1nd.service.model.ClassInfo;
@@ -104,17 +111,21 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             binding.locationList.setAdapter(locationListAdapter);
 
             locationListAdapter.getCheckSelectLocationIdx().observe(this, idx -> {
-                if (idx != null)
+                if (idx != null){
                     locationViewModel.checkLocation(idx);
+                    Snackbar.make(binding.locationList, "학생 체크 완료", Snackbar.LENGTH_SHORT).show();
+                }
             });
 
             locationListAdapter.getUnCheckSelectLocationIdx().observe(this, idx -> {
-                if (idx != null)
+                if (idx != null) {
                     locationViewModel.unCheckLocation(idx);
+                    Snackbar.make(binding.locationList,"학생 체크 취소", Snackbar.LENGTH_SHORT).show();
+                }
             });
         });
 
-        studentViewModel.getData().observe(this, classInfoList -> {
+        studentViewModel.getClassInfos().observe(this, classInfoList -> {
             classInfos = classInfoList;
 
             adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item ,classInfos);
@@ -122,12 +133,33 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             selectItem = classInfos.get(0);
         });
 
+        studentViewModel.getErrorMessage().observe(this, message -> Log.d("ErrorMessage", message));
+
         timeTableViewModel.getData().observe(this, times -> {
             timeList = times;
 
             adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item ,timeList);
             binding.timeSpinner.setAdapter(adapter);
             selectedTime = timeList.get(0);
+
+            for (int i = timeList.size() - 1; i >= 0; i--) {
+                try {
+                    long nowTime = System.currentTimeMillis();
+                    Date nowDate = new Date(nowTime);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                    String nowString = simpleDateFormat.format(nowDate);
+                    Date currentTime = simpleDateFormat.parse(nowString);
+                    Date listTime = simpleDateFormat.parse(timeList.get(i).getEndTime());
+
+                    if (currentTime.after(listTime)) {
+                        binding.timeSpinner.setSelectedIndex(i);
+                        timeSelected(i);
+                        break;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         placeViewModel.getData().observe(this, data -> placeList = data);
@@ -190,7 +222,9 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     private void timeSelected(int position) {
         selectedTime = timeList.get(position);
         binding.timeSpinner.setSelectedIndex(position);
-        showSelectOptionSnackbar();
+        if (classInfos.size() != 0) {
+            showSelectOptionSnackbar();
+        }
         setListAdapter();
     }
 

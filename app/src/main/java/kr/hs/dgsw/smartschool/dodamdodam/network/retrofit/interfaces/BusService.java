@@ -7,6 +7,7 @@ import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostBusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -31,8 +32,8 @@ public interface BusService {
     @POST("/bus/self")
     Single<retrofit2.Response<Response>> postBusApply(
             @Header("x-access-token") String token,
-            @Body BusRequest request
-    );
+            @Body PostBusRequest request
+            );
 
     @PUT("/bus/self")
     Single<retrofit2.Response<Response>> putBusApply(

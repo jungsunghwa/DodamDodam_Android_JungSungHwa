@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.BusApplyActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostBusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.BusViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.BusAdapter;
 
@@ -33,7 +35,6 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
     BusViewModel busViewModel;
     BusAdapter busAdapter;
     List<Type> busList = new ArrayList<>();
-    Context context;
 
     @Override
     protected int layoutId() {
@@ -79,8 +80,10 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             }
         });
 
-        busViewModel.getErrorMessage().observe(this, message -> Log.e("err", message));
-
+        busViewModel.getErrorMessage().observe(this, message -> {
+            Log.e("err", message);
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
@@ -98,5 +101,20 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         binding.busRecyclerview.setAdapter(busAdapter);
 
         binding.busRecyclerview.setLayoutManager(new GridLayoutManager(this, 2));
+
+        busAdapter.getPostBus().observe(this, bus_idx -> {
+            busViewModel.postBusApply(new PostBusRequest(bus_idx.toString()));
+            Toast.makeText(this, "버스 신청에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+        });
+
+        busAdapter.getDeleteBus().observe(this, busIdx -> {
+            busViewModel.deleteBusApply(busIdx);
+            Toast.makeText(this, "버스 삭제에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+        });
+
+        busAdapter.getPutBus().observe(this, busRequest -> {
+            busViewModel.putBusApply(busRequest);
+            Toast.makeText(this, "버스 수정에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+        });
     }
 }

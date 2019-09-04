@@ -87,7 +87,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
                     notifyItemChanged(beforePosition);
                     notifyItemChanged(position);
                     putLocation.setValue(place.getIdx());
-                }else {
+                } else {
                     placePosition.setValue(position);
                     beforePosition = position;
                     view.setTextColor(Color.WHITE);

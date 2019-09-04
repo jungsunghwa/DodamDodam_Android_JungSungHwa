@@ -13,6 +13,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
 import kr.hs.dgsw.smartschool.dodamdodam.network.client.BusClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostBusRequest;
 
 public class BusViewModel extends BaseViewModel<Type> {
 
@@ -83,7 +84,7 @@ public class BusViewModel extends BaseViewModel<Type> {
         addDisposable(busClient.getMyBusApply(manager.getToken()), observer);
     }
 
-    public void postBusApply(BusRequest request) {
+    public void postBusApply(PostBusRequest request) {
         loading.setValue(true);
 
         addDisposable(busClient.postBusApply(manager.getToken(), request), getBaseObserver());
@@ -95,7 +96,7 @@ public class BusViewModel extends BaseViewModel<Type> {
         addDisposable(busClient.putBusApply(manager.getToken(), request), getBaseObserver());
     }
 
-    public void delectBusApply(int busIdx) {
+    public void deleteBusApply(int busIdx) {
         loading.setValue(true);
 
         addDisposable(busClient.deleteBusApply(manager.getToken(), busIdx), getBaseObserver());

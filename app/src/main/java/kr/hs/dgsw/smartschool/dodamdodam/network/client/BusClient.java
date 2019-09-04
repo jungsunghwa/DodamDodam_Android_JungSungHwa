@@ -9,6 +9,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
+import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostBusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.BusService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +31,7 @@ public class BusClient extends NetworkClient {
         return bus.getMyBusApply(token.getToken()).map(getResponseObjectsFunction());
     }
 
-    public Single<String> postBusApply(Token token, BusRequest request) {
+    public Single<String> postBusApply(Token token, PostBusRequest request) {
         return bus.postBusApply(token.getToken(), request).map(getResponseMessageFunction());
     }
 

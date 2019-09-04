@@ -9,6 +9,11 @@ public class BusRequest {
     @SerializedName("origin_bus_idx")
     private String originBusIdx;
 
+    public BusRequest(String busIdx, String originBusIdx) {
+        this.busIdx = busIdx;
+        this.originBusIdx = originBusIdx;
+    }
+
     public String getBusIdx() {
         return busIdx;
     }
