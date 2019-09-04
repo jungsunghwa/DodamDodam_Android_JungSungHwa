@@ -146,12 +146,14 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                 try {
                     long nowTime = System.currentTimeMillis();
                     Date nowDate = new Date(nowTime);
+
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                     String nowString = simpleDateFormat.format(nowDate);
                     Date currentTime = simpleDateFormat.parse(nowString);
                     Date listTime = simpleDateFormat.parse(timeList.get(i).getEndTime());
 
                     if (currentTime.after(listTime)) {
+                        listType = ListType.CLASS;
                         binding.timeSpinner.setSelectedIndex(i);
                         timeSelected(i);
                         break;
@@ -220,6 +222,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     }
 
     private void timeSelected(int position) {
+        locationViewModel.getLocation();
         selectedTime = timeList.get(position);
         binding.timeSpinner.setSelectedIndex(position);
         if (classInfos.size() != 0) {
@@ -229,6 +232,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     }
 
     private void classSelected(int position) {
+        locationViewModel.getLocation();
         if (listType == ListType.CLASS) {
             adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , classInfos);
             binding.classSpinner.setAdapter(adapter);
