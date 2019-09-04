@@ -7,13 +7,13 @@ public class MyinfoChangeRequest {
     private String mobile;
     private String email;
     private String status_message;
-    private Picture profile_image;
+    private String profile_image;
 
     public MyinfoChangeRequest() {
 
     }
 
-    public MyinfoChangeRequest(String mobile, String email, String status_message, Picture profile_image) {
+    public MyinfoChangeRequest(String mobile, String email, String status_message, String profile_image) {
         this.mobile = mobile;
         this.email = email;
         this.status_message = status_message;
@@ -32,7 +32,7 @@ public class MyinfoChangeRequest {
         this.status_message = status_message;
     }
 
-    public void setProfile_image(Picture profile_image) {
+    public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
     }
 }

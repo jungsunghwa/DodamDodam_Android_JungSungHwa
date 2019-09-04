@@ -40,6 +40,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.databinding.MyinfoProfileChangeActivity
 import kr.hs.dgsw.smartschool.dodamdodam.fileupload.ImgUpload;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.MyinfoChangeRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.MemberViewModel;
+import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
 
 public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChangeActivityBinding> {
 
@@ -47,6 +48,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
     private final int REQUEST_IMAGE_CROP = 2;
 
     private MemberViewModel memberViewModel;
+    private StudentViewModel studentViewModel;
     private Uri photoURI;
 
     private Boolean isPermission = true;
@@ -65,6 +67,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
         initView();
 
         observeMemberViewModel();
+        observeStudentViewModel();
 
         clickEvent();
 
@@ -73,8 +76,17 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
 
     private void observeMemberViewModel() {
         memberViewModel.getSuccessMessage().observe(this, message -> {
+            studentViewModel.getClasses();
+            studentViewModel.getStudent();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            finish();
+        });
+    }
+
+    private void observeStudentViewModel() {
+        studentViewModel.getIsSuccess().observe(this, sucess -> {
+            if (sucess) {
+                finish();
+            }
         });
     }
 
@@ -93,9 +105,15 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
     }
 
     private void setRequest() {
-        memberViewModel.request.setEmail(binding.inputEmail.getText().toString());
-        memberViewModel.request.setMobile(binding.inputPhone.getText().toString());
-        memberViewModel.request.setStatus_message(binding.inputStatusMessage.getText().toString());
+        if (!binding.inputEmail.getText().toString().isEmpty()) {
+            memberViewModel.request.setEmail(binding.inputEmail.getText().toString());
+        }
+        if (!binding.inputPhone.getText().toString().isEmpty()) {
+            memberViewModel.request.setMobile(binding.inputPhone.getText().toString());
+        }
+        if (!binding.inputStatusMessage.getText().toString().isEmpty()) {
+            memberViewModel.request.setStatus_message(binding.inputStatusMessage.getText().toString());
+        }
     }
 
     private void goToAlbum() {
@@ -143,7 +161,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
 
                 if (resultCode == Activity.RESULT_OK) {
 
-                    memberViewModel.request.setProfile_image(new ImgUpload(this).ImgUpload(changeToBytes(), memberViewModel.file.getValue().getName()).get(0));
+                    memberViewModel.request.setProfile_image(new ImgUpload(this).ImgUpload(changeToBytes(), memberViewModel.file.getValue().getName()).get(0).getUpload_name());
                     setImage();
                 }
 
@@ -245,11 +263,17 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
         }
         binding.inputStatusMessage.setText(member.getStatusMessage());
         binding.inputEmail.setText(member.getEmail());
-        binding.inputPhone.setText(member.getMobile());
+        if (member.getMobile().substring(0, 0).equals("0")) {
+            binding.inputPhone.setText(member.getMobile());
+        }
+        else {
+            binding.inputPhone.setText(0 + member.getMobile());
+        }
     }
 
     private void initViewModel() {
         memberViewModel = ViewModelProviders.of(this).get(MemberViewModel.class);
+        studentViewModel = ViewModelProviders.of(this).get(StudentViewModel.class);
     }
 
     @Override

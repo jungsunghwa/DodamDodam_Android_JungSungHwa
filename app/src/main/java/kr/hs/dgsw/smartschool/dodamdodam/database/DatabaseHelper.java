@@ -107,6 +107,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void deleteAllMember() {
+        final SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ DatabaseManager.TABLE_MEMBER);
+    }
+
     public Member getMyInfo() {
         final SQLiteDatabase db = this.getReadableDatabase();
         final Cursor res = db.rawQuery("SELECT * FROM member WHERE id =  '" + TokenManager.getId(getToken()) + "'", null);

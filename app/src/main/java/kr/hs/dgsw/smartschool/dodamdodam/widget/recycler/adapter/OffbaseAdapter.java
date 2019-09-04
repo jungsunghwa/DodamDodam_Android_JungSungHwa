@@ -133,8 +133,8 @@ public class OffbaseAdapter extends RecyclerView.Adapter<OffbaseViewHolder> {
         holder.binding.textStatus.setText(stringRes);
     }
 
-    public void setOffbaseItems(Offbase offbase) {
-        this.offbaseItems = offbase.getAll();
+    public void setOffbaseItems(List<OffbaseItem> offbases) {
+        this.offbaseItems = offbases;
         notifyDataSetChanged();
     }
 

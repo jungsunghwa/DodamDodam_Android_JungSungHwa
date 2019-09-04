@@ -22,10 +22,10 @@ public interface MemberService {
             @Query("id") String id
             );
 
-    @PUT("members/{idx}")
+    @PUT("members/{member_id}")
     Single<retrofit2.Response<Response>> changeMember(
             @Header("x-access-token") String token,
-            @Path("idx") String idx,
+            @Path("member_id") String memberId,
             @Body MyinfoChangeRequest myinfoChangeRequest
             );
 }
