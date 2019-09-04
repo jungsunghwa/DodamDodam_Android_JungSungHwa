@@ -1,8 +1,11 @@
 package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.lifecycle.MutableLiveData;
+
+import java.io.File;
 
 import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.smartschool.dodamdodam.database.TokenManager;
@@ -14,6 +17,8 @@ public class MemberViewModel extends BaseViewModel<Member> {
     private MemberClient client;
     private TokenManager manager;
 
+    public MutableLiveData<File> file = new MutableLiveData<>();
+    public MutableLiveData<Uri> uri = new MutableLiveData<>();
     public MyinfoChangeRequest request = new MyinfoChangeRequest();
 
     public MemberViewModel(Application application) {

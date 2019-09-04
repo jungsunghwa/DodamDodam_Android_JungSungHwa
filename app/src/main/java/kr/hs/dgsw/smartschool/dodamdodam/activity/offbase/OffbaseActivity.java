@@ -87,9 +87,11 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
         binding.swipeRefreshLayout.setOnRefreshListener(this);
         binding.fabMenu.fabMenuLeave.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE_TYPE, OffbaseApplyActivity.TYPE_LEAVE), REQ_APPLY);
+            finish();
         });
         binding.fabMenu.fabMenuPass.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE_TYPE, OffbaseApplyActivity.TYPE_PASS), REQ_APPLY);
+            finish();
         });
     }
 
@@ -129,5 +131,6 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
     @Override
     public void onItemClick(OffbaseItem offbaseItem) {
         startActivity(new Intent(this, OffbaseDetailActivity.class).putExtra(OffbaseDetailActivity.EXTRA_OFFBASE, offbaseItem));
+        finish();
     }
 }

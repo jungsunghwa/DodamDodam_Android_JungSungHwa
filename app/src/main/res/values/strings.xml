@@ -37,6 +37,8 @@
     <string name="text_offbase_pass_time">외출시간</string>
     <string name="text_offbase_time_end">복귀시간</string>
     <string name="text_offbase_reason">사유</string>
+    <string name="text_offbase_check_message">현재 시간 이후로 체크할 수 있습니다</string>
+    <string name="text_offbase_error_message">잘못 기제 되었습니다</string>
     <string name="text_hour">시</string>
     <string name="text_minute">분</string>
     <string name="text_apply">신청</string>

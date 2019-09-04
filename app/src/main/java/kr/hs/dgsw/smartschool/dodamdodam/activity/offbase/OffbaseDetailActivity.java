@@ -105,6 +105,7 @@ public class OffbaseDetailActivity extends BaseActivity<OffbaseDetailActivityBin
         binding.fabOffbaseEdit.setOnClickListener(v -> {
             if (item != null) {
                 startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE, item), REQ_EDIT);
+                finish();
             }
         });
     }
@@ -134,7 +135,7 @@ public class OffbaseDetailActivity extends BaseActivity<OffbaseDetailActivityBin
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            startActivityWithFinish(OffbaseActivity.class);
             return true;
         }
 

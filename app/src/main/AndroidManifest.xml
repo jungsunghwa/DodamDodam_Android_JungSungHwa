@@ -65,8 +65,7 @@
             android:label="@string/title_offbase"
             android:theme="@style/Theme.App.Offbase" />
         <activity
-            android:name=".activity.offbase.OffbaseApplyActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".activity.offbase.OffbaseApplyActivity" />
         <activity
             android:name=".activity.offbase.OffbaseDetailActivity"
             android:label="@string/title_offbase_detail"

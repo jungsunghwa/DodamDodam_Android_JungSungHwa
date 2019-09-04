@@ -47,9 +47,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
     private final int REQUEST_IMAGE_CROP = 2;
 
     private MemberViewModel memberViewModel;
-    private File tempFile;
-    private Uri tempUri;
-    private String currentFileName;
+    private Uri photoURI;
 
     private Boolean isPermission = true;
 
@@ -75,7 +73,6 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
 
     private void observeMemberViewModel() {
         memberViewModel.getSuccessMessage().observe(this, message -> {
-            tempFile = null;
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             finish();
         });
@@ -84,7 +81,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
     private void clickEvent() {
         binding.profileImage.setOnClickListener(v -> {
             if (isPermission)
-                gotoAlbum();
+                goToAlbum();
             else
                 Toast.makeText(v.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
         });
@@ -101,17 +98,27 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
         memberViewModel.request.setStatus_message(binding.inputStatusMessage.getText().toString());
     }
 
+    private void goToAlbum() {
+
+        tedPermission();
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
+    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode != Activity.RESULT_OK) {
             Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
 
-            if(tempFile != null) {
-                if (tempFile.exists()) {
-                    if (tempFile.delete()) {
-                        Log.e("TAG", tempFile.getAbsolutePath() + " 삭제 성공");
-                        tempFile = null;
+            if(memberViewModel.file.getValue() != null) {
+                if (memberViewModel.file.getValue().exists()) {
+                    if (memberViewModel.file.getValue().delete()) {
+                        Log.e("TAG", memberViewModel.file.getValue().getAbsolutePath() + " 삭제 성공");
+                        memberViewModel.file.setValue(null);
                     }
                 }
             }
@@ -119,67 +126,68 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
             return;
         }
 
-        if (requestCode == PICK_FROM_ALBUM) {
-
-            Uri photoUri = data.getData();
-            Log.d("TAG", "PICK_FROM_ALBUM photoUri : " + photoUri);
-
-            Cursor cursor = null;
-
-            try {
-                String[] proj = { MediaStore.Images.Media.DATA };
-
-                assert photoUri != null;
-                cursor = getContentResolver().query(photoUri, proj, null, null, null);
-
-                assert cursor != null;
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-                cursor.moveToFirst();
-
-                tempFile = new File(cursor.getString(column_index));
-
-                Log.d("TAG", "tempFile Uri : " + Uri.fromFile(tempFile));
-
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
+        switch (requestCode) {
+            case PICK_FROM_ALBUM:
+                if (data == null) {
+                    return;
                 }
-            }
 
-            memberViewModel.request.setProfile_image(new ImgUpload(this).ImgUpload(changeToBytes(),tempFile.getName()).get(0));
+                photoURI = data.getData();
 
-            cropImage();
+                cropImage();
 
-        }
-        else if (requestCode == REQUEST_IMAGE_CROP) {
-            if (resultCode == Activity.RESULT_OK) {
-                setImage();
-            }
+                break;
+
+
+            case REQUEST_IMAGE_CROP:
+
+                if (resultCode == Activity.RESULT_OK) {
+
+                    memberViewModel.request.setProfile_image(new ImgUpload(this).ImgUpload(changeToBytes(), memberViewModel.file.getValue().getName()).get(0));
+                    setImage();
+                }
+
+                break;
         }
     }
 
     private void cropImage() {
 
+        File file = new File(Environment.getExternalStorageDirectory().toString() + "/DodamDodam");
+
+        if (!file.exists())
+
+            file.mkdirs();
+
+        memberViewModel.file.setValue(new File(Environment.getExternalStorageDirectory().toString() + "/DodamDodam/profile" + new Random().nextInt(100000000) + ".jpg"));
+
+        try {
+            memberViewModel.file.getValue().createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        memberViewModel.uri.setValue(Uri.fromFile(memberViewModel.file.getValue()));
+
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
 
         cropIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         cropIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        cropIntent.setDataAndType(tempUri, "image/*");
+        cropIntent.setDataAndType(photoURI, "image/*");
         cropIntent.putExtra("aspectX",1);
         cropIntent.putExtra("aspectY",1);
         cropIntent.putExtra("scale",true);
-        cropIntent.putExtra("output",tempUri);
+        cropIntent.putExtra("output",memberViewModel.uri.getValue());
 
         startActivityForResult(cropIntent,REQUEST_IMAGE_CROP);
 
     }
 
     private byte[] changeToBytes() {
-        int size = (int) tempFile.length();
+        int size = (int) memberViewModel.file.getValue().length();
         byte[] bytes = new byte[size];
         try {
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(tempFile));
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(memberViewModel.file.getValue()));
             buf.read(bytes, 0, bytes.length);
             buf.close();
         } catch (FileNotFoundException e) {
@@ -193,7 +201,6 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(this,LostFoundActivity.class));
             finish();
             return true;
         }
@@ -224,22 +231,9 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
                 .check();
     }
 
-    private void gotoAlbum() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, 1);
-    }
-
     private void setImage() {
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        this.currentFileName = tempFile.getAbsolutePath();
-        Bitmap originalBm = BitmapFactory.decodeFile(this.currentFileName, options);
-        Log.d("TAG", "setImage : " + this.currentFileName);
-
-
-        binding.profileImage.setImageBitmap(originalBm);
-        tempFile = null;
+        Glide.with(this).load(memberViewModel.uri.getValue()).into(binding.profileImage);
+        memberViewModel.file.setValue(null);
     }
 
     private void initView() {
