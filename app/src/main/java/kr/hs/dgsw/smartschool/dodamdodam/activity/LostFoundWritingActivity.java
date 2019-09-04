@@ -336,7 +336,9 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         lostFoundViewModel.request.setPlace(binding.writingPlaceEdittext.getText().toString());
         lostFoundViewModel.request.setTitle(binding.writingTitleEdittext.getText().toString());
         lostFoundViewModel.request.setContent(binding.writingContentEdittext.getText().toString());
-        lostFoundViewModel.request.setContact(binding.writingContactEdittext.getText().toString());
+
+        String contact = binding.writingContactEdittext.getText().toString();
+        lostFoundViewModel.request.setContact(contact.substring(0,3) + "-" + contact.substring(3,7) + "-" + contact.substring(7,11));
         if (type > 0) {
             lostFoundViewModel.request.setType(type);
         } else {

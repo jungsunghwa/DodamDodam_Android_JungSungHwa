@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
@@ -41,8 +42,13 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
 
         offbaseViewModel.getData().observe(this, offbase -> {
             offbaseItems.clear();
-            offbaseItems.addAll(offbase.getLeaves());
-            offbaseItems.addAll(offbase.getPasses());
+            List<OffbaseItem> offbaseItems = new ArrayList<>();
+
+            for (OffbaseItem offbaseItem: offbase.getAll()) {
+                if (offbaseItem.getEndTime().after(new Date())) {
+                    offbaseItems.add(offbaseItem);
+                }
+            }
             myinfoOffBaseAdapter = new MyinfoOffBaseAdapter(getContext());
             myinfoOffBaseAdapter.setList(offbaseItems);
             setRecyclerView();

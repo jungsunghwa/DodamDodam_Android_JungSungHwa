@@ -15,7 +15,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Leave;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Offbase;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.OffbaseItem;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.Pass;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.BaseActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.OffbaseActivityBinding;
@@ -50,7 +58,14 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
         viewModel = ViewModelProviders.of(this).get(OffbaseViewModel.class);
 
         viewModel.getData().observe(this, offbase -> {
-            adapter.setOffbaseItems(offbase);
+            List<OffbaseItem> offbaseItems = new ArrayList<>();
+
+            for (OffbaseItem offbaseItem: offbase.getAll()) {
+                if (offbaseItem.getEndTime().after(new Date())) {
+                    offbaseItems.add(offbaseItem);
+                }
+            }
+            adapter.setOffbaseItems(offbaseItems);
             if (!adapter.isEmpty())
                 binding.listOffbase.smoothScrollToPosition(adapter.getItemCount() - 1);
         });

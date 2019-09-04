@@ -134,6 +134,7 @@ public class StudentViewModel extends BaseViewModel<List<ClassInfo>> {
                             ((Teacher) teacherList.get(i)).setMemberID(teacherList.get(i).getId());
                         }
 
+                        helper.deleteAllMember();
                         helper.insert(DatabaseManager.TABLE_MEMBER, members);
                         helper.insert(DatabaseManager.TABLE_STUDENT, studentList);
                         helper.insert(DatabaseManager.TABLE_TEACHER, teacherList);
