@@ -15,5 +15,6 @@ public class CounselViewHolder extends RecyclerView.ViewHolder {
     public CounselViewHolder(@NonNull View itemView) {
         super(itemView);
         binding = DataBindingUtil.bind(itemView);
+        binding.counselName.setSelected(true);
     }
 }

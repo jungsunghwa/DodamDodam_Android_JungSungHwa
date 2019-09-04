@@ -47,16 +47,21 @@
 
             <TextView
                 android:id="@+id/counsel_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="35dp"
                 android:fontFamily="@font/nanum_square_regular"
-                tools:text="Name"
+                android:singleLine="true"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/counsel_imageview"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name" />
 
             <TextView
                 android:id="@+id/counsel_upload_time"
