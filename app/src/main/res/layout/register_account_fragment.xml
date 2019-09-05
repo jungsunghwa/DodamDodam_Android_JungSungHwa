@@ -60,7 +60,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:met_baseColor="@color/cardview_dark_background"
                 app:met_floatingLabel="highlight"
-                app:met_maxCharacters="10" />
+                app:met_maxCharacters="20"
+                app:met_minCharacters="5"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/register_pw_edittext"
@@ -75,7 +76,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:met_baseColor="@color/cardview_dark_background"
                 app:met_floatingLabel="highlight"
-                app:met_maxCharacters="10" />
+                app:met_maxCharacters="20"
+                app:met_minCharacters="7"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/register_pw_check_edittext"
@@ -90,7 +92,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:met_baseColor="@color/cardview_dark_background"
                 app:met_floatingLabel="highlight"
-                app:met_maxCharacters="10" />
+                app:met_maxCharacters="20"
+                app:met_minCharacters="7"/>
 
         </LinearLayout>
 

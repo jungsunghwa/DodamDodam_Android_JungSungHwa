@@ -176,7 +176,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
                 }
             }
             if (lostFoundList.size() == 0) {
-                Toast.makeText(getApplicationContext(), "검색된 내용이 없습니다.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(binding.rootLayout, "검색된 내용이 없습니다.", Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -201,7 +201,6 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
     }
 
     private void initScrollListener() {
-
         lostFoundAdapter = new LostFoundAdapter(this, lostFoundList, binding.searchEditText);
         // 무한 스크롤 기능을 구현하기 위해서 마지막으로 1개 남는 걸 계산
         binding.lostfoundRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -215,6 +214,9 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (dy > 0) binding.lostfoundWritingBtn.hide();
+                else binding.lostfoundWritingBtn.show();
 
                 if (!isLoading) {
                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == lostFoundList.size() - 1) {

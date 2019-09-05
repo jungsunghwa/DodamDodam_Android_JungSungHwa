@@ -76,8 +76,6 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:gravity="center_horizontal"
-                        android:inputType="number"
-                        android:singleLine = "true"
                         android:textCursorDrawable="@color/cardview_dark_background"
                         tools:layout_editor_absoluteX="81dp"
                         tools:layout_editor_absoluteY="288dp" />
@@ -99,8 +97,6 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:gravity="center_horizontal"
-                        android:inputType="number"
-                        android:singleLine = "true"
                         android:textCursorDrawable="@color/cardview_dark_background" />
 
                     <TextView
@@ -119,9 +115,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="2"
+                        android:inputType="text"
                         android:gravity="center_horizontal"
-                        android:inputType="number"
-                        android:singleLine = "true"
                         android:textCursorDrawable="@color/cardview_dark_background" />
 
                     <TextView
@@ -151,7 +146,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:met_baseColor="@color/cardview_dark_background"
                 app:met_floatingLabel="highlight"
-                app:met_maxCharacters="10" />
+                app:met_maxCharacters="20"
+                app:met_minCharacters="2"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/register_phone_edittext"
@@ -166,7 +162,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:met_baseColor="@color/cardview_dark_background"
                 app:met_floatingLabel="highlight"
-                app:met_maxCharacters="15" />
+                app:met_maxCharacters="15"
+                app:met_minCharacters="9"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/register_email_edittext"
@@ -181,7 +178,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:met_baseColor="@color/cardview_dark_background"
                 app:met_floatingLabel="highlight"
-                app:met_maxCharacters="30" />
+                app:met_maxCharacters="30"
+                app:met_minCharacters="10"/>
 
         </LinearLayout>
 

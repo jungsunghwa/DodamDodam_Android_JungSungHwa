@@ -13,6 +13,7 @@ import kr.hs.dgsw.b1nd.service.model.ClassInfo;
 import kr.hs.dgsw.b1nd.service.model.Member;
 import kr.hs.dgsw.b1nd.service.model.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
+import kr.hs.dgsw.smartschool.dodamdodam.activity.ChangePasswordActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.LoginActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.activity.MyinfoProfileChangeActivity;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
@@ -48,7 +49,12 @@ public class MyinfoProfileFragment extends BaseFragment<MyinfoProfileFragmentBin
         });
 
         binding.changeProfile.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), MyinfoProfileChangeActivity.class));
+            startActivity(new Intent(getActivity(), MyinfoProfileChangeActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+            getActivity().finish();
+        });
+
+        binding.changePassword.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ChangePasswordActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
             getActivity().finish();
         });
     }
