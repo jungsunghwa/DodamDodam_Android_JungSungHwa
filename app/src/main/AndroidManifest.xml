@@ -95,6 +95,8 @@
             android:label="@string/title_my_info" />
         <activity android:name=".activity.MyinfoProfileChangeActivity"
             android:label="@string/title_my_info_change"/>
+        <activity android:name=".activity.ChangePasswordActivity"
+            android:label="@string/title_password_change"/>
         <activity android:name=".activity.RegisterActivity"/>
 
     </application>

@@ -1,5 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.network.request;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.Picture;
 
 public class MyinfoChangeRequest {
@@ -8,6 +11,7 @@ public class MyinfoChangeRequest {
     private String email;
     private String status_message;
     private String profile_image;
+    private String pw;
 
     public MyinfoChangeRequest() {
 
@@ -34,5 +38,37 @@ public class MyinfoChangeRequest {
 
     public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
+    }
+
+    public void setPassword(String pw) {
+        try {
+            this.pw = encryptSHA512(pw);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String encryptSHA512(String target) throws NoSuchAlgorithmException {
+        final MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+        final StringBuilder encryptedPassword = new StringBuilder();
+
+        messageDigest.update(target.getBytes());
+
+        final byte[] buffer = messageDigest.digest();
+
+        for (byte temp : buffer) {
+
+            StringBuilder sb = new StringBuilder(Integer.toHexString(temp));
+
+            while (sb.length() < 2) {
+
+                sb.insert(0, "0");
+            }
+
+            sb = new StringBuilder(sb.substring(sb.length() - 2));
+            encryptedPassword.append(sb);
+        }
+
+        return encryptedPassword.toString();
     }
 }

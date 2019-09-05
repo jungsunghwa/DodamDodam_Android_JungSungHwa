@@ -125,7 +125,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/nanum_square_round"
         android:text="확인"
         android:backgroundTint="#6B48F7"

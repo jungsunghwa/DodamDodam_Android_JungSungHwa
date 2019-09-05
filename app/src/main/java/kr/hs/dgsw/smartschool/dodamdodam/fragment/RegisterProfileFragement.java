@@ -38,12 +38,70 @@ public class RegisterProfileFragement extends BaseFragment<RegisterProfileFragme
         super.onActivityCreated(savedInstanceState);
 
         binding.finLayout.setOnClickListener(v -> {
-            registerStudentInfo.setValue(new StudentInfo(Integer.parseInt(binding.gradeInfoEdittext.getText().toString()), Integer.parseInt(binding.classInfoEdittext.getText().toString()), Integer.parseInt(binding.numberInfoEdittext.getText().toString())));
-            registerName.setValue(binding.registerNameEdittext.getText().toString());
-            registerPhone.setValue(binding.registerPhoneEdittext.getText().toString());
-            registerEmail.setValue(binding.registerEmailEdittext.getText().toString());
-            register.setValue(true);
+            if (checkValue()) {
+                setRequest();
+            }
         });
+    }
+
+    private boolean checkValue() {
+        boolean check = false;
+        try {
+            if (Integer.parseInt(binding.gradeInfoEdittext.getText().toString()) > 3 || Integer.parseInt(binding.gradeInfoEdittext.getText().toString()) < 1 || binding.gradeInfoEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 1) {
+                Toast.makeText(getContext(), "학년은 1~3학년 으로 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+                binding.gradeInfoEdittext.requestFocus();
+            }
+            else if (Integer.parseInt(binding.classInfoEdittext.getText().toString()) > 3 || Integer.parseInt(binding.classInfoEdittext.getText().toString()) < 1 || binding.classInfoEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 1) {
+                Toast.makeText(getContext(), "학반은 1~3반 으로 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+                binding.classInfoEdittext.requestFocus();
+            }
+            else if (Integer.parseInt(binding.numberInfoEdittext.getText().toString()) > 20 || Integer.parseInt(binding.numberInfoEdittext.getText().toString()) < 1 || binding.numberInfoEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 2) {
+                Toast.makeText(getContext(), "번호 1~20번 으로 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+                binding.numberInfoEdittext.requestFocus();
+            }
+            else if (binding.registerNameEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 10 || binding.registerNameEdittext.getText().toString().replaceAll("\\p{Z}", "").length() < 3) {
+                Toast.makeText(getContext(), "이름은 2 ~ 10 자로 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+                binding.registerNameEdittext.requestFocus();
+            }
+            else if (binding.registerPhoneEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 15 || binding.registerPhoneEdittext.getText().toString().replaceAll("\\p{Z}", "").length() < 9) {
+                Toast.makeText(getContext(), "휴대폰 번호는 9 ~ 15 자로 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+                binding.registerPhoneEdittext.requestFocus();
+            }
+            else if (!isStringDouble(binding.registerPhoneEdittext.getText().toString())) {
+                Toast.makeText(getContext(), "휴대폰 번호는 숫자만 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+                binding.registerPhoneEdittext.requestFocus();
+            }
+            else if (binding.registerEmailEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 30 || binding.registerEmailEdittext.getText().toString().replaceAll("\\p{Z}", "").length() < 10) {
+                Toast.makeText(getContext(), "이메일은 10 ~ 30 자로 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+                binding.registerEmailEdittext.requestFocus();
+            }
+            else {
+                check = true;
+            }
+            return check;
+        }
+        catch (NumberFormatException e) {
+            Toast.makeText(getContext(), "공백 없이 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            binding.gradeInfoEdittext.requestFocus();
+            return false;
+        }
+    }
+
+    private void setRequest() {
+        registerStudentInfo.setValue(new StudentInfo(Integer.parseInt(binding.gradeInfoEdittext.getText().toString()), Integer.parseInt(binding.classInfoEdittext.getText().toString()), Integer.parseInt(binding.numberInfoEdittext.getText().toString())));
+        registerName.setValue(binding.registerNameEdittext.getText().toString());
+        registerPhone.setValue(binding.registerPhoneEdittext.getText().toString());
+        registerEmail.setValue(binding.registerEmailEdittext.getText().toString());
+        register.setValue(true);
+    }
+
+    private boolean isStringDouble(String s) {
+        try {
+            Double.parseDouble(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     public MutableLiveData<StudentInfo> getRegisterStudentInfo() {

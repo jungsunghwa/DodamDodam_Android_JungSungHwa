@@ -33,14 +33,47 @@ public class RegisterAccountFragment extends BaseFragment<RegisterAccountFragmen
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 returnValue = false;
 
-                registerId.setValue(binding.registerIdEdittext.getText().toString());
-                registerPw.setValue(binding.registerPwEdittext.getText().toString());
-
-                RegisterActivity registerActivity = (RegisterActivity) RegisterAccountFragment.this.getActivity();
-                registerActivity.pageMove(1);
+                if (checkValue()) {
+                    setRequest();
+                    RegisterActivity registerActivity = (RegisterActivity) RegisterAccountFragment.this.getActivity();
+                    registerActivity.pageMove(1);
+                }
             }
             return returnValue;
         });
+    }
+
+    private boolean checkValue() {
+        boolean check = false;
+        if (binding.registerIdEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 20 || binding.registerIdEdittext.getText().toString().replaceAll("\\p{Z}", "").length() < 5) {
+            Toast.makeText(getContext(), "아이디는 5 ~ 20 자로 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+            binding.registerIdEdittext.requestFocus();
+        }
+        else if (binding.registerIdEdittext.getText().toString().matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
+            Toast.makeText(getContext(), "아이디는 영어나 숫자로만 입력 할 수 있습니다.", Toast.LENGTH_SHORT).show();
+            binding.registerIdEdittext.requestFocus();
+        }
+        else if (binding.registerPwEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 20 || binding.registerPwEdittext.getText().toString().replaceAll("\\p{Z}", "").length() < 7) {
+            Toast.makeText(getContext(), "비밀번호는 7 ~ 20 자로 입력 해야 합니다.", Toast.LENGTH_SHORT).show();
+            binding.registerPwEdittext.requestFocus();
+        }
+        else if (binding.registerPwEdittext.getText().toString().matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
+            Toast.makeText(getContext(), "비밀번호는 영어나 숫자로만 입력 할 수 있습니다.", Toast.LENGTH_SHORT).show();
+            binding.registerPwEdittext.requestFocus();
+        }
+        else if (!binding.registerPwEdittext.getText().toString().equals(binding.registerPwCheckEdittext.getText().toString())) {
+            Toast.makeText(getContext(), "비밀번호가 서로 다릅니다", Toast.LENGTH_SHORT).show();
+            binding.registerPwCheckEdittext.requestFocus();
+        }
+        else {
+            check = true;
+        }
+        return check;
+    }
+
+    private void setRequest() {
+        registerId.setValue(binding.registerIdEdittext.getText().toString());
+        registerPw.setValue(binding.registerPwEdittext.getText().toString());
     }
 
     public MutableLiveData<String> getRegisterId() {

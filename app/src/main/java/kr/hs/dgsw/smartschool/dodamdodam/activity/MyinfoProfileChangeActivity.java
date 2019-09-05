@@ -63,7 +63,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
+        setLayoutNoLimits(false);
         initViewModel();
         initView();
 
