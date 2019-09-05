@@ -53,7 +53,9 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
-                style="@style/SpinnerStyle"
+                app:arrowTint="?android:textColorPrimary"
+                app:backgroundTint="@color/colorTransparent"
+                app:textTint="?android:textColorPrimary"
                 app:layout_constraintStart_toEndOf="@+id/toggle"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,10 +65,12 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
-                style="@style/SpinnerStyle"
+                android:popupBackground="@color/colorTransparent"
+                app:arrowTint="?android:textColorPrimary"
+                app:backgroundTint="@color/colorTransparent"
+                app:textTint="?android:textColorPrimary"
                 app:layout_constraintStart_toEndOf="@+id/class_spinner"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
 
 
