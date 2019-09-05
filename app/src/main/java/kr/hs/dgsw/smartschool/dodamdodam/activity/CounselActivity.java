@@ -65,7 +65,13 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
                     binding.counselRecycler.smoothScrollToPosition(0);
         });
 
-        counselViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
+        counselViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> {
+            try {
+                binding.swipeRefreshLayout.setRefreshing(loading);
+            }
+            catch (NullPointerException e) {
+            }
+        }, 500));
 
         counselViewModel.getError().observe(this, Throwable::printStackTrace);
 

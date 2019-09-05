@@ -61,7 +61,13 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
         viewModel.getError().observe(this, error -> {
             Snackbar.make(binding.rootLayout, error.getMessage(), Snackbar.LENGTH_SHORT).show();
         });
-        viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
+        viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> {
+            try {
+                binding.swipeRefreshLayout.setRefreshing(loading);
+            }
+            catch (NullPointerException e) {
+            }
+        }, 500));
 
         if (savedInstanceState != null && savedInstanceState.getBoolean(KEY_SHOW_ONLY_ALLOWED))
             viewModel.listAllow();

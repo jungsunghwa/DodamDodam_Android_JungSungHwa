@@ -34,8 +34,7 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:name=".activity.LoginActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.PointListActivity"
@@ -65,7 +64,7 @@
             android:label="@string/title_offbase"
             android:theme="@style/Theme.App.Offbase" />
         <activity
-            android:name=".activity.offbase.OffbaseApplyActivity" />
+            android:name=".activity.offbase.OffbaseApplyActivity"/>
         <activity
             android:name=".activity.offbase.OffbaseDetailActivity"
             android:label="@string/title_offbase_detail"

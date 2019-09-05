@@ -131,9 +131,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
         });
 
         binding.lostfoundWritingBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), LostFoundWritingActivity.class);
-            startActivity(intent);
-            finish();
+            startActivityWithFinish(LostFoundWritingActivity.class);
         });
     }
 
@@ -184,7 +182,13 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });
 
-        lostFoundViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
+        lostFoundViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> {
+            try {
+                binding.swipeRefreshLayout.setRefreshing(loading);
+            }
+            catch (NullPointerException e) {
+            }
+        }, 500));
 
     }
 

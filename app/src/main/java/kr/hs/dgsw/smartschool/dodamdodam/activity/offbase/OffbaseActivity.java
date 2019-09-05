@@ -78,7 +78,13 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
             Snackbar.make(binding.swipeRefreshLayout, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
         });
 
-        viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(loading), 500));
+        viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> {
+            try {
+                binding.swipeRefreshLayout.setRefreshing(loading);
+            }
+            catch (NullPointerException e) {
+            }
+        }, 500));
 
         adapter = new OffbaseAdapter(viewModel, this);
 
@@ -101,11 +107,11 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
         binding.swipeRefreshLayout.setOnRefreshListener(this);
         binding.fabMenu.fabMenuLeave.setOnClickListener(v -> {
-            startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE_TYPE, OffbaseApplyActivity.TYPE_LEAVE), REQ_APPLY);
+            startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE_TYPE, OffbaseApplyActivity.TYPE_LEAVE).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), REQ_APPLY);
             finish();
         });
         binding.fabMenu.fabMenuPass.setOnClickListener(v -> {
-            startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE_TYPE, OffbaseApplyActivity.TYPE_PASS), REQ_APPLY);
+            startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE_TYPE, OffbaseApplyActivity.TYPE_PASS).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), REQ_APPLY);
             finish();
         });
     }
@@ -145,7 +151,7 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
 
     @Override
     public void onItemClick(OffbaseItem offbaseItem) {
-        startActivity(new Intent(this, OffbaseDetailActivity.class).putExtra(OffbaseDetailActivity.EXTRA_OFFBASE, offbaseItem));
+        startActivity(new Intent(this, OffbaseDetailActivity.class).putExtra(OffbaseDetailActivity.EXTRA_OFFBASE, offbaseItem).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
         finish();
     }
 }

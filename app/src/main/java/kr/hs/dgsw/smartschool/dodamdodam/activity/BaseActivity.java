@@ -71,6 +71,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         setLayoutNoLimits(true);
         binding = DataBindingUtil.setContentView(this, layoutId());
         ViewUtils.setOnApplyWindowInsetsListenerToWindow(getWindow());
+
         try {
             Field rootField = binding.getClass().getField("rootLayout"); //ID 가 root_layout 인 View 를 찾음 (root_layout 에서 rootLayout 으로 변환 됨)
             View rootView = (View) rootField.get(binding);
@@ -245,7 +246,9 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     public final void startActivitiesWithFinish(Class<? extends Activity>... activityClass) {
         List<Intent> intents = new ArrayList<>();
         for (Class<? extends Activity> clazz : activityClass) {
-            intents.add(new Intent(this, clazz));
+            Intent intent = new Intent(this, clazz);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intents.add(intent);
         }
         startActivities(intents.toArray(new Intent[]{}));
         finish();
@@ -257,7 +260,9 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
      * @param activityClass 실행할 액티비티의 class
      */
     public void startActivityWithFinish(Class<? extends Activity> activityClass) {
-        startActivity(new Intent(this, activityClass));
+        Intent intent = new Intent(this, activityClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
         finish();
     }
 

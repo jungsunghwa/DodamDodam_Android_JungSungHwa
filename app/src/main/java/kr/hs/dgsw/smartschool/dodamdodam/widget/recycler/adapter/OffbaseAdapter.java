@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.DrawableRes;
@@ -125,6 +126,7 @@ public class OffbaseAdapter extends RecyclerView.Adapter<OffbaseViewHolder> {
             case 1:
                 stringRes = R.string.text_status_ok;
                 imageRes = R.drawable.ic_offbase_ok;
+                holder.binding.btnDelete.setVisibility(View.INVISIBLE);
                 break;
             default:
                 throw new IllegalArgumentException();

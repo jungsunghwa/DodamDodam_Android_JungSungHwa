@@ -112,6 +112,7 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
         public void onError(Throwable e) {
             if (e.getMessage().equals("토큰이 만료되었습니다")) {
                 addTokenDisposable(tokenClient.getNewToken(new TokenRequest(manager.getToken().getRefreshToken())),getTokenObserver());
+                errorMessage.setValue(e.getMessage());
             }
             else {
                 errorMessage.setValue(e.getMessage());
@@ -135,6 +136,7 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
         public void onError(Throwable e) {
             if (e.getMessage().equals("토큰이 만료되었습니다")) {
                 addTokenDisposable(tokenClient.getNewToken(new TokenRequest(manager.getToken().getRefreshToken())),getTokenObserver());
+                errorMessage.setValue(e.getMessage());
             }
             else {
                 errorMessage.setValue(e.getMessage());
@@ -152,6 +154,7 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
             String refresh = manager.getToken().getRefreshToken();
             manager.setToken(null, null);
             manager.setToken(s, refresh);
+            loading.setValue(false);
 //            addDisposable(single, observer);
             dispose();
         }
@@ -159,7 +162,8 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
         @Override
         public void onError(Throwable e) {
             Log.e("tokenError",  e.getMessage());
-            getApplication().startActivity(new Intent(getApplication(), LoginActivity.class));
+            getApplication().startActivity(new Intent(getApplication(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+            loading.setValue(false);
             dispose();
         }
     }

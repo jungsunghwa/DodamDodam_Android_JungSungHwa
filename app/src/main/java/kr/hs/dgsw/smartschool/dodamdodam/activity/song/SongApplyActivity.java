@@ -78,7 +78,7 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
         viewModel = ViewModelProviders.of(this).get(SongViewModel.class);
         viewModel.getSuccessMessage().observe(this, message -> {
             hideProgress();
-            setResult(RESULT_OK, new Intent().putExtra(SongListActivity.REQ_SONG_APPLY_RESULT_MESSAGE, message));
+            setResult(RESULT_OK, new Intent().putExtra(SongListActivity.REQ_SONG_APPLY_RESULT_MESSAGE, message).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
             finish();
         });
         viewModel.getSelectedYoutubeData().observe(this, youtubeData -> {
@@ -195,7 +195,7 @@ public class SongApplyActivity extends BaseActivity<SongApplyActivityBinding> im
                     chooseAccount();
                 }
             } else {
-                startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+                startActivityForResult(credential.newChooseAccountIntent().addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), REQUEST_ACCOUNT_PICKER);
             }
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_PERMISSION_GET_ACCOUNTS);

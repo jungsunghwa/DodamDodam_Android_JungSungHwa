@@ -85,8 +85,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
 
         lostFoundViewModel.getSuccessMessage().observe(this, message -> {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, LostFoundActivity.class));
-            finish();
+            startActivityWithFinish(LostFoundActivity.class);
         });
 
         lostFoundViewModel.getErrorMessage().observe(this, message -> {
@@ -143,7 +142,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
 
         binding.writingContactEdittext.setOnClickListener(v -> {
             if (lostFoundViewModel.viewType.getValue() == SHOW) {
-                startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + lostFoundViewModel.request.getContact())));
+                startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + lostFoundViewModel.request.getContact())).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
             }
         });
 
@@ -372,7 +371,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
     private void gotoAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 1);
     }
 
     private void setImage() {

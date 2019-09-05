@@ -121,7 +121,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
         tedPermission();
 
         Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
@@ -187,7 +187,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
 
         memberViewModel.uri.setValue(Uri.fromFile(memberViewModel.file.getValue()));
 
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        Intent cropIntent = new Intent("com.android.camera.action.CROP").addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         cropIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         cropIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

@@ -104,7 +104,7 @@ public class OffbaseDetailActivity extends BaseActivity<OffbaseDetailActivityBin
 
         binding.fabOffbaseEdit.setOnClickListener(v -> {
             if (item != null) {
-                startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE, item), REQ_EDIT);
+                startActivityForResult(new Intent(this, OffbaseApplyActivity.class).putExtra(OffbaseApplyActivity.EXTRA_OFFBASE, item).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), REQ_EDIT);
                 finish();
             }
         });

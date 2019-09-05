@@ -91,8 +91,7 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
         counselViewModel.getSuccess().observe(this, success -> {
             if (success) {
                 Toast.makeText(this, "신청을 했습니다", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, CounselActivity.class));
-                finish();
+                startActivityWithFinish(CounselActivity.class);
             }
         });
 

@@ -165,11 +165,11 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
 
         switch (id) {
             case R.id.menu_settings:
-                startActivity(new Intent(this, PreferenceActivity.class));
+                startActivity(new Intent(this, PreferenceActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
                 break;
             case R.id.menu_profile:
                 if (Utils.identity == Identity.STUDENT)
-                    intent = new Intent(this, MyinfoActivity.class);
+                    intent = new Intent(this, MyinfoActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 else {
                     notSupportToast();
                     break;
@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 break;
             case R.id.menu_song_apply:
                 if (Utils.identity == Identity.STUDENT)
-                    intent = new Intent(this, SongListActivity.class);
+                    intent = new Intent(this, SongListActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 else {
                     notSupportToast();
                     break;
@@ -187,16 +187,16 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 break;
             case R.id.menu_location_apply:
                 if (Utils.identity == Identity.STUDENT)
-                    intent = new Intent(this, LocationApplyActivity.class);
+                    intent = new Intent(this, LocationApplyActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 else {
                     // todo 선생님일시 랩실 신청 -> 랩실 체크
-                    intent = new Intent(this, LocationCheckActivity.class);
+                    intent = new Intent(this, LocationCheckActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 }
                 startActivity(intent);
                 break;
             case R.id.menu_offbase:
                 if (Utils.identity == Identity.STUDENT)
-                    intent = new Intent(this, OffbaseActivity.class);
+                    intent = new Intent(this, OffbaseActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 else {
                     notSupportToast();
                     break;
@@ -205,7 +205,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 break;
             case R.id.menu_bus_apply:
                 if (Utils.identity == Identity.STUDENT)
-                    intent = new Intent(this, BusApplyActivity.class);
+                    intent = new Intent(this, BusApplyActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 else {
                     notSupportToast();
                     break;
@@ -214,7 +214,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 break;
             case R.id.menu_counsel_apply:
                 if (Utils.identity == Identity.STUDENT)
-                    intent = new Intent(this, CounselActivity.class);
+                    intent = new Intent(this, CounselActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 else {
                     notSupportToast();
                     break;
@@ -223,7 +223,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 break;
             case R.id.menu_lost_found:
                 if (Utils.identity == Identity.STUDENT)
-                    intent = new Intent(this, LostFoundActivity.class);
+                    intent = new Intent(this, LostFoundActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 else {
                     notSupportToast();
                     break;

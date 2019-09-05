@@ -61,7 +61,7 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
             if (isSuccess) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
-                startActivity(intent);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
                 overridePendingTransition(0, R.anim.fade_out);
                 finish();
             }
