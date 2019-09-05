@@ -4,12 +4,11 @@ package kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces;
 import java.util.List;
 
 import io.reactivex.Single;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.BusResponse;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostBusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.response.Response;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -20,12 +19,12 @@ import retrofit2.http.Path;
 
 public interface BusService {
     @GET("/bus")
-    Single<retrofit2.Response<Response<List<Type>>>> getCurrentBus(
+    Single<retrofit2.Response<Response<List<BusResponse>>>> getCurrentBus(
             @Header("x-access-token") String token
     );
 
     @GET("/bus/self")
-    Single<retrofit2.Response<Response<List<Type>>>> getMyBusApply(
+    Single<retrofit2.Response<Response<List<Bus>>>> getMyBusApply(
             @Header("x-access-token") String token
     );
 

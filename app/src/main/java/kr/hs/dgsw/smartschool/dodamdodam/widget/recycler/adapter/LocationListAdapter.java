@@ -146,7 +146,6 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationViewHolder
         }
 
         holder.binding.locationItemRoot.setOnClickListener((view) -> {
-            Log.d("CheckItem", "Pass");
             if (holder.binding.locationCheckBox.isChecked()) {
                 holder.binding.locationCheckBox.setChecked(false);
                 unCheckSelectLocationIdx.setValue(finalLocationInfo.getIdx());

@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Type {
+public class Bus {
     private Integer idx;
 
     @SerializedName("bus_name")

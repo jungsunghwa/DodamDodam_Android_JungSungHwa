@@ -5,15 +5,12 @@ import java.util.List;
 
 import io.reactivex.Single;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.Token;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Type;
-import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Types;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.BusResponse;
 import kr.hs.dgsw.smartschool.dodamdodam.Utils;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.BusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.PostBusRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.network.retrofit.interfaces.BusService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.internal.EverythingIsNonNull;
 
 public class BusClient extends NetworkClient {
 
@@ -23,11 +20,11 @@ public class BusClient extends NetworkClient {
         bus = Utils.RETROFIT.create(BusService.class);
     }
 
-    public Single<List<Type>> getCurrentBus(Token token) {
+    public Single<List<BusResponse>> getCurrentBus(Token token) {
         return bus.getCurrentBus(token.getToken()).map(getResponseObjectsFunction());
     }
 
-    public Single<List<Type>> getMyBusApply(Token token) {
+    public Single<List<Bus>> getMyBusApply(Token token) {
         return bus.getMyBusApply(token.getToken()).map(getResponseObjectsFunction());
     }
 
@@ -55,7 +52,7 @@ public class BusClient extends NetworkClient {
 //        return bus.getMyBusApply(token.getToken()).map(getResponseObjectsFunction());
 //    }
 //
-//    public Single<Type> getBusType(Token token, int idx) {
+//    public Single<Bus> getBusType(Token token, int idx) {
 //        return bus.getBusType(token.getToken(), idx).map(getResponseObjectsFunction());
 //    }
 //
@@ -63,7 +60,7 @@ public class BusClient extends NetworkClient {
 //        return bus.putModifyBusApply(token.getToken(), idx, request).map(getResponseMessageFunction());
 //    }
 //
-//    public Single<Types> getCurrentBusType(Token token) {
+//    public Single<Bues> getCurrentBusType(Token token) {
 //        return bus.getCurrentBusType(token.getToken()).map(getResponseObjectsFunction());
 //    }
 

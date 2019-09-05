@@ -3,6 +3,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
@@ -33,7 +35,18 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
     private TokenManager manager;
     private Boolean isPost = false;
 
+    private MutableLiveData<Boolean> unCheckStatus = new MutableLiveData<>();
+    private MutableLiveData<Boolean> checkStatus = new MutableLiveData<>();
+
     private Map<Student, List<LocationInfo>> result = new HashMap<>();
+
+    public MutableLiveData<Boolean> getUnCheckStatus() {
+        return unCheckStatus;
+    }
+
+    public MutableLiveData<Boolean> getCheckStatus() {
+        return checkStatus;
+    }
 
     public LocationViewModel(Application application) {
         super(application);
@@ -92,12 +105,51 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
 
     public void checkLocation(int idx) {
         loading.setValue(true);
-        addDisposable(locationClient.checkLocation(manager.getToken(), idx), getBaseObserver());
+
+        DisposableSingleObserver<Integer> observer = new DisposableSingleObserver<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                if (integer == 200) {
+                    checkStatus.setValue(true);
+                    loading.setValue(false);
+                    dispose();
+                } else {
+                    checkStatus.setValue(false);
+                    loading.setValue(false);
+                }
+            }
+            @Override
+            public void onError(Throwable e) {
+                if (errorEvent(e))
+                    dispose();
+            }
+        };
+
+        addDisposable(locationClient.checkLocation(manager.getToken(), idx), observer);
     }
 
     public void unCheckLocation(int idx) {
         loading.setValue(true);
-        addDisposable(locationClient.unCheckLocation(manager.getToken(), idx), getBaseObserver());
+
+        DisposableSingleObserver<Integer> observer = new DisposableSingleObserver<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                if (integer == 200) {
+                    unCheckStatus.setValue(true);
+                    loading.setValue(false);
+                    dispose();
+                } else {
+                    unCheckStatus.setValue(false);
+                    loading.setValue(false);
+                }
+            }
+            @Override
+            public void onError(Throwable e) {
+                if (errorEvent(e))
+                    dispose();
+            }
+        };
+        addDisposable(locationClient.unCheckLocation(manager.getToken(), idx), observer);
     }
 
     public void getLocation() {
