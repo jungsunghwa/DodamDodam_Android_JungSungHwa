@@ -58,8 +58,8 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
             adapter.setList(songs);
             binding.songList.smoothScrollToPosition(0);
         });
-        viewModel.getError().observe(this, error -> {
-            Snackbar.make(binding.rootLayout, error.getMessage(), Snackbar.LENGTH_SHORT).show();
+        viewModel.getErrorMessage().observe(this, error -> {
+            Snackbar.make(binding.rootLayout, error, Snackbar.LENGTH_SHORT).show();
         });
         viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> {
             try {

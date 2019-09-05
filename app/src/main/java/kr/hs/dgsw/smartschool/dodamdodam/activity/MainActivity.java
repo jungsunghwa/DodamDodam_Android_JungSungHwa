@@ -76,10 +76,10 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
         });
         viewModel.getLoading().observe(this, loading -> binding.mealItems.mealLunch.setLoading(loading));
 
-        viewModel.getError().observe(this, error -> {
+        viewModel.getErrorMessage().observe(this, error -> {
             binding.mealItems.mealBreakfast.setMeal(null);
             binding.mealItems.mealLunch.setLoading(false);
-            binding.mealItems.mealLunch.setError(error.getMessage());
+            binding.mealItems.mealLunch.setError(error);
             binding.mealItems.mealDinner.setMeal(null);
         });
 

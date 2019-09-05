@@ -71,7 +71,7 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
             startActivitiesWithFinish(OffbaseActivity.class);
         });
 
-        viewModel.getError().observe(this, error -> Toast.makeText(this, R.string.text_offbase_error_message, Toast.LENGTH_SHORT).show());
+        viewModel.getErrorMessage().observe(this, message -> Toast.makeText(this, R.string.text_offbase_error_message, Toast.LENGTH_SHORT).show());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

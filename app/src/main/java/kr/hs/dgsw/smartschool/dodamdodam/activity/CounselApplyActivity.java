@@ -76,8 +76,8 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
             }
         });
 
-        teacherViewModel.getError().observe(this, errorMessage -> {
-            Toast.makeText(this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+        teacherViewModel.getErrorMessage().observe(this, errorMessage -> {
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });
 
         teacherViewModel.getSelectedTeacher().observe(this, teacher -> {

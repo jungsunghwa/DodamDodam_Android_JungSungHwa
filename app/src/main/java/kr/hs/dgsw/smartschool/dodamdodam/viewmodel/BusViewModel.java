@@ -20,9 +20,6 @@ public class BusViewModel extends BaseViewModel<Type> {
     private final MutableLiveData<Types> responseTypes = new MutableLiveData<>();
     private final MutableLiveData<List<Type>> responseTypeList = new MutableLiveData<>();
     private final MutableLiveData<List<Type>> responseAllTypeList = new MutableLiveData<>();
-    private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
-    private final MutableLiveData<String> loginErrorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private BusClient busClient;
     private TokenManager manager;
 
@@ -49,13 +46,13 @@ public class BusViewModel extends BaseViewModel<Type> {
                 responseAllTypeList.setValue(types);
 
                 loading.setValue(false);
+                dispose();
             }
 
             @Override
             public void onError(Throwable e) {
-                errorMessage.setValue(e.getMessage());
-
-                loading.setValue(false);
+                if (errorEvent(e))
+                    dispose();
             }
         };
 
@@ -71,13 +68,13 @@ public class BusViewModel extends BaseViewModel<Type> {
                 responseTypeList.setValue(types);
 
                 loading.setValue(false);
+                dispose();
             }
 
             @Override
             public void onError(Throwable e) {
-                errorMessage.setValue(e.getMessage());
-
-                loading.setValue(false);
+                if (errorEvent(e))
+                    dispose();
             }
         };
 

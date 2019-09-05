@@ -66,7 +66,6 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
 
             @Override
             public void onError(Throwable e) {
-//                errorMessage.setValue(e.getMessage());
                 getMyLocation();
                 loading.setValue(false);
             }
@@ -110,12 +109,13 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
                 result.clear();
                 data.setValue(convertLocationsToMap(locations));
                 loading.setValue(false);
+                dispose();
             }
 
             @Override
             public void onError(Throwable e) {
-                errorMessage.setValue(e.getMessage());
-                loading.setValue(false);
+                if (errorEvent(e))
+                    dispose();
             }
         };
         //client는 존재 해야되는데 onError로 호출 하는 방법을 찾아야 됨
@@ -136,12 +136,13 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
                             convertLocationRequestToMap(locationRequest.getLocationInfos(), null)); // 휴대폰에 맨 처음 깔고 실행했을 경우 여기에서 nullpoint 오류남
                     loading.setValue(false);
                 }
+                dispose();
             }
 
             @Override
             public void onError(Throwable e) {
-                errorMessage.setValue(e.getMessage());
-                loading.setValue(false);
+                if (errorEvent(e))
+                    dispose();
             }
         };
 

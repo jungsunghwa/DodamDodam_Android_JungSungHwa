@@ -74,8 +74,8 @@ public class OffbaseActivity extends BaseActivity<OffbaseActivityBinding> implem
             Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show();
         });
 
-        viewModel.getError().observe(this, throwable -> {
-            Snackbar.make(binding.swipeRefreshLayout, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+        viewModel.getErrorMessage().observe(this, message -> {
+            Snackbar.make(binding.swipeRefreshLayout, message, Snackbar.LENGTH_SHORT).show();
         });
 
         viewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> {

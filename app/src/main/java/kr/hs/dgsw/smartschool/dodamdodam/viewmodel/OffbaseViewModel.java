@@ -42,10 +42,6 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
         manager = TokenManager.getInstance(application);
     }
 
-    public MutableLiveData<Throwable> getError() {
-        return error;
-    }
-
     public MutableLiveData<String> getMessage() {
         return message;
     }
@@ -80,12 +76,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Offbase offbase) {
                                 data.setValue(offbase);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -99,12 +96,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Offbase offbase) {
                                 data.setValue(offbase);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -118,12 +116,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Leaves leaves) {
                                 leavesData.setValue(leaves.getLeaves());
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -137,12 +136,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Leaves leaves) {
                                 leavesData.setValue(leaves.getLeaves());
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -156,12 +156,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Leaves leaves) {
                                 leavesData.setValue(leaves.getLeaves());
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -175,12 +176,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Leave leave) {
                                 leaveData.setValue(leave);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -194,12 +196,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Passes passes) {
                                 passesData.setValue(passes.getPasses());
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -213,12 +216,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Passes passes) {
                                 passesData.setValue(passes.getPasses());
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -232,12 +236,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Passes passes) {
                                 passesData.setValue(passes.getPasses());
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -251,12 +256,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(Pass pass) {
                                 passData.setValue(pass);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -270,12 +276,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(String msg) {
                                 message.setValue(msg);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -289,12 +296,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(String msg) {
                                 message.setValue(msg);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -308,12 +316,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(String msg) {
                                 message.setValue(msg);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -327,12 +336,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(String msg) {
                                 message.setValue(msg);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -346,12 +356,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(String msg) {
                                 message.setValue(msg);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }
@@ -365,12 +376,13 @@ public class OffbaseViewModel extends BaseViewModel<Offbase> {
                             public void onSuccess(String msg) {
                                 message.setValue(msg);
                                 loading.setValue(false);
+                                dispose();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                error.setValue(e);
-                                loading.setValue(false);
+                                if (errorEvent(e))
+                                    dispose();
                             }
                         }));
     }

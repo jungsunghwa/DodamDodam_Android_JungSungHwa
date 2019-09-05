@@ -49,12 +49,13 @@ public class PlaceViewModel extends BaseViewModel {
                 data.setValue(places.getPlaces());
                 helper.insert(DatabaseManager.TABLE_PLACE, places.getPlaces());
                 loading.setValue(false);
+                dispose();
             }
 
             @Override
             public void onError(Throwable e) {
-                errorMessage.setValue(e.toString());
-                loading.setValue(false);
+                if (errorEvent(e))
+                    dispose();
             }
         };
 

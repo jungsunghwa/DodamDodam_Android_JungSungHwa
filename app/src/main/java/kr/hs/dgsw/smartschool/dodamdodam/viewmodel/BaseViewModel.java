@@ -2,6 +2,8 @@ package kr.hs.dgsw.smartschool.dodamdodam.viewmodel;
 
 import android.app.Application;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -23,6 +25,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.client.TokenClient;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.TokenRequest;
 import okhttp3.ResponseBody;
 
+import static android.content.Context.CONNECTIVITY_SERVICE;
+
 abstract class BaseViewModel<T> extends AndroidViewModel {
     public final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private final MutableLiveData<Boolean> success = new MutableLiveData<>();
@@ -35,8 +39,6 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
     TokenManager manager;
 
     private CompositeDisposable disposable;
-    private Single single;
-    private DisposableSingleObserver observer;
     private TokenClient tokenClient;
 
     BaseViewModel(Application application) {
@@ -72,8 +74,6 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
     }
 
     void addDisposable(Single single, DisposableSingleObserver observer) {
-        this.single = single;
-        this.observer = observer;
         disposable.add((Disposable) single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
     }
@@ -110,16 +110,8 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
 
         @Override
         public void onError(Throwable e) {
-            if (e.getMessage().equals("토큰이 만료되었습니다")) {
-                addTokenDisposable(tokenClient.getNewToken(new TokenRequest(manager.getToken().getRefreshToken())),getTokenObserver());
-                errorMessage.setValue(e.getMessage());
-            }
-            else {
-                errorMessage.setValue(e.getMessage());
-                loading.setValue(false);
-                success.setValue(false);
+            if (errorEvent(e))
                 dispose();
-            }
         }
     }
 
@@ -134,17 +126,8 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
 
         @Override
         public void onError(Throwable e) {
-            if (e.getMessage().equals("토큰이 만료되었습니다")) {
-                addTokenDisposable(tokenClient.getNewToken(new TokenRequest(manager.getToken().getRefreshToken())),getTokenObserver());
-                errorMessage.setValue(e.getMessage());
-            }
-            else {
-                errorMessage.setValue(e.getMessage());
-                error.setValue(e);
-                loading.setValue(false);
-                success.setValue(false);
+            if (errorEvent(e))
                 dispose();
-            }
         }
     }
 
@@ -155,7 +138,6 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
             manager.setToken(null, null);
             manager.setToken(s, refresh);
             loading.setValue(false);
-//            addDisposable(single, observer);
             dispose();
         }
 
@@ -168,14 +150,36 @@ abstract class BaseViewModel<T> extends AndroidViewModel {
         }
     }
 
-    private void checkToken(String message) {
-        if (message.equals("토큰이 만료되었습니다")) {
-            addTokenDisposable(tokenClient.getNewToken(new TokenRequest(manager.getToken().getRefreshToken())),getTokenObserver());
+    protected final boolean errorEvent(Throwable e) {
+        loading.setValue(false);
+        success.setValue(false);
+        error.setValue(e);
+        if (isNetworkConnected()) {
+            if (checkToken(e.getMessage())) {
+                return false;
+            }
         }
+        return true;
     }
 
-    private void addTokenDisposable(Single single, DisposableSingleObserver observer) {
-        disposable.add((Disposable) single.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer));
+    protected final boolean checkToken(String message) {
+        errorMessage.setValue(message);
+        if (message.equals("토큰이 만료되었습니다")) {
+            addDisposable(tokenClient.getNewToken(new TokenRequest(manager.getToken().getRefreshToken())),getTokenObserver());
+            return true;
+        }
+        return false;
+    }
+
+    protected final boolean isNetworkConnected() {
+        ConnectivityManager manager = (ConnectivityManager) getApplication().getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
+        if (activeNetworkInfo != null) {
+            return true;
+        }
+        else {
+            errorMessage.setValue("네트워크를 연결해 주세요");
+            return false;
+        }
     }
 }

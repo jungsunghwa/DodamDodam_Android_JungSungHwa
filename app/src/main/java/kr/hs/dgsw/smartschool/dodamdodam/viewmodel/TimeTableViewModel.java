@@ -23,7 +23,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.client.TimeTableClient;
 
 public class TimeTableViewModel extends BaseViewModel<List<Time>> {
 
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private TimeTableClient timeTableClient;
     private CompositeDisposable disposable;
@@ -59,12 +58,13 @@ public class TimeTableViewModel extends BaseViewModel<List<Time>> {
 
                 data.setValue(timeTable);
                 loading.setValue(false);
+                dispose();
             }
 
             @Override
             public void onError(Throwable e) {
-                errorMessage.setValue(e.getMessage());
-                loading.setValue(false);
+                if (errorEvent(e))
+                    dispose();
             }
         };
         List<Time> timeList = helper.getData(DatabaseManager.TABLE_TIME, new DatabaseGetDataType<>(Time.class));

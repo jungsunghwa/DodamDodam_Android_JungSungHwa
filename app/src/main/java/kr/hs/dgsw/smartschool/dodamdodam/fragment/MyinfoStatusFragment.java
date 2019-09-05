@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.fragment;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
@@ -97,6 +98,8 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
 //            String arriveTIme = type.getArrive_time().split(":")[0] + ":" + type.getArrive_time().split(":")[1];
 //            binding.busRideTime.setText(arriveTIme);
 //        });
+
+        offbaseViewModel.getErrorMessage().observe(this, message -> Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
     }
 
     private void initViewModel() {

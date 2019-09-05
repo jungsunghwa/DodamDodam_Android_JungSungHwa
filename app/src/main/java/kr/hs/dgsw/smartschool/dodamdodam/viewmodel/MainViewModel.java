@@ -21,7 +21,6 @@ import kr.hs.dgsw.smartschool.dodamdodam.network.client.MealClient;
 public class MainViewModel extends BaseViewModel<Meal> {
 
     private static SparseArray<List<Meal>> cacheMonthMeal = new SparseArray<>();
-    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private MealClient client;
     private CompositeDisposable disposable;
@@ -65,8 +64,8 @@ public class MainViewModel extends BaseViewModel<Meal> {
 
             @Override
             public void onError(Throwable e) {
-                error.setValue(e);
-                loading.setValue(false);
+                if (errorEvent(e))
+                    dispose();
             }
         };
 

@@ -80,6 +80,9 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
             studentViewModel.getStudent();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         });
+        memberViewModel.getErrorMessage().observe(this, message -> {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void observeStudentViewModel() {
