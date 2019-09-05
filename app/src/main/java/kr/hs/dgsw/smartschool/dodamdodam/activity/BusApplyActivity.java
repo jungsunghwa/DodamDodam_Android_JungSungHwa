@@ -50,7 +50,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
 
     private void initViewModel() {
         busViewModel = ViewModelProviders.of(this).get(BusViewModel.class);
-        
+
         busViewModel.getCurrentBus();
         busViewModel.getMyBusApply();
     }

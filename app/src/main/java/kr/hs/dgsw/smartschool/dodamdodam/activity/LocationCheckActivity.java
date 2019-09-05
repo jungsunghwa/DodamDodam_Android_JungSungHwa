@@ -147,14 +147,12 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             locationListAdapter.getCheckSelectLocationIdx().observe(this, idx -> {
                 if (idx != null){
                     locationViewModel.checkLocation(idx);
-
                 }
             });
 
             locationListAdapter.getUnCheckSelectLocationIdx().observe(this, idx -> {
                 if (idx != null) {
                     locationViewModel.unCheckLocation(idx);
-
                 }
             });
         });
@@ -175,27 +173,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item ,timeList);
             binding.timeSpinner.setAdapter(adapter);
             selectedTime = timeList.get(0);
-
-            for (int i = timeList.size() - 1; i >= 0; i--) {
-                try {
-                    long nowTime = System.currentTimeMillis();
-                    Date nowDate = new Date(nowTime);
-
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                    String nowString = simpleDateFormat.format(nowDate);
-                    Date currentTime = simpleDateFormat.parse(nowString);
-                    Date listTime = simpleDateFormat.parse(timeList.get(i).getStartTime());
-
-                    if (currentTime.after(listTime)) {
-                        listType = ListType.CLASS;
-                        binding.timeSpinner.setSelectedIndex(i);
-                        timeSelected(i);
-                        break;
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
+            setTimeSpinnerIndex();
         });
 
         placeViewModel.getData().observe(this, data -> placeList = data);
@@ -237,8 +215,8 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             }
 
             classSelected(0);
+            setTimeSpinnerIndex();
         });
-
 
         binding.classSpinner.setOnSpinnerItemSelectedListener((parent, view, position, id) -> {
             if (!typeOfSelected) {
@@ -261,5 +239,27 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
             locationViewModel.getLocation();
             showSelectOptionSnackbar();
         });
+    }
+
+    private void setTimeSpinnerIndex() {
+        for (int i = timeList.size() - 1; i >= 0; i--) {
+            try {
+                long nowTime = System.currentTimeMillis();
+                Date nowDate = new Date(nowTime);
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                String nowString = simpleDateFormat.format(nowDate);
+                Date currentTime = simpleDateFormat.parse(nowString);
+                Date listTime = simpleDateFormat.parse(timeList.get(i).getStartTime());
+
+                if (currentTime.after(listTime)) {
+                    binding.timeSpinner.setSelectedIndex(i);
+                    timeSelected(i);
+                    break;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

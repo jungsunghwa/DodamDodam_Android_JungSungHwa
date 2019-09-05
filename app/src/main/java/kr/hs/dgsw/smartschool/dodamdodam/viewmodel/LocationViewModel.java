@@ -106,47 +106,40 @@ public class LocationViewModel extends BaseViewModel<Map<Student, List<LocationI
     public void checkLocation(int idx) {
         loading.setValue(true);
 
-        DisposableSingleObserver<Integer> observer = new DisposableSingleObserver<Integer>() {
+        DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
             @Override
-            public void onSuccess(Integer integer) {
-                if (integer == 200) {
-                    checkStatus.setValue(true);
-                    loading.setValue(false);
-                    dispose();
-                } else {
-                    checkStatus.setValue(false);
-                    loading.setValue(false);
-                }
+            public void onSuccess(String s) {
+                checkStatus.setValue(true);
+                loading.setValue(false);
+                dispose();
             }
             @Override
             public void onError(Throwable e) {
-                if (errorEvent(e))
+                if (errorEvent(e)) {
+                    checkStatus.setValue(false);
                     dispose();
+                }
             }
         };
-
         addDisposable(locationClient.checkLocation(manager.getToken(), idx), observer);
     }
 
     public void unCheckLocation(int idx) {
         loading.setValue(true);
 
-        DisposableSingleObserver<Integer> observer = new DisposableSingleObserver<Integer>() {
+        DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
             @Override
-            public void onSuccess(Integer integer) {
-                if (integer == 200) {
-                    unCheckStatus.setValue(true);
-                    loading.setValue(false);
-                    dispose();
-                } else {
-                    unCheckStatus.setValue(false);
-                    loading.setValue(false);
-                }
+            public void onSuccess(String s) {
+                unCheckStatus.setValue(true);
+                loading.setValue(false);
+                dispose();
             }
             @Override
             public void onError(Throwable e) {
-                if (errorEvent(e))
+                if (errorEvent(e)) {
+                    unCheckStatus.setValue(false);
                     dispose();
+                }
             }
         };
         addDisposable(locationClient.unCheckLocation(manager.getToken(), idx), observer);
