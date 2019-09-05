@@ -20,6 +20,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -81,7 +82,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         });
         memberViewModel.getErrorMessage().observe(this, message -> {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show();
         });
     }
 

@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +97,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         });
 
         locationViewModel.getErrorMessage().observe(this, errorMessage -> {
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            Snackbar.make(binding.rootLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
         });
     }
 

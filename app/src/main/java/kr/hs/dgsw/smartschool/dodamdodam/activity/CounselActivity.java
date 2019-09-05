@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +77,7 @@ public class CounselActivity extends BaseActivity<CounselActivityBinding> implem
 
         counselViewModel.getError().observe(this, Throwable::printStackTrace);
 
-        counselViewModel.getErrorMessage().observe(this, errorMessage -> Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show());
+        counselViewModel.getErrorMessage().observe(this, errorMessage -> Snackbar.make(binding.rootLayout, errorMessage, Snackbar.LENGTH_SHORT).show());
 
         counselAdapter =  new CounselAdapter(counselViewModel, this, counselList);
 

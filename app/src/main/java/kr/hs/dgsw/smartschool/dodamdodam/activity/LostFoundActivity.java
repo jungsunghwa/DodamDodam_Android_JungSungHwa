@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import kr.hs.dgsw.smartschool.dodamdodam.Model.lostfound.LostFound;
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
@@ -179,7 +181,7 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
         });
 
         lostFoundViewModel.getErrorMessage().observe(this, errorMessage -> {
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            Snackbar.make(binding.rootLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
         });
 
         lostFoundViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> {

@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -99,7 +101,7 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
 //            binding.busRideTime.setText(arriveTIme);
 //        });
 
-        offbaseViewModel.getErrorMessage().observe(this, message -> Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
+        offbaseViewModel.getErrorMessage().observe(this, message -> Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show());
     }
 
     private void initViewModel() {

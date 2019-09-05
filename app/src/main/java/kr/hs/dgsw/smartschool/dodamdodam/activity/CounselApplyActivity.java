@@ -16,6 +16,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +79,7 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
         });
 
         teacherViewModel.getErrorMessage().observe(this, errorMessage -> {
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            Snackbar.make(binding.rootLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
         });
 
         teacherViewModel.getSelectedTeacher().observe(this, teacher -> {

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -74,7 +75,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
 
         busViewModel.getResponseTypeList().observe(this, responseTypes -> {
             if (responseTypes.size() == 0) {
-                Toast.makeText(this, "신청된 버스가 없습니다.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(binding.rootLayout, "신청된 버스가 없습니다.", Snackbar.LENGTH_SHORT).show();
             } else {
                 busAdapter.setBusMyApply(responseTypes);
             }
@@ -82,7 +83,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
 
         busViewModel.getErrorMessage().observe(this, message -> {
             Log.e("err", message);
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show();
         });
     }
 
