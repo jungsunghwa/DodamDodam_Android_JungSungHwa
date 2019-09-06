@@ -109,11 +109,13 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     private void classSelected(int position) {
         locationViewModel.getLocation();
         if (listType == ListType.CLASS) {
-            adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , classInfos);
+            adapter = new ArrayAdapter(this, R.layout.location_check_spinner_item , classInfos);
+            adapter.setDropDownViewResource(R.layout.location_check_spinner_item);
             binding.classSpinner.setAdapter(adapter);
             selectItem = classInfos.get(position);
         } else {
-            adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item , placeList);
+            adapter = new ArrayAdapter(this, R.layout.location_check_spinner_item , placeList);
+            adapter.setDropDownViewResource(R.layout.location_check_spinner_item);
             binding.classSpinner.setAdapter(adapter);
             selectItem = placeList.get(position);
         }
@@ -160,7 +162,8 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         studentViewModel.getClassInfos().observe(this, classInfoList -> {
             classInfos = classInfoList;
 
-            adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item ,classInfos);
+            adapter = new ArrayAdapter(this,R.layout.location_check_spinner_item ,classInfos);
+            adapter.setDropDownViewResource(R.layout.location_check_spinner_item);
             binding.classSpinner.setAdapter(adapter);
             selectItem = classInfos.get(0);
         });
@@ -170,7 +173,8 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         timeTableViewModel.getData().observe(this, times -> {
             timeList = times;
 
-            adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item ,timeList);
+            adapter = new ArrayAdapter(this,R.layout.location_check_spinner_item ,timeList);
+            adapter.setDropDownViewResource(R.layout.location_check_spinner_item);
             binding.timeSpinner.setAdapter(adapter);
             selectedTime = timeList.get(0);
             setTimeSpinnerIndex();

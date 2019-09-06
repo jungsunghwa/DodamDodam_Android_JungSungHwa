@@ -95,4 +95,6 @@
     <string name="hint_class">반</string>
     <string name="hint_number">번호</string>
     <string name="hint_status_message">상태 메시지</string>
+    <string name="empty_location_student_subtitle">신청한 학생이 없거나 네트워크 상태를 확인해주세요</string>
+    <string name="empty_location_student_title">학생을 찾을 수 없습니다.</string>
 </resources>
