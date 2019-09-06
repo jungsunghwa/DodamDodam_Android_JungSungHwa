@@ -103,5 +103,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_refresh" />
 
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/iv_frame_loading"
+            style="@style/SpinKitView.Wave"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:SpinKit_Color="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

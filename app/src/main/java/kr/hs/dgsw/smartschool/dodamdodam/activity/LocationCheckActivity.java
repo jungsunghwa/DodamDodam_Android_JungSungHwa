@@ -3,12 +3,15 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
@@ -60,6 +63,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     private boolean placeInitializedView = false;
     private boolean timeInitializedView = false;
     private boolean typeOfSelected = false;
+    private ProgressBar progressBar;
 
     @Override
     protected int layoutId() {
@@ -77,6 +81,7 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
         timeTableViewModel = ViewModelProviders.of(this).get(TimeTableViewModel.class);
         locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
         location = new HashMap<>();
+        setLoadingBar();
 
         placeViewModel.getAllPlace();
         studentViewModel.getClasses();
@@ -265,5 +270,11 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
                 e.printStackTrace();
             }
         }
+    }
+
+    private void setLoadingBar() {
+        progressBar = (ProgressBar) binding.ivFrameLoading;
+        Wave wave = new Wave();
+        progressBar.setIndeterminateDrawable(wave);
     }
 }
