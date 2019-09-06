@@ -101,6 +101,13 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
 //            binding.busRideTime.setText(arriveTIme);
 //        });
 
+        busViewModel.getResponseMyBusList().observe(this, myList -> {
+            binding.bus.setText(myList.get(0).getBusName());
+            binding.busUseTime.setText(myList.get(0).getTimeRequired());
+            String arriveTIme = myList.get(0).getStartDate().split(" ")[1];
+            binding.busRideTime.setText(arriveTIme);
+        });
+
         offbaseViewModel.getErrorMessage().observe(this, message -> Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show());
     }
 

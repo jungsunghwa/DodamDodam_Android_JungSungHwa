@@ -1,7 +1,9 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -25,15 +27,14 @@ public class BusAdapter extends RecyclerView.Adapter<BusViewHolder> {
     private final MutableLiveData<BusRequest> putBus = new MutableLiveData<>();
     private final MutableLiveData<Integer> deleteBus = new MutableLiveData<>();
 
-    Integer beforePosition;
-    boolean stautus = false;
-    boolean sizeStautus = false;
+    private boolean isCheckToday = false;
+    private Integer beforeCheckIdx;
+    private Integer beforeCheckPosition;
 
-    List<BusResponse> busList = new ArrayList<>();
+    private Context context;
+
+    List<Bus> busList = new ArrayList<>();
     List<Bus> busMyApply = new ArrayList<>();
-
-    private BusViewModel busViewModel;
-    private BusApplyActivity busApplyActivity;
 
 
     public MutableLiveData<Integer> getPostBus() {
@@ -52,10 +53,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusViewHolder> {
         return deleteBus;
     }
 
-    public BusAdapter(List<BusResponse> busList, BusViewModel busViewModel, BusApplyActivity busApplyActivity) {
-        this.busList = busList;
-        this.busViewModel = busViewModel;
-        this.busApplyActivity = busApplyActivity;
+    public BusAdapter() {
     }
 
     @NonNull
@@ -66,68 +64,78 @@ public class BusAdapter extends RecyclerView.Adapter<BusViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull BusViewHolder holder, int position) {
-        Bus mBus = new Bus();
-        Bus bus = busList.get(0).getBues().get(0);
+        Bus bus = busList.get(position);
 
         holder.binding.checkItem.setOnCheckedChangeListener(null);
         holder.binding.checkItem.setText(bus.getBusName());
 
         if (busMyApply.size() != 0) {
-            mBus = busMyApply.get(0);
-
-            if (bus.getIdx().equals(mBus.getIdx())) {
-                beforePosition = position;
-                holder.binding.checkItem.setChecked(true);
-                stautus = true;
+            for (Bus myBus: busMyApply) {
+                if (bus.getIdx().equals(myBus.getIdx())) {
+                    holder.binding.checkItem.setChecked(true);
+                    beforeCheckIdx = bus.getIdx();
+                    beforeCheckPosition = position;
+                    break;
+                }
             }
         }
 
-        if (busPosition.getValue() != null && busPosition.getValue() == position && stautus) {
-            holder.binding.checkItem.setChecked(true);
-        } else if (busPosition.getValue() == null) {
-            holder.binding.checkItem.setChecked(false);
-        } else if (beforePosition != null && beforePosition == position) {
-            holder.binding.checkItem.setChecked(false);
-        }
-
-        Bus finalMBus = mBus;
-        holder.binding.checkItem.setOnCheckedChangeListener((view, isChecked) -> {
-            if (isChecked) {
-                if (busPosition.getValue() != null) {
-                    beforePosition = busPosition.getValue();
-                    busPosition.setValue(position);
-                    notifyItemChanged(beforePosition);
-                    notifyItemChanged(position);
-                    putBus.setValue(new BusRequest(bus.getIdx().toString(), finalMBus.getIdx().toString()));
+        holder.binding.checkItem.setOnCheckedChangeListener(new OnSingleCheckChangeListener() {
+            @Override
+            public void onSingleClick(CompoundButton view, boolean isChecked) {
+                if (isChecked) {
+                    if (isCheckToday) {
+                        BusAdapter.this.notifyItemChanged(position);
+                        BusAdapter.this.notifyItemChanged(beforeCheckPosition);
+                        putBus.setValue(new BusRequest(bus.getIdx().toString(), beforeCheckIdx.toString()));
+                        isCheckToday = true;
+                    } else {
+                        postBus.setValue(bus.getIdx());
+                        isCheckToday = true;
+                    }
                 } else {
-                    busPosition.setValue(position);
-                    beforePosition = position;
-                    postBus.setValue(bus.getIdx());
+                    deleteBus.setValue(bus.getIdx());
+                    isCheckToday = false;
                 }
-            } else {
-                busPosition.setValue(null);
-                beforePosition = null;
-                deleteBus.setValue(bus.getIdx());
+            }
+
+            @Override
+            public Context context() {
+                return context;
             }
         });
     }
 
-    public void setBusList(List<BusResponse> busList) {
+    public void setBusList(List<Bus> busList) {
         this.busList = busList;
+        isCheckToday = false;
         notifyDataSetChanged();
     }
 
     public void setBusMyApply(List<Bus> busMyApply) {
         this.busMyApply = busMyApply;
+        isCheckToday = false;
+        for (Bus bus: busList) {
+            for (Bus myBus: busMyApply) {
+                if (bus.getIdx().equals(myBus.getIdx())) {
+                    isCheckToday = true;
+                }
+            }
+        }
         notifyDataSetChanged();
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     @Override
     public int getItemCount() {
-        if (!sizeStautus) {
-            sizeStautus = true;
-            return busList.size();
-        }
-        else return busList.get(0).getBues().size();
+//        if (!sizeStautus) {
+//            sizeStautus = true;
+//            return busList.size();
+//        }
+//        else return busList.get(0).getBues().size();
+        return  busList.size();
     }
 }

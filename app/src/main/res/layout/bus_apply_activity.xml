@@ -16,59 +16,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/selectbus_textview"
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="8dp"
-            android:text="타고가실 버스를 선택해 주세요!"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="16.5sp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbar_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/appbar_layout"
+            app:tabGravity="fill"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorColor="@android:color/transparent"
+            android:elevation="10dp" >
+        </com.google.android.material.tabs.TabLayout>
 
-        <RelativeLayout
-            android:id="@+id/grid_layout"
-            android:layout_width="match_parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bus_recyclerview"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp"
-            android:columnCount="2"
-            android:orientation="horizontal"
-            android:rowCount="10"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:requiresFadingEdge="vertical"
+            android:layout_gravity="center"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
+            tools:listitem="@layout/bus_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectbus_textview">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/bus_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                android:requiresFadingEdge="vertical"
-                android:layout_gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:reverseLayout="true"
-                app:stackFromEnd="true"
-                tools:listitem="@layout/bus_item" />
-
-        </RelativeLayout>
+            app:layout_constraintTop_toBottomOf="@+id/tablayout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
