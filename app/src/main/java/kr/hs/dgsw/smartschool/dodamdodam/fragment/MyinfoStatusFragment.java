@@ -9,10 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.location.LocationInfo;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.member.Student;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.offbase.OffbaseItem;
@@ -102,10 +106,22 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
 //        });
 
         busViewModel.getResponseMyBusList().observe(this, myList -> {
-            binding.bus.setText(myList.get(0).getBusName());
-            binding.busUseTime.setText(myList.get(0).getTimeRequired());
-            String arriveTIme = myList.get(0).getStartDate().split(" ")[1];
-            binding.busRideTime.setText(arriveTIme);
+            Date tempDate = null;
+            Bus recentlyBus = new Bus();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            for (Bus bus: myList) {
+                try {
+                    if (tempDate == null || tempDate.after(format.parse(bus.getStartDate()))) {
+                        tempDate = format.parse(bus.getStartDate());
+                        recentlyBus = bus;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            binding.bus.setText(recentlyBus.getBusName());
+            binding.busUseTime.setText(recentlyBus.getTimeRequired());
+            binding.busRideTime.setText(recentlyBus.getStartDate());
         });
 
         offbaseViewModel.getErrorMessage().observe(this, message -> Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show());

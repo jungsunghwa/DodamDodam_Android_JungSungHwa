@@ -1,10 +1,12 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,8 +14,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.Bus;
 import kr.hs.dgsw.smartschool.dodamdodam.Model.bus.BusResponse;
@@ -56,7 +64,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
     private void observeBusViewModel() {
         busViewModel.getResponseAllBusList().observe(this, responseAllBusList -> {
             setRecyclerview();
-            setBusList(responseAllBusList);
+            setBusList(sortBusList(responseAllBusList));
             busAdapter.setBusList(busList);
             busViewModel.getMyBusApply();
         });
@@ -90,6 +98,11 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         busAdapter.getPutBus().observe(this, busRequest -> {
             busViewModel.putBusApply(busRequest);
         });
+    }
+    
+    private List<BusResponse> sortBusList(List<BusResponse> responseAllBusList) {
+        Collections.sort(responseAllBusList, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        return responseAllBusList;
     }
 
     private void setBusList(List<BusResponse> responseAllBusList) {

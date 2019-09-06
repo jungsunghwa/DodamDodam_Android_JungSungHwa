@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -73,6 +74,15 @@ public class SongListActivity extends BaseActivity<SongListActivityBinding> impl
             viewModel.listAllow();
         else
             viewModel.list();
+
+        binding.songList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) binding.fabOpenSongApply.hide();
+                else binding.fabOpenSongApply.show();
+            }
+        });
 
         binding.songList.setAdapter(adapter = new SongListAdapter(this, this));
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
