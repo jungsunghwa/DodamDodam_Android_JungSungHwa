@@ -1,12 +1,14 @@
 package kr.hs.dgsw.smartschool.dodamdodam.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,11 +23,14 @@ public class RegisterAccountFragment extends BaseFragment<RegisterAccountFragmen
 
     private MutableLiveData<String> registerId = new MutableLiveData<>();
     private MutableLiveData<String> registerPw = new MutableLiveData<>();
+    InputMethodManager inputMethodManager;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        inputMethodManager= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         binding.nextLayout.setOnTouchListener((v, event) -> {
             boolean returnValue = true;
@@ -41,6 +46,8 @@ public class RegisterAccountFragment extends BaseFragment<RegisterAccountFragmen
             }
             return returnValue;
         });
+
+        binding.registerAccountLayout.setOnClickListener(v -> inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0));
     }
 
     private boolean checkValue() {

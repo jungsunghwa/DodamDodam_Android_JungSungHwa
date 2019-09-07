@@ -1,6 +1,7 @@
 package kr.hs.dgsw.smartschool.dodamdodam.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,18 +32,27 @@ public class RegisterProfileFragement extends BaseFragment<RegisterProfileFragme
     private MutableLiveData<String> registerPhone = new MutableLiveData<>();
     private MutableLiveData<String> registerEmail = new MutableLiveData<>();
     private MutableLiveData<Boolean> register = new MutableLiveData<>();
-
+    InputMethodManager inputMethodManager;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        inputMethodManager= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
         binding.finLayout.setOnClickListener(v -> {
             if (checkValue()) {
                 setRequest();
             }
         });
+
+        binding.backLayout.setOnClickListener(v -> {
+            RegisterActivity registerActivity = (RegisterActivity) RegisterProfileFragement.this.getActivity();
+            registerActivity.pageMove(0);
+        });
+
+        binding.registerProfileLayout.setOnClickListener(v -> inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0));
     }
 
     private boolean checkValue() {

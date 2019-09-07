@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/register_profile_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/login_up">
@@ -146,7 +147,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:met_baseColor="@color/cardview_dark_background"
                 app:met_floatingLabel="highlight"
-                app:met_maxCharacters="20"
+                app:met_maxCharacters="10"
                 app:met_minCharacters="2"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -187,23 +188,23 @@
             android:id="@+id/fin_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_marginBottom="60dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="50dp"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:focusable="true">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:id="@+id/register_page_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:clickable="false"
                 android:fontFamily="@font/nanum_square_regular"
                 android:text="완료"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
-                android:layout_marginRight="2dp"
-                android:clickable="false"
                 android:textStyle="bold" />
 
             <ImageView
@@ -212,6 +213,38 @@
                 android:layout_height="wrap_content"
                 android:clickable="false"
                 app:srcCompat="@drawable/ic_check_blue" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/back_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="50dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/back_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                app:srcCompat="@drawable/ic_arrow_back_blue" />
+
+            <TextView
+                android:id="@+id/register_page_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:clickable="false"
+                android:fontFamily="@font/nanum_square_regular"
+                android:text="뒤로가기"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
