@@ -1,11 +1,14 @@
 package kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,8 +31,6 @@ public class BusAdapter extends RecyclerView.Adapter<BusViewHolder> {
     private final MutableLiveData<Integer> deleteBus = new MutableLiveData<>();
 
     private boolean isCheckToday = false;
-    private Integer beforeCheckIdx;
-    private Integer beforeCheckPosition;
 
     private Context context;
 
@@ -73,8 +74,6 @@ public class BusAdapter extends RecyclerView.Adapter<BusViewHolder> {
             for (Bus myBus: busMyApply) {
                 if (bus.getIdx().equals(myBus.getIdx())) {
                     holder.binding.checkItem.setChecked(true);
-                    beforeCheckIdx = bus.getIdx();
-                    beforeCheckPosition = position;
                     break;
                 }
             }
@@ -85,14 +84,12 @@ public class BusAdapter extends RecyclerView.Adapter<BusViewHolder> {
             public void onSingleClick(CompoundButton view, boolean isChecked) {
                 if (isChecked) {
                     if (isCheckToday) {
-                        BusAdapter.this.notifyItemChanged(position);
-                        BusAdapter.this.notifyItemChanged(beforeCheckPosition);
-                        putBus.setValue(new BusRequest(bus.getIdx().toString(), beforeCheckIdx.toString()));
-                        isCheckToday = true;
+                        Toast.makeText(context, "하루에 2개 이상 버스를 신청 할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                        holder.binding.checkItem.setChecked(false);
                     } else {
                         postBus.setValue(bus.getIdx());
-                        isCheckToday = true;
                     }
+                    isCheckToday = true;
                 } else {
                     deleteBus.setValue(bus.getIdx());
                     isCheckToday = false;
@@ -131,11 +128,6 @@ public class BusAdapter extends RecyclerView.Adapter<BusViewHolder> {
 
     @Override
     public int getItemCount() {
-//        if (!sizeStautus) {
-//            sizeStautus = true;
-//            return busList.size();
-//        }
-//        else return busList.get(0).getBues().size();
         return  busList.size();
     }
 }

@@ -99,7 +99,7 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
             busViewModel.putBusApply(busRequest);
         });
     }
-    
+
     private List<BusResponse> sortBusList(List<BusResponse> responseAllBusList) {
         Collections.sort(responseAllBusList, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         return responseAllBusList;

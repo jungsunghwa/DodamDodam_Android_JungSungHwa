@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 public abstract class OnSingleCheckChangeListener implements CompoundButton.OnCheckedChangeListener {
 
-    private static final long MIN_CLICK_INTERVAL=100;
+    private static final long MIN_CLICK_INTERVAL=150;
 
     private long mLastClickTime;
 
