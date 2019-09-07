@@ -58,6 +58,7 @@ public class RegisterAccountFragment extends BaseFragment<RegisterAccountFragmen
         }
         else if (binding.registerIdEdittext.getText().toString().matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
             Toast.makeText(getContext(), "아이디는 영어나 숫자로만 입력 할 수 있습니다.", Toast.LENGTH_SHORT).show();
+            binding.registerIdEdittext.setText("");
             binding.registerIdEdittext.requestFocus();
         }
         else if (binding.registerPwEdittext.getText().toString().replaceAll("\\p{Z}", "").length() > 20 || binding.registerPwEdittext.getText().toString().replaceAll("\\p{Z}", "").length() < 7) {
@@ -70,7 +71,9 @@ public class RegisterAccountFragment extends BaseFragment<RegisterAccountFragmen
         }
         else if (!binding.registerPwEdittext.getText().toString().equals(binding.registerPwCheckEdittext.getText().toString())) {
             Toast.makeText(getContext(), "비밀번호가 서로 다릅니다", Toast.LENGTH_SHORT).show();
-            binding.registerPwCheckEdittext.requestFocus();
+            binding.registerPwEdittext.setText("");
+            binding.registerPwCheckEdittext.setText("");
+            binding.registerPwEdittext.requestFocus();
         }
         else {
             check = true;

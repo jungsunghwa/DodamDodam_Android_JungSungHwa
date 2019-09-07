@@ -113,6 +113,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 super.onDrawerOpened(drawerView);
                 lightStatusMode();
                 lightNavMode();
+                binding.mealItems.mealLunch.setLoading(false);
             }
 
             @Override
@@ -120,6 +121,7 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
                 super.onDrawerClosed(drawerView);
                 darkStatusMode();
                 darkNavMode();
+                binding.mealItems.mealLunch.setLoading(false);
             }
         });
         drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.appbarLayout.toolbar, R.string.desc_drawer_open, R.string.desc_drawer_close);

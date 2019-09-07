@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
@@ -81,7 +83,8 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
             studentViewModel.getClasses();
             studentViewModel.getStudent();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplication(), MyinfoProfileFragment.class));
+            finish();
+            startActivity(new Intent(this, MyinfoActivity.class));
         });
         memberViewModel.getErrorMessage().observe(this, message -> {
             Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show();
