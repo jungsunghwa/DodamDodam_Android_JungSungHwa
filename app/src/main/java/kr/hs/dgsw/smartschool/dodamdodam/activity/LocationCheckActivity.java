@@ -273,8 +273,8 @@ public class LocationCheckActivity extends BaseActivity<LocationCheckActivityBin
     }
 
     private void setLoadingBar() {
-        progressBar = (ProgressBar) binding.ivFrameLoading;
-        Wave wave = new Wave();
-        progressBar.setIndeterminateDrawable(wave);
+//        progressBar = (ProgressBar) binding.ivFrameLoading;
+//        Wave wave = new Wave();
+//        progressBar.setIndeterminateDrawable(wave);
     }
 }

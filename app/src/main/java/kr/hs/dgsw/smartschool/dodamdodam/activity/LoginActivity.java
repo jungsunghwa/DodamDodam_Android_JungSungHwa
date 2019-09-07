@@ -1,13 +1,17 @@
 package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
+
+import com.airbnb.lottie.animation.content.Content;
 
 import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.LoginActivityBinding;
@@ -48,7 +52,16 @@ public class LoginActivity extends BaseActivity<LoginActivityBinding> {
 //            }
         });
 
-        loginViewModel.getError().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
+        loginViewModel.getError().observe(this, error -> {
+            if (error.equals("아이디 또는 비밀번호가 일치하지 않습니다")){
+                binding.inputPw.requestFocus();
+                binding.inputPw.setText("");
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+
+            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        });
 
         loginViewModel.isSuccess().observe(this, success -> {
             if (success) {

@@ -22,7 +22,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="p">
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +35,8 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
-            android:name=".activity.LoginActivity" />
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.PointListActivity"

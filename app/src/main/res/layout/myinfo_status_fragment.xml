@@ -54,15 +54,16 @@
                     android:id="@+id/linearLayout2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="25dp"
+                    android:layout_marginEnd="10dp"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView5">
 
                     <TextView
+                        android:id="@+id/first_time_show_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -71,9 +72,11 @@
                         android:gravity="center"
                         android:text="8교시"
                         android:textColor="?android:textColorPrimary"
+
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/two_time_show_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -85,6 +88,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/three_time_show_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -96,6 +100,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/four_time_show_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -122,8 +127,8 @@
                     android:id="@+id/linearLayout3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dvider">

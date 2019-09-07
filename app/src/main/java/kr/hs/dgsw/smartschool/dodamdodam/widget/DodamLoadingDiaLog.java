@@ -29,11 +29,10 @@ public class DodamLoadingDiaLog {
             progressDialog.show();
         }
         final ImageView img_loading_frame = (ImageView) progressDialog.findViewById(R.id.iv_frame_loading);
-        final AnimationDrawable frameAnimation = (AnimationDrawable) img_loading_frame.getBackground();
         img_loading_frame.post(new Runnable() {
             @Override
             public void run() {
-                frameAnimation.start();
+
             }
         });
         TextView tv_progress_message = (TextView) progressDialog.findViewById(R.id.tv_progress_message);

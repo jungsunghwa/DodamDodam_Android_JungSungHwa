@@ -39,6 +39,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.R;
 import kr.hs.dgsw.smartschool.dodamdodam.database.DatabaseHelper;
 import kr.hs.dgsw.smartschool.dodamdodam.databinding.MyinfoProfileChangeActivityBinding;
 import kr.hs.dgsw.smartschool.dodamdodam.fileupload.ImgUpload;
+import kr.hs.dgsw.smartschool.dodamdodam.fragment.MyinfoProfileFragment;
 import kr.hs.dgsw.smartschool.dodamdodam.network.request.MyinfoChangeRequest;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.MemberViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.StudentViewModel;
@@ -80,6 +81,7 @@ public class MyinfoProfileChangeActivity extends BaseActivity<MyinfoProfileChang
             studentViewModel.getClasses();
             studentViewModel.getStudent();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplication(), MyinfoProfileFragment.class));
         });
         memberViewModel.getErrorMessage().observe(this, message -> {
             Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show();

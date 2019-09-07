@@ -1,6 +1,8 @@
 package kr.hs.dgsw.smartschool.dodamdodam.fragment;
 
 import android.os.Bundle;
+import android.view.WindowManager;
+import android.widget.GridLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -61,11 +63,21 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
             setRecyclerView();
         });
 
+
+        // todo 리팩토링 필수
         locationViewModel.getData().observe(this, data -> {
             List<LocationInfo> location = new ArrayList<>();
             for (Student student : data.keySet()) {
                 location = data.get(student);
             }
+
+            if (location.isEmpty()) {
+                binding.firstTime.setText("X");
+                binding.twoTime.setText("위치 정보가");
+                binding.threeTime.setText("없습니다.");
+                binding.fourTime.setText("X");
+            }
+
             for (LocationInfo locationInfo: location) {
                 switch (locationInfo.getTimetableIdx()) {
                     case 1:
@@ -80,30 +92,33 @@ public class MyinfoStatusFragment extends BaseFragment<MyinfoStatusFragmentBindi
                     case 4:
                         binding.fourTime.setText(locationInfo.getPlace().getName());
                         break;
+                    case 5:
+                        binding.firstTime.setText(locationInfo.getPlace().getName());
+                        binding.firstTimeShowText.setText("09시~12시");
+                        binding.firstTimeShowText.setTextSize(13);
+                        binding.firstTimeShowText.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+                        break;
+                    case 6:
+                        binding.twoTime.setText(locationInfo.getPlace().getName());
+                        binding.twoTimeShowText.setText("12시~15시");
+                        binding.twoTimeShowText.setTextSize(13);
+                        binding.twoTimeShowText.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+                        break;
+                    case 7:
+                        binding.threeTime.setText(locationInfo.getPlace().getName());
+                        binding.threeTimeShowText.setText("15시~18시");
+                        binding.threeTimeShowText.setTextSize(13);
+                        binding.threeTimeShowText.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+                        break;
+                    case 8:
+                        binding.fourTime.setText(locationInfo.getPlace().getName());
+                        binding.fourTimeShowText.setText("18시~21시");
+                        binding.fourTimeShowText.setTextSize(13);
+                        binding.fourTimeShowText.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+                        break;
                 }
             }
         });
-
-//        busViewModel.getData().observe(this, bus -> busViewModel.getBusType(bus.getType()));
-
-//        busViewModel.getResponseType().observe(this, type -> {
-//            binding.bus.setText(type.getName() + "역");
-//
-//            switch (type.getName()) {
-//                case "동대구":
-//                    binding.busUseTime.setText("1시간");
-//                    break;
-//                case "용산":
-//                    binding.busUseTime.setText("35분");
-//                    break;
-//                case "대곡":
-//                    binding.busUseTime.setText("30분");
-//                    break;
-//            }
-//
-//            String arriveTIme = type.getArrive_time().split(":")[0] + ":" + type.getArrive_time().split(":")[1];
-//            binding.busRideTime.setText(arriveTIme);
-//        });
 
         busViewModel.getResponseMyBusList().observe(this, myList -> {
             Date tempDate = null;
