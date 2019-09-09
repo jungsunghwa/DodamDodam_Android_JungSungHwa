@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -35,8 +37,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.LostFoundAdapte
 public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> implements SwipeRefreshLayout.OnRefreshListener {
     List<LostFound> lostFoundList = new ArrayList<>();
     LostFoundAdapter lostFoundAdapter;
-
     LostFoundViewModel lostFoundViewModel;
+    ScrollHandler scrollHandler = new ScrollHandler(this);
 
     // 말 그대로 페이지 (게시물 10개씩)
     Integer page = 1;
@@ -133,7 +135,8 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
         });
 
         binding.lostfoundWritingBtn.setOnClickListener(v -> {
-            startActivityWithFinish(LostFoundWritingActivity.class);
+            startActivity(new Intent(this, LostFoundWritingActivity.class));
+            finish();
         });
     }
 
@@ -234,9 +237,11 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
     private void loadMore() {
         lostFoundList.add(null);
         lostFoundAdapter.notifyItemInserted(lostFoundList.size() - 1);
+        scrollHandler.handleMessage(Message.obtain());
+    }
 
-        Handler handler = new Handler();
-        handler.postDelayed( ()-> {
+    private void handleMessage() {
+        scrollHandler.postDelayed( ()-> {
 
             lostFoundList.remove(lostFoundList.size() - 1);
             int scrollPosition = lostFoundList.size();
@@ -257,5 +262,28 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
         lostFoundList.clear();
         lostFoundViewModel.getLostFound(page, type);
         setRecyclerViewManager();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    //
+    private static class ScrollHandler extends Handler {
+        private final WeakReference<LostFoundActivity> mActivity;
+
+        public ScrollHandler(LostFoundActivity activity) {
+            mActivity = new WeakReference<LostFoundActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            LostFoundActivity activity = mActivity.get();
+
+            if (activity != null) {
+                activity.handleMessage();
+            }
+        }
     }
 }

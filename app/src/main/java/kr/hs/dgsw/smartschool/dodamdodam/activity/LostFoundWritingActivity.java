@@ -360,7 +360,7 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
             }
         };
 
-        TedPermission.with(this)
+        TedPermission.with(this.getApplicationContext())
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage(getResources().getString(R.string.permission_2))
                 .setDeniedMessage(getResources().getString(R.string.permission_1))
