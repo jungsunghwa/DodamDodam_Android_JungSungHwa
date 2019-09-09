@@ -234,9 +234,15 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            startActivitiesWithFinish(OffbaseActivity.class);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivitiesWithFinish(OffbaseActivity.class);
     }
 }

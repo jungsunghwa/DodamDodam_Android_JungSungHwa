@@ -120,10 +120,16 @@ public class CounselApplyActivity extends BaseActivity<CounselApplyActivityBindi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            startActivityWithFinish(CounselActivity.class);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivityWithFinish(CounselActivity.class);
     }
 }

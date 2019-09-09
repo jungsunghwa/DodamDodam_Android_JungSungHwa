@@ -251,6 +251,12 @@ public class LostFoundWritingActivity extends BaseActivity<LostfoundWritingActiv
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivityWithFinish(LostFoundActivity.class);
+    }
+
     private void initViewModel() {
         lostFoundViewModel = ViewModelProviders.of(this).get(LostFoundViewModel.class);
     }

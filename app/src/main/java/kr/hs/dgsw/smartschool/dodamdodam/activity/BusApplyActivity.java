@@ -77,8 +77,6 @@ public class BusApplyActivity extends BaseActivity<BusApplyActivityBinding> {
         busViewModel.getErrorMessage().observe(this, message -> {
             Log.e("err", message);
             Snackbar.make(binding.rootLayout, message, Snackbar.LENGTH_SHORT).show();
-            binding.busRecyclerview.setEnabled(false);
-            busViewModel.getCurrentBus();
         });
 
         busViewModel.getSuccessMessage().observe(this, message -> {

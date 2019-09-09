@@ -254,6 +254,12 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
 
     @Override
     public void onRefresh() {
-        startActivitiesWithFinish(LocationApplyActivity.class);
+        timeTable.clear();
+        timeList.clear();
+        placeList.clear();
+        location.clear();
+        timeTableViewModel.getTimeTable();
+        placeViewModel.getAllPlace();
+        locationViewModel.postLocation();
     }
 }

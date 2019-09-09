@@ -3,6 +3,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -71,6 +72,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         setLayoutNoLimits(true);
         binding = DataBindingUtil.setContentView(this, layoutId());
         ViewUtils.setOnApplyWindowInsetsListenerToWindow(getWindow());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         try {
             Field rootField = binding.getClass().getField("rootLayout"); //ID 가 root_layout 인 View 를 찾음 (root_layout 에서 rootLayout 으로 변환 됨)
