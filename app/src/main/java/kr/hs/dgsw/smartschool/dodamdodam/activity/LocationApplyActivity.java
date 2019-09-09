@@ -2,6 +2,7 @@ package kr.hs.dgsw.smartschool.dodamdodam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -27,7 +29,7 @@ import kr.hs.dgsw.smartschool.dodamdodam.viewmodel.TimeTableViewModel;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.PlaceAdapter;
 import kr.hs.dgsw.smartschool.dodamdodam.widget.recycler.adapter.TimeTableAdapter;
 
-public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> {
+public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBinding> implements SwipeRefreshLayout.OnRefreshListener {
 
     TimeTableViewModel timeTableViewModel;
     PlaceViewModel placeViewModel;
@@ -59,6 +61,7 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         }
 
         initViewModel();
+        initSwipeRefresh();
 
         observableTimeTableViewModel();
         observablePlaceViewModel();
@@ -99,6 +102,14 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         locationViewModel.getErrorMessage().observe(this, errorMessage -> {
             Snackbar.make(binding.rootLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
         });
+
+        locationViewModel.getLoading().observe(this, loading -> new Handler().postDelayed(() -> {
+            try {
+                binding.swipeRefreshLayout.setRefreshing(loading);
+            }
+            catch (NullPointerException e) {
+            }
+        }, 500));
     }
 
     private void setPlaceRecyclerView() {
@@ -234,5 +245,15 @@ public class LocationApplyActivity extends BaseActivity<LocationApplyActivityBin
         timeTableViewModel.getTimeTable();
         placeViewModel.getAllPlace();
         locationViewModel.postLocation();
+    }
+
+    private void initSwipeRefresh() {
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorSecondary);
+        binding.swipeRefreshLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        startActivitiesWithFinish(LocationApplyActivity.class);
     }
 }
