@@ -63,15 +63,8 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
         super.onCreate(savedInstanceState);
         setLayoutNoLimits(false);
 
-        viewModel = ViewModelProviders.of(this).get(OffbaseViewModel.class);
-
-        viewModel.getMessage().observe(this, msg -> {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            setResult(RESULT_OK);
-            startActivitiesWithFinish(OffbaseActivity.class);
-        });
-
-        viewModel.getErrorMessage().observe(this, message -> Toast.makeText(this, R.string.text_offbase_error_message, Toast.LENGTH_SHORT).show());
+        initViewModel();
+        observableOffbaseViewModel();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -110,13 +103,11 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
                 .ofNullable(item)
                 .map(offbaseItem -> formatDate.format(offbaseItem.getStartTime()))
                 .orElse(String.format(Locale.getDefault(), "%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))));
-        binding.inputDate.setOnClickListener(v -> showDatePicker((EditText) v));
-        binding.inputDateEnd.setOnClickListener(v -> showDatePicker((EditText) v));
-        binding.inputTimeHour.setOnClickListener(v -> showTimePicker((EditText) v, binding.inputTimeMinute));
-        binding.inputTimeHourEnd.setOnClickListener(v -> showTimePicker((EditText) v, binding.inputTimeMinuteEnd));
-        binding.inputTimeMinute.setOnClickListener(v -> showTimePicker(binding.inputTimeHour, (EditText) v));
-        binding.inputTimeMinuteEnd.setOnClickListener(v -> showTimePicker(binding.inputTimeHourEnd, (EditText) v));
 
+        setListener();
+
+
+        // todo 추후 리팩토링 필수
         binding.btnApply.setOnClickListener(v -> {
             CharSequence date, dateEnd, timeHour, timeHourEnd, timeMinute, timeMinuteEnd;
 
@@ -177,6 +168,29 @@ public class OffbaseApplyActivity extends BaseActivity<OffbaseApplyActivityBindi
                 e.printStackTrace();
             }
         });
+    }
+
+    private void initViewModel() {
+        viewModel = ViewModelProviders.of(this).get(OffbaseViewModel.class);
+    }
+
+    private void observableOffbaseViewModel() {
+        viewModel.getMessage().observe(this, msg -> {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            setResult(RESULT_OK);
+            startActivitiesWithFinish(OffbaseActivity.class);
+        });
+
+        viewModel.getErrorMessage().observe(this, message -> Toast.makeText(this, R.string.text_offbase_error_message, Toast.LENGTH_SHORT).show());
+    }
+
+    private void setListener() {
+        binding.inputDate.setOnClickListener(v -> showDatePicker((EditText) v));
+        binding.inputDateEnd.setOnClickListener(v -> showDatePicker((EditText) v));
+        binding.inputTimeHour.setOnClickListener(v -> showTimePicker((EditText) v, binding.inputTimeMinute));
+        binding.inputTimeHourEnd.setOnClickListener(v -> showTimePicker((EditText) v, binding.inputTimeMinuteEnd));
+        binding.inputTimeMinute.setOnClickListener(v -> showTimePicker(binding.inputTimeHour, (EditText) v));
+        binding.inputTimeMinuteEnd.setOnClickListener(v -> showTimePicker(binding.inputTimeHourEnd, (EditText) v));
     }
 
     private void showDatePicker(EditText editText) {

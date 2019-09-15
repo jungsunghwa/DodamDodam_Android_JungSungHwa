@@ -269,7 +269,8 @@ public class LostFoundActivity extends BaseActivity<LostfoundActivityBinding> im
         super.onDestroy();
     }
 
-    //
+    // Handler 사용으로 메모리 누수되는거 방지 class
+    // WeakReference 약한 참조를 이용해 Handler 사용하는 클래스
     private static class ScrollHandler extends Handler {
         private final WeakReference<LostFoundActivity> mActivity;
 
