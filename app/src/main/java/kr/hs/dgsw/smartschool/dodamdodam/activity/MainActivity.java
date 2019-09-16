@@ -173,9 +173,8 @@ public class MainActivity extends BaseActivity<MainActivityBinding> implements O
             case R.id.menu_profile:
                 if (Utils.identity == Identity.STUDENT)
                     intent = new Intent(this, MyinfoActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                else {
-                    notSupportToast();
-                    break;
+                else { // todo 선생님용 MyInfo
+                    intent = new Intent(this, MyinfoActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 }
                 startActivity(intent);
                 break;
